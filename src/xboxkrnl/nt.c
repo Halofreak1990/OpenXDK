@@ -342,7 +342,7 @@ XBSYSAPI EXPORTNUM(233) NTSTATUS NTAPI NtWaitForSingleObject
 XBSYSAPI EXPORTNUM(234) NTSTATUS NTAPI NtWaitForSingleObjectEx
 (
     IN  HANDLE          Handle,
-    IN  DWORD           WaitMode,
+    IN  CHAR            WaitMode,
     IN  BOOLEAN         Alertable,
     IN  PLARGE_INTEGER  Timeout
 )
@@ -350,7 +350,21 @@ XBSYSAPI EXPORTNUM(234) NTSTATUS NTAPI NtWaitForSingleObjectEx
     return STATUS_SUCCESS;
 }
 
-XBSYSAPI VOID *NtWaitForMultipleObjectsEx = 0;
+// ******************************************************************
+// * NtWaitForMultipleObjectsEx
+// ******************************************************************
+XBSYSAPI EXPORTNUM(235) NTSTATUS NTAPI NtWaitForMultipleObjectsEx
+(
+    IN  ULONG           Count,
+    IN  HANDLE         *Handles,
+    IN  WAIT_TYPE       WaitType,
+    IN  CHAR            WaitMode,
+    IN  BOOLEAN         Alertable,
+    IN  PLARGE_INTEGER  Timeout
+)
+{
+    return STATUS_SUCCESS;
+}
 
 // ******************************************************************
 // * NtWriteFile
