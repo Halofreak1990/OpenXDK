@@ -1,5 +1,5 @@
 # Microsoft Developer Studio Project File - Name="xlibc" - Package Owner=<4>
-# Microsoft Developer Studio Generated Build File, Format Version 60000
+# Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
@@ -38,7 +38,6 @@ RSC=rc.exe
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
 # ADD CPP /nologo /G6 /Za /W2 /O2 /X /I "include\xlibc" /I "include" /u /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "_LIBC" /D "__STD_C" /FD /QIfist /c
-# SUBTRACT CPP /Z<none>
 # ADD BASE RSC /l 0x809 /d "NDEBUG"
 # ADD RSC /l 0x809 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -295,10 +294,6 @@ SOURCE=.\src\xlibc\math\__rint.c
 # Begin Source File
 
 SOURCE=.\src\xlibc\math\__scalb.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\xlibc\math\_fltused.c
 # End Source File
 # Begin Source File
 
