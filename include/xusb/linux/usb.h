@@ -129,12 +129,12 @@ struct usb_interface {
 #define	interface_to_usbdev(intf) \
 	container_of(intf->dev.parent, struct usb_device, dev)
 
-static inline void *usb_get_intfdata (struct usb_interface *intf)
+static _inline void *usb_get_intfdata (struct usb_interface *intf)
 {
 	return dev_get_drvdata (&intf->dev);
 }
 
-static inline void usb_set_intfdata (struct usb_interface *intf, void *data)
+static _inline void usb_set_intfdata (struct usb_interface *intf, void *data)
 {
 	dev_set_drvdata(&intf->dev, data);
 }
@@ -320,7 +320,10 @@ extern struct usb_interface *usb_ifnum_to_if(struct usb_device *dev, unsigned if
  * USB 2.0 root hubs (EHCI host controllers) will get one path ID if they are
  * high speed, and a different one if they are full or low speed.
  */
-static inline int usb_make_path (struct usb_device *dev, char *buf, size_t size)
+// BB - taken from stdio.h
+int snprintf (char *str, size_t size, const char *format, ...);
+
+static _inline int usb_make_path (struct usb_device *dev, char *buf, size_t size)
 {
 	int actual;
 	actual = snprintf (buf, size, "usb-%s-%s", dev->bus->bus_name, dev->devpath);
@@ -345,8 +348,33 @@ static inline int usb_make_path (struct usb_device *dev, char *buf, size_t size)
  * This macro is used to create a struct usb_device_id that matches a
  * specific device.
  */
+//	.match_flags = USB_DEVICE_ID_MATCH_DEVICE, .idVendor = (vend), .idProduct = (prod)
 #define USB_DEVICE(vend,prod) \
-	.match_flags = USB_DEVICE_ID_MATCH_DEVICE, .idVendor = (vend), .idProduct = (prod)
+		 0, vend, prod, 0,0, 0,0,0, 0,0,0, 0 
+/*      // which fields to match against? 
+        __u16           match_flags;
+
+        // Used for product specific matches; range is inclusive 
+        __u16           idVendor;
+        __u16           idProduct;
+        __u16           bcdDevice_lo;
+        __u16           bcdDevice_hi;
+
+        // Used for device class matches 
+        __u8            bDeviceClass;
+        __u8            bDeviceSubClass;
+        __u8            bDeviceProtocol;
+
+        // Used for interface class matches 
+        __u8            bInterfaceClass;
+        __u8            bInterfaceSubClass;
+        __u8            bInterfaceProtocol;
+
+        // not matched against 
+        kernel_ulong_t  driver_info;
+};
+*/
+
 /**
  * USB_DEVICE_VER - macro used to describe a specific usb device with a version range
  * @vend: the 16 bit USB Vendor ID
@@ -709,7 +737,7 @@ struct urb
  * Initializes a control urb with the proper information needed to submit
  * it to a device.
  */
-static inline void usb_fill_control_urb (struct urb *urb,
+static _inline void usb_fill_control_urb (struct urb *urb,
 					 struct usb_device *dev,
 					 unsigned int pipe,
 					 unsigned char *setup_packet,
@@ -741,7 +769,7 @@ static inline void usb_fill_control_urb (struct urb *urb,
  * Initializes a bulk urb with the proper information needed to submit it
  * to a device.
  */
-static inline void usb_fill_bulk_urb (struct urb *urb,
+static _inline void usb_fill_bulk_urb (struct urb *urb,
 				      struct usb_device *dev,
 				      unsigned int pipe,
 				      void *transfer_buffer,
@@ -776,7 +804,7 @@ static inline void usb_fill_bulk_urb (struct urb *urb,
  * the endpoint interval, and express polling intervals in microframes
  * (eight per millisecond) rather than in frames (one per millisecond).
  */
-static inline void usb_fill_int_urb (struct urb *urb,
+static _inline void usb_fill_int_urb (struct urb *urb,
 				     struct usb_device *dev,
 				     unsigned int pipe,
 				     void *transfer_buffer,
@@ -980,7 +1008,7 @@ void usb_sg_wait (struct usb_sg_request *io);
 #define usb_endpoint_halted(dev, ep, out) ((dev)->halted[out] & (1 << (ep)))
 
 
-static inline unsigned int __create_pipe(struct usb_device *dev, unsigned int endpoint)
+static _inline unsigned int __create_pipe(struct usb_device *dev, unsigned int endpoint)
 {
 	return (dev->devnum << 8) | (endpoint << 15);
 }
@@ -1008,23 +1036,32 @@ void usb_show_device(struct usb_device *);
 void usb_show_string(struct usb_device *dev, char *id, int index);
 
 #ifdef DEBUG
-#define dbg(format, arg...) printk(KERN_DEBUG "%s: " format "\n" , __FILE__ , ## arg)
+//#define dbg(format, arg...) printk(KERN_DEBUG "%s: " format "\n" , __FILE__ , ## arg)
+#define dbg			printk
 #else
-#define dbg(format, arg...) do {} while (0)
+//#define dbg(format, arg...) do {} while (0)
+#define dbg
 #endif
 
 
 
 #ifdef DEBUG_MODE
-#define info(format, arg...) printk(KERN_INFO __FILE__ ": " format "\n" , ## arg)
-#define err(format, arg...) printk(KERN_ERR __FILE__ ": " format "\n" , ## arg)
-#define warn(format, arg...) printk(KERN_WARNING __FILE__ ": " format "\n" , ## arg)
+//#define info(format, arg...) printk(KERN_INFO __FILE__ ": " format "\n" , ## arg)
+//#define err(format, arg...) printk(KERN_ERR __FILE__ ": " format "\n" , ## arg)
+//#define warn(format, arg...) printk(KERN_WARNING __FILE__ ": " format "\n" , ## arg)
+int info(char *str, const char *format, ...);
+int err(char *str, const char *format, ...);
+int warn(const char *format, ...);
 #endif
 
 #ifndef DEBUG_MODE                                                               
-#define info(format, arg...) do {} while (0)
-#define err(format, arg...) do {} while (0)
-#define warn(format, arg...) do {} while (0)
+int info(char *str, const char *format, ...);
+int err(const char *format, ...);
+int warn(const char *format, ...);
+
+//#define info(format, arg...) do {} while (0)
+//#define err(format, arg...) do {} while (0)
+//#define warn(format, arg...) do {} while (0)
 #endif
 
 #endif  /* __KERNEL__ */

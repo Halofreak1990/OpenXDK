@@ -14,6 +14,9 @@
  *
  * #include <standard-GPL-header.h>
  */
+#ifndef	__LINUX_WRAPPER_H__
+#define	__LINUX_WRAPPER_H__
+
 
 /*------------------------------------------------------------------------*/
 /* Typedefs */
@@ -119,8 +122,8 @@ struct semaphore{int a;};
 struct device_driver{
 	char *name;
 	struct bus_type *bus;
-	int     (*probe)        (struct device * dev);
-        int     (*remove)       (struct device * dev);
+	int   (*probe)        (struct device * dev);
+    int   (*remove)       (struct device * dev);
 	struct list_head        devices;
 };
 
@@ -191,7 +194,8 @@ struct usb_device_id {
 void* zxmalloc(size_t);
 void zxfree(void*);
 void zxprintf(char* fmt, ...);
-void zxsprintf(char *buffer, char* fmt, ...);
+int zxsprintf(char *buffer, char* fmt, ...);
+//void zxsprintf(char *buffer, char* fmt, ...);
 int zxsnprintf(char *buffer, size_t s, char* fmt, ...);
 
 /*------------------------------------------------------------------------*/ 
@@ -319,12 +323,22 @@ struct usbdevfs_hub_portinfo
  * why, this is just the same definition...) */
 
 #undef list_for_each_entry
+/*
+#define list_for_each_entry(pos, head, member)                          \
+        for (pos = list_entry((head)->next, pos, member),      \
+                     1;                        \
+             &pos->member != (head);                                    \
+             pos = list_entry(pos->member.next, pos, member),  \
+                     1)
+*/
+
 #define list_for_each_entry(pos, head, member)                          \
         for (pos = list_entry((head)->next, typeof(*pos), member),      \
                      prefetch(pos->member.next);                        \
              &pos->member != (head);                                    \
              pos = list_entry(pos->member.next, typeof(*pos), member),  \
                      prefetch(pos->member.next))
+
 
 /*------------------------------------------------------------------------*/ 
 /* function wrapper macros */
@@ -456,8 +470,9 @@ int my_pci_module_init(struct pci_driver *x);
 #define add_wait_queue(a,b) do {} while(0)
 #define remove_wait_queue(a,b) do {} while(0)
 
-#define wmb() __asm__ __volatile__ ("": : :"memory")
-#define rmb() __asm__ __volatile__ ("lock; addl $0,0(%%esp)": : :"memory")
+// BB - Not sure FIXME
+#define wmb() //__asm__ __volatile__ ("": : :"memory")
+#define rmb() //__asm__ __volatile__ ("lock; addl $0,0(%%esp)": : :"memory")
 
 #define in_interrupt() 0
 
@@ -500,9 +515,10 @@ void my_wait_for_completion(struct completion*);
 #define min_t(type,x,y) \
         ({ type __x = (x); type __y = (y); __x < __y ? __x: __y; })
 
-#define container_of(ptr, type, member) ({                      \
-        const typeof( ((type *)0)->member ) *__mptr = (ptr);    \
-        (type *)( (char *)__mptr - offsetof(type,member) );})
+#define container_of(ptr1, type1, member) ({                      \
+        const typeof( ((type1 *)0)->member ) *__mptr = (ptr1);    \
+        (type1 *)( (char *)__mptr - offsetof(type1,member) );})
+
 
 /* from linux/stddef.h */
 
@@ -763,3 +779,4 @@ void do_all_timers(void);
 
 
 
+#endif	//__LINUX_WRAPPER_H__

@@ -86,13 +86,15 @@
  * For most devices, interfaces don't coordinate with each other, so
  * such requests may be made at any time.
  */
+#pragma pack(1)
 struct usb_ctrlrequest {
 	__u8 bRequestType;
 	__u8 bRequest;
 	__u16 wValue;
 	__u16 wIndex;
 	__u16 wLength;
-} __attribute__ ((packed));
+}; //__attribute__ ((packed));
+#pragma pack()
 
 /*-------------------------------------------------------------------------*/
 
@@ -118,15 +120,18 @@ struct usb_ctrlrequest {
 #define USB_DT_INTERFACE_POWER		0x08
 
 /* All standard descriptors have these 2 fields at the beginning */
+#pragma pack(1)
 struct usb_descriptor_header {
 	__u8  bLength;
 	__u8  bDescriptorType;
-} __attribute__ ((packed));
+}; //__attribute__ ((packed));
+#pragma pack()
 
 
 /*-------------------------------------------------------------------------*/
 
 /* USB_DT_DEVICE: Device descriptor */
+#pragma pack(1)
 struct usb_device_descriptor {
 	__u8  bLength;
 	__u8  bDescriptorType;
@@ -143,7 +148,8 @@ struct usb_device_descriptor {
 	__u8  iProduct;
 	__u8  iSerialNumber;
 	__u8  bNumConfigurations;
-} __attribute__ ((packed));
+}; //__attribute__ ((packed));
+#pragma pack()
 
 #define USB_DT_DEVICE_SIZE		18
 
@@ -178,6 +184,7 @@ struct usb_device_descriptor {
  * devices with a USB_DT_DEVICE_QUALIFIER have any OTHER_SPEED_CONFIG
  * descriptors.
  */
+#pragma pack(1)
 struct usb_config_descriptor {
 	__u8  bLength;
 	__u8  bDescriptorType;
@@ -188,7 +195,8 @@ struct usb_config_descriptor {
 	__u8  iConfiguration;
 	__u8  bmAttributes;
 	__u8  bMaxPower;
-} __attribute__ ((packed));
+}; //__attribute__ ((packed));
+#pragma pack()
 
 #define USB_DT_CONFIG_SIZE		9
 
@@ -200,12 +208,15 @@ struct usb_config_descriptor {
 /*-------------------------------------------------------------------------*/
 
 /* USB_DT_STRING: String descriptor */
+#pragma pack(1)
 struct usb_string_descriptor {
 	__u8  bLength;
 	__u8  bDescriptorType;
 
 	__u16 wData[1];		/* UTF-16LE encoded */
-} __attribute__ ((packed));
+}; //__attribute__ ((packed));
+#pragma pack()
+
 
 /* note that "string" zero is special, it holds language codes that
  * the device supports, not Unicode characters.
@@ -214,6 +225,7 @@ struct usb_string_descriptor {
 /*-------------------------------------------------------------------------*/
 
 /* USB_DT_INTERFACE: Interface descriptor */
+#pragma pack(1)
 struct usb_interface_descriptor {
 	__u8  bLength;
 	__u8  bDescriptorType;
@@ -225,13 +237,15 @@ struct usb_interface_descriptor {
 	__u8  bInterfaceSubClass;
 	__u8  bInterfaceProtocol;
 	__u8  iInterface;
-} __attribute__ ((packed));
+}; //__attribute__ ((packed));
+#pragma pack()
 
 #define USB_DT_INTERFACE_SIZE		9
 
 /*-------------------------------------------------------------------------*/
 
 /* USB_DT_ENDPOINT: Endpoint descriptor */
+#pragma pack(1)
 struct usb_endpoint_descriptor {
 	__u8  bLength;
 	__u8  bDescriptorType;
@@ -245,7 +259,8 @@ struct usb_endpoint_descriptor {
 	// use USB_DT_ENDPOINT*_SIZE in bLength, not sizeof.
 	__u8  bRefresh;
 	__u8  bSynchAddress;
-} __attribute__ ((packed));
+}; //__attribute__ ((packed));
+#pragma pack()
 
 #define USB_DT_ENDPOINT_SIZE		7
 #define USB_DT_ENDPOINT_AUDIO_SIZE	9	/* Audio extension */
@@ -267,6 +282,7 @@ struct usb_endpoint_descriptor {
 /*-------------------------------------------------------------------------*/
 
 /* USB_DT_DEVICE_QUALIFIER: Device Qualifier descriptor */
+#pragma pack(1)
 struct usb_qualifier_descriptor {
 	__u8  bLength;
 	__u8  bDescriptorType;
@@ -278,7 +294,8 @@ struct usb_qualifier_descriptor {
 	__u8  bMaxPacketSize0;
 	__u8  bNumConfigurations;
 	__u8  bRESERVED;
-} __attribute__ ((packed));
+}; //__attribute__ ((packed));
+#pragma pack()
 
 
 /*-------------------------------------------------------------------------*/

@@ -19,8 +19,8 @@ extern "C" {
 // ******************************************************************
 // * Xbox USB Support by Georg Archer
 // ******************************************************************
-//#include "linux_wrapper.h"
-//#include "linux/usb.h"
+#include "linux_wrapper.h"
+#include "linux/usb.h"
 
 #ifdef __cplusplus
 }
