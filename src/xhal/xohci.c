@@ -32,6 +32,21 @@ void xohci_init()
     }
 
     // ******************************************************************
+    // * allocate necessary host controller structures
+    // ******************************************************************
+    {
+        // TODO: verify this aligns properly, etc
+        xohci_hcca *hcca = MmAllocateContiguousMemoryEx(256, 0, -1, 256, PAGE_READWRITE);
+
+        if(hcca == NULL)
+            HalReturnToFirmware(ReturnFirmwareReboot);  // TODO: Fatal Error
+
+        g_xohci.m_hcca = (xohci_hcca*)MmGetPhysicalAddress(hcca);
+
+        WRITE_REGISTER_ULONG(&g_ohci_regs->hc_hcca, (ULONG)g_xohci.m_hcca);
+    }
+
+    // ******************************************************************
     // * verify state is USB_RESET and interrupt routing is not set
     // ******************************************************************
     {
@@ -76,23 +91,25 @@ void xohci_init()
         // ******************************************************************
         WRITE_REGISTER_ULONG(&g_ohci_regs->hc_fm_interval, restore_interval);
 
-        /*
         // ******************************************************************
-        // * allocate hcca
+        // * TODO: initialize device data HCC block ??? (5.1.1.4 OHCI Spec)
         // ******************************************************************
         {
-            PHYSICAL_ADDRESS phys;
+        }
 
-            // TODO: verify this aligns properly, etc
-            xohci_hcca *hcca = MmAllocateContiguousMemoryEx(256, 0, -1, 256, PAGE_READWRITE);
+        // ******************************************************************
+        // * initialize operational registers to match the current device
+        // * data state (lists are empty at this point)
+        // ******************************************************************
+        {
+            WRITE_REGISTER_ULONG(&g_ohci_regs->hc_control_head, 0);
+            WRITE_REGISTER_ULONG(&g_ohci_regs->hc_bulk_head, 0);
 
-            if(hcca == NULL)
-                HalReturnToFirmware(ReturnFirmwareReboot);  // TODO: Fatal Error
+            // reset clears this, so we have to write it again
+            WRITE_REGISTER_ULONG(&g_ohci_regs->hc_hcca, (ULONG)g_xohci.m_hcca);
+        }
 
-            phys = MmGetPhysicalAddress(hcca);
-
-            WRITE_REGISTER_ULONG(&g_ohci_regs->hc_hcca, (ULONG)phys);
-        }*/
+        sprintf(buffer, "hc_fm_interval : %.08X", READ_REGISTER_ULONG(&g_ohci_regs->hc_fm_interval));
     }
 
     // ******************************************************************
