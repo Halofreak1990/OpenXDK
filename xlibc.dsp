@@ -108,6 +108,10 @@ SOURCE=.\src\xlibc\stdio\conio.c
 
 SOURCE=.\src\xlibc\stdio\file_io.c
 # End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\stdio\sprintf.c
+# End Source File
 # End Group
 # Begin Group "math"
 
@@ -168,6 +172,10 @@ SOURCE=.\include\xlibc\ansidecl.h
 # Begin Source File
 
 SOURCE=.\include\xlibc\ctype.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xlibc\stdarg.h
 # End Source File
 # Begin Source File
 

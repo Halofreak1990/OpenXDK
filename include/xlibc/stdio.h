@@ -58,7 +58,6 @@ int _write( int handle, void* buffer, unsigned int count );
 int _close( int handle );
 int _lseek( int handle, u32 offset, int base );
 
-//int nprintf(const char *format, ...);
 //int printf(const char *format, ...);
 int sprintf(char*, const char *format, ...);
 
