@@ -70,7 +70,7 @@ typedef void                VOID;
 // * Basic types
 // ******************************************************************
 typedef char                CHAR;
-typedef short               SHORT;
+typedef short               SHORT, CSHORT;
 typedef long                LONG;
 typedef unsigned char       UCHAR;
 typedef unsigned char       BYTE;
@@ -83,6 +83,7 @@ typedef unsigned long       SIZE_T, *PSIZE_T;
 typedef unsigned long       ACCESS_MASK;
 typedef unsigned long       PHYSICAL_ADDRESS;
 typedef long                INT_PTR;
+typedef unsigned __int64    ULONGLONG;
 
 // ******************************************************************
 // * Pointer types
@@ -169,6 +170,29 @@ typedef struct _LARGE_INTEGER
     LONG    HighPart;
 }
 LARGE_INTEGER, *PLARGE_INTEGER;
+
+// ******************************************************************
+// * ULARGE_INTEGER
+// ******************************************************************
+typedef union _ULARGE_INTEGER
+{
+    struct
+    {
+        DWORD LowPart;
+        DWORD HighPart;
+    }
+    u1;
+
+    struct
+    {
+        DWORD LowPart;
+        DWORD HighPart;
+    }
+    u;
+
+    ULONGLONG QuadPart;
+}
+ULARGE_INTEGER, *PULARGE_INTEGER;
 
 // ******************************************************************
 // * STRING
@@ -366,6 +390,43 @@ typedef enum _NVRAM_TYPE_CLASS
 NVRAM_TYPE_CLASS, *PNVRAM_TYPE_CLASS;
 
 // ******************************************************************
+// * DISPATCHER_HEADER
+// ******************************************************************
+typedef struct _DISPATCHER_HEADER
+{
+    UCHAR       Type;
+    UCHAR       Absolute;
+    UCHAR       Size;
+    UCHAR       Inserted;
+    LONG        SignalState;
+    LIST_ENTRY  WaitListHead;
+}
+DISPATCHER_HEADER;
+
+// ******************************************************************
+// * TIMER_TYPE
+// ******************************************************************
+typedef enum _TIMER_TYPE
+{
+    NotificationTimer     = 0,
+    SynchronizationTimer  = 1
+}
+TIMER_TYPE;
+
+// ******************************************************************
+// * KTIMER (Timer Object)
+// ******************************************************************
+typedef struct _KTIMER
+{
+    DISPATCHER_HEADER   Header;
+    ULARGE_INTEGER      DueTime;
+    LIST_ENTRY          TimerListEntry;
+    struct _KDPC       *Dpc;
+    LONG                Period;
+}
+KTIMER, *PKTIMER;
+
+// ******************************************************************
 // * PKSTART_ROUTINE
 // ******************************************************************
 // *
@@ -381,6 +442,35 @@ typedef VOID (NTAPI *PKSTART_ROUTINE)
     IN PVOID StartContext1,
     IN PVOID StartContext2
 );
+
+struct _KDPC;
+
+// ******************************************************************
+// * PKDEFERRED_ROUTINE
+// ******************************************************************
+typedef VOID (*PKDEFERRED_ROUTINE)
+(
+    IN struct _KDPC *Dpc,
+    IN PVOID         DeferredContext,
+    IN PVOID         SystemArgument1,
+    IN PVOID         SystemArgument2
+);
+
+// ******************************************************************
+// * KDPC (Deferred Procedure Call (DPC) Object)
+// ******************************************************************
+typedef struct _KDPC
+{
+    CSHORT              Type;
+    UCHAR               Number;
+    UCHAR               Importance;
+    LIST_ENTRY          DpcListEntry;
+    PKDEFERRED_ROUTINE  DeferredRoutine;
+    PVOID               DeferredContext;
+    PVOID               SystemArgument1;
+    PVOID               SystemArgument2;
+}
+KDPC, *PKDPC;
 
 // ******************************************************************
 // * RTL_CRITICAL_SECTION

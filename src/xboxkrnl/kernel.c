@@ -33,13 +33,38 @@ XBSYSAPI VOID *KeGetCurrentIrql = 0;
 XBSYSAPI VOID *KeGetCurrentThread = 0;
 XBSYSAPI VOID *KeInitializeApc = 0;
 XBSYSAPI VOID *KeInitializeDeviceQueue = 0;
-XBSYSAPI VOID *KeInitializeDpc = 0;
+
+// ******************************************************************
+// * KeInitializeDpc
+// ******************************************************************
+XBSYSAPI EXPORTNUM(107) VOID NTAPI KeInitializeDpc
+(
+    KDPC                *Dpc,
+    PKDEFERRED_ROUTINE   DeferredRoutine,
+    PVOID                DeferredContext
+)
+{
+    return;
+}
+
 XBSYSAPI VOID *KeInitializeEvent = 0;
 XBSYSAPI VOID *KeInitializeInterrupt = 0;
 XBSYSAPI VOID *KeInitializeMutant = 0;
 XBSYSAPI VOID *KeInitializeQueue = 0;
 XBSYSAPI VOID *KeInitializeSemaphore = 0;
-XBSYSAPI VOID *KeInitializeTimerEx = 0;
+
+// ******************************************************************
+// * KeInitializeTimerEx
+// ******************************************************************
+XBSYSAPI EXPORTNUM(113) VOID NTAPI KeInitializeTimerEx
+(
+    IN PKTIMER      Timer,
+    IN TIMER_TYPE   Type
+)
+{
+    return;
+}
+
 XBSYSAPI VOID *KeInsertByKeyDeviceQueue = 0;
 XBSYSAPI VOID *KeInsertDeviceQueue = 0;
 XBSYSAPI VOID *KeInsertHeadQueue = 0;
