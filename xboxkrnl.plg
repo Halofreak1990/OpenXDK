@@ -1,0 +1,63 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: xboxkrnl - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\MIKEDA~1\LOCALS~1\Temp\RSP40.tmp" with contents
+[
+/nologo /G6 /MT /W3 /O2 /I "include" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"lib/xboxkrnl.pch" /YX /Fo"lib/" /Fd"lib/" /FD /c 
+"C:\SOURCE\OpenXDK\src\xboxkrnl\dbg.c"
+"C:\SOURCE\OpenXDK\src\xboxkrnl\io.c"
+"C:\SOURCE\OpenXDK\src\xboxkrnl\nt.c"
+"C:\SOURCE\OpenXDK\src\xboxkrnl\hal.c"
+"C:\SOURCE\OpenXDK\src\xboxkrnl\ex.c"
+"C:\SOURCE\OpenXDK\src\xboxkrnl\mm.c"
+"C:\SOURCE\OpenXDK\src\xboxkrnl\ob.c"
+"C:\SOURCE\OpenXDK\src\xboxkrnl\ps.c"
+"C:\SOURCE\OpenXDK\src\xboxkrnl\rtl.c"
+"C:\SOURCE\OpenXDK\src\xboxkrnl\xbox.c"
+"C:\SOURCE\OpenXDK\src\xboxkrnl\kernel.c"
+]
+Creating command line "cl.exe @C:\DOCUME~1\MIKEDA~1\LOCALS~1\Temp\RSP40.tmp" 
+Creating temporary file "C:\DOCUME~1\MIKEDA~1\LOCALS~1\Temp\RSP41.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /entry:"EntryDummy" /subsystem:windows /incremental:no /pdb:"lib/xboxkrnl.pdb" /machine:I386 /nodefaultlib /def:".\src\xboxkrnl\xboxkrnl.def" /out:"lib/xboxkrnl.exe" /subsystem:native 
+.\lib\dbg.obj
+.\lib\io.obj
+.\lib\nt.obj
+.\lib\hal.obj
+.\lib\ex.obj
+.\lib\mm.obj
+.\lib\ob.obj
+.\lib\ps.obj
+.\lib\rtl.obj
+.\lib\xbox.obj
+.\lib\kernel.obj
+]
+Creating command line "link.exe @C:\DOCUME~1\MIKEDA~1\LOCALS~1\Temp\RSP41.tmp"
+<h3>Output Window</h3>
+Compiling...
+dbg.c
+io.c
+nt.c
+hal.c
+ex.c
+mm.c
+ob.c
+ps.c
+rtl.c
+xbox.c
+kernel.c
+Linking...
+   Creating library lib/xboxkrnl.lib and object lib/xboxkrnl.exp
+
+
+
+<h3>Results</h3>
+xboxkrnl.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
