@@ -1,0 +1,12 @@
+OpenXDK website: http://openxdk.sourceforge.net/
+
+version: 0.0.1-pre4 (11/22/02)
+--------------------------------
+
+- Just a few xboxkrnl prototypes declared. Some
+  various minor changes. Still pre-release.
+
+version: 0.0.1-pre3 (11/22/02)
+--------------------------------
+
+- First sourceforge release.
