@@ -43,8 +43,14 @@ extern "C" {
 #define	MODE_640x480x16			(RES_640X480|_16BITCOLOUR)		// not yet
 
 
+// GetScreen() return struct
+typedef	struct SScreen{
+	u32	ScreenAddress;
+	u32	lpitch;
+}SScreen;
 
-extern	u8 SystemFont[];										// handy to use system font
+
+extern	u8 SystemFont[];						// handy to use system font
 
 
 #ifndef		__XBOXVGA_INTERNAL_INCLUDE__
@@ -54,6 +60,10 @@ extern	u32	g_nFlags;
 extern	u32	g_nInk;
 extern	u32	g_nPaper;
 extern	u8	*pFont;								// point to the system Font by default. You can change it to your own
+
+extern	u32	pScreenBuffer[];					// Our screen (software emulated for LOW res just now)
+extern	u32	FrontBuffer;						// Current screen address (visible)
+extern	u32	BackBuffer;							// Current back buffer
 
 extern	int	_fltused;
 // **************************************************************
@@ -65,7 +75,7 @@ void	InitMode( int Mode );					// Init VGA screen to a selected mode
 void	WaitVBlank( void );						// Wait for vertical blank
 void	Flip( void );							// Flip buffers
 void	Cls( void );							// Clear screen
-u8*		GetScreen( void );						// get screen base address
+SScreen	GetScreen( void );						// get screen base address
 void	Box( int x1,int y1, int x2,int y2 );	// Draw wireframe BOX (WHITE)
 void	Print( int x, int y, char* pText );		// Draw text using SYSTEM font (32bit modes only just now)
 
@@ -111,6 +121,7 @@ void	SetReg( int port, int reg, int data );
 // System flags
 //
 #define	XHAL_320SCREEN		(1)				// Software emulation of 320x??? mode
+#define	YHAL_200SCREEN		(2)				// Center 200 screen inside a 240 one
 
 #define	FONT_SOLID			(1)				// render font with SOLID background (with paper colour)
 
@@ -141,6 +152,51 @@ typedef struct
 #define STATUS_ADDR		0x3da
 
 
+
+/*
+ *
+ * VGA registers
+ *
+ */
+#define VGAREG_ACTL_ADDRESS            0x3c0
+#define VGAREG_ACTL_WRITE_DATA         0x3c0
+#define VGAREG_ACTL_READ_DATA          0x3c1
+
+#define VGAREG_INPUT_STATUS            0x3c2
+#define VGAREG_WRITE_MISC_OUTPUT       0x3c2
+#define VGAREG_VIDEO_ENABLE            0x3c3
+#define VGAREG_SEQU_ADDRESS            0x3c4
+#define VGAREG_SEQU_DATA               0x3c5
+
+#define VGAREG_PEL_MASK                0x3c6
+#define VGAREG_DAC_STATE               0x3c7
+#define VGAREG_DAC_READ_ADDRESS        0x3c7
+#define VGAREG_DAC_WRITE_ADDRESS       0x3c8
+#define VGAREG_DAC_DATA                0x3c9
+
+#define VGAREG_READ_FEATURE_CTL        0x3ca
+#define VGAREG_READ_MISC_OUTPUT        0x3cc
+
+#define VGAREG_GRDC_ADDRESS            0x3ce
+#define VGAREG_GRDC_DATA               0x3cf
+
+#define VGAREG_MDA_CRTC_ADDRESS        0x3b4
+#define VGAREG_MDA_CRTC_DATA           0x3b5
+#define VGAREG_VGA_CRTC_ADDRESS        0x3d4
+#define VGAREG_VGA_CRTC_DATA           0x3d5
+
+#define VGAREG_MDA_WRITE_FEATURE_CTL   0x3ba
+#define VGAREG_VGA_WRITE_FEATURE_CTL   0x3da
+#define VGAREG_ACTL_RESET              0x3da
+
+#define VGAREG_MDA_MODECTL             0x3b8
+#define VGAREG_CGA_MODECTL             0x3d8
+#define VGAREG_CGA_PALETTE             0x3d9
+
+/* Video memory */
+#define VGAMEM_GRAPH 0xA000
+#define VGAMEM_CTEXT 0xB800
+#define VGAMEM_MTEXT 0xB000
 
 
 #ifdef	__cplusplus

@@ -185,32 +185,6 @@ void outReg(Register r)
 }
 
 
-//********************************************************
-//
-// Name:		NVSetScreenAddress
-// Function:   	Set screen address, and do a WaitVBlank()
-//
-// In:			None
-// Out:			None
-//
-//********************************************************
-void NVSetScreenAddress( void )
-{
-	//while(CRTC_READ(NV_INPUT_STATUS) & 0x08);		// Wait for VBLANK to start
-
-	// swap buffers around
-	FrontBuffer ^= BackBuffer;
-	BackBuffer ^= FrontBuffer;
-	FrontBuffer ^= BackBuffer;
-
-	if (FrontBuffer && BackBuffer)
-	{
-		CRTC_WRITEL(NV_CRTC_FB_ADDR, FrontBuffer );
-	}
-
-	//while(!(CRTC_READ(NV_INPUT_STATUS) & 0x08));	// Wait till start of frame.... Why?
-
-}
 
 
 // **************************************************************************
@@ -222,19 +196,40 @@ void	Flip( void )
 {
 #ifndef	_PCEMU
 
-	u32	i=0;
-	u32	size = g_ScreenWidth*g_ScreenHeight;
+	s32	i2,i=0;
+	s32	size = g_ScreenWidth*g_ScreenHeight;
 	u32	*pSCR = (u32*) BackBuffer;			// get current BACK buffer
 	u32	*pScr = (u32*) (pScreenBuffer);
 
 	// Software screen copy? in 320x??? modes we need to double up on pixels
 	if(	(g_nFlags & XHAL_320SCREEN) != 0 )
 	{
-		while(i!=size )	{
-			u32 a  = *pScr++;
-			*pSCR++ = a;
-			*pSCR++ = a;
-			i++;
+		// clear upper and lower ares of the screen...
+		if(	(g_nFlags & YHAL_200SCREEN) != 0 ){
+			u32	*pScr = (u32*) (pScreenBuffer);
+			i=(320*20);
+			i2=(320*240);
+			while(--i>=0){
+				pScr[i]=0;
+				pScr[--i2]=0;
+			}
+		}
+		if( g_nBPP ==2){
+			u16*	pSource=(u16*)pSCR;
+			size = size>>1;
+			while(i!=size )	{
+				u16 a  = *pSource++;
+				*pScr++ = (a<<16)|a;
+				i++;
+			}
+		}
+		else{
+			while(i!=size )	{
+				u32 a  = *pScr++;
+				*pSCR++ = a;
+				*pSCR++ = a;
+				i++;
+			}
 		}
 	}
 
@@ -249,13 +244,26 @@ void	Flip( void )
 //				This is simulated just now, since the screen is copied
 //
 // **************************************************************************
-u8*	GetScreen( void )
+SScreen	GetScreen( void )
 {
+	SScreen Scr;
+
 	if(	(g_nFlags & XHAL_320SCREEN) != 0 ){
-		return (u8*) &pScreenBuffer[0];
+		if(	(g_nFlags & YHAL_200SCREEN) != 0 ){
+			Scr.ScreenAddress = (u32) &pScreenBuffer[320*20*g_nBPP];
+			Scr.lpitch = 640*4;
+			return Scr;
+		}
+		else{
+			Scr.ScreenAddress = (u32) &pScreenBuffer[0];
+			Scr.lpitch = 640*4;
+			return Scr;
+		}
 	}
 	else{
-		return	(u8*) BackBuffer;
+		Scr.ScreenAddress =BackBuffer;
+		Scr.lpitch = 640*4;
+		return Scr;
 	}
 }
 
@@ -273,16 +281,17 @@ void InitMode( int Mode )
 {
 #ifndef	_PCEMU
 	int	i=0;
+	u8*	pScr;
 
 	switch( (Mode&RES_MASK) )
 	{
 		case	RES_320X200:	g_ScreenWidth = 320;
-								g_ScreenHeight= 200;
-								g_nFlags |= XHAL_320SCREEN;			// Software mode, screen will need copied
+								g_ScreenHeight= 240;
+								g_nFlags |= XHAL_320SCREEN|YHAL_200SCREEN;			// Software mode, screen will need copied
 								break;
 		case	RES_320X240:	g_ScreenWidth = 320;
 								g_ScreenHeight= 240;
-								g_nFlags |= XHAL_320SCREEN;			// Software mode, screen will need copied
+								g_nFlags |= XHAL_320SCREEN;							// Software mode, screen will need copied
 								break;
 		case	RES_640X480:	g_ScreenWidth = 640;
 								g_ScreenHeight= 480;
@@ -295,6 +304,7 @@ void InitMode( int Mode )
 		case	_8BITCOLOUR:	g_nBPP = 2; break;
 		case	_16BITCOLOUR:	g_nBPP = 1; break;
 	}
+	NVSetBPP(Mode&COLOUR_MASK);
 
 
 	if( g_ScreenHeight <=240 ){
@@ -312,6 +322,14 @@ void InitMode( int Mode )
 
 	FrontBuffer = XBOX_SCREENRAM;											// Set current visible screen
 	BackBuffer = FrontBuffer+(g_ScreenWidth*g_ScreenHeight*g_nBPP);			// Current back buffer
+	
+	// Clear both buffers
+	i = g_ScreenWidth*g_ScreenHeight*g_nBPP*2;
+	pScr = (u8*)FrontBuffer;
+	while(i>=0){
+		pScr [i]=0;
+		i--;
+	}
 
 
 
@@ -329,7 +347,8 @@ void InitMode( int Mode )
 void	Cls( void )
 {
 	u32		c, size = g_ScreenWidth*g_ScreenHeight;
-	u32*	pScr = ((u32*) GetScreen());
+	SScreen	ScrStruct = GetScreen();
+	u32*	pScr = (u32*)ScrStruct.ScreenAddress;
 
 	for(c=0;c<size;c++){
 		*pScr++ = 0;
@@ -349,7 +368,8 @@ void	Cls( void )
 void	Box( int x1,int y1, int x2,int y2 )
 {
 	int	x,y;
-	u32	*pScreen = (u32*) GetScreen();
+	SScreen	ScrStruct = GetScreen();
+	u32*	pScreen = (u32*)ScrStruct.ScreenAddress;
 
 	x2 = x1+x2;
 	y2 = y1+y2;
@@ -538,7 +558,8 @@ void OutChar(int x, int y, char c )
 	u8*		pData;
 	int		ScrMod, DataMod;
 	int		cx;
-	u32*	pScreen = ((u32*) GetScreen());
+	SScreen	ScrStruct = GetScreen();
+	u32*	pScreen = (u32*)ScrStruct.ScreenAddress;
 
 	if( x>(int)g_ScreenWidth ) return;		// clip x>max
 	if( y>(int)g_ScreenHeight ) return;		// clip y>max
