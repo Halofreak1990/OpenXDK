@@ -82,7 +82,17 @@ XBSYSAPI EXPORTNUM(190) NTSTATUS NTAPI NtCreateFile
 );
 
 XBSYSAPI VOID *NtCreateIoCompletion;
-XBSYSAPI VOID *NtCreateMutant;
+
+// ******************************************************************
+// * NtCreateMutant
+// ******************************************************************
+XBSYSAPI EXPORTNUM(192) NTSTATUS NTAPI NtCreateMutant
+(
+    OUT PHANDLE             MutantHandle,
+    IN  POBJECT_ATTRIBUTES  ObjectAttributes,
+    IN  BOOLEAN             InitialOwner
+);
+
 XBSYSAPI VOID *NtCreateSemaphore;
 XBSYSAPI VOID *NtCreateTimer;
 XBSYSAPI VOID *NtDeleteFile;
