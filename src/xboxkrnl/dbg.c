@@ -12,9 +12,9 @@
 #define _XBOXKRNL_INTERNAL_
 #include "xboxkrnl/xboxkrnl.h"
 
-XBOXSYSAPI VOID *DbgBreakPoint = 0;
-XBOXSYSAPI VOID *DbgBreakPointWithStatus = 0;
-XBOXSYSAPI VOID *DbgLoadImageSymbols = 0;
-XBOXSYSAPI VOID *DbgPrint = 0;
-XBOXSYSAPI VOID *DbgPrompt = 0;
-XBOXSYSAPI VOID *DbgUnLoadImageSymbols = 0;
+NTSYSAPI VOID *DbgBreakPoint = 0;
+NTSYSAPI VOID *DbgBreakPointWithStatus = 0;
+NTSYSAPI VOID *DbgLoadImageSymbols = 0;
+NTSYSAPI VOID *DbgPrint = 0;
+NTSYSAPI VOID *DbgPrompt = 0;
+NTSYSAPI VOID *DbgUnLoadImageSymbols = 0;

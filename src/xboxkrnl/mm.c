@@ -12,7 +12,7 @@
 #define _XBOXKRNL_INTERNAL_
 #include "xboxkrnl/xboxkrnl.h"
 
-XBOXSYSAPI VOID *MmGlobalData = 0;
+NTSYSAPI VOID *MmGlobalData = 0;
 
 // ******************************************************************
 // * MmAllocateContiguousMemory
@@ -22,7 +22,7 @@ XBOXSYSAPI VOID *MmGlobalData = 0;
 // * memory from nonpaged pool (main pool on xbox).
 // *
 // ******************************************************************
-XBOXSYSAPI EXPORTNUM(165) PVOID NTAPI MmAllocateContiguousMemory
+NTSYSAPI EXPORTNUM(165) PVOID NTAPI MmAllocateContiguousMemory
 (
 	IN ULONG NumberOfBytes
 )
@@ -33,7 +33,7 @@ XBOXSYSAPI EXPORTNUM(165) PVOID NTAPI MmAllocateContiguousMemory
 // ******************************************************************
 // * MmAllocateContiguousMemoryEx
 // ******************************************************************
-XBOXSYSAPI EXPORTNUM(166) PVOID NTAPI MmAllocateContiguousMemoryEx
+NTSYSAPI EXPORTNUM(166) PVOID NTAPI MmAllocateContiguousMemoryEx
 (
 	IN ULONG NumberOfBytes,
 	IN PHYSICAL_ADDRESS LowestAcceptableAddress,
@@ -45,15 +45,15 @@ XBOXSYSAPI EXPORTNUM(166) PVOID NTAPI MmAllocateContiguousMemoryEx
     return NULL;
 }
 
-XBOXSYSAPI VOID *MmAllocateSystemMemory = 0;
-XBOXSYSAPI VOID *MmClaimGpuInstanceMemory = 0;
-XBOXSYSAPI VOID *MmCreateKernelStack = 0;
-XBOXSYSAPI VOID *MmDeleteKernelStack = 0;
+NTSYSAPI VOID *MmAllocateSystemMemory = 0;
+NTSYSAPI VOID *MmClaimGpuInstanceMemory = 0;
+NTSYSAPI VOID *MmCreateKernelStack = 0;
+NTSYSAPI VOID *MmDeleteKernelStack = 0;
 
 // ******************************************************************
 // * MmFreeContiguousMemory
 // ******************************************************************
-XBOXSYSAPI EXPORTNUM(171) VOID NTAPI MmFreeContiguousMemory
+NTSYSAPI EXPORTNUM(171) VOID NTAPI MmFreeContiguousMemory
 (
 	IN PVOID BaseAddress
 )
@@ -61,17 +61,17 @@ XBOXSYSAPI EXPORTNUM(171) VOID NTAPI MmFreeContiguousMemory
     return;
 }
 
-XBOXSYSAPI VOID *MmFreeSystemMemory = 0;
-XBOXSYSAPI VOID *MmGetPhysicalAddress = 0;
-XBOXSYSAPI VOID *MmIsAddressValid = 0;
-XBOXSYSAPI VOID *MmLockUnlockBufferPages = 0;
-XBOXSYSAPI VOID *MmLockUnlockPhysicalPage = 0;
-XBOXSYSAPI VOID *MmMapIoSpace = 0;
+NTSYSAPI VOID *MmFreeSystemMemory = 0;
+NTSYSAPI VOID *MmGetPhysicalAddress = 0;
+NTSYSAPI VOID *MmIsAddressValid = 0;
+NTSYSAPI VOID *MmLockUnlockBufferPages = 0;
+NTSYSAPI VOID *MmLockUnlockPhysicalPage = 0;
+NTSYSAPI VOID *MmMapIoSpace = 0;
 
 // ******************************************************************
 // * MmPersistContiguousMemory
 // ******************************************************************
-XBOXSYSAPI EXPORTNUM(178) VOID NTAPI MmPersistContiguousMemory
+NTSYSAPI EXPORTNUM(178) VOID NTAPI MmPersistContiguousMemory
 (
     IN PVOID   BaseAddress,
     IN ULONG   NumberOfBytes,
@@ -81,8 +81,8 @@ XBOXSYSAPI EXPORTNUM(178) VOID NTAPI MmPersistContiguousMemory
     return;
 }
 
-XBOXSYSAPI VOID *MmQueryAddressProtect = 0;
-XBOXSYSAPI VOID *MmQueryAllocationSize = 0;
-XBOXSYSAPI VOID *MmQueryStatistics = 0;
-XBOXSYSAPI VOID *MmSetAddressProtect = 0;
-XBOXSYSAPI VOID *MmUnmapIoSpace = 0;
+NTSYSAPI VOID *MmQueryAddressProtect = 0;
+NTSYSAPI VOID *MmQueryAllocationSize = 0;
+NTSYSAPI VOID *MmQueryStatistics = 0;
+NTSYSAPI VOID *MmSetAddressProtect = 0;
+NTSYSAPI VOID *MmUnmapIoSpace = 0;

@@ -12,38 +12,38 @@
 #ifndef XBOXKRNL_IO_H
 #define XBOXKRNL_IO_H
 
-XBOXSYSAPI VOID *IoAllocateIrp;
-XBOXSYSAPI VOID *IoBuildAsynchronousFsdRequest;
-XBOXSYSAPI VOID *IoBuildDeviceIoControlRequest;
-XBOXSYSAPI VOID *IoBuildSynchronousFsdRequest;
-XBOXSYSAPI VOID *IoCheckShareAccess;
-XBOXSYSAPI VOID *IoCompletionObjectType;
-XBOXSYSAPI VOID *IoCreateDevice;
-XBOXSYSAPI VOID *IoCreateFile;
-XBOXSYSAPI VOID *IoCreateSymbolicLink;
-XBOXSYSAPI VOID *IoDeleteDevice;
-XBOXSYSAPI VOID *IoDeleteSymbolicLink;
-XBOXSYSAPI VOID *IoDeviceObjectType;
-XBOXSYSAPI VOID *IoFileObjectType;
-XBOXSYSAPI VOID *IoFreeIrp;
-XBOXSYSAPI VOID *IoInitializeIrp;
-XBOXSYSAPI VOID *IoInvalidDeviceRequest;
-XBOXSYSAPI VOID *IoQueryFileInformation;
-XBOXSYSAPI VOID *IoQueryVolumeInformation;
-XBOXSYSAPI VOID *IoQueueThreadIrp;
-XBOXSYSAPI VOID *IoRemoveShareAccess;
-XBOXSYSAPI VOID *IoSetIoCompletion;
-XBOXSYSAPI VOID *IoSetShareAccess;
-XBOXSYSAPI VOID *IoStartNextPacket;
-XBOXSYSAPI VOID *IoStartNextPacketByKey;
-XBOXSYSAPI VOID *IoStartPacket;
-XBOXSYSAPI VOID *IoSynchronousDeviceIoControlRequest;
-XBOXSYSAPI VOID *IoSynchronousFsdRequest;
-XBOXSYSAPI VOID *IofCallDriver;
-XBOXSYSAPI VOID *IofCompleteRequest;
-XBOXSYSAPI VOID *IoDismountVolume;
-XBOXSYSAPI VOID *IoDismountVolumeByName;
-XBOXSYSAPI VOID *IoMarkIrpMustComplete;
+NTSYSAPI VOID *IoAllocateIrp;
+NTSYSAPI VOID *IoBuildAsynchronousFsdRequest;
+NTSYSAPI VOID *IoBuildDeviceIoControlRequest;
+NTSYSAPI VOID *IoBuildSynchronousFsdRequest;
+NTSYSAPI VOID *IoCheckShareAccess;
+NTSYSAPI VOID *IoCompletionObjectType;
+NTSYSAPI VOID *IoCreateDevice;
+NTSYSAPI VOID *IoCreateFile;
+NTSYSAPI VOID *IoCreateSymbolicLink;
+NTSYSAPI VOID *IoDeleteDevice;
+NTSYSAPI VOID *IoDeleteSymbolicLink;
+NTSYSAPI VOID *IoDeviceObjectType;
+NTSYSAPI VOID *IoFileObjectType;
+NTSYSAPI VOID *IoFreeIrp;
+NTSYSAPI VOID *IoInitializeIrp;
+NTSYSAPI VOID *IoInvalidDeviceRequest;
+NTSYSAPI VOID *IoQueryFileInformation;
+NTSYSAPI VOID *IoQueryVolumeInformation;
+NTSYSAPI VOID *IoQueueThreadIrp;
+NTSYSAPI VOID *IoRemoveShareAccess;
+NTSYSAPI VOID *IoSetIoCompletion;
+NTSYSAPI VOID *IoSetShareAccess;
+NTSYSAPI VOID *IoStartNextPacket;
+NTSYSAPI VOID *IoStartNextPacketByKey;
+NTSYSAPI VOID *IoStartPacket;
+NTSYSAPI VOID *IoSynchronousDeviceIoControlRequest;
+NTSYSAPI VOID *IoSynchronousFsdRequest;
+NTSYSAPI VOID *IofCallDriver;
+NTSYSAPI VOID *IofCompleteRequest;
+NTSYSAPI VOID *IoDismountVolume;
+NTSYSAPI VOID *IoDismountVolumeByName;
+NTSYSAPI VOID *IoMarkIrpMustComplete;
 
 #endif
 

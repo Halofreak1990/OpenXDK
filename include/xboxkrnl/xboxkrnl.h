@@ -18,9 +18,9 @@ extern "C"
 #endif
 
 #ifndef _XBOXKRNL_INTERNAL_
-#define XBOXSYSAPI __declspec( dllimport )
+#define NTSYSAPI __declspec( dllimport )
 #else
-#define XBOXSYSAPI __declspec( dllexport )
+#define NTSYSAPI __declspec( dllexport )
 #endif
 
 // ******************************************************************

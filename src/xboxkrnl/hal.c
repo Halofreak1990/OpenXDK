@@ -12,18 +12,18 @@
 #define _XBOXKRNL_INTERNAL_
 #include "xboxkrnl/xboxkrnl.h"
 
-XBOXSYSAPI VOID *HalReadSMCTrayState = 0;
-XBOXSYSAPI VOID *HalClearSoftwareInterrupt = 0;
-XBOXSYSAPI VOID *HalDisableSystemInterrupt = 0;
-XBOXSYSAPI VOID *HalDiskCachePartitionCount = 0;
-XBOXSYSAPI VOID *HalDiskModelNumber = 0;
-XBOXSYSAPI VOID *HalDiskSerialNumber = 0;
-XBOXSYSAPI VOID *HalEnableSystemInterrupt = 0;
-XBOXSYSAPI VOID *HalGetInterruptVector = 0;
-XBOXSYSAPI VOID *HalReadSMBusValue = 0;
-XBOXSYSAPI VOID *HalReadWritePCISpace = 0;
-XBOXSYSAPI VOID *HalRegisterShutdownNotification = 0;
-XBOXSYSAPI VOID *HalRequestSoftwareInterrupt = 0;
+NTSYSAPI VOID *HalReadSMCTrayState = 0;
+NTSYSAPI VOID *HalClearSoftwareInterrupt = 0;
+NTSYSAPI VOID *HalDisableSystemInterrupt = 0;
+NTSYSAPI VOID *HalDiskCachePartitionCount = 0;
+NTSYSAPI VOID *HalDiskModelNumber = 0;
+NTSYSAPI VOID *HalDiskSerialNumber = 0;
+NTSYSAPI VOID *HalEnableSystemInterrupt = 0;
+NTSYSAPI VOID *HalGetInterruptVector = 0;
+NTSYSAPI VOID *HalReadSMBusValue = 0;
+NTSYSAPI VOID *HalReadWritePCISpace = 0;
+NTSYSAPI VOID *HalRegisterShutdownNotification = 0;
+NTSYSAPI VOID *HalRequestSoftwareInterrupt = 0;
 
 // ******************************************************************
 // * 0x0031 - HalReturnToFirmware
@@ -32,22 +32,22 @@ XBOXSYSAPI VOID *HalRequestSoftwareInterrupt = 0;
 // * Reboots the xbox in various ways
 // *
 // ******************************************************************
-XBOXSYSAPI DECLSPEC_NORETURN VOID HalReturnToFirmware
+NTSYSAPI DECLSPEC_NORETURN VOID HalReturnToFirmware
 (
 	RETURN_FIRMWARE Routine
 )
 {
 }
 
-XBOXSYSAPI VOID *HalWriteSMBusValue = 0;
-XBOXSYSAPI VOID *HalBootSMCVideoMode = 0;
-XBOXSYSAPI VOID *HalIsResetOrShutdownPending = 0;
-XBOXSYSAPI VOID *HalInitiateShutdown = 0;
-XBOXSYSAPI VOID *HalEnableSecureTrayEject = 0;
-XBOXSYSAPI VOID *HalWriteSMCScratchRegister = 0;
-XBOXSYSAPI VOID *READ_PORT_BUFFER_UCHAR = 0;
-XBOXSYSAPI VOID *READ_PORT_BUFFER_USHORT = 0;
-XBOXSYSAPI VOID *READ_PORT_BUFFER_ULONG = 0;
-XBOXSYSAPI VOID *WRITE_PORT_BUFFER_UCHAR = 0;
-XBOXSYSAPI VOID *WRITE_PORT_BUFFER_USHORT = 0;
-XBOXSYSAPI VOID *WRITE_PORT_BUFFER_ULONG = 0;
+NTSYSAPI VOID *HalWriteSMBusValue = 0;
+NTSYSAPI VOID *HalBootSMCVideoMode = 0;
+NTSYSAPI VOID *HalIsResetOrShutdownPending = 0;
+NTSYSAPI VOID *HalInitiateShutdown = 0;
+NTSYSAPI VOID *HalEnableSecureTrayEject = 0;
+NTSYSAPI VOID *HalWriteSMCScratchRegister = 0;
+NTSYSAPI VOID *READ_PORT_BUFFER_UCHAR = 0;
+NTSYSAPI VOID *READ_PORT_BUFFER_USHORT = 0;
+NTSYSAPI VOID *READ_PORT_BUFFER_ULONG = 0;
+NTSYSAPI VOID *WRITE_PORT_BUFFER_UCHAR = 0;
+NTSYSAPI VOID *WRITE_PORT_BUFFER_USHORT = 0;
+NTSYSAPI VOID *WRITE_PORT_BUFFER_ULONG = 0;

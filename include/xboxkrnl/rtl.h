@@ -12,74 +12,74 @@
 #ifndef XBOXKRNL_RTL_H
 #define XBOXKRNL_RTL_H
 
-XBOXSYSAPI VOID *RtlAnsiStringToUnicodeString;
-XBOXSYSAPI VOID *RtlAppendStringToString;
-XBOXSYSAPI VOID *RtlAppendUnicodeStringToString;
-XBOXSYSAPI VOID *RtlAppendUnicodeToString;
-XBOXSYSAPI VOID *RtlAssert;
-XBOXSYSAPI VOID *RtlCaptureContext;
-XBOXSYSAPI VOID *RtlCaptureStackBackTrace;
-XBOXSYSAPI VOID *RtlCharToInteger;
-XBOXSYSAPI VOID *RtlCompareMemory;
-XBOXSYSAPI VOID *RtlCompareMemoryUlong;
-XBOXSYSAPI VOID *RtlCompareString;
-XBOXSYSAPI VOID *RtlCompareUnicodeString;
-XBOXSYSAPI VOID *RtlCopyString;
-XBOXSYSAPI VOID *RtlCopyUnicodeString;
-XBOXSYSAPI VOID *RtlCreateUnicodeString;
-XBOXSYSAPI VOID *RtlDowncaseUnicodeChar;
-XBOXSYSAPI VOID *RtlDowncaseUnicodeString;
-XBOXSYSAPI VOID *RtlEnterCriticalSection;
-XBOXSYSAPI VOID *RtlEnterCriticalSectionAndRegion;
-XBOXSYSAPI VOID *RtlEqualString;
-XBOXSYSAPI VOID *RtlEqualUnicodeString;
-XBOXSYSAPI VOID *RtlExtendedIntegerMultiply;
-XBOXSYSAPI VOID *RtlExtendedLargeIntegerDivide;
-XBOXSYSAPI VOID *RtlExtendedMagicDivide;
-XBOXSYSAPI VOID *RtlFillMemory;
-XBOXSYSAPI VOID *RtlFillMemoryUlong;
-XBOXSYSAPI VOID *RtlFreeAnsiString;
-XBOXSYSAPI VOID *RtlFreeUnicodeString;
-XBOXSYSAPI VOID *RtlGetCallersAddress;
-XBOXSYSAPI VOID *RtlInitAnsiString;
-XBOXSYSAPI VOID *RtlInitUnicodeString;
-XBOXSYSAPI VOID *RtlInitializeCriticalSection;
-XBOXSYSAPI VOID *RtlIntegerToChar;
-XBOXSYSAPI VOID *RtlIntegerToUnicodeString;
-XBOXSYSAPI VOID *RtlLeaveCriticalSection;
-XBOXSYSAPI VOID *RtlLeaveCriticalSectionAndRegion;
-XBOXSYSAPI VOID *RtlLowerChar;
-XBOXSYSAPI VOID *RtlMapGenericMask;
-XBOXSYSAPI VOID *RtlMoveMemory;
-XBOXSYSAPI VOID *RtlMultiByteToUnicodeN;
-XBOXSYSAPI VOID *RtlMultiByteToUnicodeSize;
-XBOXSYSAPI VOID *RtlNtStatusToDosError;
-XBOXSYSAPI VOID *RtlRaiseException;
-XBOXSYSAPI VOID *RtlRaiseStatus;
-XBOXSYSAPI VOID *RtlTimeFieldsToTime;
-XBOXSYSAPI VOID *RtlTimeToTimeFields;
-XBOXSYSAPI VOID *RtlTryEnterCriticalSection;
-XBOXSYSAPI VOID *RtlUlongByteSwap;
-XBOXSYSAPI VOID *RtlUnicodeStringToAnsiString;
-XBOXSYSAPI VOID *RtlUnicodeStringToInteger;
-XBOXSYSAPI VOID *RtlUnicodeToMultiByteN;
-XBOXSYSAPI VOID *RtlUnicodeToMultiByteSize;
-XBOXSYSAPI VOID *RtlUnwind;
-XBOXSYSAPI VOID *RtlUpcaseUnicodeChar;
-XBOXSYSAPI VOID *RtlUpcaseUnicodeString;
-XBOXSYSAPI VOID *RtlUpcaseUnicodeToMultiByteN;
-XBOXSYSAPI VOID *RtlUpperChar;
-XBOXSYSAPI VOID *RtlUpperString;
-XBOXSYSAPI VOID *RtlUshortByteSwap;
-XBOXSYSAPI VOID *RtlWalkFrameChain;
+NTSYSAPI VOID *RtlAnsiStringToUnicodeString;
+NTSYSAPI VOID *RtlAppendStringToString;
+NTSYSAPI VOID *RtlAppendUnicodeStringToString;
+NTSYSAPI VOID *RtlAppendUnicodeToString;
+NTSYSAPI VOID *RtlAssert;
+NTSYSAPI VOID *RtlCaptureContext;
+NTSYSAPI VOID *RtlCaptureStackBackTrace;
+NTSYSAPI VOID *RtlCharToInteger;
+NTSYSAPI VOID *RtlCompareMemory;
+NTSYSAPI VOID *RtlCompareMemoryUlong;
+NTSYSAPI VOID *RtlCompareString;
+NTSYSAPI VOID *RtlCompareUnicodeString;
+NTSYSAPI VOID *RtlCopyString;
+NTSYSAPI VOID *RtlCopyUnicodeString;
+NTSYSAPI VOID *RtlCreateUnicodeString;
+NTSYSAPI VOID *RtlDowncaseUnicodeChar;
+NTSYSAPI VOID *RtlDowncaseUnicodeString;
+NTSYSAPI VOID *RtlEnterCriticalSection;
+NTSYSAPI VOID *RtlEnterCriticalSectionAndRegion;
+NTSYSAPI VOID *RtlEqualString;
+NTSYSAPI VOID *RtlEqualUnicodeString;
+NTSYSAPI VOID *RtlExtendedIntegerMultiply;
+NTSYSAPI VOID *RtlExtendedLargeIntegerDivide;
+NTSYSAPI VOID *RtlExtendedMagicDivide;
+NTSYSAPI VOID *RtlFillMemory;
+NTSYSAPI VOID *RtlFillMemoryUlong;
+NTSYSAPI VOID *RtlFreeAnsiString;
+NTSYSAPI VOID *RtlFreeUnicodeString;
+NTSYSAPI VOID *RtlGetCallersAddress;
+NTSYSAPI VOID *RtlInitAnsiString;
+NTSYSAPI VOID *RtlInitUnicodeString;
+NTSYSAPI VOID *RtlInitializeCriticalSection;
+NTSYSAPI VOID *RtlIntegerToChar;
+NTSYSAPI VOID *RtlIntegerToUnicodeString;
+NTSYSAPI VOID *RtlLeaveCriticalSection;
+NTSYSAPI VOID *RtlLeaveCriticalSectionAndRegion;
+NTSYSAPI VOID *RtlLowerChar;
+NTSYSAPI VOID *RtlMapGenericMask;
+NTSYSAPI VOID *RtlMoveMemory;
+NTSYSAPI VOID *RtlMultiByteToUnicodeN;
+NTSYSAPI VOID *RtlMultiByteToUnicodeSize;
+NTSYSAPI VOID *RtlNtStatusToDosError;
+NTSYSAPI VOID *RtlRaiseException;
+NTSYSAPI VOID *RtlRaiseStatus;
+NTSYSAPI VOID *RtlTimeFieldsToTime;
+NTSYSAPI VOID *RtlTimeToTimeFields;
+NTSYSAPI VOID *RtlTryEnterCriticalSection;
+NTSYSAPI VOID *RtlUlongByteSwap;
+NTSYSAPI VOID *RtlUnicodeStringToAnsiString;
+NTSYSAPI VOID *RtlUnicodeStringToInteger;
+NTSYSAPI VOID *RtlUnicodeToMultiByteN;
+NTSYSAPI VOID *RtlUnicodeToMultiByteSize;
+NTSYSAPI VOID *RtlUnwind;
+NTSYSAPI VOID *RtlUpcaseUnicodeChar;
+NTSYSAPI VOID *RtlUpcaseUnicodeString;
+NTSYSAPI VOID *RtlUpcaseUnicodeToMultiByteN;
+NTSYSAPI VOID *RtlUpperChar;
+NTSYSAPI VOID *RtlUpperString;
+NTSYSAPI VOID *RtlUshortByteSwap;
+NTSYSAPI VOID *RtlWalkFrameChain;
 
-XBOXSYSAPI EXPORTNUM(320) VOID CDECL RtlZeroMemory
+NTSYSAPI EXPORTNUM(320) VOID CDECL RtlZeroMemory
 (
   IN VOID UNALIGNED  *Destination,
   IN SIZE_T           Length
 );
 
-XBOXSYSAPI VOID *RtlRip;
+NTSYSAPI VOID *RtlRip;
 
 #endif
 

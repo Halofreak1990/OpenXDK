@@ -12,41 +12,42 @@
 #ifndef XBOXKRNL_EX_H
 #define XBOXKRNL_EX_H
 
-XBOXSYSAPI VOID *ExAcquireReadWriteLockExclusive;
-XBOXSYSAPI VOID *ExAcquireReadWriteLockShared;
-//XBOXSYSAPI VOID *ExAllocatePool;
-XBOXSYSAPI EXPORTNUM(165) PVOID NTAPI ExAllocatePool
+NTSYSAPI VOID *ExAcquireReadWriteLockExclusive;
+NTSYSAPI VOID *ExAcquireReadWriteLockShared;
+
+NTSYSAPI EXPORTNUM(165) PVOID NTAPI ExAllocatePool
 (
 	IN ULONG NumberOfBytes
 );
-XBOXSYSAPI VOID *ExAllocatePoolWithTag;
-XBOXSYSAPI VOID *ExEventObjectType;
-XBOXSYSAPI VOID *ExFreePool;
-XBOXSYSAPI VOID *ExInitializeReadWriteLock;
-XBOXSYSAPI VOID *ExInterlockedAddLargeInteger;
-XBOXSYSAPI VOID *ExInterlockedAddLargeStatistic;
-XBOXSYSAPI VOID *ExInterlockedCompareExchange64;
-XBOXSYSAPI VOID *ExMutantObjectType;
-XBOXSYSAPI VOID *ExQueryPoolBlockSize;
-XBOXSYSAPI VOID *ExQueryNonVolatileSetting;
-XBOXSYSAPI VOID *ExReadWriteRefurbInfo;
-XBOXSYSAPI VOID *ExRaiseException;
-XBOXSYSAPI VOID *ExRaiseStatus;
-XBOXSYSAPI VOID *ExReleaseReadWriteLock;
-XBOXSYSAPI VOID *ExSaveNonVolatileSetting;
-XBOXSYSAPI VOID *ExSemaphoreObjectType;
-XBOXSYSAPI VOID *ExTimerObjectType;
-XBOXSYSAPI VOID *ExfInterlockedInsertHeadList;
-XBOXSYSAPI VOID *ExfInterlockedInsertTailList;
-XBOXSYSAPI VOID *ExfInterlockedRemoveHeadList;
-XBOXSYSAPI VOID *InterlockedCompareExchange;
-XBOXSYSAPI VOID *InterlockedDecrement;
-XBOXSYSAPI VOID *InterlockedIncrement;
-XBOXSYSAPI VOID *InterlockedExchange;
-XBOXSYSAPI VOID *InterlockedExchangeAdd;
-XBOXSYSAPI VOID *InterlockedFlushSList;
-XBOXSYSAPI VOID *InterlockedPopEntrySList;
-XBOXSYSAPI VOID *InterlockedPushEntrySList;
+
+NTSYSAPI VOID *ExAllocatePoolWithTag;
+NTSYSAPI VOID *ExEventObjectType;
+NTSYSAPI VOID *ExFreePool;
+NTSYSAPI VOID *ExInitializeReadWriteLock;
+NTSYSAPI VOID *ExInterlockedAddLargeInteger;
+NTSYSAPI VOID *ExInterlockedAddLargeStatistic;
+NTSYSAPI VOID *ExInterlockedCompareExchange64;
+NTSYSAPI VOID *ExMutantObjectType;
+NTSYSAPI VOID *ExQueryPoolBlockSize;
+NTSYSAPI VOID *ExQueryNonVolatileSetting;
+NTSYSAPI VOID *ExReadWriteRefurbInfo;
+NTSYSAPI VOID *ExRaiseException;
+NTSYSAPI VOID *ExRaiseStatus;
+NTSYSAPI VOID *ExReleaseReadWriteLock;
+NTSYSAPI VOID *ExSaveNonVolatileSetting;
+NTSYSAPI VOID *ExSemaphoreObjectType;
+NTSYSAPI VOID *ExTimerObjectType;
+NTSYSAPI VOID *ExfInterlockedInsertHeadList;
+NTSYSAPI VOID *ExfInterlockedInsertTailList;
+NTSYSAPI VOID *ExfInterlockedRemoveHeadList;
+NTSYSAPI VOID *InterlockedCompareExchange;
+NTSYSAPI VOID *InterlockedDecrement;
+NTSYSAPI VOID *InterlockedIncrement;
+NTSYSAPI VOID *InterlockedExchange;
+NTSYSAPI VOID *InterlockedExchangeAdd;
+NTSYSAPI VOID *InterlockedFlushSList;
+NTSYSAPI VOID *InterlockedPopEntrySList;
+NTSYSAPI VOID *InterlockedPushEntrySList;
 
 #endif
 

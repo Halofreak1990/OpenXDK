@@ -12,6 +12,56 @@
 #ifndef XBOX_H
 #define XBOX_H
 
+NTSYSAPI VOID *AvGetSavedDataAddress;
+NTSYSAPI VOID *AvSendTVEncoderOption;
+NTSYSAPI VOID *AvSetDisplayMode;
+NTSYSAPI VOID *AvSetSavedDataAddress;
+NTSYSAPI VOID *FscGetCacheSize;
+NTSYSAPI VOID *FscInvalidateIdleBlocks;
+NTSYSAPI VOID *FscSetCacheSize;
+NTSYSAPI VOID *KdDebuggerEnabled;
+NTSYSAPI VOID *KdDebuggerNotPresent;
+NTSYSAPI VOID *KfRaiseIrql;
+NTSYSAPI VOID *KfLowerIrql;
+NTSYSAPI VOID *KiBugCheckData;
+NTSYSAPI VOID *KiUnlockDispatcherDatabase;
+NTSYSAPI VOID *LaunchDataPage;
+NTSYSAPI VOID *PhyGetLinkState;
+NTSYSAPI VOID *PhyInitialize;
+NTSYSAPI VOID *XboxEEPROMKey;
+NTSYSAPI VOID *XboxHardwareInfo;
+NTSYSAPI VOID *XboxHDKey;
+NTSYSAPI VOID *XboxKrnlVersion;
+NTSYSAPI VOID *XboxSignatureKey;
+NTSYSAPI VOID *XeImageFileName;
+NTSYSAPI VOID *XeLoadSection;
+NTSYSAPI VOID *XeUnloadSection;
+NTSYSAPI VOID *XcSHAInit;
+NTSYSAPI VOID *XcSHAUpdate;
+NTSYSAPI VOID *XcSHAFinal;
+NTSYSAPI VOID *XcRC4Key;
+NTSYSAPI VOID *XcRC4Crypt;
+NTSYSAPI VOID *XcHMAC;
+NTSYSAPI VOID *XcPKEncPublic;
+NTSYSAPI VOID *XcPKDecPrivate;
+NTSYSAPI VOID *XcPKGetKeyLen;
+NTSYSAPI VOID *XcVerifyPKCS1Signature;
+NTSYSAPI VOID *XcModExp;
+NTSYSAPI VOID *XcDESKeyParity;
+NTSYSAPI VOID *XcKeyTable;
+NTSYSAPI VOID *XcBlockCrypt;
+NTSYSAPI VOID *XcBlockCryptCBC;
+NTSYSAPI VOID *XcCryptService;
+NTSYSAPI VOID *XcUpdateCrypto;
+NTSYSAPI VOID *XboxLANKey;
+NTSYSAPI VOID *XboxAlternateSignatureKeys;
+NTSYSAPI VOID *XePublicKeyData;
+NTSYSAPI VOID *IdexChannelObject;
+NTSYSAPI VOID *xsnprintf;     // prefixed with "x" to avoid xlibc collisions
+NTSYSAPI VOID *xsprintf;      // ""
+NTSYSAPI VOID *xvsnprintf;    // ""
+NTSYSAPI VOID *xvsprintf;     // ""
+
 // ******************************************************************
 // * AvGetSavedDataAddress
 // ******************************************************************
@@ -19,59 +69,59 @@
 // * get current Display Start Address
 // *
 // ******************************************************************
-XBOXSYSAPI EXPORTNUM(1) PVOID NTAPI AvGetSavedDataAddress
+NTSYSAPI EXPORTNUM(1) PVOID NTAPI AvGetSavedDataAddress
 (
 	IN VOID
 );
 
-XBOXSYSAPI VOID *AvSendTVEncoderOption;
-XBOXSYSAPI VOID *AvSetDisplayMode;
-XBOXSYSAPI VOID *AvSetSavedDataAddress;
-XBOXSYSAPI VOID *FscGetCacheSize;
-XBOXSYSAPI VOID *FscInvalidateIdleBlocks;
-XBOXSYSAPI VOID *FscSetCacheSize;
-XBOXSYSAPI VOID *KdDebuggerEnabled;
-XBOXSYSAPI VOID *KdDebuggerNotPresent;
-XBOXSYSAPI VOID *KfRaiseIrql;
-XBOXSYSAPI VOID *KfLowerIrql;
-XBOXSYSAPI VOID *KiBugCheckData;
-XBOXSYSAPI VOID *KiUnlockDispatcherDatabase;
-XBOXSYSAPI VOID *LaunchDataPage;
-XBOXSYSAPI VOID *PhyGetLinkState;
-XBOXSYSAPI VOID *PhyInitialize;
-XBOXSYSAPI VOID *XboxEEPROMKey;
-XBOXSYSAPI VOID *XboxHardwareInfo;
-XBOXSYSAPI VOID *XboxHDKey;
-XBOXSYSAPI VOID *XboxKrnlVersion;
-XBOXSYSAPI VOID *XboxSignatureKey;
-XBOXSYSAPI VOID *XeImageFileName;
-XBOXSYSAPI VOID *XeLoadSection;
-XBOXSYSAPI VOID *XeUnloadSection;
-XBOXSYSAPI VOID *XcSHAInit;
-XBOXSYSAPI VOID *XcSHAUpdate;
-XBOXSYSAPI VOID *XcSHAFinal;
-XBOXSYSAPI VOID *XcRC4Key;
-XBOXSYSAPI VOID *XcRC4Crypt;
-XBOXSYSAPI VOID *XcHMAC;
-XBOXSYSAPI VOID *XcPKEncPublic;
-XBOXSYSAPI VOID *XcPKDecPrivate;
-XBOXSYSAPI VOID *XcPKGetKeyLen;
-XBOXSYSAPI VOID *XcVerifyPKCS1Signature;
-XBOXSYSAPI VOID *XcModExp;
-XBOXSYSAPI VOID *XcDESKeyParity;
-XBOXSYSAPI VOID *XcKeyTable;
-XBOXSYSAPI VOID *XcBlockCrypt;
-XBOXSYSAPI VOID *XcBlockCryptCBC;
-XBOXSYSAPI VOID *XcCryptService;
-XBOXSYSAPI VOID *XcUpdateCrypto;
-XBOXSYSAPI VOID *XboxLANKey;
-XBOXSYSAPI VOID *XboxAlternateSignatureKeys;
-XBOXSYSAPI VOID *XePublicKeyData;
-XBOXSYSAPI VOID *IdexChannelObject;
-XBOXSYSAPI VOID *xsnprintf;     // prefixed with "x" to avoid xlibc collisions
-XBOXSYSAPI VOID *xsprintf;      // ""
-XBOXSYSAPI VOID *xvsnprintf;    // ""
-XBOXSYSAPI VOID *xvsprintf;     // ""
+NTSYSAPI VOID *AvSendTVEncoderOption;
+NTSYSAPI VOID *AvSetDisplayMode;
+NTSYSAPI VOID *AvSetSavedDataAddress;
+NTSYSAPI VOID *FscGetCacheSize;
+NTSYSAPI VOID *FscInvalidateIdleBlocks;
+NTSYSAPI VOID *FscSetCacheSize;
+NTSYSAPI VOID *KdDebuggerEnabled;
+NTSYSAPI VOID *KdDebuggerNotPresent;
+NTSYSAPI VOID *KfRaiseIrql;
+NTSYSAPI VOID *KfLowerIrql;
+NTSYSAPI VOID *KiBugCheckData;
+NTSYSAPI VOID *KiUnlockDispatcherDatabase;
+NTSYSAPI VOID *LaunchDataPage;
+NTSYSAPI VOID *PhyGetLinkState;
+NTSYSAPI VOID *PhyInitialize;
+NTSYSAPI VOID *XboxEEPROMKey;
+NTSYSAPI VOID *XboxHardwareInfo;
+NTSYSAPI VOID *XboxHDKey;
+NTSYSAPI VOID *XboxKrnlVersion;
+NTSYSAPI VOID *XboxSignatureKey;
+NTSYSAPI VOID *XeImageFileName;
+NTSYSAPI VOID *XeLoadSection;
+NTSYSAPI VOID *XeUnloadSection;
+NTSYSAPI VOID *XcSHAInit;
+NTSYSAPI VOID *XcSHAUpdate;
+NTSYSAPI VOID *XcSHAFinal;
+NTSYSAPI VOID *XcRC4Key;
+NTSYSAPI VOID *XcRC4Crypt;
+NTSYSAPI VOID *XcHMAC;
+NTSYSAPI VOID *XcPKEncPublic;
+NTSYSAPI VOID *XcPKDecPrivate;
+NTSYSAPI VOID *XcPKGetKeyLen;
+NTSYSAPI VOID *XcVerifyPKCS1Signature;
+NTSYSAPI VOID *XcModExp;
+NTSYSAPI VOID *XcDESKeyParity;
+NTSYSAPI VOID *XcKeyTable;
+NTSYSAPI VOID *XcBlockCrypt;
+NTSYSAPI VOID *XcBlockCryptCBC;
+NTSYSAPI VOID *XcCryptService;
+NTSYSAPI VOID *XcUpdateCrypto;
+NTSYSAPI VOID *XboxLANKey;
+NTSYSAPI VOID *XboxAlternateSignatureKeys;
+NTSYSAPI VOID *XePublicKeyData;
+NTSYSAPI VOID *IdexChannelObject;
+NTSYSAPI VOID *xsnprintf;     // prefixed with "x" to avoid xlibc collisions
+NTSYSAPI VOID *xsprintf;      // ""
+NTSYSAPI VOID *xvsnprintf;    // ""
+NTSYSAPI VOID *xvsprintf;     // ""
 
 #endif
 

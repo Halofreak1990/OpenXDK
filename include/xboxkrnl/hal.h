@@ -26,18 +26,18 @@ typedef enum _RETURN_FIRMWARE
 }
 RETURN_FIRMWARE, *LPRETURN_FIRMWARE;
 
-XBOXSYSAPI VOID *HalReadSMCTrayState;
-XBOXSYSAPI VOID *HalClearSoftwareInterrupt;
-XBOXSYSAPI VOID *HalDisableSystemInterrupt;
-XBOXSYSAPI VOID *HalDiskCachePartitionCount;
-XBOXSYSAPI VOID *HalDiskModelNumber;
-XBOXSYSAPI VOID *HalDiskSerialNumber;
-XBOXSYSAPI VOID *HalEnableSystemInterrupt;
-XBOXSYSAPI VOID *HalGetInterruptVector;
-XBOXSYSAPI VOID *HalReadSMBusValue;
-XBOXSYSAPI VOID *HalReadWritePCISpace;
-XBOXSYSAPI VOID *HalRegisterShutdownNotification;
-XBOXSYSAPI VOID *HalRequestSoftwareInterrupt;
+NTSYSAPI VOID *HalReadSMCTrayState;
+NTSYSAPI VOID *HalClearSoftwareInterrupt;
+NTSYSAPI VOID *HalDisableSystemInterrupt;
+NTSYSAPI VOID *HalDiskCachePartitionCount;
+NTSYSAPI VOID *HalDiskModelNumber;
+NTSYSAPI VOID *HalDiskSerialNumber;
+NTSYSAPI VOID *HalEnableSystemInterrupt;
+NTSYSAPI VOID *HalGetInterruptVector;
+NTSYSAPI VOID *HalReadSMBusValue;
+NTSYSAPI VOID *HalReadWritePCISpace;
+NTSYSAPI VOID *HalRegisterShutdownNotification;
+NTSYSAPI VOID *HalRequestSoftwareInterrupt;
 
 // ******************************************************************
 // * 0x0031 - HalReturnToFirmware
@@ -46,23 +46,23 @@ XBOXSYSAPI VOID *HalRequestSoftwareInterrupt;
 // * Reboot / Shutdown / Etc
 // *
 // ******************************************************************
-XBOXSYSAPI DECLSPEC_NORETURN VOID HalReturnToFirmware
+NTSYSAPI DECLSPEC_NORETURN VOID HalReturnToFirmware
 (
 	RETURN_FIRMWARE Routine
 );
 
-XBOXSYSAPI VOID *HalWriteSMBusValue;
-XBOXSYSAPI VOID *HalBootSMCVideoMode;
-XBOXSYSAPI VOID *HalIsResetOrShutdownPending;
-XBOXSYSAPI VOID *HalInitiateShutdown;
-XBOXSYSAPI VOID *HalEnableSecureTrayEject;
-XBOXSYSAPI VOID *HalWriteSMCScratchRegister;
-XBOXSYSAPI VOID *READ_PORT_BUFFER_UCHAR;
-XBOXSYSAPI VOID *READ_PORT_BUFFER_USHORT;
-XBOXSYSAPI VOID *READ_PORT_BUFFER_ULONG;
-XBOXSYSAPI VOID *WRITE_PORT_BUFFER_UCHAR;
-XBOXSYSAPI VOID *WRITE_PORT_BUFFER_USHORT;
-XBOXSYSAPI VOID *WRITE_PORT_BUFFER_ULONG;
+NTSYSAPI VOID *HalWriteSMBusValue;
+NTSYSAPI VOID *HalBootSMCVideoMode;
+NTSYSAPI VOID *HalIsResetOrShutdownPending;
+NTSYSAPI VOID *HalInitiateShutdown;
+NTSYSAPI VOID *HalEnableSecureTrayEject;
+NTSYSAPI VOID *HalWriteSMCScratchRegister;
+NTSYSAPI VOID *READ_PORT_BUFFER_UCHAR;
+NTSYSAPI VOID *READ_PORT_BUFFER_USHORT;
+NTSYSAPI VOID *READ_PORT_BUFFER_ULONG;
+NTSYSAPI VOID *WRITE_PORT_BUFFER_UCHAR;
+NTSYSAPI VOID *WRITE_PORT_BUFFER_USHORT;
+NTSYSAPI VOID *WRITE_PORT_BUFFER_ULONG;
 
 #endif
 
