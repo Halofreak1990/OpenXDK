@@ -43,7 +43,6 @@ typedef struct
 } XBOXSoundFragment;
 
 struct SDL_PrivateAudioData {
-//	HANDLE audio_sem;
 	XBOXSoundFragment fragments[NUM_FRAGMENTS];	/* Wave audio fragments */
 	int nextFragment;
 };

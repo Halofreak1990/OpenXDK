@@ -29,6 +29,7 @@ static char rcsid =
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <memory.h>
 
 #include "SDL_audio.h"
 #include "SDL_mutex.h"
@@ -102,7 +103,7 @@ void sdlAudioCallback(void *pac97device, void *data)
 		return;
 	}
 
-	memset(this->hidden->fragments[this->hidden->nextFragment].samplesBuffer, this->spec.silence, this->spec.size);
+	memset(this->hidden->fragments[this->hidden->nextFragment].samplesBuffer, this->spec.silence, this->hidden->fragments[this->hidden->nextFragment].sizeOfBuffer);
 	if (!this->paused) 
 	{
 		if (this->convert.needed) 
@@ -110,12 +111,14 @@ void sdlAudioCallback(void *pac97device, void *data)
 			this->spec.callback(this->spec.userdata, (Uint8 *)this->convert.buf, this->convert.len);
 			SDL_ConvertAudio(&this->convert);
 			memcpy(this->hidden->fragments[this->hidden->nextFragment].samplesBuffer, this->convert.buf, this->convert.len_cvt);
+			this->hidden->fragments[this->hidden->nextFragment].sizeOfBuffer = this->convert.len_cvt;
 		} 
 		else 
 		{
 			this->spec.callback(this->spec.userdata, (Uint8 *)this->hidden->fragments[this->hidden->nextFragment].samplesBuffer, this->hidden->fragments[this->hidden->nextFragment].sizeOfBuffer);
 		}
 	}
+	// now feed something to the audio chip - if we are paused, then it will be silence
 	XAudioProvideSamples(this->hidden->fragments[this->hidden->nextFragment].samplesBuffer, this->hidden->fragments[this->hidden->nextFragment].sizeOfBuffer, FALSE);
 	this->hidden->nextFragment = (this->hidden->nextFragment+1)%NUM_FRAGMENTS;
 }
@@ -137,16 +140,9 @@ int XBOX_OpenAudio(_THIS, SDL_AudioSpec *spec)
 {
 	int i;
 	
-	/* Determine the audio parameters from the AudioSpec */
-	switch ( spec->format & 0xFF ) {
-		case 8:
-		case 16:
-			break;
-		default:
-			SDL_SetError("Unsupported audio format");
-			return(-1);
-	}
-	spec->freq = 44100;   // is this right?
+	spec->format = AUDIO_S16;
+	spec->freq = 44100;
+	spec->samples = 512;
 
 	/* Update the fragment size as size in bytes */
 	SDL_CalculateAudioSpec(spec);
@@ -168,7 +164,7 @@ int XBOX_OpenAudio(_THIS, SDL_AudioSpec *spec)
 	/* Ready to go! */
 	this->hidden->nextFragment = 0;
 
-  XAudioPlay();
+	XAudioPlay();
 
 	return(1);
 }
