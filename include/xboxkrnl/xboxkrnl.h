@@ -103,7 +103,28 @@ typedef HANDLE             *PHANDLE;
 // ******************************************************************
 // * NTSTATUS
 // ******************************************************************
-typedef long                NTSTATUS;
+typedef long                            NTSTATUS;
+
+#define NT_SUCCESS(Status)              ((NTSTATUS) (Status) >= 0)
+#define STATUS_SUCCESS					0x00000000
+#ifndef STATUS_PENDING
+#define STATUS_PENDING					0x00000103
+#endif
+#define STATUS_TIMER_RESUME_IGNORED		0x40000025
+#define STATUS_UNSUCCESSFUL				0xC0000001
+#define STATUS_UNRECOGNIZED_MEDIA		0xC0000014
+#ifndef STATUS_NO_MEMORY
+#define STATUS_NO_MEMORY				0xC0000017
+#endif
+#define STATUS_ALERTED					0x00000101
+#define STATUS_USER_APC					0x000000C0
+// The SCSI input buffer was too large (not necessarily an error!)
+#define STATUS_DATA_OVERRUN				0xC000003C
+#define STATUS_INVALID_IMAGE_FORMAT		0xC000007B
+#define STATUS_INSUFFICIENT_RESOURCES	0xC000009A
+#define STATUS_TOO_MANY_SECRETS			0xC0000156
+#define STATUS_XBE_REGION_MISMATCH		0xC0050001
+#define STATUS_XBE_MEDIA_MISMATCH		0xC0050002
 
 // ******************************************************************
 // * PAGE Masks
@@ -315,6 +336,24 @@ typedef enum _NVRAM_TYPE_CLASS
 	NvramDword      = 4
 }
 NVRAM_TYPE_CLASS, *PNVRAM_TYPE_CLASS;
+
+// ******************************************************************
+// * PKSTART_ROUTINE
+// ******************************************************************
+// *
+// * NOTE: Non-standard call. Similar to stdcall, but first argument
+// *       must be located at ebp+4 before calling.
+// *
+// *       This is different from the NT version: 2 parameters as
+// *       opposed to 1.
+// *
+// ******************************************************************
+typedef VOID (NTAPI *PKSTART_ROUTINE)
+(
+    IN PVOID StartContext1,
+    IN PVOID StartContext2
+);
+
 
 // ******************************************************************
 // * READ_REGISTER_UCHAR

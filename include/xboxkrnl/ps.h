@@ -13,7 +13,24 @@
 #define XBOXKRNL_PS_H
 
 XBSYSAPI VOID *PsCreateSystemThread;
-XBSYSAPI VOID *PsCreateSystemThreadEx;
+
+// ******************************************************************
+// * PsCreateSystemThreadEx
+// ******************************************************************
+XBSYSAPI EXPORTNUM(255) NTSTATUS NTAPI PsCreateSystemThreadEx
+(
+    OUT PHANDLE         ThreadHandle,
+    IN  ULONG           ThreadExtraSize,
+    IN  ULONG           KernelStackSize,
+    IN  ULONG           TlsDataSize,
+    OUT PULONG          ThreadId OPTIONAL,
+    IN  PVOID           StartContext1,
+    IN  PVOID           StartContext2,
+    IN  BOOLEAN         CreateSuspended,
+    IN  BOOLEAN         DebugStack,
+    IN  PKSTART_ROUTINE StartRoutine
+);
+
 XBSYSAPI VOID *PsQueryStatistics;
 XBSYSAPI VOID *PsSetCreateThreadNotifyRoutine;
 XBSYSAPI VOID *PsTerminateSystemThread;

@@ -23,7 +23,7 @@ XBSYSAPI VOID *NtClearEvent;
 // * Closes an object handle
 // *
 // ******************************************************************
-XBSYSAPI EXPORTNUM(187) ULONG NTAPI NtClose
+XBSYSAPI EXPORTNUM(187) NTSTATUS NTAPI NtClose
 (
 	IN HANDLE Handle
 );
