@@ -121,7 +121,6 @@ void charmap_move_cursor( s32 x, s32 y);
 
 
 
-
 #if defined(__cplusplus)
 }
 #endif
