@@ -14,7 +14,7 @@
 			Name="Release|Win32"
 			OutputDirectory=".\lib"
 			IntermediateDirectory=".\lib"
-			ConfigurationType="1"
+			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			CharacterSet="2">
@@ -52,8 +52,8 @@
 				ModuleDefinitionFile=".\src\xboxkrnl\xboxkrnl.def"
 				ProgramDatabaseFile=".\lib/xboxkrnl.pdb"
 				SubSystem="2"
-				EntryPointSymbol="EntryDummy"
-				ResourceOnlyDLL="FALSE"/>
+				EntryPointSymbol=""
+				ResourceOnlyDLL="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
