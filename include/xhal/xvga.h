@@ -19,13 +19,6 @@ extern "C" {
 
 #include	"openxdk.h"
 
-//
-// Bit depths
-//
-#define	_32BITCOLOUR			(0x00000000)
-#define	_16BITCOLOUR			(0x00000010)
-#define	_8BITCOLOUR				(0x00000020)
-#define	COLOUR_MASK				(0x00000030)
 
 //
 // Pixel resolutions
@@ -40,6 +33,20 @@ extern "C" {
 #define	RES_800X600				(8)								// Hardware mode *NOT YET*
 #define	RES_1024X768			(9)								// Hardware mode *NOT YET*
 #define	RES_MASK				(15)
+
+//
+// Bit depths
+//
+#define	_32BITCOLOUR			(0x00000000)
+#define	_16BITCOLOUR			(0x00000010)
+#define	_8BITCOLOUR				(0x00000020)
+#define	COLOUR_MASK				(0x00000030)
+
+
+//
+// Extra display flags
+//
+#define	_DISPLAY_DEBUG			(0x80000000)					// display into debug mode (single buffer system)
 
 //
 // Easy to use screen modes
@@ -57,6 +64,8 @@ extern "C" {
 #define	MODE_640x400x16			(RES_640X400|_16BITCOLOUR)		// not yet
 #define	MODE_640x480x16			(RES_640X480|_16BITCOLOUR)		// not yet
 
+// this is really to be used with the character map, so debug can be seen as soon as its output.. single buffered.
+#define	MODE_640x480x32_DEBUG	(RES_640X480|_32BITCOLOUR|_DISPLAY_DEBUG)		// not yet
 
 
 // GetScreen() return struct

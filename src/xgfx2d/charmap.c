@@ -34,6 +34,19 @@
 	char		g_TempString[16385];		// 16K string MAX
 
 // ******************************************************************
+// * charmap_set_flags
+// ******************************************************************
+// *
+// * Set system flags and options
+// *
+// ******************************************************************
+void charmap_set_flags( u32 flags )
+{
+	g_pCharMap->Flags = flags;
+}
+
+
+// ******************************************************************
 // * charmap_render_character
 // ******************************************************************
 // *
@@ -218,6 +231,7 @@ void charmap_init( s32 baseX, s32 baseY, s32 width, s32 height )
 	pCharMap->wy2 = pCharMap->height;
 	pCharMap->curx = pCharMap->wx1;
 	pCharMap->cury = pCharMap->wy1;
+	pCharMap->Flags = 0;
 
 	pCharMap->attrib_char = (INK_WHITE|0x20);		// space,black on black
 	g_pCharMap = pCharMap;							// set current screen
@@ -405,6 +419,11 @@ void charmap_print( char *pStr )
 	while(*pStr!=0x00 ){
 		charmap_outchar(*pStr++);
 	}
+
+	// debug mode?
+	if( (pCharMap->Flags&CHARMAP_DEBUG)!=0){
+		charmap_display();
+	}
 }
 
 
@@ -430,6 +449,11 @@ void charmap_printf( const char *format, ...)
 	while(*pStr!=0x00 ){
 		charmap_outchar(*pStr++);
 	}
+
+	// debug mode?
+	if( (pCharMap->Flags&CHARMAP_DEBUG)!=0){
+		charmap_display();
+	}
 }
 
 // ******************************************************************
@@ -447,6 +471,11 @@ void charmap_printat( s32 x, s32 y, char *pStr )
 	charmap_move_cursor(x,y);
 	while(*pStr!=0x00 ){
 		charmap_outchar(*pStr++);
+	}
+
+	// debug mode?
+	if( (pCharMap->Flags&CHARMAP_DEBUG)!=0){
+		charmap_display();
 	}
 }
 

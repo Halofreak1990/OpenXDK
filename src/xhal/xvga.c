@@ -143,6 +143,23 @@ void vga_init_mode( int Mode )
 	int		i=0;
 	u32*	pScr;
 
+	// Use the 640x480 display thats aready set up at boot time....
+	if( Mode == MODE_640x480x32_DEBUG )
+	{
+		_FrontBuffer=XBOX_SCREENRAM+0x40;										// address of VRAM (logical address for CPU)
+		_BackBuffer = _FrontBuffer;												// Single buffer
+
+		// Get HW address for setting buffers
+		FrontBuffer = XBOX_SCREENRAM&0xfffffff;									// Get Physical address
+		BackBuffer = FrontBuffer;												// Single buffer
+
+		g_ScreenWidth = 640;
+		g_ScreenHeight= 480;
+		g_nBPP=4;
+		return;
+	}
+
+
 	switch( (Mode&RES_MASK) )
 	{
 		case	RES_320X200:	g_ScreenWidth = 320;

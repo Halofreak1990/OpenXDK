@@ -35,6 +35,9 @@ extern "C"
 // constants: #defines, enums etc.
 //
 // **************************************************************************************************************
+#define	CHARMAP_DEBUG			0x80000000		// character map debug mode, force update after every write 
+												// slow, but visible. Does NOT update on single character outs
+
 #define	MAP_TOUCHED				0x8000			// this character has been touched, and needs redrawing
 
 #define	FONT_WIDTH				8				// our assumed character width
@@ -76,6 +79,7 @@ extern "C"
 // Charmap structure
 typedef struct	SCharMap
 {
+		u32		Flags;				// system flags and options
 		u8*		pBitmap;			// pointer to our screen bitmap				(pix width*pix height)
 		u16*	pCharMap;			// pointer to actuall character array
 		s32		x,y;				// screen X,Y
@@ -100,6 +104,7 @@ typedef struct	SCharMap
 //
 // **************************************************************************************************************
 void charmap_init( s32 baseX, s32 baseY, s32 width, s32 height );
+void charmap_set_flags( u32 flags );
 void charmap_display( void );
 void charmap_clear( void );
 void charmap_print( char *pStr );
