@@ -15,8 +15,8 @@
 #include <string.h>
 
 
-	char	HexTable1[]={"0123456789abcdef"};
-	char	HexTable2[]={"0123456789ABCDEF"};
+char	HexTable1[]="0123456789abcdef";
+char	HexTable2[]="0123456789ABCDEF";
 
 
 #define FLOAT_BIAS 127

@@ -4,7 +4,7 @@
 // *
 // * desc : Totally Free LIC replacement
 // *
-// * file : _memccpy.c
+// * file : misc_vars.c
 // *
 // * note : This LIBC is TOTALLY free - do what you like with it!!
 // *
