@@ -35,3 +35,4 @@ config.log
 maybedep.tmp
 multilib.out
 serdep.tmp
+i386-pc-xbox
