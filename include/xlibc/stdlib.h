@@ -19,6 +19,15 @@ extern "C" {
 
 #include <ansidecl.h>
 
+
+// *****************************************************************************
+// 
+//	Defines etc.
+//
+// *****************************************************************************
+// we could just as well use any other randmax 2^x-1 but this seems to be the standard
+#define RAND_MAX 32767
+
 // *****************************************************************************
 // 
 //	Structures
@@ -48,13 +57,9 @@ int		abs( int i );
 void	abort( void );
 div_t	div( int number, int divisor );
 ldiv_t	ldiv( long int number, long int divisor );
-
-
-int rand( void );
-void srand( unsigned int );
-// we could just as well use any other randmax 2^x-1
-//but this seems to be the standard
-#define RAND_MAX 32767
+char*	_ltoa( long value, char *string, int radix );
+int		rand( void );
+void	srand( unsigned int );
 
 
 #ifdef	__cplusplus
@@ -62,7 +67,5 @@ void srand( unsigned int );
 #endif
 
 #endif		//__OPENXDK_STDLIB__
-
-
 
 
