@@ -15,7 +15,7 @@
 // ******************************************************************
 // * NtAllocateVirtualMemory
 // ******************************************************************
-XBSYSAPI EXPORTNUM(184) NTSTATUS NtAllocateVirtualMemory
+XBSYSAPI EXPORTNUM(184) NTSTATUS NTAPI NtAllocateVirtualMemory
 (
     IN OUT PVOID    *BaseAddress,
     IN ULONG         ZeroBits,
@@ -96,7 +96,7 @@ XBSYSAPI VOID *NtFlushBuffersFile;
 // ******************************************************************
 // * NtFreeVirtualMemory
 // ******************************************************************
-XBSYSAPI EXPORTNUM(199) NTSTATUS NtFreeVirtualMemory
+XBSYSAPI EXPORTNUM(199) NTSTATUS NTAPI NtFreeVirtualMemory
 (
     IN OUT PVOID *BaseAddress,
     IN OUT PULONG FreeSize,
@@ -109,7 +109,7 @@ XBSYSAPI VOID *NtOpenDirectoryObject;
 // ******************************************************************
 // * NtOpenFile
 // ******************************************************************
-XBSYSAPI EXPORTNUM(202) NTSTATUS NtOpenFile
+XBSYSAPI EXPORTNUM(202) NTSTATUS NTAPI NtOpenFile
 (
     OUT PHANDLE             FileHandle,
     IN  ACCESS_MASK         DesiredAccess,
@@ -126,7 +126,15 @@ XBSYSAPI VOID *NtQueueApcThread;
 XBSYSAPI VOID *NtQueryDirectoryFile;
 XBSYSAPI VOID *NtQueryDirectoryObject;
 XBSYSAPI VOID *NtQueryEvent;
-XBSYSAPI VOID *NtQueryFullAttributesFile;
+
+// ******************************************************************
+// * NtQueryFullAttributesFile
+// ******************************************************************
+XBSYSAPI EXPORTNUM(210) NTSTATUS NTAPI NtQueryFullAttributesFile
+(   
+    IN  POBJECT_ATTRIBUTES          ObjectAttributes,
+    OUT PVOID                       Attributes
+);
 
 // ******************************************************************
 // * NtQueryInformationFile
