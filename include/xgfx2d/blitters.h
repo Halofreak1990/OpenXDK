@@ -34,7 +34,7 @@ DECLARE_BLITTER(normal_blit,none);   //just a straight blit
 DECLARE_BLITTER(sprite_blit,none);   //ignores 0xFF00FF
 DECLARE_BLITTER(additive_blit,none); //adds images together
 DECLARE_BLITTER(additive_alpha_blit,alpha); //adds image multiplied with alpha to the other one
-DECLARE_BLITTER(alpha_blit,none);  //takes alpha from image! yes, a true alpha blender
+DECLARE_BLITTER(alpha_blit,none);  //alpha from image! yes, a true alpha blender
 DECLARE_BLITTER(alphavalue_blit,alpha); //1 alpha value for the entire image
 DECLARE_BLITTER(alphavalue_sprite_blit,none); //1 alpha value for the entire image, ignores black
 DECLARE_BLITTER(alphavalue50_blit,none); //50% alpha value for the entire image (faster?)

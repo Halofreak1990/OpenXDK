@@ -87,9 +87,9 @@ extern	u32	g_nFontFlags;
 void	vga_init_mode( int Mode );					// Init VGA screen to a selected mode
 void	vga_vsync( void );						// Wait for vertical blank
 void	vga_flip( void );							// Flip buffers
-ScreenInfo	vga_get_screen_info( void );						// get screen base address
+ScreenInfo vga_get_screen_info( void );						// get screen base address
 
-//debugging purposes
+//for debugging purposes.. for serious 2D use the xgfx2d library
 void	vga_clear( void );							// Clear screen
 void	vga_box( int x1,int y1, int x2,int y2 );	// Draw wireframe BOX (WHITE)
 void	vga_print( int x, int y, char* pText );		// Draw text using SYSTEM font (32bit modes only just now)

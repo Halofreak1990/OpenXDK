@@ -26,8 +26,8 @@ extern "C"
 //INSTRUCTIONS
 //************
 //pass in a blitter from blitters.h
-//dx/y = destination x / y
-//sx/y = source x / y
+//dx,dy = destination x,y
+//sx,sy = source x,y
 //sw,sh = width and height of the copy
 //blitter = copying method, check blitters.h
 //parameter = if a blitter method needs a parameter pass it here,

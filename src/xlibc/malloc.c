@@ -12,7 +12,5 @@ void *malloc(size_t size)
 
 void free(void *mem)
 {
-	//do nothing yet
-	//since this kernel export hasn't been declared properly
-	//ExFreePool(mem);
+	ExFreePool(mem);
 }

@@ -4,7 +4,7 @@
 // *
 // * desc : Open Source XBox Development Kit
 // *
-// * file : xbox_bin.c
+// * file : xsysfont.c
 // *
 // * note : 
 // *

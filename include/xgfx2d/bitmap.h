@@ -23,7 +23,7 @@ extern "C"
 
 //you shouldn't need to mess with this if you use the functions in this lib,
 //but feel free to :)
-//data = the raw bitmap data
+//data = the raw 32-bit bitmap data
 //w = width in pixels
 //h = height in pixels
 //pitch = memory distance between rows, in pixels (you don't need to care)
@@ -32,12 +32,12 @@ typedef struct
 {
 	uint32 *data;
 	int w, h;
-	int pitch;	//in pixels, not bytes as many libs do
+	int pitch;	//pitch is in pixels, not bytes as many libs do
 				//will in most cases be same as w
 } Bitmap;
 
 
-//creates a bitmap, sized WxH
+//creates a 32-bit bitmap, sized WxH
 Bitmap *create_bitmap(int w, int h);
 
 //gets the screen bitmap, so you can draw to it easily
