@@ -18,8 +18,8 @@
 // ************************************************************************************
 
 #include	<openxdk.h>
-#include "xhal/NVidia.h"
-#include "xhal/xboxvga_internal.h"
+#include "xhal/xnvidia.h"
+#include "xhal/xvga_def.h"
 
 
 u32		_Framebuffer;

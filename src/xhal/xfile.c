@@ -20,7 +20,7 @@
 // ************************************************************************************
 #include	<openxdk.h>
 
-#include "xhal/xfile_internal.h"
+#include "xhal/xfile_def.h"
 
 
 u32	LastErrorCode=1;

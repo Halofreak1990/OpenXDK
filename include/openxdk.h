@@ -50,18 +50,6 @@ typedef	unsigned short		u16;
 typedef	signed short		s16;
 typedef	unsigned int		u32;
 typedef	signed int			s32;
-//typedef	signed __int64		s64;		// We dont have an __int64 all the time
-//typedef	unsigned __int64	u64;
-
-// ******************************************************************
-// * Some "handy" #defines that I always make
-// * (dont worry, MSDEV will optimise the divides :)
-// ******************************************************************
-//#define	RAD2DEG				(57.29577951)
-//#define	DEG(a)				(a/RAD2DEG)
-//#define	COS(a)				cos((a)/RAD2DEG)
-//#define	SIN(a)				sin((a)/RAD2DEG)
-//does this really belong here??? degrees are useless anyway
 
 // ******************************************************************
 // * XBox Kernel
@@ -71,7 +59,7 @@ typedef	signed int			s32;
 // ******************************************************************
 // * XHal
 // ******************************************************************
-#include	"xhal/xboxVGA.h"
+#include	"xhal/xvga.h"
 #include	"xhal/xfile.h"
 
 // ******************************************************************

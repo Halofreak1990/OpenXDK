@@ -13,7 +13,7 @@
 #include <malloc.h>
 #include <stdio.h>
 #include "xgfx2d/bitmap.h"
-#include "xhal/xboxVGA.h"
+#include "xhal/xvga.h"
 
 Bitmap *create_bitmap(int w, int h)
 {

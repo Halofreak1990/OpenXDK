@@ -55,19 +55,19 @@ LIB32=link.exe -lib
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=.\src\xhal\NVidia.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\xhal\xbox_bin.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\xhal\xboxVGA.c
-# End Source File
-# Begin Source File
-
 SOURCE=.\src\xhal\xfile.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xhal\xnvidia.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xhal\xsysfont.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xhal\xvga.c
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -75,23 +75,23 @@ SOURCE=.\src\xhal\xfile.c
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=.\include\xhal\nvidia.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\xhal\xboxVGA.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\xhal\xboxvga_internal.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\include\xhal\xfile.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\xhal\xfile_internal.h
+SOURCE=.\include\xhal\xfile_def.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xhal\xnvidia.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xhal\xvga.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xhal\xvga_def.h
 # End Source File
 # End Group
 # End Target
