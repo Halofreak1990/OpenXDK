@@ -1,17 +1,24 @@
 OpenXDK website: http://openxdk.sourceforge.net/
 
-version: 0.0.1-BETA (11/23/02)
+version: 0.0.1-BETA2 (11/27/02)
+--------------------------------
+
+- Now supports MSVC .NET (GCC Soon?!)
+
+- Mostly minor changes all over.
+
+version: 0.0.1-BETA  (11/23/02)
 --------------------------------
 
 - First Beta release! Start testing! Enjoy!
 
-version: 0.0.1-pre4 (11/22/02)
+version: 0.0.1-pre4  (11/22/02)
 --------------------------------
 
 - Just a few xboxkrnl prototypes declared. Some
   various minor changes. Still pre-release.
 
-version: 0.0.1-pre3 (11/22/02)
+version: 0.0.1-pre3  (11/22/02)
 --------------------------------
 
 - First sourceforge release.
