@@ -7,18 +7,6 @@
 
 <item id="org.eclipse.cdt.make.core.buildtargets">
 <buildTargets>
-<target name="install" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src">
-<buildCommand>make</buildCommand>
-<buildTarget>install</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>true</useDefaultCommand>
-</target>
-<target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src">
-<buildCommand>make</buildCommand>
-<buildTarget>all</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>true</useDefaultCommand>
-</target>
 <target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src/newlib-1.12.0">
 <buildCommand>make</buildCommand>
 <buildTarget>all install</buildTarget>
@@ -34,6 +22,18 @@
 <target name="distclean" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src/newlib-1.12.0">
 <buildCommand>make</buildCommand>
 <buildTarget>distclean</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
+<target name="install" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src">
+<buildCommand>make</buildCommand>
+<buildTarget>install</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
+<target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src">
+<buildCommand>make</buildCommand>
+<buildTarget>all</buildTarget>
 <stopOnError>true</stopOnError>
 <useDefaultCommand>true</useDefaultCommand>
 </target>
@@ -63,6 +63,18 @@
 <stopOnError>true</stopOnError>
 <useDefaultCommand>true</useDefaultCommand>
 </target>
+<target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src/usb">
+<buildCommand>make</buildCommand>
+<buildTarget>all</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
+<target name="clean" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src/usb">
+<buildCommand>make</buildCommand>
+<buildTarget>clean</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
 <target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="SDL-1.2.7">
 <buildCommand>make</buildCommand>
 <buildArguments>-f Makefile.xbox</buildArguments>
@@ -77,30 +89,6 @@
 <stopOnError>true</stopOnError>
 <useDefaultCommand>false</useDefaultCommand>
 </target>
-<target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src/usb">
-<buildCommand>make</buildCommand>
-<buildTarget>all</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>true</useDefaultCommand>
-</target>
-<target name="clean" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src/usb">
-<buildCommand>make</buildCommand>
-<buildTarget>clean</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>true</useDefaultCommand>
-</target>
-<target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src/hal">
-<buildCommand>make</buildCommand>
-<buildTarget>all</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>true</useDefaultCommand>
-</target>
-<target name="clean" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src/hal">
-<buildCommand>make</buildCommand>
-<buildTarget>clean</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>true</useDefaultCommand>
-</target>
 <target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="newlib-1.12.0">
 <buildCommand>make</buildCommand>
 <buildTarget>all install</buildTarget>
@@ -114,6 +102,18 @@
 <useDefaultCommand>true</useDefaultCommand>
 </target>
 <target name="clean" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="newlib-1.12.0">
+<buildCommand>make</buildCommand>
+<buildTarget>clean</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
+<target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src/hal">
+<buildCommand>make</buildCommand>
+<buildTarget>all</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
+<target name="clean" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src/hal">
 <buildCommand>make</buildCommand>
 <buildTarget>clean</buildTarget>
 <stopOnError>true</stopOnError>

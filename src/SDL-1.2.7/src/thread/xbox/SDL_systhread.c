@@ -25,16 +25,37 @@ static char rcsid =
  "@(#) $Id$";
 #endif
 
-/* Thread management routines for SDL */
+/* XBOX thread management routines for SDL */
+
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "SDL_error.h"
 #include "SDL_thread.h"
 #include "SDL_systhread.h"
 
+#include <xboxkrnl/xboxkrnl.h>
+#include <hal/xbox.h>
+
+#define KILLED_HANDLE (HANDLE)-1
+
+static void RunThreadCallback(void *data1, void *data2)
+{
+	SDL_RunThread(data1);
+	NTSTATUS status = 0;
+	PsTerminateSystemThread(status);
+}
+
 int SDL_SYS_CreateThread(SDL_Thread *thread, void *args)
 {
-	SDL_SetError("Threads are not supported on this platform");
-	return(-1);
+	thread->handle = (HANDLE)XCreateThread(RunThreadCallback, args, NULL);
+
+	if (thread->handle == (HANDLE)-1) {
+		SDL_SetError("Not enough resources to create thread");
+		return(-1);
+	}
+
+	return(0);
 }
 
 void SDL_SYS_SetupThread(void)
@@ -44,16 +65,28 @@ void SDL_SYS_SetupThread(void)
 
 Uint32 SDL_ThreadID(void)
 {
-	return(0);
+	return ((Uint32)KeGetCurrentThread());
 }
 
 void SDL_SYS_WaitThread(SDL_Thread *thread)
 {
-	return;
+	if (thread->handle != KILLED_HANDLE)
+		NtWaitForSingleObject(thread->handle, FALSE, NULL);
+
+	// Win32 implementation calls CloseHandle - why?
+	// CloseHandle(thread->handle);
 }
 
+/* WARNING: This function is really a last resort.
+ * Threads should be signaled and then exit by themselves.
+ * TerminateThread() doesn't perform stack and DLL cleanup.
+ */
 void SDL_SYS_KillThread(SDL_Thread *thread)
 {
-	return;
+	// we can't call PsTerminateSystemThread because it terminate the
+	// *current* thread, not a specified one.  So, to try to cope with
+	// this situation, we suspend the specified one and mark it as "killed"
+	ULONG prevCount;
+	NtSuspendThread(thread->handle, &prevCount);
+	thread->handle = KILLED_HANDLE;
 }
-

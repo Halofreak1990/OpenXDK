@@ -20,9 +20,7 @@
     slouken@libsdl.org
 */
 
-/* Stub until we implement threads on this platform */
-typedef int SYS_ThreadHandle;
+#include <xboxkrnl/types.h>
 
-#ifndef DISABLE_THREADS
-#define DISABLE_THREADS
-#endif
+typedef HANDLE SYS_ThreadHandle;
+

@@ -58,3 +58,27 @@ void XLaunchXBE(char *xbePath)
 	// the xbox path mustn't have worked, so we will return
 }
 
+int XCreateThread(XThreadCallback callback, void *args1, void *args2)
+{
+	ULONG id;
+	HANDLE handle;
+
+	NTSTATUS status = PsCreateSystemThreadEx(
+		(HANDLE)&handle,
+		0,
+		65536,
+		0,
+		&id,
+		args1,
+		args2,
+		FALSE,
+		FALSE,
+		(PKSTART_ROUTINE)callback);
+
+	if (handle == 0) {
+		return -1;
+	}
+
+	return (unsigned int)handle;
+}
+

@@ -1,7 +1,16 @@
-0.04
-----
-- Initial release to SourceForge
+Current
+- Doc update
+- Added SDL_File and SDL_Timer capabilities (things like SDL_LoadBMP work now)
+- Added SDL_Thread, SDL_Mutex and SDL_Semaphore support
+- vararg support in debugPrint
+- Added audio support (currently support 16 bit stereo 44.1kHz samples)
 
-0.05 (HEAD)
-----
+
+0.04.1
 - Added XLaunchXBE function
+- Makefile cleanup
+- Created bin version of OpenXDK
+
+
+0.04
+- Initial release to SourceForge

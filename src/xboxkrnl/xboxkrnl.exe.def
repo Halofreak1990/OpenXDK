@@ -105,7 +105,7 @@ EXPORTS
     KeEnterCriticalRegion                         @ 101 NONAME
     MmGlobalData                                  @ 102 NONAME
     KeGetCurrentIrql                              @ 103 NONAME
-    KeGetCurrentThread                            @ 104 NONAME
+    KeGetCurrentThread@0                          @ 104 NONAME
     KeInitializeApc                               @ 105 NONAME
     KeInitializeDeviceQueue                       @ 106 NONAME
     KeInitializeDpc@12                            @ 107 NONAME
@@ -194,7 +194,7 @@ EXPORTS
     NtCreateFile@36                               @ 190 NONAME
     NtCreateIoCompletion                          @ 191 NONAME
     NtCreateMutant@12                             @ 192 NONAME
-    NtCreateSemaphore                             @ 193 NONAME
+    NtCreateSemaphore@16                          @ 193 NONAME
     NtCreateTimer                                 @ 194 NONAME
     NtDeleteFile                                  @ 195 NONAME
     NtDeviceIoControlFile                         @ 196 NONAME
@@ -223,7 +223,7 @@ EXPORTS
     NtReadFile@32                                 @ 219 NONAME
     NtReadFileScatter                             @ 220 NONAME
     NtReleaseMutant@8                             @ 221 NONAME
-    NtReleaseSemaphore                            @ 222 NONAME
+    NtReleaseSemaphore@12                         @ 222 NONAME
     NtRemoveIoCompletion                          @ 223 NONAME
     NtResumeThread@8                              @ 224 NONAME
     NtSetEvent@8                                  @ 225 NONAME

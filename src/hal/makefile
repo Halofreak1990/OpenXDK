@@ -23,7 +23,10 @@ all: libhal.a
 .c.o:
 	$(CC) -c $< $(CC_FLAGS) $(INCLUDE)
 
-libhal.a: fileio.o xbox.o pad.o
+.s.o:
+	as $< -o $@ 
+
+libhal.a: fileio.o xbox.o pad.o io.o audio.o audioInterrupt.o
 	$(AR) rcs libhal.a *.o
 	cp libhal.a /usr/local/openxdk/lib
 	cp ../../include/hal/*.h /usr/local/openxdk/include/hal

@@ -39,7 +39,7 @@ XBSYSAPI VOID *KeGetCurrentIrql;
 // ******************************************************************
 // * KeGetCurrentThread
 // ******************************************************************
-XBSYSAPI VOID *KeGetCurrentThread;
+XBSYSAPI EXPORTNUM(104) PKTHREAD NTAPI *KeGetCurrentThread();
 
 XBSYSAPI VOID *KeInitializeApc;
 XBSYSAPI VOID *KeInitializeDeviceQueue;

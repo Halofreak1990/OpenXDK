@@ -95,7 +95,14 @@ XBSYSAPI EXPORTNUM(192) NTSTATUS NTAPI NtCreateMutant
     IN  BOOLEAN             InitialOwner
 );
 
-XBSYSAPI VOID *NtCreateSemaphore;
+XBSYSAPI EXPORTNUM(193) NTSTATUS NTAPI NtCreateSemaphore
+(
+    OUT PHANDLE           SemaphoreHandle,
+    IN POBJECT_ATTRIBUTES ObjectAttributes OPTIONAL,
+    IN LONG               InitialCount,
+    IN LONG               MaximumCount
+);
+
 XBSYSAPI VOID *NtCreateTimer;
 XBSYSAPI VOID *NtDeleteFile;
 XBSYSAPI VOID *NtDeviceIoControlFile;
@@ -160,7 +167,7 @@ XBSYSAPI EXPORTNUM(207) NTSTATUS NTAPI NtQueryDirectoryFile
     IN  PVOID                       ApcRoutine, // Todo: define this routine's prototype
     IN  PVOID                       ApcContext,
     OUT PIO_STATUS_BLOCK            IoStatusBlock,
-    OUT FILE_DIRECTORY_INFORMATION *FileInformation,
+    OUT PVOID                       FileInformation,
     IN  ULONG                       Length,
     IN  FILE_INFORMATION_CLASS      FileInformationClass,
     IN  PSTRING                     FileMask,
@@ -252,7 +259,13 @@ XBSYSAPI EXPORTNUM(221) NTSTATUS NTAPI NtReleaseMutant
     OUT PLONG   PreviousCount
 );
 
-XBSYSAPI VOID *NtReleaseSemaphore;
+XBSYSAPI EXPORTNUM(222) NTSTATUS NTAPI NtReleaseSemaphore
+(
+    IN HANDLE   SemaphoreHandle,
+    IN ULONG    ReleaseCount,
+    OUT PULONG  PreviousCount OPTIONAL
+);
+
 XBSYSAPI VOID *NtRemoveIoCompletion;
 
 // ******************************************************************
@@ -324,9 +337,9 @@ XBSYSAPI EXPORTNUM(232) VOID NTAPI NtUserIoApcDispatcher
 // ******************************************************************
 XBSYSAPI EXPORTNUM(233) NTSTATUS NTAPI NtWaitForSingleObject
 (	
-	IN  HANDLE  Handle,
-	IN	BOOLEAN	Alertable,
-	IN	PVOID	Timeout
+	IN  HANDLE         Handle,
+	IN	BOOLEAN	       Alertable,
+	IN	PLARGE_INTEGER Timeout
 );
 
 // ******************************************************************

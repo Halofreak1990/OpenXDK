@@ -1,0 +1,10 @@
+Credits
+-------
+
+- Obviously Caustik, et al for the original OpenXDK.
+- Myria for explaining the vagaries of the xboxkrnl
+- Andy Green for writing the Cromwell audio that I based
+  the OpenXDK audio on, and answering my ridiculously naive 
+  questions about how audio works
+- The good folks at alt.os.development for teaching me how to hook
+  hardware interrupts from protected mode

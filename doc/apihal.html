@@ -33,6 +33,21 @@ The hal API is made up of several subsystems that each operate independantly of 
 </td></tr>
 
 <tr><td><code>int XGetTickCount()</code></td><td>Returns the current kernel tick count (which is the number of milliseconds since the XBOX was turned on).</td></tr>
+
+<tr><td><code>int XCreateThread(<br>
+&nbsp;&nbsp;XThreadCallback callback, <br>
+&nbsp;&nbsp;void *args1, <br>
+&nbsp;&nbsp;void *args2<br>
+);</code></td>
+<td>Creates and runs a new thread.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>callback</td><td>The entry point of the thread function.  It must be a <code>static</code> function that takes two <code>void *</code> paramaters</td></tr>
+<tr><td>args1</td><td>This will be passed to the <code>callback</code> function as the first parameter</td></tr>
+<tr><td>args2</td><td>This will be passed to the <code>callback</code> function as the second parameter</td></tr>
+</table>
+</td></tr>
 </table>
 
 <h2>File Access</h2>
@@ -329,6 +344,64 @@ typedef struct
 <table>
 <tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
 <tr><td>xcontrol</td><td>The pointer to the control structure</td></tr>
+</table>
+</td></tr>
+</table>
+
+<h2>Audio</h2>
+The audio support is functional, but experimental.  When using the audio subsystem
+the first thing you need to do is initialise by calling <code>XAudioInit()</code>.  This
+does not actually start playing anything, though.  To get that to work, you will need to
+call <code>XAudioPlay()</code> (and likewise, to temporarily pause, you call 
+<code>XAudioPause()</code>).  
+<p>However, it is not much good playing unless you have given it some data to play.  To 
+give data to the audio subsystem, you need to call <code>XAudioProvideSamples()</code>.
+There are two supported ways of calling this method:
+<ol>
+<li>Your application code can call <code>XAudioProvideSamples()</code> based on its
+own timing.  It is your code's responsibility to make sure you are calling this
+function often enough.</li>
+<li>You can register a callback when you initialise and the audio subsystem will
+invoke your callback function when it needs more data.  This callback function provides 
+the data using a call to <code>XAudioProvideSamples()</code>.</li>
+</ol>
+<table>
+<tr><td nowrap width="280"><b>Function</b></td><td><b>Description</b></td></th>
+
+<tr><td><code>void XAudioInit(<br>
+&nbsp;&nbsp;int sampleSizeInBits, <br>
+&nbsp;&nbsp;int numChannels, <br>
+&nbsp;&nbsp;XAudioCallback callback<br>
+);</code></td>
+<td>Initialises the audio subsystem. It does not start playing though.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>sampleSizeInBits</td><td>Currently ignored (only 16 bit samples are supported at the moment).  Provided for future expandability</td></tr>
+<tr><td>numChannels</td><td>Currently ignored (only 2 channels (stereo) are supported at the moment).  Provided for future expandability</td></tr>
+<tr><td>callback</td><td>If non-NULL, this is the function that will be called by the audio subsystem when it needs more data.  If set, <code>XAudioInit()</code> calls it 3 times to get a some data in advance, so make sure your callback function is ready to be called when you invoke <code>XAudioInit()</code></td></tr>
+</table>
+</td></tr>
+
+<tr><td><code>int XAudioPlay()</code></td><td>Tells the audio chip to start playing</td></tr>
+
+<tr><td><code>int XAudioPause()</code></td><td>Tells the audio chip to pause</td></tr>
+
+<tr><td><code>void XAudioProvideSamples(<br>
+&nbsp;&nbsp;unsigned char *buffer, <br>
+&nbsp;&nbsp;unsigned short lengthInSamples, <br>
+&nbsp;&nbsp;int isFinal<br>
+);</code></td>
+<td>Gives some more data to the audio subsystem to play.  You should call this often enough 
+so that the chip doesn't run out of data, but not faster than the audio chip can 
+process it (48kHz).  Using the <code>callback</code> parameter in <code>XAudioInit()</code>
+may help.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>buffer</td><td>A pointer to the samples which need to match the <code>sampleSizeInBits</code> and <code>numChannels</code>.  For example, a 16 bit stereo sample would be 4 bytes in the following order: <code>[ Left LSB, Left MSB, Right LSB, Right MSB ]</code></td></tr>
+<tr><td>lengthInSamples</td><td>The number of samples.  If you are sending 256 16-bit stereo samples (LR pairs), this value would be 512</td></tr>
+<tr><td>isFinal</td><td>If this the last lot of data to be played?</code></td></tr>
 </table>
 </td></tr>
 </table>

@@ -9,5 +9,6 @@ In summary, it has the following features (and limitations):
   If you specify a larger resolution, it will probably fall over.
 - Gamepad support. Currently supports only one joystick, but the support for
   multiple gamepads will be coming soon.
+- Audio support for 16 bit stereo 44.1kHz samples
   
 For more documentation, see the doc directory.

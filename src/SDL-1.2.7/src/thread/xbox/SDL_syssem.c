@@ -34,57 +34,15 @@ static char rcsid =
 #include "SDL_thread.h"
 #include "SDL_systhread_c.h"
 
+#include <xboxkrnl/xboxkrnl.h>
 
-#ifdef DISABLE_THREADS
-
-SDL_sem *SDL_CreateSemaphore(Uint32 initial_value)
-{
-	SDL_SetError("SDL not configured with thread support");
-	return (SDL_sem *)0;
-}
-
-void SDL_DestroySemaphore(SDL_sem *sem)
-{
-	return;
-}
-
-int SDL_SemTryWait(SDL_sem *sem)
-{
-	SDL_SetError("SDL not configured with thread support");
-	return -1;
-}
-
-int SDL_SemWaitTimeout(SDL_sem *sem, Uint32 timeout)
-{
-	SDL_SetError("SDL not configured with thread support");
-	return -1;
-}
-
-int SDL_SemWait(SDL_sem *sem)
-{
-	SDL_SetError("SDL not configured with thread support");
-	return -1;
-}
-
-Uint32 SDL_SemValue(SDL_sem *sem)
-{
-	return 0;
-}
-
-int SDL_SemPost(SDL_sem *sem)
-{
-	SDL_SetError("SDL not configured with thread support");
-	return -1;
-}
-
-#else
+#define WAIT_OBJECT_0 0x00000000
+#define INFINITE      0x7FFFFFFF
 
 struct SDL_semaphore
 {
-	Uint32 count;
-	Uint32 waiters_count;
-	SDL_mutex *count_lock;
-	SDL_cond *count_nonzero;
+	HANDLE id;
+	Uint32 volatile count;
 };
 
 SDL_sem *SDL_CreateSemaphore(Uint32 initial_value)
@@ -92,18 +50,19 @@ SDL_sem *SDL_CreateSemaphore(Uint32 initial_value)
 	SDL_sem *sem;
 
 	sem = (SDL_sem *)malloc(sizeof(*sem));
-	if ( ! sem ) {
+	if (! sem ) {
 		SDL_OutOfMemory();
 		return(0);
 	}
-	sem->count = initial_value;
-	sem->waiters_count = 0;
 
-	sem->count_lock = SDL_CreateMutex();
-	sem->count_nonzero = SDL_CreateCond();
-	if ( ! sem->count_lock || ! sem->count_nonzero ) {
-		SDL_DestroySemaphore(sem);
-		return(0);
+	NTSTATUS status = NtCreateSemaphore(&sem->id, NULL, initial_value, 32*1024 );
+
+	sem->count = initial_value;
+	
+	if ( ! sem->id ) {
+		SDL_SetError("Couldn't create semaphore");
+		free(sem);
+		sem = NULL;
 	}
 
 	return(sem);
@@ -115,64 +74,53 @@ SDL_sem *SDL_CreateSemaphore(Uint32 initial_value)
 void SDL_DestroySemaphore(SDL_sem *sem)
 {
 	if ( sem ) {
-		sem->count = 0xFFFFFFFF;
-		while ( sem->waiters_count > 0) {
-			SDL_CondSignal(sem->count_nonzero);
-			SDL_Delay(10);
+		if ( sem->id ) {
+			NtClose(sem->id);
+			sem->id = 0;
 		}
-		SDL_DestroyCond(sem->count_nonzero);
-		SDL_mutexP(sem->count_lock);
-		SDL_mutexV(sem->count_lock);
-		SDL_DestroyMutex(sem->count_lock);
 		free(sem);
 	}
 }
 
+
+
 int SDL_SemTryWait(SDL_sem *sem)
 {
-	int retval;
-
-	if ( ! sem ) {
-		SDL_SetError("Passed a NULL semaphore");
-		return -1;
-	}
-
-	retval = SDL_MUTEX_TIMEDOUT;
-	SDL_LockMutex(sem->count_lock);
-	if ( sem->count > 0 ) {
-		--sem->count;
-		retval = 0;
-	}
-	SDL_UnlockMutex(sem->count_lock);
-
-	return retval;
+	return SDL_SemWaitTimeout(sem, 0);
 }
 
 int SDL_SemWaitTimeout(SDL_sem *sem, Uint32 timeout)
 {
 	int retval;
+	LARGE_INTEGER tmp, *milliseconds;
 
 	if ( ! sem ) {
-		SDL_SetError("Passed a NULL semaphore");
+		SDL_SetError("Passed a NULL sem");
 		return -1;
 	}
 
-	/* A timeout of 0 is an easy case */
-	if ( timeout == 0 ) {
-		return SDL_SemTryWait(sem);
+	if ( timeout == SDL_MUTEX_MAXWAIT ) {
+		milliseconds = NULL;
+	} else {
+		tmp.QuadPart = timeout;
+		milliseconds = &tmp;
 	}
-
-	SDL_LockMutex(sem->count_lock);
-	++sem->waiters_count;
-	retval = 0;
-	while ( (sem->count == 0) && (retval != SDL_MUTEX_TIMEDOUT) ) {
-		retval = SDL_CondWaitTimeout(sem->count_nonzero,
-		                             sem->count_lock, timeout);
+	
+	switch (NtWaitForSingleObject(sem->id, FALSE, milliseconds)) 
+	{
+    case WAIT_OBJECT_0:
+			--sem->count;
+			retval = 0;
+			break;
+    case WAIT_TIMEOUT:
+			retval = SDL_MUTEX_TIMEDOUT;
+			break;
+    default:
+			SDL_SetError("WaitForSingleObject() failed");
+			retval = -1;
+			break;
 	}
-	--sem->waiters_count;
-	--sem->count;
-	SDL_UnlockMutex(sem->count_lock);
-
+	
 	return retval;
 }
 
@@ -183,32 +131,33 @@ int SDL_SemWait(SDL_sem *sem)
 
 Uint32 SDL_SemValue(SDL_sem *sem)
 {
-	Uint32 value;
-	
-	value = 0;
-	if ( sem ) {
-		SDL_LockMutex(sem->count_lock);
-		value = sem->count;
-		SDL_UnlockMutex(sem->count_lock);
+	if ( ! sem ) {
+		SDL_SetError("Passed a NULL sem");
+		return 0;
 	}
-	return value;
+	return sem->count;
 }
 
 int SDL_SemPost(SDL_sem *sem)
 {
 	if ( ! sem ) {
-		SDL_SetError("Passed a NULL semaphore");
+		SDL_SetError("Passed a NULL sem");
 		return -1;
 	}
 
-	SDL_LockMutex(sem->count_lock);
-	if ( sem->waiters_count > 0 ) {
-		SDL_CondSignal(sem->count_nonzero);
-	}
+	/* Increase the counter in the first place, because
+	 * after a successful release the semaphore may
+	 * immediately get destroyed by another thread which
+	 * is waiting for this semaphore.
+	 */
 	++sem->count;
-	SDL_UnlockMutex(sem->count_lock);
 
+	NTSTATUS status = NtReleaseSemaphore(sem->id, 1, NULL);
+	if (!NT_SUCCESS(status))
+	{
+		--sem->count;	/* restore */
+		SDL_SetError("ReleaseSemaphore() failed");
+		return -1;
+	}
 	return 0;
 }
-
-#endif /* DISABLE_THREADS */
