@@ -106,9 +106,9 @@
 
     The first set of options we are concerned about are located under
     the "C/C++" folder. First, switch to the category titled "Code Generation"
-    and set "Enable C++ Exceptions" to "no". Optionally, you might want to
-    go to the category marked "Optimization" and switch "Optimize for Processor"
-    to "Pentium Pro and Above".
+    and set "Enable C++ Exceptions" to "no". Then, set "Buffer Security ChecK"
+    to "no". Optionally, you might want to go to the category marked 
+    "Optimization" and switch "Optimize for Processor" to "Pentium Pro and Above".
 
     The next set of options we need to change are located under the
     "Linker" folder. Switch to the category titled "Input". You will need

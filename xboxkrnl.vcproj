@@ -49,6 +49,8 @@
 				ModuleDefinitionFile=".\src\xboxkrnl\xboxkrnl.def"
 				ProgramDatabaseFile=".\lib/xboxkrnl.pdb"
 				SubSystem="2"
+				OptimizeReferences="0"
+				EnableCOMDATFolding="0"
 				EntryPointSymbol="EntryDummy"/>
 			<Tool
 				Name="VCMIDLTool"

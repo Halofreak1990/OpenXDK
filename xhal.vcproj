@@ -20,14 +20,16 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/QIfist "
+				AdditionalOptions="/QIfist"
 				InlineFunctionExpansion="1"
 				OptimizeForProcessor="2"
 				AdditionalIncludeDirectories="include,include\xlibc"
 				PreprocessorDefinitions="NDEBUG,_LIB,_XBOX"
 				IgnoreStandardIncludePath="TRUE"
 				StringPooling="TRUE"
+				ExceptionHandling="TRUE"
 				RuntimeLibrary="4"
+				BufferSecurityCheck="FALSE"
 				EnableFunctionLevelLinking="TRUE"
 				PrecompiledHeaderFile=".\lib/xhal.pch"
 				AssemblerListingLocation=".\lib/"
@@ -64,55 +66,55 @@
 			Name="src"
 			Filter="">
 			<File
-				RelativePath=".\src\xhal\xfile.c">
+				RelativePath="src\xhal\xfile.c">
 			</File>
 			<File
-				RelativePath=".\src\xhal\xnvidia.c">
+				RelativePath="src\xhal\xnvidia.c">
 			</File>
 			<File
-				RelativePath=".\src\xhal\xohci.c">
+				RelativePath="src\xhal\xohci.c">
 			</File>
 			<File
-				RelativePath=".\src\xhal\xohci_pci.c">
+				RelativePath="src\xhal\xohci_pci.c">
 			</File>
 			<File
-				RelativePath=".\src\xhal\xsysfont.c">
+				RelativePath="src\xhal\xsysfont.c">
 			</File>
 			<File
-				RelativePath=".\src\xhal\xvga.c">
+				RelativePath="src\xhal\xvga.c">
 			</File>
 			<File
-				RelativePath=".\src\xhal\xvga_sys.c">
+				RelativePath="src\xhal\xvga_sys.c">
 			</File>
 		</Filter>
 		<Filter
 			Name="include"
 			Filter="">
 			<File
-				RelativePath=".\include\xhal\xfile.h">
+				RelativePath="include\xhal\xfile.h">
 			</File>
 			<File
-				RelativePath=".\include\xhal\xfile_def.h">
+				RelativePath="include\xhal\xfile_def.h">
 			</File>
 			<File
-				RelativePath=".\include\xhal\xnvidia.h">
+				RelativePath="include\xhal\xhal.h">
 			</File>
 			<File
-				RelativePath=".\include\xhal\xohci.h">
+				RelativePath="include\xhal\xnvidia.h">
 			</File>
 			<File
-				RelativePath=".\include\xhal\xohci_pci.h">
+				RelativePath="include\xhal\xohci.h">
 			</File>
 			<File
-				RelativePath=".\include\xhal\xvga.h">
+				RelativePath="include\xhal\xohci_pci.h">
 			</File>
 			<File
-				RelativePath=".\include\xhal\xvga_def.h">
+				RelativePath="include\xhal\xvga.h">
+			</File>
+			<File
+				RelativePath="include\xhal\xvga_def.h">
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\include\xhal\xhal.h">
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
