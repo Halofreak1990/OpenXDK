@@ -145,19 +145,6 @@ typedef enum _FILE_INFORMATION_CLASS {
 	FileTrackingInformation
 } FILE_INFORMATION_CLASS, *PFILE_INFORMATION_CLASS;
 
-typedef struct  _IO_STATUS_BLOCK {
-	//union {
-		NTSTATUS	Status;
-	//	PVOID		Pointer;
-	//};
-
-	u32				*Information;
-} IO_STATUS_BLOCK, *PIO_STATUS_BLOCK;
-
-
-
-
-
 // File pointer information (SetFilePointer and such use this) Query/Set
 typedef struct _FILE_POSITION_INFORMATION {
 	LARGE_INTEGER	CurrentByteOffset;

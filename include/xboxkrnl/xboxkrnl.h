@@ -96,6 +96,7 @@ typedef USHORT             *PUSHORT;
 typedef ULONG              *PULONG;
 typedef ACCESS_MASK        *PACCESS_MASK;
 typedef LONG               *LONG_PTR;
+typedef ULONG              *ULONG_PTR;
 typedef INT_PTR            *PINT_PTR;
 typedef VOID               *PVOID;
 typedef void               *HANDLE;
@@ -200,6 +201,22 @@ typedef struct _OBJECT_ATTRIBUTES
     ULONG   Attributes;
 }
 OBJECT_ATTRIBUTES, *POBJECT_ATTRIBUTES;
+
+// ******************************************************************
+// * IO_STATUS_BLOCK
+// ******************************************************************
+typedef struct  _IO_STATUS_BLOCK
+{
+    union
+    {
+        NTSTATUS Status;
+        PVOID Pointer;
+    }
+    u1;
+
+	ULONG_PTR Information;
+}
+IO_STATUS_BLOCK, *PIO_STATUS_BLOCK;
 
 // ******************************************************************
 // * BUS_DATA_TYPE

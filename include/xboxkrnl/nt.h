@@ -53,15 +53,15 @@ XBSYSAPI VOID *NtCreateEvent;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(190) NTSTATUS NTAPI NtCreateFile
 (
-	OUT PHANDLE     FileHandle, 
-	IN  ACCESS_MASK DesiredAccess,
-	IN  PVOID	    ObjectAttributes,    // TODO: correct other params
-	OUT PVOID	    IoStatusBlock,   
-	IN  PVOID	    AllocationSize, 
-	IN  ULONG	    FileAttributes, 
-	IN  ULONG	    ShareAccess, 
-	IN  ULONG	    CreateDisposition, 
-	IN  ULONG	    CreateOptions 
+	OUT PHANDLE             FileHandle, 
+	IN  ACCESS_MASK         DesiredAccess,
+	IN  POBJECT_ATTRIBUTES	ObjectAttributes,
+	OUT PIO_STATUS_BLOCK	IoStatusBlock,
+	IN  PLARGE_INTEGER	    AllocationSize OPTIONAL, 
+	IN  ULONG	            FileAttributes, 
+	IN  ULONG	            ShareAccess, 
+	IN  ULONG	            CreateDisposition, 
+	IN  ULONG	            CreateOptions 
 );
 
 XBSYSAPI VOID *NtCreateIoCompletion;
