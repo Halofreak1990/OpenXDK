@@ -37,16 +37,18 @@ static volatile char * const MISC_REG       = (char * const)0xFD0c03c2;
 // ******************************************************************
 typedef struct _vga_reg
 {
-	unsigned      port;
-	unsigned char index;
-	unsigned char value;
+	unsigned short port;
+	unsigned char  index;
+	unsigned char  value;
 }
 vga_reg;
 
 // ******************************************************************
 // * external functions
 // ******************************************************************
+extern void xvga_set256x240();
 extern void xvga_set320x240();
+extern void xvga_set320x200();
 extern void xvga_wait_vblank();
 extern void xvga_wait_vblank_end();
 
