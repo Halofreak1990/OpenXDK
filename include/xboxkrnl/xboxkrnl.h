@@ -415,7 +415,8 @@ typedef struct _KPRCB
     struct _KTHREAD* NextThread;                                    // 0x04, KPCR : 0x2C
     struct _KTHREAD* IdleThread;                                    // 0x08, KPCR : 0x30
 
-    // NOTE: There are many other fields!
+    // This is the total size of the structure (presumably)
+    UCHAR            Unknown[0x250];                                // 0x0C, KPCR : 0x34
 }
 KPRCB, *PKPRCB;
 
@@ -430,9 +431,9 @@ typedef struct _KPCR
 {
     struct _NT_TIB  NtTib;                                          // 0x00
     struct _KPCR   *SelfPcr;                                        // 0x1C
-    PKPRCB          Prcb;                                           // 0x20
+    struct _KPRCB  *Prcb;                                           // 0x20
     UCHAR           Irql;                                           // 0x24
-    KPRCB           PrcbData;                                       // 0x28
+    struct _KPRCB   PrcbData;                                       // 0x28
 }
 KPCR, *PKPCR;
 
