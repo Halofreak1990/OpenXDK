@@ -76,6 +76,10 @@ static void XBOX_FreeHWSurface(_THIS, SDL_Surface *surface);
 /* etc. */
 static void XBOX_UpdateRects(_THIS, int numrects, SDL_Rect *rects);
 
+/* XBOX Video functions */
+unsigned char* XVideoGetFB(void);
+BOOL XVideoSetMode(int width, int height, int bpp, int refresh);
+
 /* XBOX driver bootstrap functions */
 
 static int XBOX_Available(void)
@@ -147,6 +151,7 @@ VideoBootStrap XBOX_bootstrap = {
 
 int XBOX_VideoInit(_THIS, SDL_PixelFormat *vformat)
 {
+	XVideoSetMode(640, 480, 32, 0);
 	/* Determine the screen depth (use default 8-bit depth) */
 	/* we change this during the SDL_SetVideoMode implementation... */
 	vformat->BitsPerPixel = 32;
@@ -233,7 +238,7 @@ static void XBOX_UpdateRects(_THIS, int numrects, SDL_Rect *rects)
 	int SCREEN_PIXELWIDTH = 4;
 	           
 	// center the screen 
-	int VIDEO_BUFFER_ADDR = XBOX_VIDEO_ADDRESS + (((SCREEN_HEIGHT - this->screen->h)/2) * (SCREEN_WIDTH * SCREEN_PIXELWIDTH)) + (((SCREEN_WIDTH - this->screen->w)/2) * SCREEN_PIXELWIDTH);        
+	unsigned char* VIDEO_BUFFER_ADDR = (unsigned char*)XVideoGetFB() + (((SCREEN_HEIGHT - this->screen->h)/2) * (SCREEN_WIDTH * SCREEN_PIXELWIDTH)) + (((SCREEN_WIDTH - this->screen->w)/2) * SCREEN_PIXELWIDTH);        
 	
 	// These are the values for the incoming image
 	xinc = this->screen->format->BytesPerPixel ; 

@@ -1,12 +1,21 @@
+//
+//	Debug output scrolling code submitted by Robin Mulloy
+//
+//
 #include <stdio.h>
-#include <openxdk/debug.h>
+#include <stdlib.h>
+#include <string.h>
 #include <hal/xbox.h>
+#include <hal/video.h>
+#include <openxdk/debug.h>
 
-#define SCREEN_WIDTH  640
-#define SCREEN_HEIGHT 480
 #define FONT_WIDTH      8
 #define FONT_HEIGHT     8
-#define MARGIN         20
+#define MARGIN         25
+#define MARGINS        50 // MARGIN*2
+
+int SCREEN_WIDTH	= 640;
+int SCREEN_HEIGHT	= 480;
 
 int nextRow = MARGIN;
 int nextCol = MARGIN; 
@@ -150,7 +159,7 @@ static unsigned char systemFont[] =
 
 void drawChar(unsigned char c, int x, int y, int fgColour, int bgColour)
 {
-	int *videoBuffer = (int *)XBOX_VIDEO_ADDRESS;
+	int *videoBuffer = (int *)XVideoGetFB();
 	videoBuffer += y*SCREEN_WIDTH+x;
 
 	unsigned char mask;
@@ -222,6 +231,20 @@ void debugPrintNum(int i)
 	debugPrint(num);
 }
 
+void debugPrintBinary( int num )
+{
+   int x = 0;
+   char binNum[50] = {0};
+   for( int i=31;i>=0;i-- )
+   {
+      binNum[x++] = 0x30 + ((num & (0x01 << i))?1:0);
+      if( (i%4) == 0 ) 
+         binNum[x++] = ' ';
+   }
+   binNum[x] = 0;
+   debugPrint( binNum );
+}
+
 void debugPrint(char *format, ...)
 {
 	char buffer[512];
@@ -231,9 +254,16 @@ void debugPrint(char *format, ...)
 	vsprintf(buffer, format, argList);
 	va_end(argList);
 	
+	VIDEO_MODE vm = XVideoGetMode();
+	SCREEN_WIDTH = vm.width;
+	SCREEN_HEIGHT = vm.height;
+
 	unsigned char *s = buffer;
 	while (*s)
 	{
+		if( nextRow >= (SCREEN_HEIGHT-MARGINS) )
+			advanceScreen();
+		
 		if (*s == '\n')
 		{
 			nextRow += FONT_HEIGHT+1;
@@ -241,18 +271,42 @@ void debugPrint(char *format, ...)
 		}
 		else
 		{
-			drawChar(*s, nextCol, nextRow, WHITE, BLACK);
+			drawChar( *s, nextCol, nextRow, WHITE, BLACK );
 
 			nextCol += FONT_WIDTH+1;
-			if (nextCol >= (SCREEN_WIDTH-MARGIN))
+			if( nextCol > (SCREEN_WIDTH-MARGINS))
 			{
 				nextRow += FONT_HEIGHT+1;
-				nextCol = MARGIN;
+				nextCol  = MARGIN;
 			}
 		}
+
 		s++;
 	}
+}
 
+void advanceScreen( void )
+{
+	int screenSize  = (SCREEN_WIDTH*SCREEN_HEIGHT)-(SCREEN_WIDTH*MARGINS);
+	int lineSize    = (SCREEN_WIDTH*(FONT_HEIGHT+1));
+	
+	int* thisScreen = (int*)XVideoGetFB() + (SCREEN_WIDTH*MARGIN);
+    int* prevScreen = thisScreen+lineSize;
+    	
+    while( screenSize-- )
+    	*thisScreen++ = *prevScreen++;
+    
+	nextRow -= (FONT_HEIGHT+1);
+	nextCol  = MARGIN; 
+}
+
+void debugClearScreen( void )
+{
+	int* videoBuffer = (int*)XVideoGetFB();
+
+	memset( videoBuffer, 0, sizeof(int)*(SCREEN_WIDTH*SCREEN_HEIGHT) );
+	nextRow = MARGIN;
+	nextCol = MARGIN; 
 }
 
 void debugPrintHex(char *buffer, int length)

@@ -4,4 +4,4 @@ INCLUDES = -I../../include
 lib_LIBRARIES = libhal.a
 libhal_a_SOURCES = $(SRCS)
 
-SRCS = audio.c fileio.c io.c pad.c xbox.c audioInterrupt.s
+SRCS = audio.c fileio.c io.c pad.c xbox.c audioInterrupt.s video.c

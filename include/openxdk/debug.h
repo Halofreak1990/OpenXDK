@@ -1,3 +1,7 @@
+//
+//	Debug output scrolling code submitted by Robin Mulloy
+//
+//
 #ifndef CEXDK_H
 #define CEXDK_H
 
@@ -15,6 +19,9 @@
  */
 void debugPrint(char *format, ...);
 void debugPrintNum(int i);
+void debugPrintBinary( int num );
 void debugPrintHex(char *buffer, int length);
+void debugClearScreen( void );
+void advanceScreen( void );
 
 #endif

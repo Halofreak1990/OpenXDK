@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <openxdk/openxdk.h>
+#include <hal/video.h>
 
 extern void XBoxStartup();
 
@@ -14,6 +15,11 @@ void WinMainCRTStartup()
 		if(fail != 1)
 			HalReturnToFirmware(ReturnFirmwareFatal);
 	}
+
+	// ******************************************************************
+	// * Setup default video mode - 640x480x32
+	// ******************************************************************
+	XVideoSetMode(640, 480, 32, REFRESH_DEFAULT);
 
 	// ******************************************************************
 	// * Start user application
