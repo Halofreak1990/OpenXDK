@@ -276,7 +276,15 @@ XBSYSAPI VOID *NtSetIoCompletion;
 XBSYSAPI VOID *NtSetSystemTime;
 XBSYSAPI VOID *NtSetTimerEx;
 XBSYSAPI VOID *NtSignalAndWaitForSingleObjectEx;
-XBSYSAPI VOID *NtSuspendThread;
+
+// ******************************************************************
+// * NtSuspendThread
+// ******************************************************************
+XBSYSAPI EXPORTNUM(231) NTSTATUS NTAPI NtSuspendThread
+(
+    IN  HANDLE  ThreadHandle,
+    OUT PULONG  PreviousSuspendCount OPTIONAL
+);
 
 // ******************************************************************
 // * NtUserIoApcDispatcher
