@@ -142,7 +142,15 @@ XBSYSAPI EXPORTNUM(294) VOID NTAPI RtlLeaveCriticalSection
 }
 
 XBSYSAPI VOID *RtlLeaveCriticalSectionAndRegion = 0;
-XBSYSAPI VOID *RtlLowerChar = 0;
+
+// ******************************************************************
+// * RtlLowerChar
+// ******************************************************************
+XBSYSAPI EXPORTNUM(296) CHAR NTAPI RtlLowerChar(CHAR Character)
+{
+    return '\0';
+}
+
 XBSYSAPI VOID *RtlMapGenericMask = 0;
 
 // ******************************************************************
@@ -199,7 +207,17 @@ XBSYSAPI EXPORTNUM(305) VOID NTAPI RtlTimeToTimeFields
     return;
 }
 
-XBSYSAPI VOID *RtlTryEnterCriticalSection = 0;
+// ******************************************************************
+// * RtlTryEnterCriticalSection
+// ******************************************************************
+XBSYSAPI EXPORTNUM(306) BOOLEAN NTAPI RtlTryEnterCriticalSection
+(
+    IN PRTL_CRITICAL_SECTION CriticalSection
+)
+{
+    return TRUE;
+}
+
 XBSYSAPI VOID *RtlUlongByteSwap = 0;
 
 // ******************************************************************

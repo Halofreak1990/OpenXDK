@@ -119,7 +119,17 @@ XBSYSAPI EXPORTNUM(197) NTSTATUS NTAPI NtDuplicateObject
     return STATUS_SUCCESS;
 }
 
-XBSYSAPI VOID *NtFlushBuffersFile = 0;
+// ******************************************************************
+// * NtFlushBuffersFile
+// ******************************************************************
+XBSYSAPI EXPORTNUM(198) NTSTATUS NTAPI NtFlushBuffersFile
+(
+    PVOID                FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock
+)
+{
+    return STATUS_SUCCESS;
+}
 
 // ******************************************************************
 // * NtFreeVirtualMemory

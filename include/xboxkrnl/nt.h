@@ -108,7 +108,14 @@ XBSYSAPI EXPORTNUM(197) NTSTATUS NTAPI NtDuplicateObject
     DWORD   Options
 );
 
-XBSYSAPI VOID *NtFlushBuffersFile;
+// ******************************************************************
+// * NtFlushBuffersFile
+// ******************************************************************
+XBSYSAPI EXPORTNUM(198) NTSTATUS NTAPI NtFlushBuffersFile
+(
+    PVOID                FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock
+);
 
 // ******************************************************************
 // * NtFreeVirtualMemory
