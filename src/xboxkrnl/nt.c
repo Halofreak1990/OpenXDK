@@ -155,14 +155,14 @@ XBSYSAPI EXPORTNUM(218) NTSTATUS NTAPI NtQueryVolumeInformationFile
 // ******************************************************************
 XBSYSAPI EXPORTNUM(219) NTSTATUS NTAPI NtReadFile
 (
-	IN  HANDLE   FileHandle,            // TODO: correct paramters
-	IN  PVOID    Event OPTIONAL,
-	IN  PVOID    ApcRoutine OPTIONAL,
-	IN  PVOID    ApcContext,
-	OUT PVOID    IoStatusBlock,
-	OUT PVOID    Buffer,
-	IN  ULONG    Length,
-	IN  PVOID    ByteOffset
+	IN  HANDLE          FileHandle,            // TODO: correct paramters
+	IN  HANDLE          Event OPTIONAL,
+	IN  PVOID           ApcRoutine OPTIONAL,
+	IN  PVOID           ApcContext,
+	OUT PVOID           IoStatusBlock,
+	OUT PVOID           Buffer,
+	IN  ULONG           Length,
+	IN  PLARGE_INTEGER  ByteOffset OPTIONAL
 )
 {
     return 0;
