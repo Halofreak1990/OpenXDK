@@ -25,10 +25,10 @@
 //	Out:	int
 //
 // **************************************************************************
-#ifdef	_MSC_VER
-/*
+
+#if 0
 //
- // Depending on the service pack available in MSDEV, we can use this even faster one.
+// Depending on the service pack available in MSDEV, we can use this even faster one.
 //
 // Standard VC++ _ftol is horribly slow because it changes rounding modes twice.
 // This replacement comes courtesy of Intel.
@@ -47,11 +47,12 @@ __declspec(naked) long _ftol(float arg)
 	ret
   }
 }
-*/
 
-__declspec(naked) long ftol(float arg)
+#else
+
+__declspec(naked) long _ftol(float arg)
 {
-	_asm{
+	__asm{
 		  // store as a quadword int and reload
 		sub		esp, 8					// RING 0 - MUST do
 		fld     st(0)					// X X
@@ -97,7 +98,7 @@ maybe_zero:
 		ret
 	}
 }
-#endif // _MSC_VER
+#endif
 
 #else
 

@@ -18,6 +18,10 @@
 #include <xgfx2d/charmap.h>
 #include <malloc.h>
 
+#include <xgfx2d/bitmap.h>
+#include <xgfx2d/blit.h>
+#include <xgfx2d/blitters.h>
+#include <xgfx2d/drawprim.h>
 	
 	PCharMap	g_pCharMap;		// current character map
 
@@ -91,6 +95,7 @@ void charmap_render_character( s32 x, s32 y )
 // ******************************************************************
 void charmap_blit_screen( void )
 {
+#if 1
 	ScreenInfo	ScrStruct = vga_get_screen_info();
 	PCharMap	pCharMap = g_pCharMap;						// get current screen
 	s32			x,y,w,h;
@@ -114,6 +119,23 @@ void charmap_blit_screen( void )
 		}
 		pScreen+=modulo;
 	}
+
+#else
+
+	//
+	// Use ectors 2D blitter stuff.
+	//
+	Bitmap	*pScreen = get_screen_bitmap();
+	Bitmap	pCharBitmap;
+
+	pCharBitmap.data = (u32*)g_pCharMap->pBitmap;
+	pCharBitmap.w = g_pCharMap->pixwidth;
+	pCharBitmap.h = g_pCharMap->pixheight;
+	pCharBitmap.pitch = g_pCharMap->pixwidth;
+
+	blit_at(pScreen, &pCharBitmap, g_pCharMap->x, g_pCharMap->y, normal_blit, 0);
+
+#endif
 }
 
 // ******************************************************************

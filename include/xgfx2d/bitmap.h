@@ -32,8 +32,8 @@ typedef struct
 {
 	uint32 *data;
 	int w, h;
-	int pitch;	//pitch is in pixels, not bytes as many libs do
-				//will in most cases be same as w
+	int pitch;	// pitch is in pixels, not bytes as many libs do
+				// will in most cases be same as w
 } Bitmap;
 
 

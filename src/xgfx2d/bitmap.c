@@ -43,7 +43,7 @@ Bitmap *get_screen_bitmap()
 	__screenbitmap.data = (uint32 *)screen.ScreenAddress;
 	__screenbitmap.w = g_ScreenWidth; //ugly, why doesn't this come with SScreen?
 	__screenbitmap.h = g_ScreenHeight;
-	__screenbitmap.pitch = g_ScreenWidth; //lpitch seems wrong
+	__screenbitmap.pitch = screen.lpitch/4;		//lpitch is width in BYTES
 	return &__screenbitmap;
 }
 
