@@ -40,8 +40,6 @@ typedef signed char    sint08;
 typedef signed short   sint16;
 typedef signed long    sint32;
 
-typedef	void*			PVOID;
-
 // ******************************************************************
 // * Humor Bigboy with some of his favorite typedefs  :)
 // ******************************************************************
@@ -64,10 +62,6 @@ typedef	signed int			s32;
 //#define	COS(a)				cos((a)/RAD2DEG)
 //#define	SIN(a)				sin((a)/RAD2DEG)
 //does this really belong here??? degrees are useless anyway
-
-#ifndef	NULL			// Since there are no "standard" LIBS, we may not have a NULL yet.
-#define	NULL			0x00
-#endif
 
 // ******************************************************************
 // * XBox Kernel
