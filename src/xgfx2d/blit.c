@@ -66,7 +66,7 @@ void full_blit(Bitmap *dest, Bitmap *src, void (*blitter)(uint32*,uint32*,int,in
 	int minw=src->w, minh=src->h;
 	if (dest->w<minw) minw=dest->w;
 	if (dest->h<minh) minh=dest->h;
-	blit(src,dest,0,0,0,0,minw,minh,blitter,special);
+	blit(dest,src,0,0,0,0,minw,minh,blitter,special);
 }
 
 
@@ -74,5 +74,5 @@ void blit_at(Bitmap *dest, Bitmap *src, int x, int y, void (*blitter)(uint32*,ui
 	int minw=src->w, minh=src->h;
 	if (dest->w<minw) minw=dest->w;
 	if (dest->h<minh) minh=dest->h;
-	blit(src,dest,x,y,0,0,minw,minh,blitter,special);
+	blit(dest,src,x,y,0,0,minw,minh,blitter,special);
 }
