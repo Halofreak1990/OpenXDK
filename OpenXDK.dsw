@@ -3,6 +3,36 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
+Project: "TestApp"=.\TestApp\TestApp.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name xboxkrnl
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name xbox
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xbox"=.\xbox.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "xboxkrnl"=.\xboxkrnl.dsp - Package Owner=<4>
 
 Package=<5>
