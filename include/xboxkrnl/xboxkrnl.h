@@ -40,11 +40,13 @@ extern "C"
 // ******************************************************************
 typedef char                CHAR;
 typedef char               *PCHAR;
+typedef char               *PCSZ;
 typedef void                VOID;
 typedef void               *PVOID;
 typedef unsigned char       BYTE;
 typedef BYTE                BOOLEAN;
 typedef	unsigned int		DWORD;
+typedef unsigned short      USHORT;
 typedef unsigned long       ULONG;
 typedef	long				LONG;
 typedef unsigned long      *PULONG;
@@ -54,6 +56,17 @@ typedef	unsigned short		WORD;
 typedef unsigned long       SIZE_T;
 typedef void               *HANDLE;
 typedef HANDLE             *PHANDLE;
+
+// ******************************************************************
+// * STRING
+// ******************************************************************
+typedef struct _STRING
+{
+    USHORT  Length;
+    USHORT  MaximumLength;
+    PCHAR   Buffer;
+}
+STRING, *LPSTRING, *PANSI_STRING;
 
 // ******************************************************************
 // * NTSTATUS

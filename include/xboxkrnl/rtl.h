@@ -89,10 +89,10 @@ NTSYSAPI VOID *RtlGetCallersAddress;
 // * Initialize a counted ANSI string.
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(289) VOID CDECL RtlInitAnsiString 
+NTSYSAPI EXPORTNUM(289) VOID NTAPI RtlInitAnsiString 
 (
-  IN OUT PVOID DestinationString,  // TODO: should be PANSI_STRING
-  IN     PCHAR SourceString        // TODO: should be PCSZ
+  IN OUT PANSI_STRING DestinationString,
+  IN     PCSZ         SourceString
 );
 
 NTSYSAPI VOID *RtlInitUnicodeString;

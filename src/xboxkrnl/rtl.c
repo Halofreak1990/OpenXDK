@@ -83,10 +83,10 @@ NTSYSAPI VOID *RtlGetCallersAddress = 0;
 // ******************************************************************
 // * RtlInitAnsiString
 // ******************************************************************
-NTSYSAPI EXPORTNUM(289) VOID CDECL RtlInitAnsiString 
+NTSYSAPI EXPORTNUM(289) VOID NTAPI RtlInitAnsiString 
 (
-  IN OUT PVOID DestinationString,  // TODO: should be PANSI_STRING
-  IN     PCHAR SourceString        // TODO: should be PCSZ
+  IN OUT PANSI_STRING DestinationString,
+  IN     PCSZ         SourceString
 )
 {
 	return;
