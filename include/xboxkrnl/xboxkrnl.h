@@ -364,42 +364,16 @@ typedef enum _RETURN_FIRMWARE
 RETURN_FIRMWARE, *LPRETURN_FIRMWARE;
 
 // ******************************************************************
-// * NVRAM_SETTING_CLASS
-// ******************************************************************
-typedef enum _NVRAM_SETTING_CLASS
-{
-	// Returns the 0x60 byte factory settings portion (includes encrypted)
-	NvramFactorySettings  = 0x00FF,
-	// Returns the 48 byte encrypted portion (untested)
-	NvramEncryptedPortion = 0xFFFE,
-	// Returns the raw 256 byte EEPROM (tested)
-	NvramRawData          = 0xFFFF,
-	// Forces this type to be a ULONG
-	NvramForceUlong       = 0xFFFFFFFF
-}
-NVRAM_SETTING_CLASS, *PNVRAM_SETTING_CLASS;
-
-// ******************************************************************
-// * NVRAM_SETTING_CLASS
-// ******************************************************************
-typedef enum _NVRAM_TYPE_CLASS
-{
-	NvramByteArray  = 3,
-	NvramDword      = 4
-}
-NVRAM_TYPE_CLASS, *PNVRAM_TYPE_CLASS;
-
-// ******************************************************************
 // * DISPATCHER_HEADER
 // ******************************************************************
 typedef struct _DISPATCHER_HEADER
 {
-    UCHAR       Type;
-    UCHAR       Absolute;
-    UCHAR       Size;
-    UCHAR       Inserted;
-    LONG        SignalState;
-    LIST_ENTRY  WaitListHead;
+    UCHAR       Type;           // 0x00
+    UCHAR       Absolute;       // 0x01
+    UCHAR       Size;           // 0x02
+    UCHAR       Inserted;       // 0x03
+    LONG        SignalState;    // 0x04
+    LIST_ENTRY  WaitListHead;   // 0x08
 }
 DISPATCHER_HEADER;
 
@@ -418,11 +392,11 @@ TIMER_TYPE;
 // ******************************************************************
 typedef struct _KTIMER
 {
-    DISPATCHER_HEADER   Header;
-    ULARGE_INTEGER      DueTime;
-    LIST_ENTRY          TimerListEntry;
-    struct _KDPC       *Dpc;
-    LONG                Period;
+    DISPATCHER_HEADER   Header;           // 0x00
+    ULARGE_INTEGER      DueTime;          // 0x10
+    LIST_ENTRY          TimerListEntry;   // 0x18
+    struct _KDPC       *Dpc;              // 0x20
+    LONG                Period;           // 0x24
 }
 KTIMER, *PKTIMER;
 
@@ -461,16 +435,25 @@ typedef VOID (*PKDEFERRED_ROUTINE)
 // ******************************************************************
 typedef struct _KDPC
 {
-    CSHORT              Type;
-    UCHAR               Number;
-    UCHAR               Importance;
-    LIST_ENTRY          DpcListEntry;
-    PKDEFERRED_ROUTINE  DeferredRoutine;
+    CSHORT              Type;               // 0x00
+    UCHAR               Number;             // 0x02
+    UCHAR               Importance;         // 0x03
+    LIST_ENTRY          DpcListEntry;       // 0x04
+    PKDEFERRED_ROUTINE  DeferredRoutine;    // 0x0C
     PVOID               DeferredContext;
     PVOID               SystemArgument1;
     PVOID               SystemArgument2;
 }
 KDPC, *PKDPC;
+
+// ******************************************************************
+// * KOBJECTS
+// ******************************************************************
+typedef enum _KOBJECTS
+{
+    DpcObject = 0x13,
+}
+KOBJECTS, *PKOBJECTS;
 
 // ******************************************************************
 // * RTL_CRITICAL_SECTION
@@ -553,6 +536,15 @@ typedef struct _KPCR
     struct _KPRCB   PrcbData;                                       // 0x28
 }
 KPCR, *PKPCR;
+
+// ******************************************************************
+// * EEPROM_INDEX
+// ******************************************************************
+typedef enum _EEPROM_INDEX
+{
+    EEPROM_MISC = 0x11
+}
+EEPROM_INDEX, *PEEPROM_INDEX;
 
 // ******************************************************************
 // * READ_REGISTER_UCHAR

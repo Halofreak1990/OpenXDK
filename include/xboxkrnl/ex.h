@@ -54,8 +54,8 @@ XBSYSAPI VOID *ExQueryPoolBlockSize;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(24) NTSTATUS NTAPI ExQueryNonVolatileSetting
 (
-	IN  NVRAM_SETTING_CLASS ValueIndex,
-	OUT PNVRAM_TYPE_CLASS   Type,
+	IN  DWORD               ValueIndex,
+	OUT DWORD              *Type,
 	OUT PUCHAR              Value,
 	IN  SIZE_T              ValueLength,
 	OUT PSIZE_T             ResultLength OPTIONAL
@@ -71,8 +71,8 @@ XBSYSAPI VOID *ExReleaseReadWriteLock;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(29) NTSTATUS NTAPI ExSaveNonVolatileSetting
 (
-    IN  NVRAM_SETTING_CLASS ValueIndex,
-    OUT PNVRAM_TYPE_CLASS   Type,
+    IN  DWORD               ValueIndex,
+    OUT DWORD              *Type,
     IN  PUCHAR              Value,
     IN  SIZE_T              ValueLength
 );
