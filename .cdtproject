@@ -77,6 +77,18 @@
 <stopOnError>true</stopOnError>
 <useDefaultCommand>true</useDefaultCommand>
 </target>
+<target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src/cxbe">
+<buildCommand>make</buildCommand>
+<buildTarget>all</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
+<target name="clean" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src/cxbe">
+<buildCommand>make</buildCommand>
+<buildTarget>clean</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
 <target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="src/hal">
 <buildCommand>make</buildCommand>
 <buildTarget>all</buildTarget>

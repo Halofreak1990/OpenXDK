@@ -21,6 +21,13 @@ for x in ar as ld nm gcc ranlib dlltool windres; do
 	ln -s $gccPathPrefix/$gccPrefix$x $gccPathPrefix/i386-pc-xbox-$x
 done
 
+echo OpenXDK - Installing CXBE...
+mkdir -p $installDir/bin
+cd cxbe
+make
+cp cxbe.exe $installDir/bin
+cd ..
+
 echo OpenXDK - Copying system headers...
 mkdir -p $installDir/lib
 mkdir -p $installDir/include/hal

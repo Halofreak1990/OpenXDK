@@ -11,6 +11,11 @@ make distclean
 make distclean
 cd ..
 
+echo OpenXDK - Cleaning cxbe...
+cd cxbe
+make clean
+cd ..
+
 echo OpenXDK - Cleaning hal...
 cd hal
 make clean

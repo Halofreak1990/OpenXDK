@@ -10,3 +10,5 @@ Credits
   and answering my endless questions on SDL
 - The good folks at alt.os.development for teaching me how to hook
   hardware interrupts from protected mode
+- Ender and Tom for their feedback on getting cross-compilation on
+  Linux working.
