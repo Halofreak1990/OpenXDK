@@ -116,12 +116,12 @@ XBSYSAPI VOID *NtQueryFullAttributesFile;
 // *
 // ******************************************************************
 XBSYSAPI EXPORTNUM(211) NTSTATUS NTAPI NtQueryInformationFile
-(	
-	IN  HANDLE FileHandle,          // TODO: improve parameter accuracy
-	OUT PVOID  IoStatusBlock,
-	OUT PVOID  FileInformation, 
-	IN  ULONG  Length, 
-	IN  ULONG  FileInfo
+(   
+    IN  HANDLE                  FileHandle,
+    OUT PIO_STATUS_BLOCK        IoStatusBlock,
+    OUT PVOID                   FileInformation, 
+    IN  ULONG                   Length, 
+    IN  FILE_INFORMATION_CLASS  FileInfo
 );
 
 XBSYSAPI VOID *NtQueryIoCompletion;
