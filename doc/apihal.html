@@ -371,7 +371,8 @@ the data using a call to <code>XAudioProvideSamples()</code>.</li>
 <tr><td><code>void XAudioInit(<br>
 &nbsp;&nbsp;int sampleSizeInBits, <br>
 &nbsp;&nbsp;int numChannels, <br>
-&nbsp;&nbsp;XAudioCallback callback<br>
+&nbsp;&nbsp;XAudioCallback callback, <br>
+&nbsp;&nbsp;void *data<br>
 );</code></td>
 <td>Initialises the audio subsystem. It does not start playing though.
 <p>
@@ -379,17 +380,18 @@ the data using a call to <code>XAudioProvideSamples()</code>.</li>
 <tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
 <tr><td>sampleSizeInBits</td><td>Currently ignored (only 16 bit samples are supported at the moment).  Provided for future expandability</td></tr>
 <tr><td>numChannels</td><td>Currently ignored (only 2 channels (stereo) are supported at the moment).  Provided for future expandability</td></tr>
-<tr><td>callback</td><td>If non-NULL, this is the function that will be called by the audio subsystem when it needs more data.  If set, <code>XAudioInit()</code> calls it 3 times to get a some data in advance, so make sure your callback function is ready to be called when you invoke <code>XAudioInit()</code></td></tr>
+<tr><td>callback</td><td>If non-NULL, this is the function that will be called by the audio subsystem when it needs more data.  </td></tr>
+<tr><td>data</td><td>This will be passed to the callback function (if the callback is set) when it is invoked</td></tr>
 </table>
 </td></tr>
 
-<tr><td><code>int XAudioPlay()</code></td><td>Tells the audio chip to start playing</td></tr>
+<tr><td><code>int XAudioPlay()</code></td><td>Tells the audio chip to start playing.</td></tr>
 
 <tr><td><code>int XAudioPause()</code></td><td>Tells the audio chip to pause</td></tr>
 
 <tr><td><code>void XAudioProvideSamples(<br>
 &nbsp;&nbsp;unsigned char *buffer, <br>
-&nbsp;&nbsp;unsigned short lengthInSamples, <br>
+&nbsp;&nbsp;unsigned short bufferLength, <br>
 &nbsp;&nbsp;int isFinal<br>
 );</code></td>
 <td>Gives some more data to the audio subsystem to play.  You should call this often enough 
@@ -400,7 +402,7 @@ may help.
 <table>
 <tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
 <tr><td>buffer</td><td>A pointer to the samples which need to match the <code>sampleSizeInBits</code> and <code>numChannels</code>.  For example, a 16 bit stereo sample would be 4 bytes in the following order: <code>[ Left LSB, Left MSB, Right LSB, Right MSB ]</code></td></tr>
-<tr><td>lengthInSamples</td><td>The number of samples.  If you are sending 256 16-bit stereo samples (LR pairs), this value would be 512</td></tr>
+<tr><td>bufferLength</td><td>The length of the data contained in buffer.</td></tr>
 <tr><td>isFinal</td><td>If this the last lot of data to be played?</code></td></tr>
 </table>
 </td></tr>
