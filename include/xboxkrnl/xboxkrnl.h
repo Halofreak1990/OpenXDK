@@ -236,6 +236,17 @@ typedef struct _STRING
 STRING, ANSI_STRING, *PSTRING, *PANSI_STRING;
 
 // ******************************************************************
+// * UNICODE_STRING
+// ******************************************************************
+typedef struct _UNICODE_STRING
+{
+    USHORT  Length;
+    USHORT  MaximumLength;
+    USHORT *Buffer;
+}
+UNICODE_STRING, *PUNICODE_STRING;
+
+// ******************************************************************
 // * LIST_ENTRY
 // ******************************************************************
 typedef struct _LIST_ENTRY
