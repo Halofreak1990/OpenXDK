@@ -6,27 +6,15 @@
 // *
 // * file : xfile_internal.h
 // *
-// * note : internal stuff for xfile
+// * note : internal typedefs / structs / etc for xfile
 // *
 // ******************************************************************
-
 #ifndef	__XFILE_INTERNAL_H__
 #define	__XFILE_INTERNAL_H__
 
 #ifdef	__cplusplus
 extern "C" {
 #endif
-
-// **************************************************************************
-//
-//	Types and #defines
-//
-// **************************************************************************
-//typedef	int								HANDLE;		// normal handle
-//typedef u32								NTSTATUS;	// The usual NTSTATUS
-
-
-
 
 // CreateDisposition values						
 #define FILE_SUPERSEDE							(0x00000000)
@@ -102,7 +90,6 @@ extern "C" {
 #define FILE_EXISTS                     0x00000004
 #define FILE_DOES_NOT_EXIST             0x00000005
 
-
 // Error codes
 #define STATUS_SUCCESS					0x00000000
 #ifndef STATUS_PENDING
@@ -126,11 +113,6 @@ extern "C" {
 #define OBJ_OPENLINK							(0x00000100L)
 #define OBJ_KERNEL_HANDLE						(0x00000200L)
 #define OBJ_VALID_ATTRIBUTES					(0x000003F2L)
-										
-												
-
-
-
 
 // **************************************************************************
 //
@@ -182,15 +164,6 @@ typedef enum _FILE_INFORMATION_CLASS {
 //	Structs
 //
 // **************************************************************************
-
-typedef struct  SString {
-    unsigned short	Length;
-    unsigned short	MaximumLength;
-    char*			Buffer;
-} SString, *PString;
-typedef SString;
-
-
 typedef struct  SObject_Attributes {
 	HANDLE			RootDirectory;
 	PANSI_STRING	ObjectName;
