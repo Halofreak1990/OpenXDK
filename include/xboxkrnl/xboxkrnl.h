@@ -244,7 +244,7 @@ typedef enum _FSINFOCLASS
 FS_INFORMATION_CLASS, *PFS_INFORMATION_CLASS;
 
 // ******************************************************************
-// * IO_STATUS_BLOCK
+// * IO_STATUS_BLOCK *Same as Win2k/XP*
 // ******************************************************************
 typedef struct  _IO_STATUS_BLOCK
 {
