@@ -3,6 +3,18 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
+Project: "glibc"=.\glibc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "xboxkrnl"=.\xboxkrnl.dsp - Package Owner=<4>
 
 Package=<5>
@@ -27,7 +39,7 @@ Package=<4>
     Project_Dep_Name xboxkrnl
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name xlibc
+    Project_Dep_Name glibc
     End Project Dependency
 }}}
 
