@@ -31,7 +31,7 @@ extern "C"
 #undef  XBSYSAPI
 #define XBSYSAPI DECLSPEC_EXPORT
 #endif
-#ifdef _XBOXKRNL_LOCAL_
+#ifdef _XBOXKRNL_DEFEXTRN_
 #undef  XBSYSAPI
 #define XBSYSAPI extern
 #endif
