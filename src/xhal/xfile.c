@@ -135,8 +135,6 @@ static VOID AdjustStringForward(PANSI_STRING String, ULONG Length )
 // * \\.\GLOBALROOT\Device\CdRom0 -> \Device\CdRom0   
 // *    
 // ******************************************************************
-// * WARNING: DOES NOT WORK YET
-// ******************************************************************
 static VOID Win32FixPath
 (
     PANSI_STRING  OutString,
@@ -265,7 +263,7 @@ HANDLE CreateFile
     HANDLE                  hTemplateFile
 )
 {
-//  char                FixedFilename[MAX_PATH];
+    char                FixedFilename[MAX_PATH];
     ANSI_STRING         Filename;
     OBJECT_ATTRIBUTES   Attributes;
     IO_STATUS_BLOCK     IoStatusBlock;
@@ -273,10 +271,8 @@ HANDLE CreateFile
     HANDLE              FileHandle=0;
     DWORD               Flags;
 
-    RtlInitAnsiString( (void*) &Filename, lpFilename);
-    
-    // Doesnt work yet.... one of the kernal functions arent right....Check with SNK.
-    //Win32FixPath(&Filename, FixedFilename, lpFilename, MAX_PATH);         // Fix the given filename and convert into an ANSI_STRING
+	// Fix the given filename and convert into an ANSI_STRING
+    Win32FixPath(&Filename, FixedFilename, lpFilename, MAX_PATH);         
 
     // Initialize the object attributes.
     // Adding FILE_FLAG_POSIX_SEMANTICS removes OBJ_CASE_INSENSITIVE, but I
