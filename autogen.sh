@@ -1,4 +1,4 @@
-echo "Generating configuration files for $package, please wait...."
+echo "Generating configuration files for $package, please wait..."
 
 echo "  aclocal"
 aclocal
