@@ -12,15 +12,23 @@
 #ifndef XBOXKRNL_RTL_H
 #define XBOXKRNL_RTL_H
 
-XBSYSAPI VOID *RtlAnsiStringToUnicodeString;
+// ******************************************************************
+// * RtlAnsiStringToUnicodeString
+// ******************************************************************
+XBSYSAPI EXPORTNUM(260) NTSTATUS NTAPI RtlAnsiStringToUnicodeString
+(
+    PUNICODE_STRING DestinationString,
+    PSTRING         SourceString,
+    UCHAR           AllocateDestinationString
+);
 
 // ******************************************************************
 // * RtlAppendStringToString
 // ******************************************************************
-XBSYSAPI EXPORTNUM(261) ULONG NTAPI RtlAppendStringToString
+XBSYSAPI EXPORTNUM(261) NTSTATUS NTAPI RtlAppendStringToString
 (
-  IN PVOID			Destination,    // TODO: should be STRING
-  IN PVOID			Source          // TODO: should be STRING
+  IN PSTRING    Destination,
+  IN PSTRING    Source
 );
 
 XBSYSAPI VOID *RtlAppendUnicodeStringToString;

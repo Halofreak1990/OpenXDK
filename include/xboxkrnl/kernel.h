@@ -33,7 +33,12 @@ XBSYSAPI EXPORTNUM(99) NTSTATUS NTAPI KeDelayExecutionThread
 XBSYSAPI VOID *KeDisconnectInterrupt;
 XBSYSAPI VOID *KeEnterCriticalRegion;
 XBSYSAPI VOID *KeGetCurrentIrql;
+
+// ******************************************************************
+// * KeGetCurrentThread
+// ******************************************************************
 XBSYSAPI VOID *KeGetCurrentThread;
+
 XBSYSAPI VOID *KeInitializeApc;
 XBSYSAPI VOID *KeInitializeDeviceQueue;
 

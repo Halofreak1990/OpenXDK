@@ -12,18 +12,29 @@
 #define _XBOXKRNL_INTERNAL_
 #include "xboxkrnl/xboxkrnl.h"
 
-XBSYSAPI VOID *RtlAnsiStringToUnicodeString = 0;
+// ******************************************************************
+// * RtlAnsiStringToUnicodeString
+// ******************************************************************
+XBSYSAPI EXPORTNUM(260) NTSTATUS NTAPI RtlAnsiStringToUnicodeString
+(
+    PUNICODE_STRING DestinationString,
+    PSTRING         SourceString,
+    UCHAR           AllocateDestinationString
+)
+{
+    return STATUS_SUCCESS;
+}
 
 // ******************************************************************
 // * RtlAppendStringToString
 // ******************************************************************
-XBSYSAPI EXPORTNUM(261) ULONG NTAPI RtlAppendStringToString
+XBSYSAPI EXPORTNUM(261) NTSTATUS NTAPI RtlAppendStringToString
 (
-  IN PVOID			Destination,    // TODO: should be STRING
-  IN PVOID			Source          // TODO: should be STRING
+  IN PSTRING    Destination,
+  IN PSTRING    Source
 )
 {
-	return 0;
+	return STATUS_SUCCESS;
 }
 
 XBSYSAPI VOID *RtlAppendUnicodeStringToString = 0;
