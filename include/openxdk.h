@@ -72,7 +72,7 @@ typedef	unsigned __int64	u64;
 // * XBox Kernel
 // ******************************************************************
 #include	"xboxkrnl/xboxkrnl.h"
-#include	"xbox/xboxVGA.h"
+#include	"xhal/xboxVGA.h"
 #endif
 
 
