@@ -29,7 +29,19 @@ NTSYSAPI EXPORTNUM(14) PVOID NTAPI ExAllocatePool
 
 NTSYSAPI VOID *ExAllocatePoolWithTag;
 NTSYSAPI VOID *ExEventObjectType;
-NTSYSAPI VOID *ExFreePool;
+
+// ******************************************************************
+// * ExFreePool
+// ******************************************************************
+// *
+// * Deallocates a block  of pool memory
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(17) PVOID NTAPI ExFreePool
+(
+    IN PVOID P
+);
+
 NTSYSAPI VOID *ExInitializeReadWriteLock;
 NTSYSAPI VOID *ExInterlockedAddLargeInteger;
 NTSYSAPI VOID *ExInterlockedAddLargeStatistic;
