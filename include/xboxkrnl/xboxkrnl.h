@@ -557,6 +557,29 @@ typedef enum _RETURN_FIRMWARE
 RETURN_FIRMWARE, *LPRETURN_FIRMWARE;
 
 // ******************************************************************
+// * LAUNCH_DATA_HEADER
+// ******************************************************************
+typedef struct _LAUNCH_DATA_HEADER
+{
+    DWORD   dwLaunchDataType;
+    DWORD   dwTitleId;
+    char    szLaunchPath[520];
+    DWORD   dwFlags;
+}
+LAUNCH_DATA_HEADER, *PLAUNCH_DATA_HEADER;
+
+// ******************************************************************
+// * LAUNCH_DATA_PAGE
+// ******************************************************************
+typedef struct _LAUNCH_DATA_PAGE
+{
+    LAUNCH_DATA_HEADER  Header;
+    UCHAR               Pad[492];
+    UCHAR               LaunchData[3072];
+}
+LAUNCH_DATA_PAGE, *PLAUNCH_DATA_PAGE;
+
+// ******************************************************************
 // * DISPATCHER_HEADER
 // ******************************************************************
 typedef struct _DISPATCHER_HEADER

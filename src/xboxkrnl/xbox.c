@@ -82,7 +82,7 @@ XBSYSAPI VOID *KiUnlockDispatcherDatabase = 0;
 // ******************************************************************
 // * LaunchDataPage (actually a pointer)
 // ******************************************************************
-XBSYSAPI DWORD LaunchDataPage = 0;
+XBSYSAPI PLAUNCH_DATA_PAGE LaunchDataPage = {0};
 
 XBSYSAPI VOID *PhyGetLinkState = 0;
 XBSYSAPI VOID *PhyInitialize = 0;
