@@ -1,6 +1,5 @@
 #include <memory.h>
 #include <sys/stat.h>
-#include <sys/times.h>
 #include <hal/xbox.h>
 #include <hal/fileio.h>
 #include <xboxkrnl/xboxkrnl.h>
@@ -20,8 +19,8 @@ int XGetTickCount()
 
 void XSleep(int milliseconds)
 {
-	int target = times(NULL)+milliseconds;
-	while(times(NULL)<target);
+	int target = XGetTickCount()+milliseconds;
+	while(XGetTickCount() < target);
 }
 
 /**
