@@ -18,7 +18,7 @@ div_t	div( int number, int divisor )
 {
 	div_t answer;
 
-	if( divisor == 0 ) abort();
+	if( divisor == 0 ) abort(); //maybe show "div by 0" on screen?
 
 	answer.quot	= number/divisor;
 	answer.rem	= number%divisor;

@@ -4,21 +4,30 @@
 // *
 // * desc : Totally Free LIC replacement
 // *
-// * file : _memccpy.c
+// * file : fabs.c
 // *
 // * note : This LIBC is TOTALLY free - do what you like with it!!
 // *
 // ******************************************************************
 
-#include	<ansidecl.h>
+#include <math.h>
+
+#ifndef __GNUC__
 
 
-// Return the absolute value of I. 
-int	abs( int i )
-{
-	if( i>=0 ) 
-		return i; 
-	else 
-		return -i;
+double fabs(double f) {
+	__asm {
+		fld f
+		fabs
+	}
 }
 
+float fabsf(float f) {
+	__asm {
+		fld f
+		fabs
+	}
+}
+
+
+#endif //__GNUC__

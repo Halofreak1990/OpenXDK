@@ -1,5 +1,5 @@
 # Microsoft Developer Studio Project File - Name="xlibc" - Package Owner=<4>
-# Microsoft Developer Studio Generated Build File, Format Version 6.00
+# Microsoft Developer Studio Generated Build File, Format Version 60000
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
@@ -120,6 +120,62 @@ SOURCE=.\src\xlibc\stdio\sprintf.c
 
 # PROP Default_Filter ""
 # End Group
+# Begin Source File
+
+SOURCE=.\src\xlibc\math\acos.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\math\asin.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\math\atan.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\math\ceil.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\math\exp.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\math\fabs.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\math\floor.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\math\fmod.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\math\hypot.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\math\log.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\math\pow.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\math\sincos.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\math\sqrt.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\math\tan.c
+# End Source File
 # End Group
 # Begin Source File
 
@@ -140,6 +196,10 @@ SOURCE=.\src\xlibc\ldiv.c
 # Begin Source File
 
 SOURCE=.\src\xlibc\misc_vars.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\rand.c
 # End Source File
 # End Group
 # Begin Group "Header Files"

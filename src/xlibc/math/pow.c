@@ -4,21 +4,29 @@
 // *
 // * desc : Totally Free LIC replacement
 // *
-// * file : _memccpy.c
+// * file : pow.c
 // *
 // * note : This LIBC is TOTALLY free - do what you like with it!!
 // *
 // ******************************************************************
 
-#include	<ansidecl.h>
+// NEEDS WORK
+
+#include <math.h>
+
+#ifndef __GNUC__
 
 
-// Return the absolute value of I. 
-int	abs( int i )
+//really bad approximation due to expf, log being approximations already :D
+double pow(double a, double b)
 {
-	if( i>=0 ) 
-		return i; 
-	else 
-		return -i;
+	return expf(b * logf(a));
 }
 
+
+float powf(float a, float b) {
+	return expf(b*logf(a));
+}
+
+
+#endif //__GNUC__

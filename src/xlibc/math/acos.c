@@ -4,21 +4,27 @@
 // *
 // * desc : Totally Free LIC replacement
 // *
-// * file : _memccpy.c
+// * file : acos.c
 // *
 // * note : This LIBC is TOTALLY free - do what you like with it!!
 // *
 // ******************************************************************
 
-#include	<ansidecl.h>
+#include <math.h>
+
+#ifndef __GNUC__
 
 
-// Return the absolute value of I. 
-int	abs( int i )
+double acos(double r)
 {
-	if( i>=0 ) 
-		return i; 
-	else 
-		return -i;
+	return 3.14159265358979323846 / 2 - asin(r);
 }
 
+
+float acosf(float r)
+{
+	return 3.14159265358979323846f / 2 - asinf(r);
+}
+
+
+#endif //__GNUC__

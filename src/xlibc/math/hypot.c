@@ -4,21 +4,25 @@
 // *
 // * desc : Totally Free LIC replacement
 // *
-// * file : _memccpy.c
+// * file : hypot.c
 // *
 // * note : This LIBC is TOTALLY free - do what you like with it!!
 // *
 // ******************************************************************
 
-#include	<ansidecl.h>
+#include <math.h>
+
+#ifndef __GNUC__
 
 
-// Return the absolute value of I. 
-int	abs( int i )
+float hypotf(float f, float g)
 {
-	if( i>=0 ) 
-		return i; 
-	else 
-		return -i;
+	return sqrt(f*f+g*g);
+}
+double hypot(double f, double g)
+{
+	return sqrt(f*f+g*g);
 }
 
+
+#endif //__GNUC__

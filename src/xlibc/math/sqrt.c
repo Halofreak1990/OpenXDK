@@ -4,21 +4,30 @@
 // *
 // * desc : Totally Free LIC replacement
 // *
-// * file : _memccpy.c
+// * file : sqrt.c
 // *
 // * note : This LIBC is TOTALLY free - do what you like with it!!
 // *
 // ******************************************************************
 
-#include	<ansidecl.h>
+#include <math.h>
+
+#ifndef __GNUC__
 
 
-// Return the absolute value of I. 
-int	abs( int i )
-{
-	if( i>=0 ) 
-		return i; 
-	else 
-		return -i;
+double sqrt(double f) {
+	__asm {
+		fld f
+		fsqrt
+	}
 }
 
+float sqrtf(float f) {
+	__asm {
+		fld f
+		fsqrt
+	}
+}
+
+
+#endif //__GNUC__

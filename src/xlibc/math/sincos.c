@@ -4,21 +4,40 @@
 // *
 // * desc : Totally Free LIC replacement
 // *
-// * file : _memccpy.c
+// * file : sincos.c
 // *
 // * note : This LIBC is TOTALLY free - do what you like with it!!
 // *
 // ******************************************************************
 
-#include	<ansidecl.h>
+#include <math.h>
 
+#ifndef __GNUC__
 
-// Return the absolute value of I. 
-int	abs( int i )
-{
-	if( i>=0 ) 
-		return i; 
-	else 
-		return -i;
+double sin(double f) {
+	__asm {
+		fld f
+		fsin
+	}
+}
+double cos(double f) {
+	__asm {
+		fld f
+		fcos
+	}
 }
 
+float sinf(float f) {
+	__asm {
+		fld f
+		fsin
+	}
+}
+float cosf(float f)	{
+	__asm {
+		fld f
+		fcos
+	}
+}
+
+#endif
