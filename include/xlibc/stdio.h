@@ -53,6 +53,8 @@ extern "C" {
 
 extern u32	LastErrorCode;
 
+typedef unsigned int size_t;
+
 int _open( char *filename, int oflag, int permission );
 int _read( int handle, void *buffer, unsigned int count );
 int _write( int handle, void* buffer, unsigned int count );

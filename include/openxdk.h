@@ -67,9 +67,9 @@ typedef signed int          s32;
 #include "xvga/xvga.h"
 
 // ******************************************************************
-// * XUSB
+// * XUSB (being removed...)
 // ******************************************************************
-#include "xusb/xusb.h"
+//#include "xusb/xusb.h"
 
 #endif
 
