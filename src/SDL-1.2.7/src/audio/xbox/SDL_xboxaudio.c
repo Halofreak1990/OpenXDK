@@ -143,6 +143,8 @@ void XBOX_CloseAudio(_THIS)
 
 int XBOX_OpenAudio(_THIS, SDL_AudioSpec *spec)
 {
+	int i;
+	
 	if (spec->format != SUPPORTED_FORMAT ||
 	    spec->freq != SUPPORTED_FREQ ||
 	    spec->freq != SUPPORTED_FREQ)
@@ -173,7 +175,7 @@ int XBOX_OpenAudio(_THIS, SDL_AudioSpec *spec)
 
 	/* Create the sound buffers */
 	int bufferSize = SUPPORTED_SAMPLES * SUPPORTED_CHANNELS * ((SUPPORTED_FORMAT&0xFF)/8);
-	for (int i = 0; i < NUM_FRAGMENTS; ++i) 
+	for (i = 0; i < NUM_FRAGMENTS; ++i) 
 	{
 		memset(&this->hidden->fragments[i], 0, sizeof(this->hidden->fragments[i]));
 		this->hidden->fragments[i].samplesBuffer = (unsigned char *)malloc(bufferSize);

@@ -1,0 +1,118 @@
+diff -u -r Archive/newlib-1.12.0/config.sub src/newlib-1.12.0/config.sub
+--- Archive/newlib-1.12.0/config.sub	2003-08-08 20:14:48.000000000 +1000
++++ src/newlib-1.12.0/config.sub	2004-12-08 10:54:13.043592000 +1100
+@@ -232,6 +232,7 @@
+ 	| c4x | clipper \
+ 	| d10v | d30v | dlx | dsp16xx \
+ 	| fr30 | frv \
++	| xbox \
+ 	| h8300 | h8500 | hppa | hppa1.[01] | hppa2.0 | hppa2.0[nw] | hppa64 \
+ 	| i370 | i860 | i960 | ia64 \
+ 	| iq2000 | ip2k \
+@@ -996,6 +997,10 @@
+ 		basic_machine=hppa1.1-winbond
+ 		os=-proelf
+ 		;;
++	xbox)
++		basic_machine=i386-pc
++		os=-xbox
++		;;
+ 	xps | xps100)
+ 		basic_machine=xps100-honeywell
+ 		;;
+@@ -1239,6 +1244,9 @@
+ 	-xenix)
+ 		os=-xenix
+ 		;;
++	-xbox)
++		os=-xbox
++		;;
+ 	-*mint | -mint[0-9]* | -*MiNT | -MiNT[0-9]*)
+ 		os=-mint
+ 		;;
+diff -u -r Archive/newlib-1.12.0/configure.in src/newlib-1.12.0/configure.in
+--- Archive/newlib-1.12.0/configure.in	2004-01-05 15:38:54.000000000 +1100
++++ src/newlib-1.12.0/configure.in	2004-12-08 10:54:13.083649600 +1100
+@@ -572,6 +572,9 @@
+   i[[3456789]]86-*-sysv4*)
+     noconfigdirs="$noconfigdirs target-libgloss ${libgcj}"
+     ;;
++  i[[3456789]]86-*-xbox)
++    noconfigdirs="$noconfigdirs target-libgloss"
++    ;;
+   i[[3456789]]86-*-beos*)
+     noconfigdirs="$noconfigdirs gdb target-newlib target-libgloss ${libgcj}"
+     ;;
+diff -u -r Archive/newlib-1.12.0/newlib/configure.host src/newlib-1.12.0/newlib/configure.host
+--- Archive/newlib-1.12.0/newlib/configure.host	2004-02-03 03:59:51.000000000 +1100
++++ src/newlib-1.12.0/newlib/configure.host	2004-12-08 10:54:13.113692800 +1100
+@@ -214,6 +214,9 @@
+   w65*)
+ 	machine_dir=w65
+ 	;;
++  xbox)
++	machine_dir=i386
++	;;
+   xstormy16)
+ 	machine_dir=xstormy16
+ 	newlib_cflags="${newlib_cflags} -DMALLOC_PROVIDED"
+@@ -340,6 +343,10 @@
+ 	sys_dir=sysvi386
+ 	unix_dir=unix
+ 	;;
++  i[34567]86-*-xbox)
++	sys_dir=xbox
++	newlib_cflags="${newlib_cflags} -D_COMPILING_NEWLIB -mno-cygwin"
++	;;
+   i[34567]86-pc-linux-*)
+ 	sys_dir=linux
+ 	unix_dir=unix
+diff -u -r Archive/newlib-1.12.0/newlib/libc/stdlib/mallocr.c src/newlib-1.12.0/newlib/libc/stdlib/mallocr.c
+--- Archive/newlib-1.12.0/newlib/libc/stdlib/mallocr.c	2003-08-20 04:09:54.000000000 +1000
++++ src/newlib-1.12.0/newlib/libc/stdlib/mallocr.c	2004-12-08 17:25:59.203790400 +1100
+@@ -271,6 +271,7 @@
+ 
+ #ifdef WIN32
+ #define WIN32_LEAN_AND_MEAN
++#define WINBASEAPI 
+ #include <windows.h>
+ #endif
+ 
+@@ -637,6 +638,9 @@
+ #  include <unistd.h>
+ #endif
+ 
++/* hard code page size to 4096 for XBOX */
++#define malloc_getpagesize (4096)
++
+ #ifndef malloc_getpagesize
+ #  ifdef _SC_PAGESIZE         /* some SVR4 systems omit an underscore */
+ #    ifndef _SC_PAGE_SIZE
+@@ -1076,6 +1080,8 @@
+ 
+ #ifdef WIN32
+ 
++#ifdef DEFINE_MALLOC
++
+ #define AlignPage(add) (((add) + (malloc_getpagesize-1)) & \
+ ~(malloc_getpagesize-1))
+ 
+@@ -1231,7 +1237,9 @@
+ 	}
+ }
+ 
+-#endif
++#endif  /* DEFINE_MALLOC */
++
++#endif  /* WIN32 */
+ 
+ 
+ 
+@@ -3015,6 +3023,7 @@
+   INTERNAL_SIZE_T  newsize;   /* its size */
+   INTERNAL_SIZE_T  leadsize;  /* leading space befor alignment point */
+   mchunkptr remainder;        /* spare room at end to split off */
++
+   long      remainder_size;   /* its size */
+ 
+   /* If need less alignment than we give anyway, just relay to malloc */

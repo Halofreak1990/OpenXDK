@@ -1,17 +1,17 @@
 Current
-- Modified a bunch of files to support MinGW and Linux compilation
-- Included CXBE source in OpenXDK tree to provide support for Linux users
+- Migrated to be fully automake/autoconf compliant
+- Included CXBE source in OpenXDK tree to provide better support for Linux users
 - OpenXDK now has working knowledge of what directory it was launched out of.  
   This means that relative paths such as "./blah.txt" will now be picked up from
   the XBE's launched directory, instead of C:\
 - Added the XMountDrive() API
 - Added XFindFirstFile(), XFindNextFile(), XCloseFile() APIs
-- Added support for POSIX dirent (opendir(), readdir(), closedir()) APIs
-- SDL_Audio is now able to auto convert the various frequencies, and bits per sample.
+- Added support for POSIX dirent APIs - opendir(), readdir(), closedir(), etc
+- SDL_Audio is now able to auto-convert the various frequencies, and bits per sample.
 - Fixed a malloc bug that prevented allocation of more than 8MB memory
 - Changed the video buffer address calculation to support xecuter2 (and other) 
   BIOSes (I hope this is the only change we need for these BIOSes).
-- Added support for SDL_Image (BMP, GIF, PCX, TGA, PNG, and JPEG image formats)
+- Numerous other small bugfixes
 
 
 0.05

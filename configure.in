@@ -1,0 +1,77 @@
+AC_INIT(Makefile.am)
+AM_INIT_AUTOMAKE(OpenXDK,0.5)
+
+AM_MAINTAINER_MODE
+
+AC_CANONICAL_HOST
+
+AC_PROG_CC
+AC_PROG_CXX
+AM_PROG_AS
+
+if test "$prefix" = "NONE" ; then
+    AC_MSG_ERROR(Usage: configure --prefix=<dir>)
+fi
+
+case $build in
+  *-*-cygwin*)
+    #
+    # As we are not cross compiling we keep the AC_PROG_PATH that is currently defined for all utils
+    # 
+		AC_PATH_PROG(AR,ar)
+		AC_PATH_PROG(AS,as)
+		AC_PATH_PROG(LD,ld)
+		AC_PATH_PROG(NM,nm)
+		AC_PATH_PROG(GCC,gcc)
+		AC_PATH_PROG(RANLIB,ranlib)
+		AC_PATH_PROG(DLLTOOL,dlltool)
+		AC_PATH_PROG(WINDRES,windres)
+		AC_PATH_PROG(STRIP,strip)
+		
+		AC_SUBST(host_alias,$host)
+    ;;
+
+  *-*-linux*)
+    #
+    # We are cross compiling
+    # 
+		AC_PATH_PROG(AR,$host_alias-ar)
+		AC_PATH_PROG(AS,$host_alias-as)
+		AC_PATH_PROG(LD,$host_alias-ld)
+		AC_PATH_PROG(NM,$host_alias-nm)
+		AC_PATH_PROG(GCC,$host_alias-gcc)
+		AC_PATH_PROG(RANLIB,$host_alias-ranlib)
+		AC_PATH_PROG(DLLTOOL,$host_alias-dlltool)
+		AC_PATH_PROG(WINDRES,$host_alias-windres)
+		AC_PATH_PROG(STRIP,$host_alias-strip)
+    ;;
+
+  *)
+    AC_MSG_ERROR(Error: Build environment "$build" is currently not supported.)
+    ;;
+esac
+
+AC_SUBST(target,"i386-pc-xbox")
+AC_SUBST(PATH,$prefix/bin:$PATH)
+
+#
+# summary
+#
+AC_MSG_RESULT([
+summary:
+----------------------------------------
+build:      $build
+host:       $host
+target:     $target
+prefix:     $prefix
+])
+
+AC_OUTPUT(
+	Makefile
+	src/Makefile
+	src/cxbe/Makefile
+	src/hal/Makefile
+	src/openxdk/Makefile
+	src/usb/Makefile
+	src/xboxkrnl/Makefile
+)

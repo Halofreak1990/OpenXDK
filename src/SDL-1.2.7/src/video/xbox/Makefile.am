@@ -1,15 +1,15 @@
 
-## Makefile.am for SDL using the null video driver
+## Makefile.am for SDL using the xbox video driver
 
-noinst_LTLIBRARIES = libvideo_null.la
-libvideo_null_la_SOURCES = $(NULL_SRCS)
+noinst_LTLIBRARIES = libvideo_xbox.la
+libvideo_xbox_la_SOURCES = $(XBOX_SRCS)
 
-# The SDL null video driver sources
-NULL_SRCS = 			\
-	SDL_nullvideo.h		\
-	SDL_nullevents.c	\
-	SDL_nullevents_c.h	\
-	SDL_nullmouse.c		\
-	SDL_nullmouse_c.h	\
-	SDL_nullvideo.c
+# The SDL xbox video driver sources
+XBOX_SRCS = 			\
+	SDL_xboxvideo.h		\
+	SDL_xboxevents.c	\
+	SDL_xboxevents_c.h	\
+	SDL_xboxmouse.c		\
+	SDL_xboxmouse_c.h	\
+	SDL_xboxvideo.c
 
