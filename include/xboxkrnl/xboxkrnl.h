@@ -383,6 +383,18 @@ typedef VOID (NTAPI *PKSTART_ROUTINE)
 );
 
 // ******************************************************************
+// * RTL_CRITICAL_SECTION
+// ******************************************************************
+typedef struct _RTL_CRITICAL_SECTION
+{
+    DWORD               Unknown[4];                                     // 0x00
+	LONG                LockCount;                                      // 0x10
+    LONG                RecursionCount;                                 // 0x14
+    ULONG               OwningThread;                                   // 0x18
+}
+RTL_CRITICAL_SECTION, *PRTL_CRITICAL_SECTION;
+
+// ******************************************************************
 // * NT_TIB
 // ******************************************************************
 typedef struct _NT_TIB
