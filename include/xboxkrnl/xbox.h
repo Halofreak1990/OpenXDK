@@ -12,7 +12,18 @@
 #ifndef XBOX_H
 #define XBOX_H
 
-XBOXSYSAPI VOID *AvGetSavedDataAddress;
+// ******************************************************************
+// * AvGetSavedDataAddress
+// ******************************************************************
+// *
+// * get current Display Start Address
+// *
+// ******************************************************************
+XBOXSYSAPI EXPORTNUM(1) PVOID NTAPI AvGetSavedDataAddress
+(
+	IN VOID
+);
+
 XBOXSYSAPI VOID *AvSendTVEncoderOption;
 XBOXSYSAPI VOID *AvSetDisplayMode;
 XBOXSYSAPI VOID *AvSetSavedDataAddress;

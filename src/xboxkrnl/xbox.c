@@ -12,7 +12,23 @@
 #define _XBOXKRNL_INTERNAL_
 #include "xboxkrnl/xboxkrnl.h"
 
-XBOXSYSAPI VOID *AvGetSavedDataAddress = 0;
+
+// ******************************************************************
+// * AvGetSavedDataAddress
+// ******************************************************************
+// *
+// * allocates a range of physically contiguous, cache-aligned 
+// * memory from nonpaged pool (main pool on xbox).
+// *
+// ******************************************************************
+XBOXSYSAPI EXPORTNUM(1) PVOID NTAPI AvGetSavedDataAddress
+(
+	IN VOID
+)
+{
+    return NULL;
+}
+
 XBOXSYSAPI VOID *AvSendTVEncoderOption = 0;
 XBOXSYSAPI VOID *AvSetDisplayMode = 0;
 XBOXSYSAPI VOID *AvSetSavedDataAddress = 0;
