@@ -12,19 +12,19 @@
 #ifndef XBOXKRNL_OB_H
 #define XBOXKRNL_OB_H
 
-NTSYSAPI VOID *ObCreateObject;
-NTSYSAPI VOID *ObDirectoryObjectType;
-NTSYSAPI VOID *ObInsertObject;
-NTSYSAPI VOID *ObMakeTemporaryObject;
-NTSYSAPI VOID *ObOpenObjectByName;
-NTSYSAPI VOID *ObOpenObjectByPointer;
-NTSYSAPI VOID *ObpObjectHandleTable;
-NTSYSAPI VOID *ObReferenceObjectByHandle;
-NTSYSAPI VOID *ObReferenceObjectByName;
-NTSYSAPI VOID *ObReferenceObjectByPointer;
-NTSYSAPI VOID *ObSymbolicLinkObjectType;
-NTSYSAPI VOID *ObfDereferenceObject;
-NTSYSAPI VOID *ObfReferenceObject;
+XBSYSAPI VOID *ObCreateObject;
+XBSYSAPI VOID *ObDirectoryObjectType;
+XBSYSAPI VOID *ObInsertObject;
+XBSYSAPI VOID *ObMakeTemporaryObject;
+XBSYSAPI VOID *ObOpenObjectByName;
+XBSYSAPI VOID *ObOpenObjectByPointer;
+XBSYSAPI VOID *ObpObjectHandleTable;
+XBSYSAPI VOID *ObReferenceObjectByHandle;
+XBSYSAPI VOID *ObReferenceObjectByName;
+XBSYSAPI VOID *ObReferenceObjectByPointer;
+XBSYSAPI VOID *ObSymbolicLinkObjectType;
+XBSYSAPI VOID *ObfDereferenceObject;
+XBSYSAPI VOID *ObfReferenceObject;
 
 #endif
 

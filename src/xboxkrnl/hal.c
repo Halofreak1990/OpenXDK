@@ -12,20 +12,20 @@
 #define _XBOXKRNL_INTERNAL_
 #include "xboxkrnl/xboxkrnl.h"
 
-NTSYSAPI VOID *HalReadSMCTrayState = 0;
-NTSYSAPI VOID *HalClearSoftwareInterrupt = 0;
-NTSYSAPI VOID *HalDisableSystemInterrupt = 0;
-NTSYSAPI VOID *HalDiskCachePartitionCount = 0;
-NTSYSAPI VOID *HalDiskModelNumber = 0;
-NTSYSAPI VOID *HalDiskSerialNumber = 0;
-NTSYSAPI VOID *HalEnableSystemInterrupt = 0;
-NTSYSAPI VOID *HalGetInterruptVector = 0;
-NTSYSAPI VOID *HalReadSMBusValue = 0;
+XBSYSAPI VOID *HalReadSMCTrayState = 0;
+XBSYSAPI VOID *HalClearSoftwareInterrupt = 0;
+XBSYSAPI VOID *HalDisableSystemInterrupt = 0;
+XBSYSAPI VOID *HalDiskCachePartitionCount = 0;
+XBSYSAPI VOID *HalDiskModelNumber = 0;
+XBSYSAPI VOID *HalDiskSerialNumber = 0;
+XBSYSAPI VOID *HalEnableSystemInterrupt = 0;
+XBSYSAPI VOID *HalGetInterruptVector = 0;
+XBSYSAPI VOID *HalReadSMBusValue = 0;
 
 // ******************************************************************
 // * HalReadWritePCISpace
 // ******************************************************************
-NTSYSAPI EXPORTNUM(46) VOID NTAPI HalReadWritePCISpace
+XBSYSAPI EXPORTNUM(46) VOID NTAPI HalReadWritePCISpace
 (
   IN ULONG   BusNumber,
   IN ULONG   SlotNumber,
@@ -38,13 +38,13 @@ NTSYSAPI EXPORTNUM(46) VOID NTAPI HalReadWritePCISpace
     return;
 }
 
-NTSYSAPI VOID *HalRegisterShutdownNotification = 0;
-NTSYSAPI VOID *HalRequestSoftwareInterrupt = 0;
+XBSYSAPI VOID *HalRegisterShutdownNotification = 0;
+XBSYSAPI VOID *HalRequestSoftwareInterrupt = 0;
 
 // ******************************************************************
 // * 0x0031 - HalReturnToFirmware
 // ******************************************************************
-NTSYSAPI EXPORTNUM(49) VOID DECLSPEC_NORETURN HalReturnToFirmware
+XBSYSAPI EXPORTNUM(49) VOID DECLSPEC_NORETURN HalReturnToFirmware
 (
 	RETURN_FIRMWARE Routine
 )
@@ -52,17 +52,17 @@ NTSYSAPI EXPORTNUM(49) VOID DECLSPEC_NORETURN HalReturnToFirmware
 
 }
 
-NTSYSAPI VOID *HalWriteSMBusValue = 0;
-NTSYSAPI VOID *HalBootSMCVideoMode = 0;
-NTSYSAPI VOID *HalIsResetOrShutdownPending = 0;
-NTSYSAPI VOID *HalInitiateShutdown = 0;
-NTSYSAPI VOID *HalEnableSecureTrayEject = 0;
-NTSYSAPI VOID *HalWriteSMCScratchRegister = 0;
+XBSYSAPI VOID *HalWriteSMBusValue = 0;
+XBSYSAPI VOID *HalBootSMCVideoMode = 0;
+XBSYSAPI VOID *HalIsResetOrShutdownPending = 0;
+XBSYSAPI VOID *HalInitiateShutdown = 0;
+XBSYSAPI VOID *HalEnableSecureTrayEject = 0;
+XBSYSAPI VOID *HalWriteSMCScratchRegister = 0;
 
 // ******************************************************************
 // * READ_PORT_BUFFER_UCHAR
 // ******************************************************************
-NTSYSAPI EXPORTNUM(329) VOID NTAPI READ_PORT_BUFFER_UCHAR
+XBSYSAPI EXPORTNUM(329) VOID NTAPI READ_PORT_BUFFER_UCHAR
 (
     IN PUCHAR Port,
     IN PUCHAR Buffer,
@@ -75,7 +75,7 @@ NTSYSAPI EXPORTNUM(329) VOID NTAPI READ_PORT_BUFFER_UCHAR
 // ******************************************************************
 // * READ_PORT_BUFFER_USHORT
 // ******************************************************************
-NTSYSAPI EXPORTNUM(330) VOID NTAPI READ_PORT_BUFFER_USHORT
+XBSYSAPI EXPORTNUM(330) VOID NTAPI READ_PORT_BUFFER_USHORT
 (
     IN PUSHORT Port,
     IN PUSHORT Buffer,
@@ -88,7 +88,7 @@ NTSYSAPI EXPORTNUM(330) VOID NTAPI READ_PORT_BUFFER_USHORT
 // ******************************************************************
 // * READ_PORT_BUFFER_ULONG
 // ******************************************************************
-NTSYSAPI EXPORTNUM(331) VOID NTAPI READ_PORT_BUFFER_ULONG
+XBSYSAPI EXPORTNUM(331) VOID NTAPI READ_PORT_BUFFER_ULONG
 (
     IN PULONG Port,
     IN PULONG Buffer,
@@ -101,7 +101,7 @@ NTSYSAPI EXPORTNUM(331) VOID NTAPI READ_PORT_BUFFER_ULONG
 // ******************************************************************
 // * WRITE_PORT_BUFFER_UCHAR
 // ******************************************************************
-NTSYSAPI EXPORTNUM(332) VOID NTAPI WRITE_PORT_BUFFER_UCHAR
+XBSYSAPI EXPORTNUM(332) VOID NTAPI WRITE_PORT_BUFFER_UCHAR
 (
     IN PUCHAR Port,
     IN PUCHAR Buffer,
@@ -114,7 +114,7 @@ NTSYSAPI EXPORTNUM(332) VOID NTAPI WRITE_PORT_BUFFER_UCHAR
 // ******************************************************************
 // * WRITE_PORT_BUFFER_USHORT
 // ******************************************************************
-NTSYSAPI EXPORTNUM(333) VOID NTAPI WRITE_PORT_BUFFER_USHORT
+XBSYSAPI EXPORTNUM(333) VOID NTAPI WRITE_PORT_BUFFER_USHORT
 (
     IN PUSHORT Port,
     IN PUSHORT Buffer,
@@ -127,7 +127,7 @@ NTSYSAPI EXPORTNUM(333) VOID NTAPI WRITE_PORT_BUFFER_USHORT
 // ******************************************************************
 // * WRITE_PORT_BUFFER_ULONG
 // ******************************************************************
-NTSYSAPI EXPORTNUM(334) VOID NTAPI WRITE_PORT_BUFFER_ULONG
+XBSYSAPI EXPORTNUM(334) VOID NTAPI WRITE_PORT_BUFFER_ULONG
 (
     IN PULONG Port,
     IN PULONG Buffer,

@@ -12,12 +12,12 @@
 #ifndef XBOXKRNL_DBG_H
 #define XBOXKRNL_DBG_H
 
-NTSYSAPI VOID *DbgBreakPoint;
-NTSYSAPI VOID *DbgBreakPointWithStatus;
-NTSYSAPI VOID *DbgLoadImageSymbols;
-NTSYSAPI VOID *DbgPrint;
-NTSYSAPI VOID *DbgPrompt;
-NTSYSAPI VOID *DbgUnLoadImageSymbols;
+XBSYSAPI VOID *DbgBreakPoint;
+XBSYSAPI VOID *DbgBreakPointWithStatus;
+XBSYSAPI VOID *DbgLoadImageSymbols;
+XBSYSAPI VOID *DbgPrint;
+XBSYSAPI VOID *DbgPrompt;
+XBSYSAPI VOID *DbgUnLoadImageSymbols;
 
 #endif
 

@@ -12,9 +12,9 @@
 #define _XBOXKRNL_INTERNAL_
 #include "xboxkrnl/xboxkrnl.h"
 
-NTSYSAPI VOID *PsCreateSystemThread = 0;
-NTSYSAPI VOID *PsCreateSystemThreadEx = 0;
-NTSYSAPI VOID *PsQueryStatistics = 0;
-NTSYSAPI VOID *PsSetCreateThreadNotifyRoutine = 0;
-NTSYSAPI VOID *PsTerminateSystemThread = 0;
-NTSYSAPI VOID *PsThreadObjectType = 0;
+XBSYSAPI VOID *PsCreateSystemThread = 0;
+XBSYSAPI VOID *PsCreateSystemThreadEx = 0;
+XBSYSAPI VOID *PsQueryStatistics = 0;
+XBSYSAPI VOID *PsSetCreateThreadNotifyRoutine = 0;
+XBSYSAPI VOID *PsTerminateSystemThread = 0;
+XBSYSAPI VOID *PsThreadObjectType = 0;

@@ -12,13 +12,13 @@
 #define _XBOXKRNL_INTERNAL_
 #include "xboxkrnl/xboxkrnl.h"
 
-NTSYSAPI VOID *ExAcquireReadWriteLockExclusive = 0;
-NTSYSAPI VOID *ExAcquireReadWriteLockShared = 0;
+XBSYSAPI VOID *ExAcquireReadWriteLockExclusive = 0;
+XBSYSAPI VOID *ExAcquireReadWriteLockShared = 0;
 
 // ******************************************************************
 // * ExAllocatePool
 // ******************************************************************
-NTSYSAPI EXPORTNUM(14) PVOID NTAPI ExAllocatePool
+XBSYSAPI EXPORTNUM(14) PVOID NTAPI ExAllocatePool
 (
 	IN ULONG NumberOfBytes
 )
@@ -26,8 +26,8 @@ NTSYSAPI EXPORTNUM(14) PVOID NTAPI ExAllocatePool
     return NULL;
 }
 
-NTSYSAPI VOID *ExAllocatePoolWithTag = 0;
-NTSYSAPI VOID *ExEventObjectType = 0;
+XBSYSAPI VOID *ExAllocatePoolWithTag = 0;
+XBSYSAPI VOID *ExEventObjectType = 0;
 
 // ******************************************************************
 // * ExFreePool
@@ -36,7 +36,7 @@ NTSYSAPI VOID *ExEventObjectType = 0;
 // * Deallocates a block  of pool memory
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(17) PVOID NTAPI ExFreePool
+XBSYSAPI EXPORTNUM(17) PVOID NTAPI ExFreePool
 (
     IN PVOID P
 )
@@ -44,28 +44,28 @@ NTSYSAPI EXPORTNUM(17) PVOID NTAPI ExFreePool
     return NULL;
 }
 
-NTSYSAPI VOID *ExInitializeReadWriteLock = 0;
-NTSYSAPI VOID *ExInterlockedAddLargeInteger = 0;
-NTSYSAPI VOID *ExInterlockedAddLargeStatistic = 0;
-NTSYSAPI VOID *ExInterlockedCompareExchange64 = 0;
-NTSYSAPI VOID *ExMutantObjectType = 0;
-NTSYSAPI VOID *ExQueryPoolBlockSize = 0;
-NTSYSAPI VOID *ExQueryNonVolatileSetting = 0;
-NTSYSAPI VOID *ExReadWriteRefurbInfo = 0;
-NTSYSAPI VOID *ExRaiseException = 0;
-NTSYSAPI VOID *ExRaiseStatus = 0;
-NTSYSAPI VOID *ExReleaseReadWriteLock = 0;
-NTSYSAPI VOID *ExSaveNonVolatileSetting = 0;
-NTSYSAPI VOID *ExSemaphoreObjectType = 0;
-NTSYSAPI VOID *ExTimerObjectType = 0;
-NTSYSAPI VOID *ExfInterlockedInsertHeadList = 0;
-NTSYSAPI VOID *ExfInterlockedInsertTailList = 0;
-NTSYSAPI VOID *ExfInterlockedRemoveHeadList = 0;
-NTSYSAPI VOID *InterlockedCompareExchange = 0;
-NTSYSAPI VOID *InterlockedDecrement = 0;
-NTSYSAPI VOID *InterlockedIncrement = 0;
-NTSYSAPI VOID *InterlockedExchange = 0;
-NTSYSAPI VOID *InterlockedExchangeAdd = 0;
-NTSYSAPI VOID *InterlockedFlushSList = 0;
-NTSYSAPI VOID *InterlockedPopEntrySList = 0;
-NTSYSAPI VOID *InterlockedPushEntrySList = 0;
+XBSYSAPI VOID *ExInitializeReadWriteLock = 0;
+XBSYSAPI VOID *ExInterlockedAddLargeInteger = 0;
+XBSYSAPI VOID *ExInterlockedAddLargeStatistic = 0;
+XBSYSAPI VOID *ExInterlockedCompareExchange64 = 0;
+XBSYSAPI VOID *ExMutantObjectType = 0;
+XBSYSAPI VOID *ExQueryPoolBlockSize = 0;
+XBSYSAPI VOID *ExQueryNonVolatileSetting = 0;
+XBSYSAPI VOID *ExReadWriteRefurbInfo = 0;
+XBSYSAPI VOID *ExRaiseException = 0;
+XBSYSAPI VOID *ExRaiseStatus = 0;
+XBSYSAPI VOID *ExReleaseReadWriteLock = 0;
+XBSYSAPI VOID *ExSaveNonVolatileSetting = 0;
+XBSYSAPI VOID *ExSemaphoreObjectType = 0;
+XBSYSAPI VOID *ExTimerObjectType = 0;
+XBSYSAPI VOID *ExfInterlockedInsertHeadList = 0;
+XBSYSAPI VOID *ExfInterlockedInsertTailList = 0;
+XBSYSAPI VOID *ExfInterlockedRemoveHeadList = 0;
+XBSYSAPI VOID *InterlockedCompareExchange = 0;
+XBSYSAPI VOID *InterlockedDecrement = 0;
+XBSYSAPI VOID *InterlockedIncrement = 0;
+XBSYSAPI VOID *InterlockedExchange = 0;
+XBSYSAPI VOID *InterlockedExchangeAdd = 0;
+XBSYSAPI VOID *InterlockedFlushSList = 0;
+XBSYSAPI VOID *InterlockedPopEntrySList = 0;
+XBSYSAPI VOID *InterlockedPushEntrySList = 0;

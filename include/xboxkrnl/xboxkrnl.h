@@ -18,12 +18,18 @@ extern "C"
 #endif
 
 // ******************************************************************
+// * dll import/export
+// ******************************************************************
+#define DECLSPEC_IMPORT __declspec(dllimport)
+#define DECLSPEC_EXPORT __declspec(dllexport)
+
+// ******************************************************************
 // * kernel exports, others import
 // ******************************************************************
 #ifndef _XBOXKRNL_INTERNAL_
-#define NTSYSAPI __declspec( dllimport )
+#define XBSYSAPI DECLSPEC_IMPORT
 #else
-#define NTSYSAPI __declspec( dllexport )
+#define XBSYSAPI DECLSPEC_EXPORT
 #endif
 
 // ******************************************************************
@@ -49,9 +55,18 @@ extern "C"
 #define CONST               const
 
 // ******************************************************************
+// * VOID
+// ******************************************************************
+#ifndef VOID
+#define VOID                void
+#endif
+
+// ******************************************************************
 // * Basic types
 // ******************************************************************
 typedef char                CHAR;
+typedef short               SHORT;
+typedef long                LONG;
 typedef unsigned char       UCHAR;
 typedef unsigned char       BYTE;
 typedef unsigned char       BOOLEAN;
@@ -62,9 +77,7 @@ typedef	unsigned long       DWORD;
 typedef unsigned long       SIZE_T;
 typedef unsigned long       ACCESS_MASK;
 typedef unsigned long       PHYSICAL_ADDRESS;
-typedef	long				LONG;
 typedef long                INT_PTR;
-typedef void                VOID;
 
 // ******************************************************************
 // * Pointer types
@@ -109,7 +122,7 @@ typedef long                NTSTATUS;
 #define NTAPI               __stdcall
 #define CDECL               __cdecl
 #define INLINE              __inline
-#define DECLSPEC_NORETURN   __declspec( noreturn )
+#define DECLSPEC_NORETURN   __declspec(noreturn)
 
 // ******************************************************************
 // * documentation purposes only

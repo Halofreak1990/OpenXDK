@@ -12,12 +12,12 @@
 #ifndef XBOXKRNL_PS_H
 #define XBOXKRNL_PS_H
 
-NTSYSAPI VOID *PsCreateSystemThread;
-NTSYSAPI VOID *PsCreateSystemThreadEx;
-NTSYSAPI VOID *PsQueryStatistics;
-NTSYSAPI VOID *PsSetCreateThreadNotifyRoutine;
-NTSYSAPI VOID *PsTerminateSystemThread;
-NTSYSAPI VOID *PsThreadObjectType;
+XBSYSAPI VOID *PsCreateSystemThread;
+XBSYSAPI VOID *PsCreateSystemThreadEx;
+XBSYSAPI VOID *PsQueryStatistics;
+XBSYSAPI VOID *PsSetCreateThreadNotifyRoutine;
+XBSYSAPI VOID *PsTerminateSystemThread;
+XBSYSAPI VOID *PsThreadObjectType;
 
 #endif
 

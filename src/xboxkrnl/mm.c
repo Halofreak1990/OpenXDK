@@ -12,12 +12,12 @@
 #define _XBOXKRNL_INTERNAL_
 #include "xboxkrnl/xboxkrnl.h"
 
-NTSYSAPI VOID *MmGlobalData = 0;
+XBSYSAPI VOID *MmGlobalData = 0;
 
 // ******************************************************************
 // * MmAllocateContiguousMemory
 // ******************************************************************
-NTSYSAPI EXPORTNUM(165) PVOID NTAPI MmAllocateContiguousMemory
+XBSYSAPI EXPORTNUM(165) PVOID NTAPI MmAllocateContiguousMemory
 (
 	IN ULONG NumberOfBytes
 )
@@ -28,7 +28,7 @@ NTSYSAPI EXPORTNUM(165) PVOID NTAPI MmAllocateContiguousMemory
 // ******************************************************************
 // * MmAllocateContiguousMemoryEx
 // ******************************************************************
-NTSYSAPI EXPORTNUM(166) PVOID NTAPI MmAllocateContiguousMemoryEx
+XBSYSAPI EXPORTNUM(166) PVOID NTAPI MmAllocateContiguousMemoryEx
 (
 	IN ULONG			NumberOfBytes,
 	IN PHYSICAL_ADDRESS LowestAcceptableAddress,
@@ -40,15 +40,15 @@ NTSYSAPI EXPORTNUM(166) PVOID NTAPI MmAllocateContiguousMemoryEx
     return NULL;
 }
 
-NTSYSAPI VOID *MmAllocateSystemMemory = 0;
-NTSYSAPI VOID *MmClaimGpuInstanceMemory = 0;
-NTSYSAPI VOID *MmCreateKernelStack = 0;
-NTSYSAPI VOID *MmDeleteKernelStack = 0;
+XBSYSAPI VOID *MmAllocateSystemMemory = 0;
+XBSYSAPI VOID *MmClaimGpuInstanceMemory = 0;
+XBSYSAPI VOID *MmCreateKernelStack = 0;
+XBSYSAPI VOID *MmDeleteKernelStack = 0;
 
 // ******************************************************************
 // * MmFreeContiguousMemory
 // ******************************************************************
-NTSYSAPI EXPORTNUM(171) VOID NTAPI MmFreeContiguousMemory
+XBSYSAPI EXPORTNUM(171) VOID NTAPI MmFreeContiguousMemory
 (
 	IN PVOID BaseAddress
 )
@@ -56,12 +56,12 @@ NTSYSAPI EXPORTNUM(171) VOID NTAPI MmFreeContiguousMemory
     return;
 }
 
-NTSYSAPI VOID *MmFreeSystemMemory = 0;
+XBSYSAPI VOID *MmFreeSystemMemory = 0;
 
 // ******************************************************************
 // * MmGetPhysicalAddress
 // ******************************************************************
-NTSYSAPI EXPORTNUM(173) PHYSICAL_ADDRESS NTAPI MmGetPhysicalAddress
+XBSYSAPI EXPORTNUM(173) PHYSICAL_ADDRESS NTAPI MmGetPhysicalAddress
 (
     IN PVOID   BaseAddress
 )
@@ -69,14 +69,14 @@ NTSYSAPI EXPORTNUM(173) PHYSICAL_ADDRESS NTAPI MmGetPhysicalAddress
     return 0;
 }
 
-NTSYSAPI VOID *MmIsAddressValid = 0;
-NTSYSAPI VOID *MmLockUnlockBufferPages = 0;
-NTSYSAPI VOID *MmLockUnlockPhysicalPage = 0;
+XBSYSAPI VOID *MmIsAddressValid = 0;
+XBSYSAPI VOID *MmLockUnlockBufferPages = 0;
+XBSYSAPI VOID *MmLockUnlockPhysicalPage = 0;
 
 // ******************************************************************
 // * MmMapIoSpace
 // ******************************************************************
-NTSYSAPI EXPORTNUM(177) PVOID NTAPI MmMapIoSpace
+XBSYSAPI EXPORTNUM(177) PVOID NTAPI MmMapIoSpace
 (
     IN PHYSICAL_ADDRESS PhysicalAddress,
     IN ULONG            NumberOfBytes,
@@ -89,7 +89,7 @@ NTSYSAPI EXPORTNUM(177) PVOID NTAPI MmMapIoSpace
 // ******************************************************************
 // * MmPersistContiguousMemory
 // ******************************************************************
-NTSYSAPI EXPORTNUM(178) VOID NTAPI MmPersistContiguousMemory
+XBSYSAPI EXPORTNUM(178) VOID NTAPI MmPersistContiguousMemory
 (
     IN PVOID   BaseAddress,
     IN ULONG   NumberOfBytes,
@@ -99,12 +99,12 @@ NTSYSAPI EXPORTNUM(178) VOID NTAPI MmPersistContiguousMemory
     return;
 }
 
-NTSYSAPI VOID *MmQueryAddressProtect = 0;
+XBSYSAPI VOID *MmQueryAddressProtect = 0;
 
 // ******************************************************************
 // * MmQueryAllocationSize
 // ******************************************************************
-NTSYSAPI EXPORTNUM(180) ULONG NTAPI MmQueryAllocationSize
+XBSYSAPI EXPORTNUM(180) ULONG NTAPI MmQueryAllocationSize
 (
     IN PVOID   BaseAddress
 )
@@ -112,6 +112,6 @@ NTSYSAPI EXPORTNUM(180) ULONG NTAPI MmQueryAllocationSize
     return 0;
 }
 
-NTSYSAPI VOID *MmQueryStatistics = 0;
-NTSYSAPI VOID *MmSetAddressProtect = 0;
-NTSYSAPI VOID *MmUnmapIoSpace = 0;
+XBSYSAPI VOID *MmQueryStatistics = 0;
+XBSYSAPI VOID *MmSetAddressProtect = 0;
+XBSYSAPI VOID *MmUnmapIoSpace = 0;

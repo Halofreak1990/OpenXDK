@@ -12,9 +12,9 @@
 #ifndef XBOXKRNL_NT_H
 #define XBOXKRNL_NT_H
 
-NTSYSAPI VOID *NtAllocateVirtualMemory;
-NTSYSAPI VOID *NtCancelTimer;
-NTSYSAPI VOID *NtClearEvent;
+XBSYSAPI VOID *NtAllocateVirtualMemory;
+XBSYSAPI VOID *NtCancelTimer;
+XBSYSAPI VOID *NtClearEvent;
 
 // ******************************************************************
 // * NtClose
@@ -23,13 +23,13 @@ NTSYSAPI VOID *NtClearEvent;
 // * Closes an object handle
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(187) ULONG NTAPI NtClose
+XBSYSAPI EXPORTNUM(187) ULONG NTAPI NtClose
 (
 	IN HANDLE Handle
 );
 
-NTSYSAPI VOID *NtCreateDirectoryObject;
-NTSYSAPI VOID *NtCreateEvent;
+XBSYSAPI VOID *NtCreateDirectoryObject;
+XBSYSAPI VOID *NtCreateEvent;
 
 // ******************************************************************
 // * NtCreateFile
@@ -40,7 +40,7 @@ NTSYSAPI VOID *NtCreateEvent;
 // * a handle for the file object.
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(190) NTSTATUS NTAPI NtCreateFile
+XBSYSAPI EXPORTNUM(190) NTSTATUS NTAPI NtCreateFile
 (
 	OUT PHANDLE     FileHandle, 
 	IN  ACCESS_MASK DesiredAccess,
@@ -53,26 +53,26 @@ NTSYSAPI EXPORTNUM(190) NTSTATUS NTAPI NtCreateFile
 	IN  ULONG	    CreateOptions 
 );
 
-NTSYSAPI VOID *NtCreateIoCompletion;
-NTSYSAPI VOID *NtCreateMutant;
-NTSYSAPI VOID *NtCreateSemaphore;
-NTSYSAPI VOID *NtCreateTimer;
-NTSYSAPI VOID *NtDeleteFile;
-NTSYSAPI VOID *NtDeviceIoControlFile;
-NTSYSAPI VOID *NtDuplicateObject;
-NTSYSAPI VOID *NtFlushBuffersFile;
-NTSYSAPI VOID *NtFreeVirtualMemory;
-NTSYSAPI VOID *NtFsControlFile;
-NTSYSAPI VOID *NtOpenDirectoryObject;
-NTSYSAPI VOID *NtOpenFile;
-NTSYSAPI VOID *NtOpenSymbolicLinkObject;
-NTSYSAPI VOID *NtProtectVirtualMemory;
-NTSYSAPI VOID *NtPulseEvent;
-NTSYSAPI VOID *NtQueueApcThread;
-NTSYSAPI VOID *NtQueryDirectoryFile;
-NTSYSAPI VOID *NtQueryDirectoryObject;
-NTSYSAPI VOID *NtQueryEvent;
-NTSYSAPI VOID *NtQueryFullAttributesFile;
+XBSYSAPI VOID *NtCreateIoCompletion;
+XBSYSAPI VOID *NtCreateMutant;
+XBSYSAPI VOID *NtCreateSemaphore;
+XBSYSAPI VOID *NtCreateTimer;
+XBSYSAPI VOID *NtDeleteFile;
+XBSYSAPI VOID *NtDeviceIoControlFile;
+XBSYSAPI VOID *NtDuplicateObject;
+XBSYSAPI VOID *NtFlushBuffersFile;
+XBSYSAPI VOID *NtFreeVirtualMemory;
+XBSYSAPI VOID *NtFsControlFile;
+XBSYSAPI VOID *NtOpenDirectoryObject;
+XBSYSAPI VOID *NtOpenFile;
+XBSYSAPI VOID *NtOpenSymbolicLinkObject;
+XBSYSAPI VOID *NtProtectVirtualMemory;
+XBSYSAPI VOID *NtPulseEvent;
+XBSYSAPI VOID *NtQueueApcThread;
+XBSYSAPI VOID *NtQueryDirectoryFile;
+XBSYSAPI VOID *NtQueryDirectoryObject;
+XBSYSAPI VOID *NtQueryEvent;
+XBSYSAPI VOID *NtQueryFullAttributesFile;
 
 // ******************************************************************
 // * NtQueryInformationFile
@@ -81,7 +81,7 @@ NTSYSAPI VOID *NtQueryFullAttributesFile;
 // * Return various kinds of information about a given file object.
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(211) NTSTATUS NTAPI NtQueryInformationFile
+XBSYSAPI EXPORTNUM(211) NTSTATUS NTAPI NtQueryInformationFile
 (	
 	IN  HANDLE FileHandle,          // TODO: improve parameter accuracy
 	OUT PVOID  IoStatusBlock,
@@ -90,13 +90,13 @@ NTSYSAPI EXPORTNUM(211) NTSTATUS NTAPI NtQueryInformationFile
 	IN  ULONG  FileInfo
 );
 
-NTSYSAPI VOID *NtQueryIoCompletion;
-NTSYSAPI VOID *NtQueryMutant;
-NTSYSAPI VOID *NtQuerySemaphore;
-NTSYSAPI VOID *NtQuerySymbolicLinkObject;
-NTSYSAPI VOID *NtQueryTimer;
-NTSYSAPI VOID *NtQueryVirtualMemory;
-NTSYSAPI VOID *NtQueryVolumeInformationFile;
+XBSYSAPI VOID *NtQueryIoCompletion;
+XBSYSAPI VOID *NtQueryMutant;
+XBSYSAPI VOID *NtQuerySemaphore;
+XBSYSAPI VOID *NtQuerySymbolicLinkObject;
+XBSYSAPI VOID *NtQueryTimer;
+XBSYSAPI VOID *NtQueryVirtualMemory;
+XBSYSAPI VOID *NtQueryVolumeInformationFile;
 
 // ******************************************************************
 // * NtReadFile
@@ -105,7 +105,7 @@ NTSYSAPI VOID *NtQueryVolumeInformationFile;
 // * Read data from an opened file.
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(219) NTSTATUS NTAPI NtReadFile
+XBSYSAPI EXPORTNUM(219) NTSTATUS NTAPI NtReadFile
 (
 	IN  HANDLE   FileHandle,            // TODO: correct paramters
 	IN  PVOID    Event OPTIONAL,
@@ -117,12 +117,12 @@ NTSYSAPI EXPORTNUM(219) NTSTATUS NTAPI NtReadFile
 	IN  PVOID    ByteOffset
 );
 
-NTSYSAPI VOID *NtReadFileScatter;
-NTSYSAPI VOID *NtReleaseMutant;
-NTSYSAPI VOID *NtReleaseSemaphore;
-NTSYSAPI VOID *NtRemoveIoCompletion;
-NTSYSAPI VOID *NtResumeThread;
-NTSYSAPI VOID *NtSetEvent;
+XBSYSAPI VOID *NtReadFileScatter;
+XBSYSAPI VOID *NtReleaseMutant;
+XBSYSAPI VOID *NtReleaseSemaphore;
+XBSYSAPI VOID *NtRemoveIoCompletion;
+XBSYSAPI VOID *NtResumeThread;
+XBSYSAPI VOID *NtSetEvent;
 
 // ******************************************************************
 // * NtSetInformationFile
@@ -131,7 +131,7 @@ NTSYSAPI VOID *NtSetEvent;
 // * Changes various kinds of information about a given file object.
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(226) NTSTATUS NTAPI NtSetInformationFile
+XBSYSAPI EXPORTNUM(226) NTSTATUS NTAPI NtSetInformationFile
 (	
 	IN  HANDLE  FileHandle,            // TODO: correct paramters
 	OUT	PVOID	IoStatusBlock,
@@ -140,12 +140,12 @@ NTSYSAPI EXPORTNUM(226) NTSTATUS NTAPI NtSetInformationFile
 	IN	ULONG	FileInformationClass
 );
 
-NTSYSAPI VOID *NtSetIoCompletion;
-NTSYSAPI VOID *NtSetSystemTime;
-NTSYSAPI VOID *NtSetTimerEx;
-NTSYSAPI VOID *NtSignalAndWaitForSingleObjectEx;
-NTSYSAPI VOID *NtSuspendThread;
-NTSYSAPI VOID *NtUserIoApcDispatcher;
+XBSYSAPI VOID *NtSetIoCompletion;
+XBSYSAPI VOID *NtSetSystemTime;
+XBSYSAPI VOID *NtSetTimerEx;
+XBSYSAPI VOID *NtSignalAndWaitForSingleObjectEx;
+XBSYSAPI VOID *NtSuspendThread;
+XBSYSAPI VOID *NtUserIoApcDispatcher;
 
 // ******************************************************************
 // * NtWaitForSingleObject
@@ -156,15 +156,15 @@ NTSYSAPI VOID *NtUserIoApcDispatcher;
 // * until the wait times out.
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(233) NTSTATUS NTAPI NtWaitForSingleObject
+XBSYSAPI EXPORTNUM(233) NTSTATUS NTAPI NtWaitForSingleObject
 (	
 	IN  HANDLE  Handle,            // TODO: correct paramters
 	IN	BOOLEAN	Alertable,
 	IN	PVOID	Timeout
 );
 
-NTSYSAPI VOID *NtWaitForSingleObjectEx;
-NTSYSAPI VOID *NtWaitForMultipleObjectsEx;
+XBSYSAPI VOID *NtWaitForSingleObjectEx;
+XBSYSAPI VOID *NtWaitForMultipleObjectsEx;
 
 // ******************************************************************
 // * NtWriteFile
@@ -173,7 +173,7 @@ NTSYSAPI VOID *NtWaitForMultipleObjectsEx;
 // * Write data to an opened file.
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(236) NTSTATUS NTAPI NtWriteFile
+XBSYSAPI EXPORTNUM(236) NTSTATUS NTAPI NtWriteFile
 (	
 	IN  HANDLE  FileHandle,            // TODO: correct paramters
 	IN	PVOID	Event,
@@ -185,8 +185,8 @@ NTSYSAPI EXPORTNUM(236) NTSTATUS NTAPI NtWriteFile
 	IN	PVOID	ByteOffset
 );
 
-NTSYSAPI VOID *NtWriteFileGather;
-NTSYSAPI VOID *NtYieldExecution;
+XBSYSAPI VOID *NtWriteFileGather;
+XBSYSAPI VOID *NtYieldExecution;
 
 #endif
 

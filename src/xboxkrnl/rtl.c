@@ -12,12 +12,12 @@
 #define _XBOXKRNL_INTERNAL_
 #include "xboxkrnl/xboxkrnl.h"
 
-NTSYSAPI VOID *RtlAnsiStringToUnicodeString = 0;
+XBSYSAPI VOID *RtlAnsiStringToUnicodeString = 0;
 
 // ******************************************************************
 // * RtlAppendStringToString
 // ******************************************************************
-NTSYSAPI EXPORTNUM(261) ULONG NTAPI RtlAppendStringToString
+XBSYSAPI EXPORTNUM(261) ULONG NTAPI RtlAppendStringToString
 (
   IN PVOID			Destination,    // TODO: should be STRING
   IN PVOID			Source          // TODO: should be STRING
@@ -26,18 +26,18 @@ NTSYSAPI EXPORTNUM(261) ULONG NTAPI RtlAppendStringToString
 	return 0;
 }
 
-NTSYSAPI VOID *RtlAppendUnicodeStringToString = 0;
-NTSYSAPI VOID *RtlAppendUnicodeToString = 0;
-NTSYSAPI VOID *RtlAssert = 0;
-NTSYSAPI VOID *RtlCaptureContext = 0;
-NTSYSAPI VOID *RtlCaptureStackBackTrace = 0;
-NTSYSAPI VOID *RtlCharToInteger = 0;
+XBSYSAPI VOID *RtlAppendUnicodeStringToString = 0;
+XBSYSAPI VOID *RtlAppendUnicodeToString = 0;
+XBSYSAPI VOID *RtlAssert = 0;
+XBSYSAPI VOID *RtlCaptureContext = 0;
+XBSYSAPI VOID *RtlCaptureStackBackTrace = 0;
+XBSYSAPI VOID *RtlCharToInteger = 0;
 
 
 // ******************************************************************
 // * RtlCompareMemory
 // ******************************************************************
-NTSYSAPI EXPORTNUM(268) SIZE_T NTAPI RtlCompareMemory
+XBSYSAPI EXPORTNUM(268) SIZE_T NTAPI RtlCompareMemory
 (
   IN CONST VOID *Source1,
   IN CONST VOID *Source2,
@@ -47,14 +47,14 @@ NTSYSAPI EXPORTNUM(268) SIZE_T NTAPI RtlCompareMemory
 	return 0;
 }
 
-NTSYSAPI VOID *RtlCompareMemoryUlong = 0;
-NTSYSAPI VOID *RtlCompareString = 0;
-NTSYSAPI VOID *RtlCompareUnicodeString = 0;
+XBSYSAPI VOID *RtlCompareMemoryUlong = 0;
+XBSYSAPI VOID *RtlCompareString = 0;
+XBSYSAPI VOID *RtlCompareUnicodeString = 0;
 
 // ******************************************************************
 // * RtlCopyString
 // ******************************************************************
-NTSYSAPI EXPORTNUM(272) VOID NTAPI RtlCopyString
+XBSYSAPI EXPORTNUM(272) VOID NTAPI RtlCopyString
 (
   IN OUT PVOID	Destination,        // TODO: should be STRING
   IN     PVOID	Source OPTIONAL     // TODO: should be STRING
@@ -63,27 +63,27 @@ NTSYSAPI EXPORTNUM(272) VOID NTAPI RtlCopyString
 	return;
 }
 
-NTSYSAPI VOID *RtlCopyUnicodeString = 0;
-NTSYSAPI VOID *RtlCreateUnicodeString = 0;
-NTSYSAPI VOID *RtlDowncaseUnicodeChar = 0;
-NTSYSAPI VOID *RtlDowncaseUnicodeString = 0;
-NTSYSAPI VOID *RtlEnterCriticalSection = 0;
-NTSYSAPI VOID *RtlEnterCriticalSectionAndRegion = 0;
-NTSYSAPI VOID *RtlEqualString = 0;
-NTSYSAPI VOID *RtlEqualUnicodeString = 0;
-NTSYSAPI VOID *RtlExtendedIntegerMultiply = 0;
-NTSYSAPI VOID *RtlExtendedLargeIntegerDivide = 0;
-NTSYSAPI VOID *RtlExtendedMagicDivide = 0;
-NTSYSAPI VOID *RtlFillMemory = 0;
-NTSYSAPI VOID *RtlFillMemoryUlong = 0;
-NTSYSAPI VOID *RtlFreeAnsiString = 0;
-NTSYSAPI VOID *RtlFreeUnicodeString = 0;
-NTSYSAPI VOID *RtlGetCallersAddress = 0;
+XBSYSAPI VOID *RtlCopyUnicodeString = 0;
+XBSYSAPI VOID *RtlCreateUnicodeString = 0;
+XBSYSAPI VOID *RtlDowncaseUnicodeChar = 0;
+XBSYSAPI VOID *RtlDowncaseUnicodeString = 0;
+XBSYSAPI VOID *RtlEnterCriticalSection = 0;
+XBSYSAPI VOID *RtlEnterCriticalSectionAndRegion = 0;
+XBSYSAPI VOID *RtlEqualString = 0;
+XBSYSAPI VOID *RtlEqualUnicodeString = 0;
+XBSYSAPI VOID *RtlExtendedIntegerMultiply = 0;
+XBSYSAPI VOID *RtlExtendedLargeIntegerDivide = 0;
+XBSYSAPI VOID *RtlExtendedMagicDivide = 0;
+XBSYSAPI VOID *RtlFillMemory = 0;
+XBSYSAPI VOID *RtlFillMemoryUlong = 0;
+XBSYSAPI VOID *RtlFreeAnsiString = 0;
+XBSYSAPI VOID *RtlFreeUnicodeString = 0;
+XBSYSAPI VOID *RtlGetCallersAddress = 0;
 
 // ******************************************************************
 // * RtlInitAnsiString
 // ******************************************************************
-NTSYSAPI EXPORTNUM(289) VOID NTAPI RtlInitAnsiString 
+XBSYSAPI EXPORTNUM(289) VOID NTAPI RtlInitAnsiString 
 (
   IN OUT PANSI_STRING DestinationString,
   IN     PCSZ         SourceString
@@ -92,19 +92,19 @@ NTSYSAPI EXPORTNUM(289) VOID NTAPI RtlInitAnsiString
 	return;
 }
 
-NTSYSAPI VOID *RtlInitUnicodeString = 0;
-NTSYSAPI VOID *RtlInitializeCriticalSection = 0;
-NTSYSAPI VOID *RtlIntegerToChar = 0;
-NTSYSAPI VOID *RtlIntegerToUnicodeString = 0;
-NTSYSAPI VOID *RtlLeaveCriticalSection = 0;
-NTSYSAPI VOID *RtlLeaveCriticalSectionAndRegion = 0;
-NTSYSAPI VOID *RtlLowerChar = 0;
-NTSYSAPI VOID *RtlMapGenericMask = 0;
+XBSYSAPI VOID *RtlInitUnicodeString = 0;
+XBSYSAPI VOID *RtlInitializeCriticalSection = 0;
+XBSYSAPI VOID *RtlIntegerToChar = 0;
+XBSYSAPI VOID *RtlIntegerToUnicodeString = 0;
+XBSYSAPI VOID *RtlLeaveCriticalSection = 0;
+XBSYSAPI VOID *RtlLeaveCriticalSectionAndRegion = 0;
+XBSYSAPI VOID *RtlLowerChar = 0;
+XBSYSAPI VOID *RtlMapGenericMask = 0;
 
 // ******************************************************************
 // * RtlMoveMemory
 // ******************************************************************
-NTSYSAPI EXPORTNUM(298) VOID NTAPI RtlMoveMemory
+XBSYSAPI EXPORTNUM(298) VOID NTAPI RtlMoveMemory
 (
   IN VOID UNALIGNED       *Destination,
   IN CONST VOID UNALIGNED *Source,
@@ -114,13 +114,13 @@ NTSYSAPI EXPORTNUM(298) VOID NTAPI RtlMoveMemory
 	return;
 }
 
-NTSYSAPI VOID *RtlMultiByteToUnicodeN = 0;
-NTSYSAPI VOID *RtlMultiByteToUnicodeSize = 0;
+XBSYSAPI VOID *RtlMultiByteToUnicodeN = 0;
+XBSYSAPI VOID *RtlMultiByteToUnicodeSize = 0;
 
 // ******************************************************************
 // * RtlNtStatusToDosError
 // ******************************************************************
-NTSYSAPI EXPORTNUM(301) ULONG NTAPI RtlNtStatusToDosError
+XBSYSAPI EXPORTNUM(301) ULONG NTAPI RtlNtStatusToDosError
 (
 	IN NTSTATUS	Status
 )
@@ -128,29 +128,29 @@ NTSYSAPI EXPORTNUM(301) ULONG NTAPI RtlNtStatusToDosError
     return 0;
 }
 
-NTSYSAPI VOID *RtlRaiseException = 0;
-NTSYSAPI VOID *RtlRaiseStatus = 0;
-NTSYSAPI VOID *RtlTimeFieldsToTime = 0;
-NTSYSAPI VOID *RtlTimeToTimeFields = 0;
-NTSYSAPI VOID *RtlTryEnterCriticalSection = 0;
-NTSYSAPI VOID *RtlUlongByteSwap = 0;
-NTSYSAPI VOID *RtlUnicodeStringToAnsiString = 0;
-NTSYSAPI VOID *RtlUnicodeStringToInteger = 0;
-NTSYSAPI VOID *RtlUnicodeToMultiByteN = 0;
-NTSYSAPI VOID *RtlUnicodeToMultiByteSize = 0;
-NTSYSAPI VOID *RtlUnwind = 0;
-NTSYSAPI VOID *RtlUpcaseUnicodeChar = 0;
-NTSYSAPI VOID *RtlUpcaseUnicodeString = 0;
-NTSYSAPI VOID *RtlUpcaseUnicodeToMultiByteN = 0;
-NTSYSAPI VOID *RtlUpperChar = 0;
-NTSYSAPI VOID *RtlUpperString = 0;
-NTSYSAPI VOID *RtlUshortByteSwap = 0;
-NTSYSAPI VOID *RtlWalkFrameChain = 0;
+XBSYSAPI VOID *RtlRaiseException = 0;
+XBSYSAPI VOID *RtlRaiseStatus = 0;
+XBSYSAPI VOID *RtlTimeFieldsToTime = 0;
+XBSYSAPI VOID *RtlTimeToTimeFields = 0;
+XBSYSAPI VOID *RtlTryEnterCriticalSection = 0;
+XBSYSAPI VOID *RtlUlongByteSwap = 0;
+XBSYSAPI VOID *RtlUnicodeStringToAnsiString = 0;
+XBSYSAPI VOID *RtlUnicodeStringToInteger = 0;
+XBSYSAPI VOID *RtlUnicodeToMultiByteN = 0;
+XBSYSAPI VOID *RtlUnicodeToMultiByteSize = 0;
+XBSYSAPI VOID *RtlUnwind = 0;
+XBSYSAPI VOID *RtlUpcaseUnicodeChar = 0;
+XBSYSAPI VOID *RtlUpcaseUnicodeString = 0;
+XBSYSAPI VOID *RtlUpcaseUnicodeToMultiByteN = 0;
+XBSYSAPI VOID *RtlUpperChar = 0;
+XBSYSAPI VOID *RtlUpperString = 0;
+XBSYSAPI VOID *RtlUshortByteSwap = 0;
+XBSYSAPI VOID *RtlWalkFrameChain = 0;
 
 // ******************************************************************
 // * RtlZeroMemory
 // ******************************************************************
-NTSYSAPI EXPORTNUM(320) VOID NTAPI RtlZeroMemory
+XBSYSAPI EXPORTNUM(320) VOID NTAPI RtlZeroMemory
 (
   IN VOID UNALIGNED  *Destination,
   IN SIZE_T           Length
@@ -159,4 +159,4 @@ NTSYSAPI EXPORTNUM(320) VOID NTAPI RtlZeroMemory
     return;
 }
 
-NTSYSAPI VOID *RtlRip = 0;
+XBSYSAPI VOID *RtlRip = 0;
