@@ -118,7 +118,11 @@
     libraries". Then, under "Object/library modules", you should remove
     everything that is listed and replace them with the following:
 
-    xboxkrnl.lib xlibc.lib xhal.lib xvga.lib
+    xboxkrnl.lib xlibc.lib xhal.lib
+
+    Next, enter the following function name as "Entry-point symbol":
+
+    XBoxStartup
 
     Next, you will need to add a few linker options by typing
     directly into the box marked "Project Options". Add the following text
