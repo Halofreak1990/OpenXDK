@@ -160,8 +160,25 @@ XBSYSAPI EXPORTNUM(301) ULONG NTAPI RtlNtStatusToDosError
 
 XBSYSAPI VOID *RtlRaiseException;
 XBSYSAPI VOID *RtlRaiseStatus;
-XBSYSAPI VOID *RtlTimeFieldsToTime;
-XBSYSAPI VOID *RtlTimeToTimeFields;
+
+// ******************************************************************
+// * RtlTimeFieldsToTime
+// ******************************************************************
+XBSYSAPI EXPORTNUM(304) BOOLEAN NTAPI RtlTimeFieldsToTime
+(
+    IN  PTIME_FIELDS    TimeFields,
+    OUT PLARGE_INTEGER  Time
+);
+
+// ******************************************************************
+// * RtlTimeToTimeFields
+// ******************************************************************
+XBSYSAPI EXPORTNUM(305) VOID NTAPI RtlTimeToTimeFields
+(
+    IN  PLARGE_INTEGER  Time,
+    OUT PTIME_FIELDS    TimeFields 
+);
+
 XBSYSAPI VOID *RtlTryEnterCriticalSection;
 XBSYSAPI VOID *RtlUlongByteSwap;
 

@@ -791,6 +791,22 @@ typedef struct _XBOX_HARDWARE_INFO
 XBOX_HARDWARE_INFO;
 
 // ******************************************************************
+// * TIME_FIELDS
+// ******************************************************************
+typedef struct _TIME_FIELDS
+{
+    USHORT  Year;
+    USHORT  Month;
+    USHORT  Day;
+    USHORT  Hour;
+    USHORT  Minute;
+    USHORT  Second;
+    USHORT  Millisecond;
+    USHORT  Weekday;
+}
+TIME_FIELDS, *PTIME_FIELDS;
+
+// ******************************************************************
 // * READ_REGISTER_UCHAR
 // ******************************************************************
 // *
