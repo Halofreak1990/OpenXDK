@@ -4,7 +4,7 @@
 // *
 // * desc : Open Source XBox Development Kit
 // *
-// * file : xboxkrnl_io.c
+// * file : io.c
 // *
 // * note : XBox Kernel *I/O Manager* Definitions
 // *

@@ -4,7 +4,7 @@
 // *
 // * desc : Open Source XBox Development Kit
 // *
-// * file : xboxkrnl_hal.h
+// * file : hal.h
 // *
 // * note : XBox Kernel *Hardware Abstraction Layer* Declarations
 // *

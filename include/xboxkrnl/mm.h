@@ -4,7 +4,7 @@
 // *
 // * desc : Open Source XBox Development Kit
 // *
-// * file : xboxkrnl_mm.h
+// * file : mm.h
 // *
 // * note : XBox Kernel *Memory Manager* Declarations
 // *

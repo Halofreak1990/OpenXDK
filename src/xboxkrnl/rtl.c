@@ -4,7 +4,7 @@
 // *
 // * desc : Open Source XBox Development Kit
 // *
-// * file : xboxkrnl_rtl.c
+// * file : rtl.c
 // *
 // * note : XBox Kernel *Run-time Library* Definitions
 // *

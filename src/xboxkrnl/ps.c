@@ -4,7 +4,7 @@
 // *
 // * desc : Open Source XBox Development Kit
 // *
-// * file : xboxkrnl_ps.c
+// * file : ps.c
 // *
 // * note : XBox Kernel *Process Structure* Definitions
 // *

@@ -4,7 +4,7 @@
 // *
 // * desc : Open Source XBox Development Kit
 // *
-// * file : xboxkrnl_nt.c
+// * file : nt.c
 // *
 // * note : XBox Kernel *NT* Definitions
 // *

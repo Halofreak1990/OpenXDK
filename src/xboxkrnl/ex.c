@@ -4,7 +4,7 @@
 // *
 // * desc : Open Source XBox Development Kit
 // *
-// * file : xboxkrnl_ex.c
+// * file : ex.c
 // *
 // * note : XBox Kernel *Executive* Definitions
 // *

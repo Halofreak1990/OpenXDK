@@ -4,7 +4,7 @@
 // *
 // * desc : Open Source XBox Development Kit
 // *
-// * file : xboxkrnl_dbg.c
+// * file : dbg.c
 // *
 // * note : XBox Kernel *Debug* Definitions
 // *

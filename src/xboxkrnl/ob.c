@@ -4,7 +4,7 @@
 // *
 // * desc : Open Source XBox Development Kit
 // *
-// * file : xboxkrnl_ob.c
+// * file : ob.c
 // *
 // * note : XBox Kernel *Object Manager* Definitions
 // *
