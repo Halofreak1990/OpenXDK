@@ -8,9 +8,8 @@
 //
 //  Revision		By				Comment
 //  --------		--				-------
-//	1.0				Bigboy			Basic control of the NVidia hardware
-//									
-//
+//	1.0             Bigboy          Basic control of the NVidia hardware								
+//  1.1             Bigboy          added support for 16bit screen modes.
 //
 // ************************************************************************************
 
