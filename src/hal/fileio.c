@@ -39,9 +39,9 @@ char *getPartitionString(char c)
  * in all cases):
  *   c:\foo\bar.txt
  *   d:\foo\bar.txt
- *   .\foo\bar.txt                     ==> c:\foo\bar.txt
- *   \foo\bar.txt                      ==> c:\foo\bar.txt
- *   foo\bar.txt                       ==> c:\foo\bar.txt
+ *   .\foo\bar.txt                     ==> d:\foo\bar.txt
+ *   \foo\bar.txt                      ==> d:\foo\bar.txt
+ *   foo\bar.txt                       ==> d:\foo\bar.txt
  *   \\.\D:\foo\bar.txt                ==> d:\foo\bar.txt
  *   \??\c:\foo\bar.txt                ==> c:\foo\bar.txt
  */
@@ -210,8 +210,8 @@ int XCreateFile(
 	// overwritten (we know from Information), an error code is set even
 	// though the function succeeds.  This is so the application can know
 	// the difference.
-	if (((creationDisposition == FILE_OVERWRITE_IF) && (*ioStatusBlock.Information == FILE_OVERWRITTEN)) ||
-	    ((creationDisposition == FILE_OPEN_IF) && (*ioStatusBlock.Information == FILE_OPENED)))
+	if (((creationDisposition == FILE_OVERWRITE_IF) && ((unsigned int)ioStatusBlock.Information == FILE_OVERWRITTEN)) ||
+	    ((creationDisposition == FILE_OPEN_IF) && ((unsigned int)ioStatusBlock.Information == FILE_OPENED)))
 	{
 		status = ERROR_ALREADY_EXISTS;
 	}
@@ -219,7 +219,7 @@ int XCreateFile(
 	{
 		status = STATUS_SUCCESS;
 	}
-	
+
 	return status;
 }	
 
@@ -266,7 +266,7 @@ int XWriteFile(
 {
 	IO_STATUS_BLOCK ioStatusBlock;
 	NTSTATUS        status;
-	
+
 	if(numberOfBytesWritten)
 		*numberOfBytesWritten = 0;
 	
@@ -289,6 +289,7 @@ int XWriteFile(
 	{
 		if (numberOfBytesWritten)
 			*numberOfBytesWritten = (unsigned int)ioStatusBlock.Information;
+
 		return STATUS_SUCCESS;
 	}
 }
@@ -296,6 +297,7 @@ int XWriteFile(
 int XCloseHandle(int handle)
 {
 	NTSTATUS status = NtClose((void*)handle);
+
 	if (!NT_SUCCESS(status))
 		return RtlNtStatusToDosError(status);
 	else

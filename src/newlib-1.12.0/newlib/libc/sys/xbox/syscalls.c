@@ -16,6 +16,7 @@
 #define O_BINARY    0x00010000
 #define O_TEXT      0x00020000
 #define O_NOINHERIT	0x00040000
+#define O_ACCMODE   (O_RDONLY | O_WRONLY | O_RDWR)
 
 #define SEEK_SET        0
 #define SEEK_CUR        1
@@ -235,7 +236,7 @@ int open(char *filename, int flags)
 	// we don't really care about them, so lets mask them out
 	flags &= 0x0000FFFF;
 	
-	switch (flags & (O_RDONLY | O_WRONLY | O_RDWR))
+ 	switch (flags & (O_ACCMODE))
 	{
 	case O_RDONLY:
 		accessFlags = GENERIC_READ;
@@ -250,6 +251,7 @@ int open(char *filename, int flags)
 		errno = EINVAL;
 		return -1;
 	}
+
 	switch (flags & (O_CREAT | O_TRUNC))
 	{
 	case 0:
@@ -275,7 +277,7 @@ int open(char *filename, int flags)
 		sysFlags |= FILE_FLAG_DELETE_ON_CLOSE;
 
 	errno = XCreateFile(&handle, filename, accessFlags, shareFlags, createFlags, sysFlags);
-	if (errno != STATUS_SUCCESS)
+	if (errno != STATUS_SUCCESS && errno != ERROR_ALREADY_EXISTS)
 		return -1;
 	else
 		return handle;
