@@ -67,9 +67,6 @@ typedef	char*							LPCSTR;
 // end stuff that belong in some xboxwindows.h
 // ==============================================
 
-
-
-
 // these structs need to be here as they are used as parameters
 typedef struct SSecurity_Attributes{
     u32		nLength;
