@@ -100,7 +100,20 @@ XBSYSAPI VOID *KeSetEvent = 0;
 XBSYSAPI VOID *KeSetEventBoostPriority = 0;
 XBSYSAPI VOID *KeSetPriorityProcess = 0;
 XBSYSAPI VOID *KeSetPriorityThread = 0;
-XBSYSAPI VOID *KeSetTimer = 0;
+
+// ******************************************************************
+// * KeSetTimer
+// ******************************************************************
+XBSYSAPI EXPORTNUM(149) BOOLEAN NTAPI KeSetTimer
+(
+    IN PKTIMER        Timer,
+    IN LARGE_INTEGER  DueTime,
+    IN PKDPC          Dpc OPTIONAL
+)
+{
+    return TRUE;
+}
+
 XBSYSAPI VOID *KeSetTimerEx = 0;
 XBSYSAPI VOID *KeStallExecutionProcessor = 0;
 XBSYSAPI VOID *KeSuspendThread = 0;

@@ -19,9 +19,9 @@ XBSYSAPI EXPORTNUM(184) NTSTATUS NtAllocateVirtualMemory
 (
     IN OUT PVOID    *BaseAddress,
     IN ULONG         ZeroBits,
-    IN OUT PULONG    AllocationSize,
-    IN ULONG         AllocationType,
-    IN ULONG         Protect
+    IN OUT SIZE_T    AllocationSize,
+    IN DWORD         AllocationType,
+    IN DWORD         Protect
 );
 
 XBSYSAPI VOID *NtCancelTimer;
@@ -85,7 +85,20 @@ XBSYSAPI EXPORTNUM(199) NTSTATUS NtFreeVirtualMemory
 
 XBSYSAPI VOID *NtFsControlFile;
 XBSYSAPI VOID *NtOpenDirectoryObject;
-XBSYSAPI VOID *NtOpenFile;
+
+// ******************************************************************
+// * NtOpenFile
+// ******************************************************************
+XBSYSAPI EXPORTNUM(202) NTSTATUS NtOpenFile
+(
+    OUT PHANDLE             FileHandle,
+    IN  ACCESS_MASK         DesiredAccess,
+    IN  POBJECT_ATTRIBUTES  ObjectAttributes,
+    OUT PIO_STATUS_BLOCK    IoStatusBlock,
+    IN  ULONG               ShareAccess,
+    IN  ULONG               OpenOptions
+);
+
 XBSYSAPI VOID *NtOpenSymbolicLinkObject;
 XBSYSAPI VOID *NtProtectVirtualMemory;
 XBSYSAPI VOID *NtPulseEvent;
@@ -117,7 +130,18 @@ XBSYSAPI VOID *NtQuerySemaphore;
 XBSYSAPI VOID *NtQuerySymbolicLinkObject;
 XBSYSAPI VOID *NtQueryTimer;
 XBSYSAPI VOID *NtQueryVirtualMemory;
-XBSYSAPI VOID *NtQueryVolumeInformationFile;
+
+// ******************************************************************
+// * NtQueryVolumeInformationFile
+// ******************************************************************
+XBSYSAPI EXPORTNUM(218) NTSTATUS NTAPI NtQueryVolumeInformationFile
+(
+    IN  HANDLE                  FileHandle,
+    OUT PIO_STATUS_BLOCK        IoStatusBlock,
+    OUT PVOID                   FileInformation,
+    IN  ULONG                   Length,
+    IN  FS_INFORMATION_CLASS    FileInformationClass
+);
 
 // ******************************************************************
 // * NtReadFile

@@ -33,7 +33,6 @@ XBSYSAPI VOID *RtlCaptureContext = 0;
 XBSYSAPI VOID *RtlCaptureStackBackTrace = 0;
 XBSYSAPI VOID *RtlCharToInteger = 0;
 
-
 // ******************************************************************
 // * RtlCompareMemory
 // ******************************************************************
@@ -104,7 +103,19 @@ XBSYSAPI EXPORTNUM(289) VOID NTAPI RtlInitAnsiString
 }
 
 XBSYSAPI VOID *RtlInitUnicodeString = 0;
-XBSYSAPI VOID *RtlInitializeCriticalSection = 0;
+
+// ******************************************************************
+// * RtlInitializeCriticalSection
+// ******************************************************************
+XBSYSAPI EXPORTNUM(291) VOID NTAPI RtlInitializeCriticalSection
+(
+  IN PRTL_CRITICAL_SECTION CriticalSection
+)
+{
+    return;
+}
+
+
 XBSYSAPI VOID *RtlIntegerToChar = 0;
 XBSYSAPI VOID *RtlIntegerToUnicodeString = 0;
 

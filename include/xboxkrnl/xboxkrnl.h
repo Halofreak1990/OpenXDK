@@ -80,7 +80,7 @@ typedef	unsigned short		WORD;
 typedef unsigned long       ULONG;
 typedef	unsigned long       DWORD;
 typedef unsigned long       SIZE_T, *PSIZE_T;
-typedef unsigned long       ACCESS_MASK;
+typedef unsigned long       ACCESS_MASK, *PACCESS_MASK;
 typedef unsigned long       PHYSICAL_ADDRESS;
 typedef long                INT_PTR;
 typedef unsigned __int64    ULONGLONG;
@@ -227,6 +227,23 @@ typedef struct _OBJECT_ATTRIBUTES
 OBJECT_ATTRIBUTES, *POBJECT_ATTRIBUTES;
 
 // ******************************************************************
+// * FSINFOCLASS
+// ******************************************************************
+typedef enum _FSINFOCLASS
+{
+    FileFsVolumeInformation       = 1,
+    FileFsLabelInformation,      // 2
+    FileFsSizeInformation,       // 3
+    FileFsDeviceInformation,     // 4
+    FileFsAttributeInformation,  // 5
+    FileFsControlInformation,    // 6
+    FileFsFullSizeInformation,   // 7
+    FileFsObjectIdInformation,   // 8
+    FileFsMaximumInformation
+}
+FS_INFORMATION_CLASS, *PFS_INFORMATION_CLASS;
+
+// ******************************************************************
 // * IO_STATUS_BLOCK
 // ******************************************************************
 typedef struct  _IO_STATUS_BLOCK
@@ -234,7 +251,7 @@ typedef struct  _IO_STATUS_BLOCK
     union
     {
         NTSTATUS Status;
-        PVOID Pointer;
+        PVOID    Pointer;
     }
     u1;
 

@@ -100,7 +100,15 @@ XBSYSAPI EXPORTNUM(289) VOID NTAPI RtlInitAnsiString
 );
 
 XBSYSAPI VOID *RtlInitUnicodeString;
-XBSYSAPI VOID *RtlInitializeCriticalSection;
+
+// ******************************************************************
+// * RtlInitializeCriticalSection
+// ******************************************************************
+XBSYSAPI EXPORTNUM(291) VOID NTAPI RtlInitializeCriticalSection
+(
+  IN PRTL_CRITICAL_SECTION CriticalSection
+);
+
 XBSYSAPI VOID *RtlIntegerToChar;
 XBSYSAPI VOID *RtlIntegerToUnicodeString;
 
