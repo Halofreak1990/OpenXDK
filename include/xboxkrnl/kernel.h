@@ -83,12 +83,12 @@ XBSYSAPI VOID *KeQueryInterruptTime;
 // ******************************************************************
 // * KeQueryPerformanceCounter
 // ******************************************************************
-XBSYSAPI EXPORTNUM(126) VOID __cdecl KeQueryPerformanceCounter();
+XBSYSAPI EXPORTNUM(126) ULONGLONG NTAPI KeQueryPerformanceCounter();
 
 // ******************************************************************
 // * KeQueryPerformanceFrequency
 // ******************************************************************
-XBSYSAPI EXPORTNUM(127) VOID __cdecl KeQueryPerformanceFrequency();
+XBSYSAPI EXPORTNUM(127) ULONGLONG NTAPI KeQueryPerformanceFrequency();
 
 // ******************************************************************
 // * KeQuerySystemTime
