@@ -24,12 +24,16 @@ extern "C"
 #define DECLSPEC_EXPORT __declspec(dllexport)
 
 // ******************************************************************
-// * kernel exports, others import
+// * kernel exports, others either import or link locally
 // ******************************************************************
-#ifndef _XBOXKRNL_INTERNAL_
 #define XBSYSAPI DECLSPEC_IMPORT
-#else
+#ifdef _XBOXKRNL_INTERNAL_
+#undef  XBSYSAPI
 #define XBSYSAPI DECLSPEC_EXPORT
+#endif
+#ifdef _XBOXKRNL_LOCAL_
+#undef  XBSYSAPI
+#define XBSYSAPI extern
 #endif
 
 // ******************************************************************

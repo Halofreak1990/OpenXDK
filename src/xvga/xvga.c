@@ -19,7 +19,6 @@
 static void init_unchained(void);
 static void write_vgareg(int port, int index, int value);
 
-
 // ******************************************************************
 // * init_unchained
 // ******************************************************************
@@ -113,9 +112,9 @@ void xvga_set320x200()
         write_vgareg( mode_320x200[v].port, mode_320x200[v].index, mode_320x200[v].value );
 }
 
-
-
-// adapted from bigboy's code
+// ******************************************************************
+// * xvga_wait_vblank
+// ******************************************************************
 void xvga_wait_vblank()
 {
 	while (1) {
