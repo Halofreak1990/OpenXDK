@@ -1,0 +1,8 @@
+config.cache
+config.log
+config.status
+Makefile
+multilib.out
+newlib.h
+stamp-h
+stmp-targ-include

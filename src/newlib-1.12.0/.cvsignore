@@ -30,3 +30,8 @@ Makefile
 lost+found
 update.out
 update.sourceware
+config.cache
+config.log
+maybedep.tmp
+multilib.out
+serdep.tmp
