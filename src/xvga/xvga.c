@@ -25,13 +25,13 @@ void init_unchained(void)
 {
     uint08 x;
 
-    *CRTC_REG_INDEX = 0x11;
+    CRTC_WRITE(CRTC_REG_INDEX, 0x11);
 
-    x = (*CRTC_REG_DATA) & 0x7F;
+    x = CRTC_READ(CRTC_REG_DATA) & 0x7F;
 
-    *CRTC_REG_INDEX = 0x11;
+    CRTC_WRITE(CRTC_REG_INDEX, 0x11);
 
-    *CRTC_REG_DATA = x;
+    CRTC_WRITE(CRTC_REG_DATA, x);
 }
 
 // ******************************************************************
@@ -41,12 +41,12 @@ void write_vgareg(int port, int index, int value)
 {
     if(port == 0x03C0)
     {
-        *CRTC_REG_INDEX = index | 0x20;
-        *CRTC_REG_INDEX = value;
+        CRTC_WRITE(CRTC_REG_INDEX, index | 0x20);
+        CRTC_WRITE(CRTC_REG_INDEX, value);
     }
     else if(port == 0x03C2)
     {
-        *MISC_REG = value;
+        MISC_WRITE(MISC_REG, value);
     }
     else if(port == 0x03C3)
     {
@@ -116,25 +116,9 @@ void xvga_set320x200()
 // ******************************************************************
 void xvga_wait_vblank()
 {
-    while(1)
-    {
-        uint08 a = *VERTICAL_BLANK;
+    // wait until we are not vblank
+    while(CRTC_READ(VERTICAL_BLANK) & 0x08);
 
-        if(!(a&8))
-            break;
-    }
-}
-
-// ******************************************************************
-// * xvga_wait_vblank_end
-// ******************************************************************
-void xvga_wait_vblank_end()
-{
-    while(1)
-    {
-        uint08 a = *VERTICAL_BLANK;
-
-        if(a&8)
-            break;
-    }
+    // wait until we are in vblank
+    while(CRTC_READ(VERTICAL_BLANK) ^ 0x08);
 }
