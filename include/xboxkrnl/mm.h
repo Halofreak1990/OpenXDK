@@ -112,7 +112,17 @@ XBSYSAPI EXPORTNUM(180) ULONG NTAPI MmQueryAllocationSize
 );
 
 XBSYSAPI VOID *MmQueryStatistics;
-XBSYSAPI VOID *MmSetAddressProtect;
+
+// ******************************************************************
+// * MmSetAddressProtect
+// ******************************************************************
+XBSYSAPI EXPORTNUM(182) VOID NTAPI MmSetAddressProtect
+(
+    IN PVOID BaseAddress,
+    IN ULONG NumberOfBytes,
+    IN ULONG NewProtect
+);
+
 XBSYSAPI VOID *MmUnmapIoSpace;
 
 #endif
