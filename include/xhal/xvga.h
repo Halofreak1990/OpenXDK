@@ -4,15 +4,15 @@
 // *
 // * desc : Open Source XBox Development Kit
 // *
-// * file : xboxvga.h
+// * file : xvga.h
 // *
-// * note : 
+// * note : XBox VGA
 // *
 // ******************************************************************
 
 
-#ifndef	__XBFRAME__
-#define	__XBFRAME__
+#ifndef	__XVGA__
+#define	__XVGA__
 #ifdef	__cplusplus
 extern "C" {
 #endif
@@ -99,7 +99,7 @@ void	vga_set_reg( int port, int reg, int data );
 #ifdef	__cplusplus
 }
 #endif
-#endif	//__XBFRAME__
+#endif	//__XVGA__
 
 
 

@@ -4,13 +4,13 @@
 // *
 // * desc : Open Source XBox Development Kit
 // *
-// * file : xfile_internal.h
+// * file : xfile_def.h
 // *
 // * note : internal typedefs / structs / etc for xfile
 // *
 // ******************************************************************
-#ifndef	__XFILE_INTERNAL_H__
-#define	__XFILE_INTERNAL_H__
+#ifndef	__XFILE_DEF_H__
+#define	__XFILE_DEF_H__
 
 #ifdef	__cplusplus
 extern "C" {
@@ -211,4 +211,4 @@ LARGE_INTEGER	AddU64( PLARGE_INTEGER  A,PLARGE_INTEGER  B );
 #ifdef	__cplusplus
 };
 #endif
-#endif	//__XFILE_INTERNAL_H__
+#endif	//__XFILE_DEF_H__

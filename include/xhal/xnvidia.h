@@ -4,13 +4,13 @@
 // *
 // * desc : Open Source XBox Development Kit
 // *
-// * file : nvidia.h
+// * file : xnvidia.h
 // *
 // * note : XBox NVidia Chip
 // *
 // ******************************************************************
-#ifndef		__NVIDIA_H__
-#define		__NVIDIA_H__
+#ifndef		__XNVIDIA_H__
+#define		__XNVIDIA_H__
 
 #ifdef	__cplusplus
 extern "C" {
@@ -87,4 +87,4 @@ int     XdkSetVideoMode(u32 dwResolution, u32 dwPixelFormat );
 };
 #endif
 
-#endif		//__NVIDIA_H__
+#endif		//__XNVIDIA_H__

@@ -4,15 +4,15 @@
 // *
 // * desc : Open Source XBox Development Kit
 // *
-// * file : xboxvga_internal.h
+// * file : xvga_def.h
 // *
 // * note : 
 // *
 // ******************************************************************
 
 
-#ifndef		__XBOXVGA_INTERNAL_INCLUDE__
-#define		__XBOXVGA_INTERNAL_INCLUDE__
+#ifndef		__XVGA_DEF_H__
+#define		__XVGA_DEF_H__
 #ifdef	__cplusplus
 extern "C" {
 #endif
@@ -150,4 +150,4 @@ typedef struct
 #ifdef	__cplusplus
 }
 #endif
-#endif	//__XBOXVGA_INTERNAL_INCLUDE__
+#endif	//__XVGA_DEF_H__
