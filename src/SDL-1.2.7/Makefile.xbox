@@ -14,6 +14,7 @@ ALL = \
 	src\audio\SDL_mixer_MMX.c \
 	src\audio\SDL_mixer_MMX_VC.c \
 	src\audio\SDL_wave.c \
+	src\audio\xbox\SDL_xboxaudio.c \
 	src\cdrom\SDL_cdrom.c \
 	src\cpuinfo\SDL_cpuinfo.c \
 	src\endian\SDL_endian.c \
@@ -57,7 +58,7 @@ ALL = \
 
 CC = gcc
 AR = ar
-DEFS =-DENABLE_XBOX -DDISABLE_AUDIO -DDISABLE_CDROM 
+DEFS =-DENABLE_XBOX -DDISABLE_CDROM 
 
 TARGET = libSDL.a
 

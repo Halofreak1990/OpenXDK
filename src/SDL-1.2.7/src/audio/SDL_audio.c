@@ -105,6 +105,9 @@ static AudioBootStrap *bootstrap[] = {
 #ifdef DRENDERER_SUPPORT
 	&DRENDERER_bootstrap,
 #endif
+#ifdef ENABLE_XBOX
+	&XBOX_AudioBootstrap,
+#endif
 	NULL
 };
 SDL_AudioDevice *current_audio = NULL;
@@ -177,7 +180,6 @@ int SDL_RunAudio(void *audiop)
 	SDL_mutexV(audio->mixer_lock);
 	D(bug("Entering audio loop...\n"));
 #endif
-
 
 	/* Loop, filling the audio buffers */
 	while ( audio->enabled ) {
@@ -306,6 +308,7 @@ int SDL_AudioInit(const char *driver_name)
 		}
 	}
 #endif /* unix */
+
 	if ( audio == NULL ) {
 		if ( driver_name != NULL ) {
 #if 0	/* This will be replaced with a better driver selection API */

@@ -166,6 +166,9 @@ extern AudioBootStrap DCAUD_bootstrap;
 #ifdef DRENDERER_SUPPORT
 extern AudioBootStrap DRENDERER_bootstrap;
 #endif
+#ifdef ENABLE_XBOX
+extern AudioBootStrap XBOX_AudioBootstrap;
+#endif
 #ifdef MMEAUDIO_SUPPORT
 extern AudioBootStrap MMEAUDIO_bootstrap;
 #endif

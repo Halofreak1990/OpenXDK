@@ -2,6 +2,7 @@
 #include <xboxkrnl/xboxkrnl.h>
 #include <hal/audio.h>
 #include <hal/io.h>
+#include <openxdk/debug.h>
 
 // The foundation for this file came from the Cromwell audio driver by 
 // Andy (see his comments below).
@@ -51,6 +52,16 @@ unsigned long getIDTAddress()
 // declare our asm interrupt handler (see audioInterrupt.s)
 extern void IntHandler6(void);
 
+void XDumpAudioStatus()
+{
+	volatile AC97_DEVICE *pac97device = &ac97Device;
+	if (pac97device)
+	{
+		volatile unsigned char *pb = (unsigned char *)pac97device->mmio;
+		//debugPrint("CIV=%02x LVI=%02x SR=%04x CR=%02x\n", pb[0x114], pb[0x115], pb[0x116], pb[0x11B]);
+	}
+}
+
 // Initialises the audio subsystem.  This *must* be done before
 // audio will work.  You can pass NULL as the callback, but if you
 // do that, it is your responsibility to keep feeding the data to
@@ -59,13 +70,16 @@ extern void IntHandler6(void);
 // note that I currently ignore sampleSizeInBits and numChannels.  They
 // are provided to cope with future enhancements. Currently supported samples
 // are 16 bit, 2 channels (stereo)
-void XAudioInit(int sampleSizeInBits, int numChannels, XAudioCallback callback)
+void XAudioInit(int sampleSizeInBits, int numChannels, XAudioCallback callback, void *data)
 {
 	volatile AC97_DEVICE * pac97device = &ac97Device;
 	
 	pac97device->mmio = (unsigned int *)0xfec00000;
 	pac97device->nextDescriptorMod31 = 0;
 	pac97device->callback = callback;
+	pac97device->callbackData = data;
+	pac97device->sampleSizeInBits = sampleSizeInBits;
+	pac97device->numChannels = numChannels;
 
 	// initialise descriptors to all 0x00 (no samples)        
 	memset((void *)&pac97device->pcmSpdifDescriptor[0], 0, sizeof(pac97device->pcmSpdifDescriptor));
@@ -109,15 +123,6 @@ void XAudioInit(int sampleSizeInBits, int numChannels, XAudioCallback callback)
 	
 	// and lastly, lets enable the interrupt on the PIC
 	IoOutputByte(0x21,(IoInputByte(0x21) & 0xBF));
-	
-	// now, if the user has a callback, lets prepopulate the chip
-	// with a couple of buffers so that it starts up nice and smoothly.
-	if (pac97device->callback)
-	{
-		(pac97device->callback)((void *)pac97device);
-		(pac97device->callback)((void *)pac97device);
-		(pac97device->callback)((void *)pac97device);
-	}
 }
 
 // tell the chip it is OK to play...
@@ -141,7 +146,7 @@ void XAudioPause()
 // should call this method.  If you are providing the samples manually,
 // you need to make sure you call this function often enough so the
 // chip doesn't run out of data
-void XAudioProvideSamples(unsigned char *buffer, unsigned short lengthInSamples, int isFinal)
+void XAudioProvideSamples(unsigned char *buffer, unsigned short bufferLength, int isFinal)
 {
 	volatile AC97_DEVICE *pac97device = &ac97Device;
 	volatile unsigned char *pb = (unsigned char *)pac97device->mmio;
@@ -153,12 +158,12 @@ void XAudioProvideSamples(unsigned char *buffer, unsigned short lengthInSamples,
 	unsigned int address = (unsigned int)buffer;
 
 	pac97device->pcmOutDescriptor[pac97device->nextDescriptorMod31].bufferStartAddress    = MmGetPhysicalAddress((PVOID)address);
-	pac97device->pcmOutDescriptor[pac97device->nextDescriptorMod31].bufferLengthInSamples = lengthInSamples;
+	pac97device->pcmOutDescriptor[pac97device->nextDescriptorMod31].bufferLengthInSamples = bufferLength / (pac97device->sampleSizeInBits / 8);
 	pac97device->pcmOutDescriptor[pac97device->nextDescriptorMod31].bufferControl         = bufferControl;
 	pb[0x115] = (unsigned char)pac97device->nextDescriptorMod31; // set last active descriptor
 
 	pac97device->pcmSpdifDescriptor[pac97device->nextDescriptorMod31].bufferStartAddress    = MmGetPhysicalAddress((PVOID)address);
-	pac97device->pcmSpdifDescriptor[pac97device->nextDescriptorMod31].bufferLengthInSamples = lengthInSamples;
+	pac97device->pcmSpdifDescriptor[pac97device->nextDescriptorMod31].bufferLengthInSamples = bufferLength / (pac97device->sampleSizeInBits / 8);
 	pac97device->pcmSpdifDescriptor[pac97device->nextDescriptorMod31].bufferControl         = bufferControl;
 	pb[0x175] = (unsigned char)pac97device->nextDescriptorMod31; // set last active descriptor
 
@@ -180,7 +185,7 @@ void XAudioInterrupt()
 		if (pb[0x116]&8) 
 		{
 			if (pac97device->callback)
-				(pac97device->callback)((void *)pac97device);
+				(pac97device->callback)((void *)pac97device, pac97device->callbackData);
 		}
 	
 		// was the interrupt triggered because of FIFO error
@@ -188,7 +193,7 @@ void XAudioInterrupt()
 		{
 			// Fifo underrun - what should I do here?
 		}
-	
+
 		pb[0x116] = 0xFF; // clear all int sources
 		pb[0x176] = 0XFF; // clear all int sources
 	}

@@ -3,7 +3,7 @@
 
 // This is the signature for the function that the audio
 // subsystem will call back to when it has run out of data
-typedef void (*XAudioCallback)(void *pac97Device);
+typedef void (*XAudioCallback)(void *pac97Device, void *data);
 
 // buffer descriptor from AC97 specification
 typedef struct 
@@ -21,14 +21,17 @@ typedef struct
 	volatile unsigned int *mmio;
 	volatile unsigned int  nextDescriptorMod31;
 	XAudioCallback         callback;
+	void                  *callbackData;
+	int                    sampleSizeInBits;
+	int                    numChannels;
 } AC97_DEVICE  __attribute__ ((aligned (8)));
 
 // note that I currently ignore sampleSizeInBits and numChannels.  They
 // are provided to cope with future enhancements. Currently supported samples
 // are 16 bit, 2 channels (stereo)
-void XAudioInit(int sampleSizeInBits, int numChannels, XAudioCallback callback);
+void XAudioInit(int sampleSizeInBits, int numChannels, XAudioCallback callback, void *data);
 void XAudioPlay();
 void XAudioPause();
-void XAudioProvideSamples(unsigned char *buffer, unsigned short lengthInSamples, int isFinal);
+void XAudioProvideSamples(unsigned char *buffer, unsigned short bufferLength, int isFinal);
 
 #endif
