@@ -352,6 +352,7 @@ int WriteFile(	HANDLE			hFile,
 
 int	CloseHandle( HANDLE Handle );
 int	GetFileSizeEx(	HANDLE hFile, PLARGE_INTEGER lpFileSize);
+int	SetFilePointerEx( HANDLE hFile, LARGE_INTEGER liDistanceToMove, PLARGE_INTEGER lpNewFilePointer, DWORD dwMoveMethod);
 
 
 
