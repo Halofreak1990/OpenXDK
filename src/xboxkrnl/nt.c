@@ -80,7 +80,26 @@ NTSYSAPI VOID *NtQueryDirectoryFile = 0;
 NTSYSAPI VOID *NtQueryDirectoryObject = 0;
 NTSYSAPI VOID *NtQueryEvent = 0;
 NTSYSAPI VOID *NtQueryFullAttributesFile = 0;
-NTSYSAPI VOID *NtQueryInformationFile = 0;
+
+// ******************************************************************
+// * NtReadFile
+// ******************************************************************
+// *
+// * Read from an open file
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(211) ULONG NTAPI NtQueryInformationFile
+(	
+	IN	LONG	FileHandle, 
+	IN	PVOID	IoStatusBlock,
+	IN	PVOID	FileInformation, 
+	IN	ULONG	Length, 
+	IN	ULONG	FileInfo
+)
+{
+    return 0;
+}
+//NTSYSAPI VOID *NtQueryInformationFile = 0;
 NTSYSAPI VOID *NtQueryIoCompletion = 0;
 NTSYSAPI VOID *NtQueryMutant = 0;
 NTSYSAPI VOID *NtQuerySemaphore = 0;
@@ -119,7 +138,26 @@ NTSYSAPI VOID *NtReleaseSemaphore = 0;
 NTSYSAPI VOID *NtRemoveIoCompletion = 0;
 NTSYSAPI VOID *NtResumeThread = 0;
 NTSYSAPI VOID *NtSetEvent = 0;
-NTSYSAPI VOID *NtSetInformationFile = 0;
+
+// ******************************************************************
+// * NtSetInformationFile
+// ******************************************************************
+// *
+// * 
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(226) ULONG NTAPI NtSetInformationFile
+(	
+	IN	PVOID	FileHandle,
+	IN	PVOID	IO_Info,
+	IN	PVOID	FileInfo,
+	IN	ULONG	Length,
+	IN	ULONG	FileInfoClass
+)
+{
+    return 0;
+}
+//NTSYSAPI VOID *NtSetInformationFile = 0;
 NTSYSAPI VOID *NtSetIoCompletion = 0;
 NTSYSAPI VOID *NtSetSystemTime = 0;
 NTSYSAPI VOID *NtSetTimerEx = 0;
@@ -147,6 +185,29 @@ NTSYSAPI EXPORTNUM(233) ULONG NTAPI NtWaitForSingleObject
 //NTSYSAPI VOID *NtWaitForSingleObject = 0;
 NTSYSAPI VOID *NtWaitForSingleObjectEx = 0;
 NTSYSAPI VOID *NtWaitForMultipleObjectsEx = 0;
-NTSYSAPI VOID *NtWriteFile = 0;
+
+
+// ******************************************************************
+// * NtWriteFile
+// ******************************************************************
+// *
+// * 
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(233) ULONG NTAPI NtWriteFile
+(	
+	IN	PVOID	Handle,
+	IN	PVOID	Event,
+	IN	PVOID	callback,
+	IN	PVOID	context,
+	IN	PVOID	IOstat,
+	IN	PVOID	pBuffer,
+	IN	ULONG	Length,
+	IN	PVOID	Offset
+)
+{
+    return 0;
+}
+//NTSYSAPI VOID *NtWriteFile = 0;
 NTSYSAPI VOID *NtWriteFileGather = 0;
 NTSYSAPI VOID *NtYieldExecution = 0;

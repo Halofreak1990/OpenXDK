@@ -58,7 +58,16 @@ NTSYSAPI VOID *NtQueryDirectoryFile;
 NTSYSAPI VOID *NtQueryDirectoryObject;
 NTSYSAPI VOID *NtQueryEvent;
 NTSYSAPI VOID *NtQueryFullAttributesFile;
-NTSYSAPI VOID *NtQueryInformationFile;
+
+NTSYSAPI EXPORTNUM(211) ULONG NTAPI NtQueryInformationFile
+(	
+	IN	LONG	FileHandle, 
+	IN	PVOID	IoStatusBlock,
+	IN	PVOID	FileInformation, 
+	IN	ULONG	Length, 
+	IN	ULONG	FileInfo
+);
+//NTSYSAPI VOID *NtQueryInformationFile;
 NTSYSAPI VOID *NtQueryIoCompletion;
 NTSYSAPI VOID *NtQueryMutant;
 NTSYSAPI VOID *NtQuerySemaphore;
@@ -86,7 +95,17 @@ NTSYSAPI VOID *NtReleaseSemaphore;
 NTSYSAPI VOID *NtRemoveIoCompletion;
 NTSYSAPI VOID *NtResumeThread;
 NTSYSAPI VOID *NtSetEvent;
-NTSYSAPI VOID *NtSetInformationFile;
+
+
+NTSYSAPI EXPORTNUM(226) ULONG NTAPI NtSetInformationFile
+(	
+	IN	PVOID	FileHandle,
+	IN	PVOID	IO_Info,
+	IN	PVOID	FileInfo,
+	IN	ULONG	Length,
+	IN	ULONG	FileInfoClass
+);
+//NTSYSAPI VOID *NtSetInformationFile;
 NTSYSAPI VOID *NtSetIoCompletion;
 NTSYSAPI VOID *NtSetSystemTime;
 NTSYSAPI VOID *NtSetTimerEx;
@@ -103,7 +122,27 @@ NTSYSAPI EXPORTNUM(233) ULONG NTAPI NtWaitForSingleObject
 //NTSYSAPI VOID *NtWaitForSingleObject;
 NTSYSAPI VOID *NtWaitForSingleObjectEx;
 NTSYSAPI VOID *NtWaitForMultipleObjectsEx;
-NTSYSAPI VOID *NtWriteFile;
+
+
+// ******************************************************************
+// * NtWriteFile
+// ******************************************************************
+// *
+// * 
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(233) ULONG NTAPI NtWriteFile
+(	
+	IN	PVOID	Handle,
+	IN	PVOID	Event,
+	IN	PVOID	callback,
+	IN	PVOID	context,
+	IN	PVOID	IOstat,
+	IN	PVOID	pBuffer,
+	IN	ULONG	Length,
+	IN	PVOID	Offset
+);
+//NTSYSAPI VOID *NtWriteFile;
 NTSYSAPI VOID *NtWriteFileGather;
 NTSYSAPI VOID *NtYieldExecution;
 

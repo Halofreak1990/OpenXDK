@@ -34,10 +34,11 @@ RSC=rc.exe
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
 # PROP Output_Dir "lib"
-# PROP Intermediate_Dir "lib"
+# PROP Intermediate_Dir "lib\xlibc"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /G6 /Za /W2 /O2 /X /I "include\xlibc" /I "include" /u /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "_LIBC" /D "__STD_C" /FD /QIfist /c
+# ADD CPP /nologo /G6 /Za /W2 /Ot /Oa /Ow /Og /Oy /X /I "include\xlibc" /I "include" /u /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "_LIBC" /D "__STD_C" /FD /QIfist /c
+# SUBTRACT CPP /Oi
 # ADD BASE RSC /l 0x809 /d "NDEBUG"
 # ADD RSC /l 0x809 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -215,6 +216,10 @@ SOURCE=.\src\xlibc\string\wordcopy.c
 # Begin Group "stdio"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\xlibc\stdio\file_io.c
+# End Source File
 # Begin Source File
 
 SOURCE=.\src\xlibc\stdio\snprintf.c

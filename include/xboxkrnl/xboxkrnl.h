@@ -41,6 +41,7 @@ typedef unsigned char       BYTE;
 typedef BYTE                BOOLEAN;
 typedef	unsigned int		DWORD;
 typedef unsigned long       ULONG;
+typedef	long				LONG;
 typedef unsigned long      *PULONG;
 typedef unsigned long       PHYSICAL_ADDRESS;
 typedef long               *LONG_PTR;

@@ -26,6 +26,7 @@ typedef	char*							LPCSTR;
 #define	TRUE	1
 #endif
 // Errors we might need
+#define ERROR_NEGATIVE_SEEK				(131)
 #define	ERROR_INVALID_NAME				(123)
 #define	ERROR_OPEN_FAILED				(110)
 #define	ERROR_DRIVE_LOCKED				(108)
@@ -186,6 +187,57 @@ typedef	char*							LPCSTR;
 #define STATUS_ALERTED					0x00000101
 #define STATUS_USER_APC					0x000000C0
 
+#define	FILE_BEGIN						(0x00000000)
+#define	FILE_CURRENT					(0x00000001)
+#define	FILE_END						(0x00000002)
+
+
+
+
+// **************************************************************************
+//
+//	NtQueryInformationFile / NtSetInformationFile stuff
+//	Types of information that can be set
+//
+// **************************************************************************
+typedef enum _FILE_INFORMATION_CLASS {
+	FileDirectoryInformation = 1,
+	FileFullDirectoryInformation,
+	FileBothDirectoryInformation,
+	FileBasicInformation,		// known supported for "set" only; query???
+	FileStandardInformation,	// known NOT supported; use NetworkOpen instead
+	FileInternalInformation,
+	FileEaInformation,
+	FileAccessInformation,
+	FileNameInformation,
+	FileRenameInformation,
+	FileLinkInformation,
+	FileNamesInformation,
+	FileDispositionInformation, // known to be supported; not tested
+	FilePositionInformation,	// known to be supported; not tested
+	FileFullEaInformation,
+	FileModeInformation,
+	FileAlignmentInformation,
+	FileAllInformation,
+	FileAllocationInformation,
+	FileEndOfFileInformation,
+	FileAlternateNameInformation,
+	FileStreamInformation,
+	FilePipeInformation,
+	FilePipeLocalInformation,
+	FilePipeRemoteInformation,
+	FileMailslotQueryInformation,
+	FileMailslotSetInformation,
+	FileCompressionInformation,
+	FileObjectIdInformation,
+	FileCompletionInformation,
+	FileMoveClusterInformation,
+	FileQuotaInformation,
+	FileReparsePointInformation,
+	FileNetworkOpenInformation,		// known to be supported
+	FileAttributeTagInformation,
+	FileTrackingInformation
+} FILE_INFORMATION_CLASS, *PFILE_INFORMATION_CLASS;
 
 // **************************************************************************
 //
@@ -240,6 +292,41 @@ typedef struct _OVERLAPPED {
 
 
 
+// File pointer information (SetFilePointer and such use this) Query/Set
+typedef struct _FILE_POSITION_INFORMATION {
+	LARGE_INTEGER	CurrentByteOffset;
+} FILE_POSITION_INFORMATION, *PFILE_POSITION_INFORMATION;
+
+
+
+// Access times and normal attributes
+// Query/set?  Only Set is known to be supported.  Use
+// FILE_NETWORK_OPEN_INFORMATION if you want to query this data.
+typedef struct _FILE_BASIC_INFORMATION {
+	LARGE_INTEGER	CreationTime;
+	LARGE_INTEGER	LastAccessTime;
+	LARGE_INTEGER	LastWriteTime;
+	LARGE_INTEGER	ChangeTime;
+	ULONG			FileAttributes;
+} FILE_BASIC_INFORMATION, *PFILE_BASIC_INFORMATION;
+
+
+
+
+// Access times and normal attributes
+typedef struct _FILE_NETWORK_OPEN_INFORMATION 
+{
+	LARGE_INTEGER CreationTime;				// 000 Time file was created
+	LARGE_INTEGER LastAccessTime;			// 008 Time file was last accessed
+	LARGE_INTEGER LastWriteTime;			// 010 Time file was last opened for writing?
+	LARGE_INTEGER ChangeTime;				// 018 Time file was last changed?
+	LARGE_INTEGER AllocationSize;			// 020 Size of the file in the file system (including slack space)
+	LARGE_INTEGER EndOfFile;				// 028 What we'd normally call the file size
+	ULONG FileAttributes;					// 030 File attributes
+	ULONG Unknown;							// 034 Unknown
+} FILE_NETWORK_OPEN_INFORMATION, *PFILE_NETWORK_OPEN_INFORMATION;
+
+
 
 HANDLE	CreateFile(char* lpFilename,
 					u32		dwDesiredAccess, 
@@ -255,10 +342,23 @@ int	ReadFile(	HANDLE	hFile,					// file handle
 				u32*	lpNumberOfBytesRead,	// pointer to a place to store bytes read
 				LPOVERLAPPED lpOverlapped		// NULL unless overlap
 			);
+
+int WriteFile(	HANDLE			hFile, 
+				PVOID			lpBuffer,
+				u32				nNumberOfBytesToWrite,
+				u32*			lpNumberOfBytesWritten,
+				LPOVERLAPPED	lpOverlapped
+				);
+
 int	CloseHandle( HANDLE Handle );
+int	GetFileSizeEx(	HANDLE hFile, PLARGE_INTEGER lpFileSize);
+
+
 
 char* GetLastErrorMessage( void );
 void SetLastError( u32 ErrorCode );
+
+LARGE_INTEGER	AddU64( PLARGE_INTEGER  A,PLARGE_INTEGER  B );
 
 
 #ifdef	__cplusplus

@@ -138,6 +138,9 @@ static VOID AdjustStringForward( PANSI_STRING String, ULONG Length )
 // \\.\GLOBALROOT\Device\CdRom0 -> \Device\CdRom0
 //
 //********************************************************
+//
+// Doesnt work yet...
+//
 static VOID Win32FixPath(	PANSI_STRING	OutString,
 							char*	lpFixedFilename,
 							char*	lpFilename,
@@ -470,7 +473,7 @@ int	ReadFile(	HANDLE	hFile,					// file handle
 
 
 
-// 
+ 
 //********************************************************
 //
 // Name:		CloseHandle
@@ -493,6 +496,239 @@ int	CloseHandle( HANDLE Handle )
 	SetLastError(NO_ERROR);
 	return TRUE;
 }
+
+
+
+
+// ****************************************************************************
+//
+//	Name:			GetFileSizeEx
+//	Function:   	Get the size of an "open" file
+//
+//	In:				hfile		= handle to open file
+//					lpFileSize	= pointer to LARGE_INTEGER to store size
+//	Out:			int			= true for okay
+//								= false for error
+//
+// ****************************************************************************
+int	GetFileSizeEx(	HANDLE hFile, PLARGE_INTEGER lpFileSize)
+{
+	NTSTATUS			Status;
+	IO_STATUS_BLOCK		IoStatusBlock;
+	FILE_NETWORK_OPEN_INFORMATION	OpenInfo;
+
+	// We use FileNetworkOpenInformation from NtQueryInformationFile to get
+	// the file size.  This trick I got from Windows XP's implementation,
+	// which seems to work on XBOX.
+	if (!NT_SUCCESS(Status = NtQueryInformationFile(hFile, &IoStatusBlock,
+		&OpenInfo, sizeof(OpenInfo), FileNetworkOpenInformation)))
+	{
+		SetLastError(RtlNtStatusToDosError(Status));
+		return FALSE;
+	}
+
+	// Copy the file size to the caller's variable
+	*lpFileSize = OpenInfo.EndOfFile;
+
+	// This is *absolutely important* to correct operation of GetFileSize!
+	SetLastError(NO_ERROR);
+	return TRUE;
+}
+
+
+
+
+// ****************************************************************************
+//
+// Name:		SetFilePointerEx
+// Function:   	Move file pointer around
+//
+// NOTE:		Until I do some 64bit functions, OR we get to use __int64
+//				we are restricted to 32bit long files. (4 gig?)
+//
+//
+// ****************************************************************************
+int	SetFilePointerEx(	HANDLE hFile,
+						LARGE_INTEGER liDistanceToMove,
+						PLARGE_INTEGER lpNewFilePointer,
+						DWORD dwMoveMethod)
+{
+	FILE_POSITION_INFORMATION		PositionInfo;
+	LARGE_INTEGER					TargetPointer;
+	IO_STATUS_BLOCK					IoStatusBlock;
+	NTSTATUS						Status;
+
+	TargetPointer.HighPart = liDistanceToMove.HighPart;
+	// Calculate the target pointer
+	switch (dwMoveMethod)
+	{
+		// From the beginning of the file
+		case FILE_BEGIN:			TargetPointer.LowPart = liDistanceToMove.LowPart;
+									break;
+
+		// From the current position
+		case FILE_CURRENT:			Status = NtQueryInformationFile( hFile, &IoStatusBlock, &PositionInfo, sizeof(PositionInfo), FilePositionInformation);
+									if(Status!=NO_ERROR) goto Error;
+
+									// Calculate new file pointer
+									TargetPointer.LowPart = PositionInfo.CurrentByteOffset.LowPart + liDistanceToMove.LowPart;
+									//*((PLARGE_INTEGER) &TargetPointer.LowPart) = AddU64((PLARGE_INTEGER) &(PositionInfo.CurrentByteOffset.LowPart) , (PLARGE_INTEGER) &(liDistanceToMove.LowPart));
+									break;
+
+		// From the end of the file
+		case FILE_END:				if (!GetFileSizeEx(hFile, &TargetPointer))
+									goto ErrorWin32;
+
+									// Calculate new file pointer
+									TargetPointer.LowPart -= liDistanceToMove.LowPart;
+									//TargetPointer.QuadPart -= liDistanceToMove.QuadPart;
+									break;
+
+		default:
+				SetLastError(ERROR_INVALID_PARAMETER);
+				goto ErrorWin32;
+	}
+
+	// Don't allow a negative seek
+	//if (TargetPointer.QuadPart < 0)
+	if ( (TargetPointer.LowPart&0x80000000) != 0)
+	{
+		SetLastError(ERROR_NEGATIVE_SEEK);
+		goto ErrorWin32;
+	}
+
+	// Fill in the new position information
+	PositionInfo.CurrentByteOffset.HighPart = TargetPointer.HighPart;
+	PositionInfo.CurrentByteOffset.LowPart= TargetPointer.LowPart;
+
+	// Set the new position
+	Status = NtSetInformationFile( (void*) hFile, &IoStatusBlock,&PositionInfo, sizeof(PositionInfo), FilePositionInformation );
+	if(Status!=NO_ERROR) goto Error;
+
+	// Return the new pointer
+	if (lpNewFilePointer) {
+		lpNewFilePointer->HighPart = TargetPointer.HighPart;
+		lpNewFilePointer->LowPart = TargetPointer.LowPart;
+	}
+	return TRUE;
+
+Error:
+	SetLastError( RtlNtStatusToDosError(Status) );
+ErrorWin32:
+	return FALSE;
+}
+
+
+
+
+// Write data to a data file or device
+int WriteFile(	HANDLE			hFile, 
+				PVOID			lpBuffer,
+				u32				nNumberOfBytesToWrite,
+				u32*			lpNumberOfBytesWritten,
+				LPOVERLAPPED	lpOverlapped)
+{
+	LARGE_INTEGER	Offset;
+	IO_STATUS_BLOCK	IoStatusBlock;
+	NTSTATUS		Status;
+
+	if(lpNumberOfBytesWritten){
+		*lpNumberOfBytesWritten = 0;
+	}
+
+	if (lpOverlapped)
+	{
+		Offset.LowPart = lpOverlapped->Offset;
+		Offset.HighPart = lpOverlapped->OffsetHigh;
+		lpOverlapped->Internal = STATUS_PENDING;
+
+		Status = NtWriteFile(
+			(void*)hFile,
+			(void*)lpOverlapped->hEvent,
+			NULL,
+			NULL,
+			(PIO_STATUS_BLOCK)lpOverlapped,
+			lpBuffer,
+			nNumberOfBytesToWrite,
+			&Offset);
+
+		if ((!NT_SUCCESS(Status))||(Status == STATUS_PENDING))
+		{
+			SetLastError(RtlNtStatusToDosError(Status));
+			return FALSE;
+		}
+
+		if (lpNumberOfBytesWritten)
+			*lpNumberOfBytesWritten = lpOverlapped->InternalHigh;
+
+		SetLastError(NO_ERROR);
+		return TRUE;
+	}
+
+	Status = NtWriteFile(	(void*)hFile,
+							NULL,
+							NULL,
+							NULL,
+							&IoStatusBlock,
+							lpBuffer,
+							nNumberOfBytesToWrite,
+							NULL);
+
+	if (Status == STATUS_PENDING)
+	{
+		Status = NtWaitForSingleObject(
+			(void*) hFile,
+			FALSE,
+			NULL);
+	}
+
+	if (NT_SUCCESS(Status))
+	{
+		if (lpNumberOfBytesWritten){
+			*lpNumberOfBytesWritten = (u32)IoStatusBlock.Information;
+		}
+		SetLastError(NO_ERROR);
+		return TRUE;
+	}
+
+	SetLastError(RtlNtStatusToDosError(Status));
+	return FALSE;
+}
+
+
+
+/*
+LARGE_INTEGER	AddU64( PLARGE_INTEGER  A,PLARGE_INTEGER  B )
+{
+	u32	t,carry;
+	LARGE_INTEGER	answer;
+
+	t = (A->LowPart&0xffff)+(B->LowPart&0xffff);								// bits 0-15
+	answer.LowPart = t&0xffff;
+	carry = (t>>16)&0xffff;
+
+	t = ((A->LowPart>>16)&0xffff)+((B->LowPart>>16)&0xffff)+carry;	// bits 16-31
+	answer.LowPart |= ((t&0xffff)<<16);
+	carry = (t>>16)&0xffff;
+	
+	t = ((A->HighPart)&0xffff)+((B->HighPart)&0xffff)+carry;		// bits 32-47
+	answer.HighPart |= ((t&0xffff)<<16);
+	carry = (t>>16)&0xffff;
+
+	t = ((A->HighPart>>16)&0xffff)+((B->HighPart>>16)&0xffff)+carry;	// bits 48-63
+	answer.HighPart |= ((t&0xffff)<<16);
+	//carry = (t>>16)&0xffff;
+}*/
+
+
+
+
+
+
+
+
+
+
 
 
 
