@@ -2,7 +2,26 @@
 <link rel="STYLESHEET" href="style.css" Type="text/css"/>
 
 <h1>OpenXDK - Open XBOX Development Kit</h1>
-Welcome to the OpenXDK!!  For more information, click on one of the following
+Welcome to the OpenXDK!!  OpenXDK is a kit for developing applications that will
+run on the Microsoft XBOX.  It has the following features:
+<ul>
+<li>Compilable using a GCC-based toolchain. It now compiles using the Cygwin GCC compiler. Unfortunately, as much 
+as it would have been desirable to support both MS and GNU toolchains, the practicalities are such that the MS 
+compilers are no longer supported. Sorry! (Although, theoretically, you should be able to compile your 
+application using the MS compilers and link in the GCC-compiled OpenXDK libraries.)</li>
+<li>It now contains a complete libc replacement (thanks to newlib.) This means that 99% of the normal stdio, 
+memory, sprintf, et al routines are available.</li>
+<li>Multimedia support is provided using the Simple DirectMedia Layer (SDL) and supports video, joysticks and 
+event handling. Video is currently limited to 640x480 or smaller. Only one joystick/pad is supported (but that 
+is expected to be fixed soon.)</li>
+<li>To demonstrate the capabilities of the current OpenXDK framework, the SDL port of Doom (without sound or 
+networking) is able to be compiled and executed. You will need to find a DOOM1.WAD (shareware) and put it in 
+the root of your XBOX's C drive.</li>
+<li>Sound and networking are currently not supported. If you have experience in interfacing with the NVidia 
+nForce MCP-D chip at the hardware/driver level, please get involved!</li>
+</ul>
+<p>
+For more information, click on one of the following
 topics:
 <ul>
 <li><a href="xbox.html">Stuff you should know about the XBOX</a></li>
@@ -17,10 +36,8 @@ topics:
 <li><a href="links.html">Useful Links</a></li>
 </ul>
 <p>
-All feedback, suggestions, corrections and offers of assistance welcome.    In particular, I am looking for anyone who would be able to help contribute drivers for:
-<ul>
-<li>Audio driver - NVIDIA nFORCE chip</li>
-<li>TCP/IP networking stack - NVIDIA nFORCE chip</li>
-</ul>
+All feedback, suggestions, corrections and offers of assistance welcome. 
+<p>
+<code>craig (at) openxdk (dot) org</code>.
 <br>
 </html>
