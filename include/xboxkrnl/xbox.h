@@ -15,10 +15,6 @@
 // ******************************************************************
 // * AvGetSavedDataAddress
 // ******************************************************************
-// *
-// * get current display start address
-// *
-// ******************************************************************
 NTSYSAPI EXPORTNUM(1) PVOID NTAPI AvGetSavedDataAddress();
 
 NTSYSAPI VOID *AvSendTVEncoderOption;
@@ -38,10 +34,6 @@ NTSYSAPI EXPORTNUM(4) ULONG NTAPI AvSetDisplayMode
 
 // ******************************************************************
 // * AvSetSavedDataAddress
-// ******************************************************************
-// *
-// * set current display start address
-// *
 // ******************************************************************
 NTSYSAPI EXPORTNUM(4) VOID NTAPI AvSetSavedDataAddress
 (

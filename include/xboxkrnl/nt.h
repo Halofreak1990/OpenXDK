@@ -42,15 +42,15 @@ NTSYSAPI VOID *NtCreateEvent;
 // ******************************************************************
 NTSYSAPI EXPORTNUM(190) NTSTATUS NTAPI NtCreateFile
 (
-	OUT PHANDLE  FileHandle, 
-	IN  ULONG    DesiredAccess,      // TODO: should be ACCESS_MASK
-	IN  PVOID	ObjectAttributes,    // TODO: correct other params
-	OUT PVOID	IoStatusBlock,   
-	IN  PVOID	AllocationSize, 
-	IN  ULONG	FileAttributes, 
-	IN  ULONG	ShareAccess, 
-	IN  ULONG	CreateDisposition, 
-	IN  ULONG	CreateOptions 
+	OUT PHANDLE     FileHandle, 
+	IN  ACCESS_MASK DesiredAccess,
+	IN  PVOID	    ObjectAttributes,    // TODO: correct other params
+	OUT PVOID	    IoStatusBlock,   
+	IN  PVOID	    AllocationSize, 
+	IN  ULONG	    FileAttributes, 
+	IN  ULONG	    ShareAccess, 
+	IN  ULONG	    CreateDisposition, 
+	IN  ULONG	    CreateOptions 
 );
 
 NTSYSAPI VOID *NtCreateIoCompletion;

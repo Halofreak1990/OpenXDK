@@ -17,6 +17,9 @@ extern "C"
 {
 #endif
 
+// ******************************************************************
+// * kernel exports, others import
+// ******************************************************************
 #ifndef _XBOXKRNL_INTERNAL_
 #define NTSYSAPI __declspec( dllimport )
 #else
@@ -33,7 +36,7 @@ extern "C"
 // ******************************************************************
 // * CONST
 // ******************************************************************
-#define CONST const
+#define CONST               const
 
 // ******************************************************************
 // * Basic types
@@ -46,6 +49,7 @@ typedef	unsigned short		WORD;
 typedef unsigned long       ULONG;
 typedef	unsigned long       DWORD;
 typedef unsigned long       SIZE_T;
+typedef unsigned long       ACCESS_MASK;
 typedef unsigned long       PHYSICAL_ADDRESS;
 typedef	long				LONG;
 typedef void                VOID;
@@ -55,12 +59,36 @@ typedef void                VOID;
 // ******************************************************************
 typedef CHAR               *PCHAR;
 typedef CHAR               *PCSZ;
+typedef BYTE               *PBYTE;
 typedef BOOLEAN            *PBOOLEAN;
+typedef USHORT             *PUSHORT;
 typedef ULONG              *PULONG;
+typedef ACCESS_MASK        *PACCESS_MASK;
 typedef LONG               *LONG_PTR;
 typedef VOID               *PVOID;
 typedef void               *HANDLE;
 typedef HANDLE             *PHANDLE;
+
+// ******************************************************************
+// * NTSTATUS
+// ******************************************************************
+typedef long                NTSTATUS;
+
+// ******************************************************************
+// * calling conventions
+// ******************************************************************
+#define NTAPI               __stdcall
+#define CDECL               __cdecl
+#define DECLSPEC_NORETURN   __declspec( noreturn )
+
+// ******************************************************************
+// * documentation purposes only
+// ******************************************************************
+#define EXPORTNUM(a)
+#define UNALIGNED
+#define OPTIONAL
+#define IN
+#define OUT
 
 // ******************************************************************
 // * STRING
@@ -71,32 +99,18 @@ typedef struct _STRING
     USHORT  MaximumLength;
     PCHAR   Buffer;
 }
-STRING, ANSI_STRING, *LPSTRING, *PANSI_STRING;
+STRING, ANSI_STRING, *PSTRING, *PANSI_STRING;
 
 // ******************************************************************
-// * NTSTATUS
+// * OBJECT_ATTRIBUTES
 // ******************************************************************
-typedef long NTSTATUS;
-
-// ******************************************************************
-// * NTAPI
-// ******************************************************************
-#define NTAPI __stdcall
-#define CDECL __cdecl
-
-// ******************************************************************
-// * Documentation purposes only
-// ******************************************************************
-#define EXPORTNUM(a)
-#define UNALIGNED
-#define OPTIONAL
-#define IN
-#define OUT
-
-// ******************************************************************
-// * DECLSPEC_NORETURN
-// ******************************************************************
-#define DECLSPEC_NORETURN __declspec( noreturn )
+typedef struct _OBJECT_ATTRIBUTES
+{
+    HANDLE  RootDirectory;
+    PSTRING ObjectName;
+    ULONG   Attributes;
+}
+OBJECT_ATTRIBUTES, *POBJECT_ATTRIBUTES;
 
 // ******************************************************************
 // * Debug

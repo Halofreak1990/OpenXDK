@@ -159,18 +159,6 @@ typedef enum _FILE_INFORMATION_CLASS {
 	FileTrackingInformation
 } FILE_INFORMATION_CLASS, *PFILE_INFORMATION_CLASS;
 
-// **************************************************************************
-//
-//	Structs
-//
-// **************************************************************************
-typedef struct  SObject_Attributes {
-	HANDLE			RootDirectory;
-	PANSI_STRING	ObjectName;
-	u32				Attributes;
-} SObject_Attributes, *PObject_Attributes;
-
-
 typedef struct  _IO_STATUS_BLOCK {
 	//union {
 		NTSTATUS	Status;

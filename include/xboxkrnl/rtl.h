@@ -17,10 +17,6 @@ NTSYSAPI VOID *RtlAnsiStringToUnicodeString;
 // ******************************************************************
 // * RtlAppendStringToString
 // ******************************************************************
-// *
-// * String concatination (Destination.Source)
-// *
-// ******************************************************************
 NTSYSAPI EXPORTNUM(261) ULONG NTAPI RtlAppendStringToString
 (
   IN PVOID			Destination,    // TODO: should be STRING
@@ -38,10 +34,10 @@ NTSYSAPI VOID *RtlCharToInteger;
 // * RtlCompareMemory
 // ******************************************************************
 // *
-// * Compare block of memory, return number of equivalent bytes.
+// * compare block of memory, return number of equivalent bytes.
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(268) SIZE_T CDECL RtlCompareMemory
+NTSYSAPI EXPORTNUM(268) SIZE_T NTAPI RtlCompareMemory
 (
   IN CONST VOID *Source1,
   IN CONST VOID *Source2,
@@ -112,7 +108,7 @@ NTSYSAPI VOID *RtlMapGenericMask;
 // * in 4-byte blocks, followed by any remaining blocks.
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(298) VOID CDECL RtlMoveMemory
+NTSYSAPI EXPORTNUM(298) VOID NTAPI RtlMoveMemory
 (
   IN VOID UNALIGNED       *Destination,
   IN CONST VOID UNALIGNED *Source,
@@ -156,7 +152,7 @@ NTSYSAPI VOID *RtlWalkFrameChain;
 // * Fill a block of memory with zeros.
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(320) VOID CDECL RtlZeroMemory
+NTSYSAPI EXPORTNUM(320) VOID NTAPI RtlZeroMemory
 (
   IN VOID UNALIGNED  *Destination,
   IN SIZE_T           Length

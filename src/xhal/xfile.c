@@ -267,7 +267,7 @@ HANDLE CreateFile(	char* lpFilename,
 {
 //	char				FixedFilename[MAX_PATH];
 	ANSI_STRING			Filename;
-	SObject_Attributes	Attributes;
+	OBJECT_ATTRIBUTES	Attributes;
 	IO_STATUS_BLOCK		IoStatusBlock;
 	NTSTATUS			Status;
 	HANDLE				FileHandle=0;

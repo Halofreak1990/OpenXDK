@@ -37,7 +37,7 @@ NTSYSAPI VOID *RtlCharToInteger = 0;
 // ******************************************************************
 // * RtlCompareMemory
 // ******************************************************************
-NTSYSAPI EXPORTNUM(268) SIZE_T CDECL RtlCompareMemory
+NTSYSAPI EXPORTNUM(268) SIZE_T NTAPI RtlCompareMemory
 (
   IN CONST VOID *Source1,
   IN CONST VOID *Source2,
@@ -104,7 +104,7 @@ NTSYSAPI VOID *RtlMapGenericMask = 0;
 // ******************************************************************
 // * RtlMoveMemory
 // ******************************************************************
-NTSYSAPI EXPORTNUM(298) VOID CDECL RtlMoveMemory
+NTSYSAPI EXPORTNUM(298) VOID NTAPI RtlMoveMemory
 (
   IN VOID UNALIGNED       *Destination,
   IN CONST VOID UNALIGNED *Source,
@@ -150,7 +150,7 @@ NTSYSAPI VOID *RtlWalkFrameChain = 0;
 // ******************************************************************
 // * RtlZeroMemory
 // ******************************************************************
-NTSYSAPI EXPORTNUM(320) VOID CDECL RtlZeroMemory
+NTSYSAPI EXPORTNUM(320) VOID NTAPI RtlZeroMemory
 (
   IN VOID UNALIGNED  *Destination,
   IN SIZE_T           Length
