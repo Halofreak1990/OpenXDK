@@ -8,6 +8,8 @@
 // *
 // * note : A bunch of fast MMX blitters of various kinds
 // *        Alpha blending, additive blending, you name it
+// *        Many non-ASM substitutes needs writing if we're gonna
+// *        support GNU C
 // *
 // ******************************************************************
 
@@ -26,10 +28,11 @@ DECLARE_BLITTER(sprite_blit,none) {
 }
 
 //use for fonts and stuff
+//this can probably be optimized
 DECLARE_BLITTER(colorize_sprite_blit,color) {
+#ifndef __GNUC__
 	if (len==0)
 		return;
-	
 	__asm {
 		pushad
 		mov esi,s
@@ -48,16 +51,18 @@ skip_pixel:
 		jnz sprite_loop
 		popad
 	} 
+#endif
 }
 
 //Curly's Alpha Blit
-//Har dubblerat den för att få massa pairing. Undrar om jag lyckats. 
-DECLARE_BLITTER(alpha_blit,alpha) {
+//2 pixels at a time to get pairing.. not sure if it helps
+DECLARE_BLITTER(alphavalue_blit,alpha) {
+#ifndef __GNUC__
 	__asm {
 		mov esi,s
 		mov edi,d
 		mov ecx,len
-		shr ecx,1  //gör två pixlar åt gången, så vi behöver bara loopa hälften så mycket. å and
+		shr ecx,1 
 		movd mm7, [alpha] // alpha = 0 - 255
 		punpcklbw mm7, mm7
 		punpcklwd mm7, mm7
@@ -105,10 +110,11 @@ alphaloop:
 		jnz alphaloop
 		emms
 	}
+#endif
 }
 
-DECLARE_BLITTER(alpha_sprite_blit,alpha) {
-#ifdef USE_MMX
+DECLARE_BLITTER(alphavalue_sprite_blit,alpha) {
+#ifndef __GNUC__
 	__asm {
 		mov esi,s
 		mov edi,d
@@ -126,15 +132,15 @@ alphaloop:
 		movd mm0, [esi]
 		and eax,0xffffff
 		jz skipthispixel
+
+		//unpack to words and apply shift bias
 		punpcklbw mm0, mm0
 		movd mm1, [edi]
 		punpcklbw mm1, mm1
-		
-		// öka upp datan till wordstorlek
 		psrlw mm0, 4
 		psrlw mm1, 4
 		
-		//vikta
+		//weighting
 		psubw mm1, mm0
 		pmulhw mm1, mm7
 		psrlw mm0, 4
@@ -154,7 +160,8 @@ skipthispixel:
 }
 
 
-DECLARE_BLITTER(alpha50_blit,none) {
+DECLARE_BLITTER(alphavalue50_blit,none) {
+#ifndef __GNUC__
 	__asm {
 		mov esi,s
 		mov edi,d
@@ -173,12 +180,13 @@ alpha50_loop:
 		dec ecx
 		jnz alpha50_loop
 	}
+#endif
 }
 
 
 DECLARE_BLITTER(additive_blit,none) {
-#ifdef USE_MMX
-	//processa 2 pixels åt gången 
+#ifndef __GNUC__
+	//process 2 pixels at a time 
 	if (len>3) {
 		__asm {
 			mov esi,s
@@ -223,6 +231,7 @@ skipfinishadd:
 }
 
 DECLARE_BLITTER(subtractive_blit,none) {
+#ifndef __GNUC__
 	__asm {
 		mov esi,s
 		mov edi,d
@@ -240,11 +249,14 @@ sub_loop:
 		jnz sub_loop
 		emms
 	}
+#endif
 };
 
+
+//to be optimized..
 DECLARE_BLITTER(additive_alpha_blit,alpha) {
 	//alpha=255-alpha;
-#ifdef USE_MMX
+#ifndef __GNUC__
 	__asm {
 		mov esi,s
 		mov edi,d
@@ -331,14 +343,8 @@ mulblitloop:
 #endif
 }
 
-
+//to be optimized...
 DECLARE_BLITTER(invert_blit,none) {
-	//#ifndef __GNUC__
-
-	
-	//__asm { TODO }
-	
-	//#else
 	for (; len; len--) {
 		int r1=255-((*s&0xff0000)>>16);
 		int g1=255-((*s&0xff00)>>8);
@@ -357,5 +363,4 @@ DECLARE_BLITTER(invert_blit,none) {
 		s++;
 		d++;
 	}
-//#endif
 }

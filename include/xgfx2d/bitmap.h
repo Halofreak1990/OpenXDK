@@ -34,6 +34,9 @@ typedef struct
 Bitmap *create_bitmap(int w, int h);
 void destroy_bitmap(Bitmap *bmp);
 
+//image loaders
+Bitmap *load_tga(char *filename);
+
 #if defined(__cplusplus)
 }
 #endif

@@ -251,6 +251,10 @@ SOURCE=.\include\xlibc\malloc.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\include\xlibc\math.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\include\xlibc\stdarg.h
 # End Source File
 # Begin Source File

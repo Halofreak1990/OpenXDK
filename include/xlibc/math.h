@@ -34,12 +34,13 @@ double pow(double, double); //approx.
 double exp(double); //approx.
 double log(double); //approx.
 double log10(double); //approx
+double hypot(double, double);
 
 //rounding
 double ceil(double);
 double floor(double);
 double fmod(double, double);
-double hypot(double, double);
+double fabs(double);
 
 //Single-precision functions
 
@@ -58,6 +59,13 @@ float powf(float, float);//approx.
 float expf(float);//approx.
 float logf(float);//approx.
 float log10f(float);//approx
+float hypotf(float, float);
+
+//rounding
+float ceilf(float);
+float floorf(float);
+float fmodf(float, float);
+float fabsf(float);
 
 #ifdef	__cplusplus
 };

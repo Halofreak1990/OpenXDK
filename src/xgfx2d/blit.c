@@ -62,10 +62,6 @@ void blit(Bitmap *dest, Bitmap *src, int dx, int dy, int sx, int sy, int sw, int
 }
 
 
-//void stretch_blit(Bitmap *src, Bitmap *dest, int x, int y
-
-
-
 void full_blit(Bitmap *dest, Bitmap *src, void (*blitter)(uint32*,uint32*,int,int), int special) {
 	int minw=src->w, minh=src->h;
 	if (dest->w<minw) minw=dest->w;
