@@ -58,6 +58,8 @@ void charmap_render_character( s32 x, s32 y )
 
 	// Workout character address inside FONT texture page
 	c -= 32;
+	if( c<0 ) return;
+
 	index = (c/32)*15*256;							// get ROW
 	index += (c%32)*8;								// column
 	pData = &SystemFont[index];
