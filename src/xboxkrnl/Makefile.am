@@ -14,3 +14,6 @@ install-exec-local:
 
 uninstall-local:
 		-rm ${prefix}/lib/libxboxkrnl.a
+
+distclean-local:
+		-rm libxboxkrnl.a
