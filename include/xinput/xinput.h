@@ -42,7 +42,8 @@
 */
 /******************************************************************************/
 
-#pragma once
+#ifndef		__XINPUT__
+#define		__XINPUT__
 
 #if defined(__cplusplus)
 extern "C"
@@ -91,5 +92,5 @@ int xReleaseInput(stXINPUT * p);
 #endif
 
 
-
+#endif // __XINPUT__
 

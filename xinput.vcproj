@@ -140,7 +140,7 @@
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="xinputdetails.txt">
+				RelativePath="doc\xinputdetails.txt">
 			</File>
 		</Filter>
 	</Files>

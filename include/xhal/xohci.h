@@ -210,7 +210,13 @@ xohci_regs;
 // ******************************************************************
 // * global pointer to OHCI Host Controller Operational Registers
 // ******************************************************************
-xohci_regs *g_xohci_regs;
+// ERROR DURING LINKING
+// ERROR DURING LINKING
+// ERROR DURING LINKING
+// ERROR DURING LINKING
+// ERROR DURING LINKING - so its definition was moved to 
+//                        xohci.c
+extern xohci_regs *g_xohci_regs;
 
 // ******************************************************************
 // * hc_control register masks
@@ -273,7 +279,12 @@ xohci;
 // ******************************************************************
 // * global variables
 // ******************************************************************
-xohci g_xohci;
+// ERROR DURING LINKING
+// ERROR DURING LINKING
+// ERROR DURING LINKING
+// ERROR DURING LINKING - so its definition was moved to 
+//                        xohci.c
+extern xohci g_xohci;
 
 #if defined(__cplusplus)
 }

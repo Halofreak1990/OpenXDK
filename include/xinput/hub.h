@@ -5,7 +5,8 @@
 /*                                                                            */
 /******************************************************************************/
 
-#pragma once
+#ifndef		__HUB__
+#define		__HUB__
 
 #include "ohci.h"
 
@@ -401,6 +402,6 @@ int usbd_do_request_big_packet(usbd_device * dev, devrequest *req, void *data);
 
 
 
-
+#endif // __HUB__
 
 

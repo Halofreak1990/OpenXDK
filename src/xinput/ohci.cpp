@@ -42,6 +42,7 @@ __u8 found = 0;
 
 int FindOHC(ohci_t * ohci, void *regbase) 
 {
+	int i;
 
 	// STI and CLI can be used to enable/disable interrupts 
 	/*
@@ -79,7 +80,7 @@ int FindOHC(ohci_t * ohci, void *regbase)
 
 
 	__u32 * pHCCA = (__u32*)ohci->hcca;
-	for(int i=0; i<32; i++) pHCCA[i] = realEDA; //EDA;
+	for(i=0; i<32; i++) pHCCA[i] = realEDA; //EDA;
 	pHCCA[32] = 0;
 	pHCCA[33] = 0;
 
@@ -180,7 +181,7 @@ int FindOHC(ohci_t * ohci, void *regbase)
 
 
 	// disable all devices
-	for( int i=0; i<4; i++ )
+	for(i=0; i<4; i++ )
 	{
 		ohci->regs->roothub.portstatus[i] = 0x11;
 	}

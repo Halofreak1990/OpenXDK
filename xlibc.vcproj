@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="xlibc"
+	ProjectGUID="{4E019B2B-19E8-46DF-B20F-C01FE01EB2E8}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -133,7 +134,28 @@
 					RelativePath=".\src\xlibc\stdio\conio.c">
 				</File>
 				<File
+					RelativePath="src\xlibc\stdio\fclose.c">
+				</File>
+				<File
 					RelativePath=".\src\xlibc\stdio\file_io.c">
+				</File>
+				<File
+					RelativePath="src\xlibc\stdio\fopen.c">
+				</File>
+				<File
+					RelativePath="src\xlibc\stdio\fprintf.c">
+				</File>
+				<File
+					RelativePath="src\xlibc\stdio\fread.c">
+				</File>
+				<File
+					RelativePath="src\xlibc\stdio\fseek.c">
+				</File>
+				<File
+					RelativePath="src\xlibc\stdio\ftell.c">
+				</File>
+				<File
+					RelativePath="src\xlibc\stdio\fwrite.c">
 				</File>
 				<File
 					RelativePath=".\src\xlibc\stdio\sprintf.c">

@@ -1,5 +1,5 @@
 # Microsoft Developer Studio Project File - Name="xlibc" - Package Owner=<4>
-# Microsoft Developer Studio Generated Build File, Format Version 6.00
+# Microsoft Developer Studio Generated Build File, Format Version 60000
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
@@ -33,11 +33,11 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "lib\xlibc"
+# PROP Output_Dir "lib"
 # PROP Intermediate_Dir "lib\xlibc"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /G6 /Ze /W2 /Ot /Oa /Ow /Og /Oy /Ob1 /X /I "include\xlibc" /I "include" /u /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "_LIBC" /D "__STD_C" /D "STANDALONE" /FD /QIfist /c
+# ADD CPP /nologo /G6 /W2 /Ot /Oa /Ow /Og /Oy /Ob1 /X /I "include\xlibc" /I "include" /u /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "_LIBC" /D "__STD_C" /D "STANDALONE" /FD /QIfist /c
 # ADD BASE RSC /l 0x809 /d "NDEBUG"
 # ADD RSC /l 0x809 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -45,7 +45,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"lib\xlibc.lib"
+# ADD LIB32 /nologo
 # Begin Target
 
 # Name "xlibc - Win32 Release"

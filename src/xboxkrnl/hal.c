@@ -59,12 +59,14 @@ XBSYSAPI VOID *HalRequestSoftwareInterrupt = 0;
 // ******************************************************************
 // * 0x0031 - HalReturnToFirmware
 // ******************************************************************
-XBSYSAPI EXPORTNUM(49) VOID DECLSPEC_NORETURN HalReturnToFirmware
+//XBSYSAPI EXPORTNUM(49) VOID DECLSPEC_NORETURN HalReturnToFirmware
+XBSYSAPI EXPORTNUM(49) ULONG NTAPI  HalReturnToFirmware
 (
-	RETURN_FIRMWARE Routine
+	//RETURN_FIRMWARE Routine
+	unsigned int Routine
 )
 {
-
+	return 0;
 }
 
 // ******************************************************************

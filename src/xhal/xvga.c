@@ -21,7 +21,9 @@
 #include "xhal/xnvidia.h"
 
 
-	u32	pScreenBuffer[320*240];			// Our screen (software emulated for LOW res just now)
+	//u32	pScreenBuffer[320*240];			// Our screen (software emulated for LOW res just now)
+	u32	pScreenBuffer[640*480];         // Account for full screen buffering!
+
 	u32	FrontBuffer=0;					// Current screen address (visible)
 	u32	BackBuffer=0;					// Current back buffer
 
@@ -53,7 +55,7 @@
 // **************************************************************************
 void	vga_testpattern( int shift)
 {
-	int	x,y,i;
+	int	x,y;
 	uint32 *pix = (uint32*)g_ScreenBase; 
 
 	for(y=0;y<480;y++){

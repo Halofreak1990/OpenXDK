@@ -8,7 +8,9 @@
 /*                                                                            */
 /******************************************************************************/
 
-#pragma once
+
+#ifndef		__OHCI_X__
+#define		__OHCI_X__
 
 #include "misc.h"  // We only need this here, for the definitions of __u8, __u32 etc
 // to be added in later (example):
@@ -237,4 +239,4 @@ void DebugEndPointDescriptor( s_USB_Endpointdescriptor * pDes );
 
 
 
-
+#endif // __OHCI_X__

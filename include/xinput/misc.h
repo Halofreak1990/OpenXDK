@@ -6,7 +6,8 @@
 /*                                                                            */
 /******************************************************************************/
 
-#pragma once
+#ifndef		__XMISC__
+#define		__XMISC__
 
 
 
@@ -69,4 +70,4 @@ void  xMmLockUnlockBufferPages(__u32 MemoryAddress, __u32 NumberOfBytes, __u32 a
 /******************************************************************************/
 
 
-
+#endif		// __XMISC__

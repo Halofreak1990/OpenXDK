@@ -4,9 +4,7 @@
 // *
 // * desc : Totally Free LIC replacement
 // *
-// * file : ctype.h
-// *
-// * note : This LIBC is TOTALLY free - do what you like with it!!
+// * file : stdio.h
 // *
 // ******************************************************************
 
@@ -21,6 +19,9 @@ extern "C" {
 #include	<openxdk.h>
 #include	<stdarg.h>
 
+// ******************************************************************
+// Low level input/output functions
+// ******************************************************************
 
 #define _O_RDONLY					(0x00000001)
 #define _O_WRONLY					(0x00000002)
@@ -66,11 +67,46 @@ int vsnprintf( char *buffer, unsigned int count, const char *format, va_list ap 
 int sprintf(char*, const char *format, ...);
 int snprintf (char *str, size_t size, const char *format, ...);
 
+
+
+// ******************************************************************
+// Standard C file input/output functions
+// (Which are just wrappers for the low level ones)
+// ******************************************************************
+
+#define EOF (-1)
+
+struct __stdio_file {
+	int fd;
+	int flags;
+	unsigned int bs;      /* read: bytes in buffer */
+	unsigned int bm;      /* position in buffer */
+	unsigned int buflen;  /* length of buf */
+	char *buf;
+	unsigned char ungetbuf;
+	char ungotten;
+};
+
+typedef struct __stdio_file FILE;
+
+
+FILE *fopen(char *path, const char *mode);
+size_t fread( void *ptr, size_t size, size_t nmemb, FILE *stream);
+size_t fwrite( void *ptr, size_t size, size_t nmemb, FILE *stream);
+int fclose(FILE *stream);
+
+int fprintf(FILE *f,const char *format,...);
+int fseek(FILE *stream, long offset, int whence);
+long ftell(FILE *stream) ;
+
+
+
+
 # ifdef __cplusplus
 }
 # endif
 
-#endif 			// __STDIO_H__
+#endif // __STDIO_H__
 
 
 

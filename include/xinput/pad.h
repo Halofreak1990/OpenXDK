@@ -17,7 +17,9 @@
 */
 /******************************************************************************/
 
-#pragma once
+
+#ifndef		__PAD__
+#define		__PAD__
 
 
 #include "ohci.h"
@@ -82,3 +84,6 @@ void usb_bulk_msg( usbd_device * dev, int size, void * data );    // Send data t
 void usb_bulk_msg_in( usbd_device * dev, int size, void * data ); // Get data from the USB
 
 
+
+
+#endif // __PAD__

@@ -100,7 +100,7 @@ XBSYSAPI EXPORTNUM(175) PHYSICAL_ADDRESS NTAPI MmLockUnlockBufferPages
     IN ULONG            Protect
 )
 {
-	return;
+	return 0;
 }
 
 
