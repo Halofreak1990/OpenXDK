@@ -95,13 +95,19 @@ typedef BOOLEAN            *PBOOLEAN;
 typedef UCHAR              *PUCHAR;
 typedef USHORT             *PUSHORT;
 typedef ULONG              *PULONG;
+typedef DWORD              *LPDWORD;
 typedef ACCESS_MASK        *PACCESS_MASK;
 typedef LONG               *LONG_PTR;
 typedef ULONG              *ULONG_PTR;
 typedef INT_PTR            *PINT_PTR;
-typedef VOID               *PVOID;
+typedef VOID               *PVOID, *LPVOID;
 typedef void               *HANDLE;
 typedef HANDLE             *PHANDLE;
+
+// ******************************************************************
+// * LPSECURITY_ATTRIBUTES
+// ******************************************************************
+typedef void* LPSECURITY_ATTRIBUTES;
 
 // ******************************************************************
 // * NTSTATUS
@@ -416,6 +422,11 @@ typedef struct _KTIMER
     LONG                Period;           // 0x24
 }
 KTIMER, *PKTIMER;
+
+// ******************************************************************
+// * LPTHREAD_START_ROUTINE
+// ******************************************************************
+typedef unsigned long (NTAPI *LPTHREAD_START_ROUTINE)(void*);
 
 // ******************************************************************
 // * PKSTART_ROUTINE
