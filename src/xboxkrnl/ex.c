@@ -15,10 +15,22 @@
 XBOXSYSAPI VOID *ExAcquireReadWriteLockExclusive = 0;
 XBOXSYSAPI VOID *ExAcquireReadWriteLockShared = 0;
 
-//XBOXSYSAPI void* (*ExAllocatePool)( unsigned long size )=0;
+// ******************************************************************
+// * MmAllocateContiguousMemory
+// ******************************************************************
+// *
+// * allocates a range of physically contiguous, cache-aligned 
+// * memory from nonpaged pool (main pool on xbox).
+// *
+// ******************************************************************
+XBOXSYSAPI EXPORTNUM(14) PVOID NTAPI ExAllocatePool
+(
+	IN ULONG NumberOfBytes
+)
+{
+    return NULL;
+}
 
-
-XBOXSYSAPI VOID *ExAllocatePool = 0;
 XBOXSYSAPI VOID *ExAllocatePoolWithTag = 0;
 XBOXSYSAPI VOID *ExEventObjectType = 0;
 XBOXSYSAPI VOID *ExFreePool = 0;
