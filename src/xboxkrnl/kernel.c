@@ -19,6 +19,14 @@ void EntryDummy()
 {
 }
 
+// ******************************************************************
+// * WinMainCRTStartup
+// ******************************************************************
+/*void __stdcall WinMainCRTStartup()
+{
+}*/
+
+//_NtProcessStartup
 XBOXSYSAPI VOID *KeAlertResumeThread = 0;
 XBOXSYSAPI VOID *KeAlertThread = 0;
 XBOXSYSAPI VOID *KeBoostPriorityThread = 0;

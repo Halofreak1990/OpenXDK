@@ -1,5 +1,17 @@
 OpenXDK website: http://openxdk.sourceforge.net/
 
+
+version: 0.1.0 (11/23/02)
+--------------------------------
+- Added Test App
+- Added first (and simple) VGA lib
+
+- This version is NON-WORKING!!
+  Does not run on XBOX
+
+
+
+
 version: 0.0.1-pre4 (11/22/02)
 --------------------------------
 
