@@ -16,8 +16,8 @@
 //
 void* memcpy( void *dest, const void *src, unsigned int count )
 {
-	char	*pSrc = (char*) dest;
-	char	*pDest = (char*) src;
+	unsigned char	*pSrc = (unsigned char*) dest;
+	unsigned char	*pDest = (unsigned char*) src;
 
 	while( count-- > 0 ){
 		*pDest++ = *pSrc++;
@@ -52,3 +52,5 @@ void* memcpy( void *dest, const void *src, unsigned int count )
 	}
 }
 */
+
+

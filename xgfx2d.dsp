@@ -37,7 +37,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "lib"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /G6 /W3 /O2 /X /I "include" /I "include\xlibc" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "_XBOX" /FD /QIfist /c
+# ADD CPP /nologo /G6 /W3 /O2 /Op /Oy /X /I "include" /I "include\xlibc" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "_XBOX" /FD /QIfist /c
 # ADD BASE RSC /l 0x41d /d "NDEBUG"
 # ADD RSC /l 0x41d /d "NDEBUG"
 BSC32=bscmake.exe

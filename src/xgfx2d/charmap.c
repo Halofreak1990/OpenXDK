@@ -111,19 +111,28 @@ void charmap_blit_screen( void )
 
 	pScreen = (u32*) (ScrStruct.ScreenAddress+((y*ScrStruct.lpitch)+(x*4)) );
 	
-	modulo = (ScrStruct.lpitch-(w*4))/4;
+//	modulo = (ScrStruct.lpitch-(w*4))/4;
+	modulo = ScrStruct.lpitch/4;
 
 	for(y=0;y<h;y++){
-		for(x=0;x<w;x++){
-			*pScreen++=*pSrc++;
+#if 1
+		memcpy( pScreen, pSrc, w<<2 );		// Due to intrinsics, memcpy is VERY fast.
+		pScreen+=modulo;
+		pSrc+=w;
+#else
+		x=w;
+		while( x-- > 0 ){
+			*pScreen++=*pSrc++;				// DWORD aligncopy
 		}
 		pScreen+=modulo;
+#endif
 	}
 
 #else
 
 	//
-	// Use ectors 2D blitter stuff.
+	// Use ectors 2D blitter stuff, we get clipping in this.
+	// normal_blit uses a memcpy, but due to intrinsics, memcpy is VERY fast.
 	//
 	Bitmap	*pScreen = get_screen_bitmap();
 	Bitmap	pCharBitmap;
@@ -249,11 +258,7 @@ void charmap_display( void )
 // * charmap_scroll_window
 // ******************************************************************
 // *
-// * Scroll current window up a line. We'll do this simply just now,
-// * but we could scroll the "bitmap" window for a quicker result.
-// *
-// * This also does a "semi" smart update, checking the characters DO
-// * really change before flagging them as touched
+// * Scroll current window up a line. 
 // *
 // ******************************************************************
 void charmap_scroll_window( void )
@@ -272,24 +277,44 @@ void charmap_scroll_window( void )
 	xx = x;			// remember window LEFT edge
 	while(y<y2)
 	{
-		x = xx;		// get start column.
-		while(x<x2)
-		{
-			if( pMap[(y*w)+x] != pMap[((y+1)*w)+x]){
-				pMap[(y*w)+x] = pMap[((y+1)*w)+x]|MAP_TOUCHED;		// copy from the row below, to this one. (scroll UP)
-			}
-			x++;
-		}
+		memcpy( &(pMap[(y*w)+x]),  &(pMap[((y+1)*w)+x]), (x2-x)<<1 );		// intrinsic memcpy is nice and fast.
 		y++;
 	}
 
 	// Clear bottom line of window
-	x = xx;
-	while(x<x2)
+	x = x2-xx;
+	pMap = &(pMap[(y*w)+xx]);
+	while(x-->0)
 	{
-		pMap[(y*w)+x] = attrib;
-		x++;
+		*pMap++ = attrib;
 	}	
+
+	//
+	// This scrolls the character map BITMAP up, so we dont need to redraw all the characters.
+	//
+	{
+		u8*	pSrc;
+		u8*	pDest;
+
+		y = g_pCharMap->wy1;
+		y2 = g_pCharMap->wy2-1;
+		y*=FONT_HEIGHT;
+		y2*=FONT_HEIGHT;
+
+
+		pDest= &(g_pCharMap->pBitmap[((y*g_pCharMap->pixwidth)+(xx*FONT_WIDTH))*4]);
+		pSrc = &(g_pCharMap->pBitmap[(((y+FONT_HEIGHT)*g_pCharMap->pixwidth)+(xx*FONT_WIDTH))*4]);
+		x = ((x2-xx)*FONT_WIDTH)*4;
+		
+		while(y<y2)
+		{
+			memcpy( pDest,pSrc,x );
+			pSrc+=g_pCharMap->pixwidth<<2;
+			pDest+=g_pCharMap->pixwidth<<2;
+			y++;
+		}
+	}
+
 }
 
 
