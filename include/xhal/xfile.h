@@ -6,7 +6,7 @@
 // *
 // * file : xfile.h
 // *
-// * note : Most of this is based on the excellent work dont by SNK
+// * note : XBox File Access
 // *
 // ******************************************************************
 #ifndef	__XFILE_H__
@@ -16,8 +16,7 @@
 extern "C" {
 #endif
 
-#include	<openxdk.h>
-
+#include "xboxkrnl\xboxkrnl.h"
 
 // ==============================================
 // begin bigboy stuff that belong in some xboxwindows.h
