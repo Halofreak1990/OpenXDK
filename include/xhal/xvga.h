@@ -28,20 +28,30 @@ extern  u32 g_nInk;
 extern  u32 g_nPaper;
 extern  u32 g_nFontFlags;
 
+// ******************************************************************
+// * ScreenInfo (returned by GetScreen())
+// ******************************************************************
+typedef struct _ScreenInfo
+{
+    u32 ScreenAddress;
+    u32 lpitch;
+}
+ScreenInfo;
+
 // **************************************************************
 // * User Functions
 // **************************************************************
-void                vga_init_mode(int Mode);    // Init VGA screen to a selected mode
-void                vga_vsync(void);            // Wait for vertical blank
-void                vga_flip(void);             // Flip buffers
-struct _ScreenInfo  vga_get_screen_info(void);  // get screen base address
+void       vga_init_mode(int Mode);    // Init VGA screen to a selected mode
+void       vga_vsync(void);            // Wait for vertical blank
+void       vga_flip(void);             // Flip buffers
+ScreenInfo vga_get_screen_info(void);  // get screen base address
 
 // **************************************************************
 // * For debugging purposes (serious 2D should use xgfx2d lib)
 // **************************************************************
-void        vga_clear( void );                          // Clear screen
-void        vga_box( int x1,int y1, int x2,int y2 );    // Draw wireframe BOX (WHITE)
-void        vga_print( int x, int y, char* pText );     // Draw text using SYSTEM font (32bit modes only just now)
+void       vga_clear( void );                          // Clear screen
+void       vga_box( int x1,int y1, int x2,int y2 );    // Draw wireframe BOX (WHITE)
+void       vga_print( int x, int y, char* pText );     // Draw text using SYSTEM font (32bit modes only just now)
 
 // **************************************************************
 // * Misc things... will be used later
@@ -94,16 +104,6 @@ void        vga_set_reg( int port, int reg, int data );
 
 // this is really to be used with the character map, so debug can be seen as soon as its output.. single buffered.
 #define MODE_640x480x32_DEBUG   (RES_640X480|_32BITCOLOUR|_DISPLAY_DEBUG)       // not yet
-
-// ******************************************************************
-// * ScreenInfo (returned by GetScreen())
-// ******************************************************************
-typedef struct _ScreenInfo
-{
-    u32 ScreenAddress;
-    u32 lpitch;
-}
-ScreenInfo;
 
 // ******************************************************************
 // * For print
