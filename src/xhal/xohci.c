@@ -142,27 +142,28 @@ void xohci_init()
             // this is not really necessary, because this value is probably already correct
             WRITE_REGISTER_ULONG(&g_ohci_regs->hc_ls_threshold, 0x628);
         }
-
-        sprintf(buffer, "OHCI : Time to send SOFs");
     }
 
     // ******************************************************************
     // * update debug status
     // ******************************************************************
     {
-        vga_clear();
-
-        vga_print(20, 50, buffer);
-
-        vga_vsync();
-
-        vga_flip();
-
         {
             int v;
 
             for(v=0;v<50*10;v++)
+            {
+                vga_clear();
+
+                sprintf(buffer, "Current Status : %.08X", READ_REGISTER_ULONG(&g_ohci_regs->hc_control));
+
+                vga_print(20, 50, buffer);
+
                 vga_vsync();
+
+                vga_flip();
+
+            }
         }
     }
 

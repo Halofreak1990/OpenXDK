@@ -73,7 +73,12 @@ XBSYSAPI VOID *KiUnlockDispatcherDatabase = 0;
 XBSYSAPI VOID *LaunchDataPage = 0;
 XBSYSAPI VOID *PhyGetLinkState = 0;
 XBSYSAPI VOID *PhyInitialize = 0;
-XBSYSAPI VOID *XboxEEPROMKey = 0;
+
+// ******************************************************************
+// * XboxEEPROMKey
+// ******************************************************************
+XBSYSAPI EXPORTNUM(321) UCHAR XboxEEPROMKey[16];
+
 XBSYSAPI VOID *XboxHardwareInfo = 0;
 XBSYSAPI VOID *XboxHDKey = 0;
 XBSYSAPI VOID *XboxKrnlVersion = 0;

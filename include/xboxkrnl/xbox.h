@@ -17,7 +17,6 @@
 // ******************************************************************
 XBSYSAPI EXPORTNUM(1) PVOID NTAPI AvGetSavedDataAddress();
 
-
 // ******************************************************************
 // * AvSendTVEncoderOption
 // ******************************************************************
@@ -62,7 +61,12 @@ XBSYSAPI VOID *KiUnlockDispatcherDatabase;
 XBSYSAPI VOID *LaunchDataPage;
 XBSYSAPI VOID *PhyGetLinkState;
 XBSYSAPI VOID *PhyInitialize;
-XBSYSAPI VOID *XboxEEPROMKey;
+
+// ******************************************************************
+// * XboxEEPROMKey
+// ******************************************************************
+XBSYSAPI EXPORTNUM(321) UCHAR XboxEEPROMKey[16];
+
 XBSYSAPI VOID *XboxHardwareInfo;
 XBSYSAPI VOID *XboxHDKey;
 XBSYSAPI VOID *XboxKrnlVersion;
