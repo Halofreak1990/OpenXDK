@@ -10,9 +10,11 @@ extern "C" {
 #define _CRTIMP
 #endif  
 
-//#define	NAN			(0x4000000000000000)
-#define NAN				((unsigned __int64)0xfff8000000000000)
+extern	u32			_Nan[2];
 
+//#define NAN		((unsigned __int64)0xfff8000000000000)
+
+#define	NAN			*((double*)(&_Nan[0]))		// instead of using __int64, store a NAN somwhere in memory  (misc_vars.c)
 
 #define DBL_DIG         15                      // # of decimal digits of precision 
 #define DBL_EPSILON     2.2204460492503131e-016 // smallest such that 1.0+DBL_EPSILON != 1.0 
