@@ -12,7 +12,7 @@
 #include	<ansidecl.h>
 
 //
-// Ccompare 2 blocks of memory
+// copy a block of memory
 //
 void* memcpy( void *dest, const void *src, unsigned int count )
 {

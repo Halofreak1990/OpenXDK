@@ -29,5 +29,8 @@ float sqrtf(float f) {
 	}
 }
 
+#else
+
+OPENXDK_UNIMPLEMENTEDC(sqrt)
 
 #endif //__GNUC__

@@ -12,7 +12,7 @@
 
 #include <math.h>
 
-#ifndef __GNUC__
+#ifdef _MSC_VER
 
 
 float fmodf(float f, float g)
@@ -42,5 +42,8 @@ double fmod(double f, double g)
 	}
 	return temp2;
 }
+#else
 
-#endif //__GNUC__
+OPENXDK_UNIMPLEMENTEDC(fmod)
+
+#endif 

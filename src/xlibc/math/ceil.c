@@ -12,8 +12,8 @@
 
 #include <math.h>
 
-#ifndef __GNUC__
-
+#ifdef WINVER
+#error
 extern int     _RoundUp;
 
 double ceil(double f)
@@ -41,6 +41,9 @@ float ceilf(float f)
 		fldcw temp
 	}
 }
+#else
+
+OPENXDK_UNIMPLEMENTEDC(ceil)
 
 
-#endif //__GNUC__
+#endif 

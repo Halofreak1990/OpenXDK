@@ -12,7 +12,7 @@
 
 #include <math.h>
 
-#ifndef __GNUC__
+#ifdef _MSC_VER
 
 extern int     _RoundDown;
 
@@ -42,5 +42,8 @@ float floorf(float f)
 	}
 }
 
+#else
 
-#endif //__GNUC__
+OPENXDK_UNIMPLEMENTEDC(floor)
+
+#endif 

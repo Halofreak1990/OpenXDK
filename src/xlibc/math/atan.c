@@ -12,8 +12,7 @@
 
 #include <math.h>
 
-#ifndef __GNUC__
-
+#ifdef _MSC_VER
 
 double atan(double x) {
 	__asm {
@@ -45,5 +44,8 @@ float atan2f(float y, float x) {
 	}
 }
 
+#else
 
-#endif //__GNUC__
+OPENXDK_UNIMPLEMENTEDC(atan/atan2)
+
+#endif 

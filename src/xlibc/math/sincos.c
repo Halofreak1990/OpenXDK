@@ -12,7 +12,7 @@
 
 #include <math.h>
 
-#ifndef __GNUC__
+#ifdef _MSC_VER
 
 double sin(double f) {
 	__asm {
@@ -39,5 +39,8 @@ float cosf(float f)	{
 		fcos
 	}
 }
+#else
+
+OPENXDK_UNIMPLEMENTEDC(sin/cos)
 
 #endif

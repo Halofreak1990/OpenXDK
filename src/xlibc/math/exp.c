@@ -14,7 +14,6 @@
 
 #include <math.h>
 
-#ifndef __GNUC__
 
 //This is a fast approximation
 //we need to replace this by something better
@@ -37,5 +36,3 @@ float expf(float f) {
 	return exp((double)f);
 }
 
-
-#endif //__GNUC__

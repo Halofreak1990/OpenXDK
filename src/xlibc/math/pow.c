@@ -14,8 +14,6 @@
 
 #include <math.h>
 
-#ifndef __GNUC__
-
 
 //really bad approximation due to expf, log being approximations already :D
 double pow(double a, double b)
@@ -27,6 +25,3 @@ double pow(double a, double b)
 float powf(float a, float b) {
 	return expf(b*logf(a));
 }
-
-
-#endif //__GNUC__

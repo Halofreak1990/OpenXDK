@@ -13,6 +13,9 @@
 #ifndef		__OPENXDK_MATH__
 #define		__OPENXDK_MATH__
 
+//here for now
+#define OPENXDK_UNIMPLEMENTEDC(x) // x are not implemented in C!
+
 #ifdef	__cplusplus
 extern "C" {
 #endif

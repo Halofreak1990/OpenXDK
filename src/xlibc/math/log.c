@@ -14,7 +14,6 @@
 
 #include <math.h>
 
-#ifndef __GNUC__
 
 
 double log(double x)
@@ -46,4 +45,3 @@ float log10f(float x)
 	return 4.3429448190325181667e-1f * logf(x);
 }
 
-#endif //__GNUC__

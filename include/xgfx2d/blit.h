@@ -1,3 +1,15 @@
+// ******************************************************************
+// * 
+// * proj : OpenXDK
+// *
+// * desc : Open Source XBox Development Kit
+// *
+// * file : blit.c
+// *
+// * note : blitter with clipping, uses any one of the blitters from
+// *        blitters.h per scanline
+// *
+// ******************************************************************
 
 #ifndef XBLIT_H
 #define XBLIT_H
@@ -10,8 +22,10 @@ extern "C"
 {
 #endif
 	
-	
-// pass in a blitter from blitters.h
+
+//INSTRUCTIONS
+//************
+//pass in a blitter from blitters.h
 //dx/y = destination x / y
 //sx/y = source x / y
 //sw,sh = width and height of the copy

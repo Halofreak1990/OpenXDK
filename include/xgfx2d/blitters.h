@@ -1,3 +1,18 @@
+// ******************************************************************
+// * 
+// * proj : OpenXDK
+// *
+// * desc : Open Source XBox Development Kit
+// *
+// * file : blitters.h
+// *
+// * note : A bunch of fast MMX blitters of various kinds
+// *        Alpha blending, additive blending, you name it
+// *        Many non-ASM substitutes needs writing if we're gonna
+// *        support GNU C
+// *
+// ******************************************************************
+
 #ifndef XBLITTERS_H
 #define XBLITTERS_H
 

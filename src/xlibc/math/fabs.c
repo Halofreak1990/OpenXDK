@@ -12,8 +12,7 @@
 
 #include <math.h>
 
-#ifndef __GNUC__
-
+#ifdef _MSC_VER
 
 double fabs(double f) {
 	__asm {
@@ -29,5 +28,14 @@ float fabsf(float f) {
 	}
 }
 
+#else
+
+double fabs(double f) {
+	return f>=0.0f ? f : -f;
+}
+
+float fabsf(float f) {
+	return f>=0.0f ? f : -f;
+}
 
 #endif //__GNUC__

@@ -12,9 +12,6 @@
 
 #include <math.h>
 
-#ifndef __GNUC__
-
-
 double acos(double r)
 {
 	return 3.14159265358979323846 / 2 - asin(r);
@@ -26,5 +23,3 @@ float acosf(float r)
 	return 3.14159265358979323846f / 2 - asinf(r);
 }
 
-
-#endif //__GNUC__

@@ -12,8 +12,6 @@
 
 #include <math.h>
 
-#ifndef __GNUC__
-
 
 float hypotf(float f, float g)
 {
@@ -25,4 +23,3 @@ double hypot(double f, double g)
 }
 
 
-#endif //__GNUC__
