@@ -71,12 +71,12 @@ typedef struct _STRING
     USHORT  MaximumLength;
     PCHAR   Buffer;
 }
-STRING, *LPSTRING, *PANSI_STRING;
+STRING, ANSI_STRING, *LPSTRING, *PANSI_STRING;
 
 // ******************************************************************
 // * NTSTATUS
 // ******************************************************************
-typedef long                NTSTATUS;
+typedef long NTSTATUS;
 
 // ******************************************************************
 // * NTAPI

@@ -188,7 +188,7 @@ typedef struct  SString {
     unsigned short	MaximumLength;
     char*			Buffer;
 } SString, *PString;
-typedef SString		ANSI_STRING, *PANSI_STRING;
+typedef SString;
 
 
 typedef struct  SObject_Attributes {
