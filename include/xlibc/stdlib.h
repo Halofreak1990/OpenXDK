@@ -57,7 +57,8 @@ int		abs( int i );
 void	abort( void );
 div_t	div( int number, int divisor );
 ldiv_t	ldiv( long int number, long int divisor );
-char*	_ltoa( long value, char *string, int radix );
+char*	itoa( int value, char *string, int radix );
+char*	ltoa( long value, char *string, int radix );
 int		rand( void );
 void	srand( unsigned int );
 

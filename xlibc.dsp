@@ -1,5 +1,5 @@
 # Microsoft Developer Studio Project File - Name="xlibc" - Package Owner=<4>
-# Microsoft Developer Studio Generated Build File, Format Version 60000
+# Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
@@ -191,7 +191,15 @@ SOURCE=.\src\xlibc\div.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\xlibc\itoa.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\xlibc\ldiv.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\ltoa.c
 # End Source File
 # Begin Source File
 
