@@ -14,7 +14,7 @@
 			Name="Release|Win32"
 			OutputDirectory=".\lib"
 			IntermediateDirectory=".\lib"
-			ConfigurationType="2"
+			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			CharacterSet="2">
@@ -25,11 +25,10 @@
 				ImproveFloatingPointConsistency="TRUE"
 				OptimizeForProcessor="2"
 				AdditionalIncludeDirectories="include,include\xlibc"
-				PreprocessorDefinitions="_XBOX,NDEBUG"
+				PreprocessorDefinitions="_XBOX,NDEBUG,_WINDOWS"
 				IgnoreStandardIncludePath="TRUE"
 				StringPooling="TRUE"
 				RuntimeLibrary="0"
-				BufferSecurityCheck="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				DisableLanguageExtensions="TRUE"
 				PrecompiledHeaderFile=".\lib/xboxkrnl.pch"
@@ -44,7 +43,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="odbc32.lib odbccp32.lib $(NOINHERIT)"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
 				OutputFile=".\lib/xboxkrnl.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -52,8 +51,7 @@
 				ModuleDefinitionFile=".\src\xboxkrnl\xboxkrnl.def"
 				ProgramDatabaseFile=".\lib/xboxkrnl.pdb"
 				SubSystem="2"
-				EntryPointSymbol=""
-				ResourceOnlyDLL="TRUE"/>
+				EntryPointSymbol="XboxKrnlEntryDummy"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"

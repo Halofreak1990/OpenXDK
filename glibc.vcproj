@@ -36,6 +36,7 @@
 				AssemblerListingLocation=".\lib\glibc/"
 				ObjectFile=".\lib\glibc/"
 				ProgramDataBaseFileName=".\lib\glibc/"
+				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"

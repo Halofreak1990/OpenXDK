@@ -52,6 +52,7 @@ ScreenInfo vga_get_screen_info(void);  // get screen base address
 void       vga_clear( void );                          // Clear screen
 void       vga_box( int x1,int y1, int x2,int y2 );    // Draw wireframe BOX (WHITE)
 void       vga_print( int x, int y, char* pText );     // Draw text using SYSTEM font (32bit modes only just now)
+void       vga_testpattern( int shift);                // Draw a test pattern/colour to the screen
 
 // **************************************************************
 // * Misc things... will be used later

@@ -75,7 +75,7 @@
 				RelativePath=".\src\xhal\xohci_pci.c">
 			</File>
 			<File
-				RelativePath="src\xhal\xstartup.c">
+				RelativePath=".\src\xhal\xstartup.c">
 			</File>
 			<File
 				RelativePath=".\src\xhal\xsysfont.c">
