@@ -37,12 +37,80 @@ NTSYSAPI VOID *HalGetInterruptVector;
 NTSYSAPI VOID *HalReadSMBusValue;
 
 // ******************************************************************
+// * PCI_SLOT_NUMBER
+// ******************************************************************
+typedef struct _PCI_SLOT_NUMBER
+{
+    union
+    {
+        struct
+        {
+            ULONG   DeviceNumber:5;
+            ULONG   FunctionNumber:3;
+            ULONG   Reserved:18;
+        }
+        bits;
+
+        ULONG   AsULONG;
+    }u;
+}
+PCI_SLOT_NUMBER, *PPCI_SLOT_NUMBER;
+
+#define PCI_TYPE0_ADDRESSES             6
+#define PCI_TYPE1_ADDRESSES             2
+#define PCI_TYPE2_ADDRESSES             5
+
+// ******************************************************************
+// * PCI_COMMON_CONFIG
+// ******************************************************************
+typedef struct _PCI_COMMON_CONFIG
+{
+    USHORT  VendorID;                   // (ro)
+    USHORT  DeviceID;                   // (ro)
+    USHORT  Command;                    // Device control
+    USHORT  Status;
+    UCHAR   RevisionID;                 // (ro)
+    UCHAR   ProgIf;                     // (ro)
+    UCHAR   SubClass;                   // (ro)
+    UCHAR   BaseClass;                  // (ro)
+    UCHAR   CacheLineSize;              // (ro+)
+    UCHAR   LatencyTimer;               // (ro+)
+    UCHAR   HeaderType;                 // (ro)
+    UCHAR   BIST;                       // Built in self test
+
+    union
+    {
+        struct _PCI_HEADER_TYPE_0
+        {
+            ULONG   BaseAddresses[PCI_TYPE0_ADDRESSES];
+            ULONG   CIS;
+            USHORT  SubVendorID;
+            USHORT  SubSystemID;
+            ULONG   ROMBaseAddress;
+            UCHAR   CapabilitiesPtr;
+            UCHAR   Reserved1[3];
+            ULONG   Reserved2;
+            UCHAR   InterruptLine;      //
+            UCHAR   InterruptPin;       // (ro)
+            UCHAR   MinimumGrant;       // (ro)
+            UCHAR   MaximumLatency;     // (ro)
+        }
+        type0;
+    }u;
+
+    UCHAR DeviceSpecific[192];
+
+}
+PCI_COMMON_CONFIG, *PPCI_COMMON_CONFIG;
+
+// ******************************************************************
 // * HalReadWritePCISpace
 // ******************************************************************
 NTSYSAPI EXPORTNUM(46) VOID NTAPI HalReadWritePCISpace
 (
   IN ULONG   BusNumber,
   IN ULONG   SlotNumber,
+  IN ULONG   RegisterNumber,
   IN PVOID   Buffer,
   IN ULONG   Length,
   IN BOOLEAN WritePCISpace

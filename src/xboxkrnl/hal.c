@@ -29,6 +29,7 @@ NTSYSAPI EXPORTNUM(46) VOID NTAPI HalReadWritePCISpace
 (
   IN ULONG   BusNumber,
   IN ULONG   SlotNumber,
+  IN ULONG   RegisterNumber,
   IN PVOID   Buffer,
   IN ULONG   Length,
   IN BOOLEAN WritePCISpace

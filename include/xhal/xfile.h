@@ -9,29 +9,16 @@
 // * note : XBox File Access
 // *
 // ******************************************************************
-#ifndef	__XFILE_H__
-#define	__XFILE_H__
+// * TODO: most of this belongs in a different .h
+// ******************************************************************
+#ifndef	XFILE_H
+#define	XFILE_H
 
 #ifdef	__cplusplus
 extern "C" {
 #endif
 
 #include "xboxkrnl\xboxkrnl.h"
-
-// ==============================================
-// begin bigboy stuff that belong in some xboxwindows.h
-// ==============================================
-#ifndef	FALSE
-#define	FALSE	0
-#endif
-#ifndef	TRUE
-#define	TRUE	1
-#endif
-
-typedef struct _LARGE_INTEGER { 
-	u32	LowPart; 
-	u32	HighPart; 
-} LARGE_INTEGER, *PLARGE_INTEGER; 
 
 #define	INVALID_HANDLE_VALUE			((HANDLE)-1)
 #define INVALID_FILE_SIZE				((HANDLE)-1)
@@ -162,7 +149,8 @@ void SetLastError( u32 ErrorCode );
 #ifdef	__cplusplus
 };
 #endif
-#endif	//__XFILE_H__
+
+#endif
 
 
 

@@ -34,6 +34,16 @@ extern "C"
 #endif
 
 // ******************************************************************
+// * TRUE / FALSE
+// ******************************************************************
+#ifndef	FALSE
+#define	FALSE	0
+#endif
+#ifndef	TRUE
+#define	TRUE	1
+#endif
+
+// ******************************************************************
 // * CONST
 // ******************************************************************
 #define CONST               const
@@ -42,6 +52,7 @@ extern "C"
 // * Basic types
 // ******************************************************************
 typedef char                CHAR;
+typedef unsigned char       UCHAR;
 typedef unsigned char       BYTE;
 typedef unsigned char       BOOLEAN;
 typedef unsigned short      USHORT;
@@ -89,6 +100,16 @@ typedef long                NTSTATUS;
 #define OPTIONAL
 #define IN
 #define OUT
+
+// ******************************************************************
+// * LARGE_INTEGER
+// ******************************************************************
+typedef struct _LARGE_INTEGER
+{
+    DWORD   LowPart;
+    LONG    HighPart;
+}
+LARGE_INTEGER, *PLARGE_INTEGER;
 
 // ******************************************************************
 // * STRING
