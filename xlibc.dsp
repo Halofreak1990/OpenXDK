@@ -1,5 +1,5 @@
 # Microsoft Developer Studio Project File - Name="xlibc" - Package Owner=<4>
-# Microsoft Developer Studio Generated Build File, Format Version 6.00
+# Microsoft Developer Studio Generated Build File, Format Version 60000
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
@@ -203,6 +203,10 @@ SOURCE=.\src\xlibc\ltoa.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\xlibc\malloc.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\xlibc\misc_vars.c
 # End Source File
 # Begin Source File
@@ -240,6 +244,10 @@ SOURCE=.\include\xlibc\ansidecl.h
 # Begin Source File
 
 SOURCE=.\include\xlibc\ctype.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xlibc\malloc.h
 # End Source File
 # Begin Source File
 
