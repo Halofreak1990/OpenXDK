@@ -15,7 +15,7 @@
 // ******************************************************************
 // * OpenXDK Version Number
 // ******************************************************************
-#define OPENXDK_VERSION "0.0.1-pre4"
+#define OPENXDK_VERSION "0.1.0"
 
 // ******************************************************************
 // * OpenXDK Full Title
@@ -41,8 +41,40 @@ typedef signed short   sint16;
 typedef signed long    sint32;
 
 // ******************************************************************
+// * Humor Bigboy with some of his favorite typedefs  :)
+// ******************************************************************
+
+typedef	unsigned char		byte;
+typedef	unsigned char		u8;
+typedef	signed char			s8;
+typedef	unsigned short		u16;
+typedef	signed short		s16;
+typedef	unsigned int		u32;
+typedef	signed int			s32;
+typedef	signed __int64		s64;
+typedef	unsigned __int64	u64;
+
+
+// ******************************************************************
+// * Some "handy" #defines that I always make 
+// * (dont worry, MSDEV will optimise the divides :)
+// ******************************************************************
+#define	RAD2DEG				(57.29577951)
+#define	DEG(a)				(a/RAD2DEG)
+#define	COS(a)				cos((a)/RAD2DEG)
+#define	SIN(a)				sin((a)/RAD2DEG)
+
+#ifndef	NULL			// Since there are no "standard" LIBS, we may not have a NULL yet.
+#define	NULL			0x00
+#endif
+
+// ******************************************************************
 // * XBox Kernel
 // ******************************************************************
-#include "xboxkrnl/xboxkrnl.h"
-
+#include	"xboxkrnl/xboxkrnl.h"
+#include	"xbox/xboxVGA.h"
 #endif
+
+
+
+

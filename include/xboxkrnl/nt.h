@@ -69,3 +69,5 @@ XBOXSYSAPI VOID *NtWriteFileGather;
 XBOXSYSAPI VOID *NtYieldExecution;
 
 #endif
+
+

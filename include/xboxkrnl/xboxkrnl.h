@@ -26,7 +26,9 @@ extern "C"
 // ******************************************************************
 // * Null
 // ******************************************************************
+#ifndef	NULL
 #define NULL                0
+#endif
 
 // ******************************************************************
 // * Basic types
@@ -35,9 +37,12 @@ typedef void                VOID;
 typedef void               *PVOID;
 typedef unsigned char       BYTE;
 typedef BYTE                BOOLEAN;
+typedef	unsigned int		DWORD;
 typedef unsigned long       ULONG;
+typedef	unsigned __int64	ULONGULONG;
 typedef unsigned long      *PULONG;
 typedef unsigned long       PHYSICAL_ADDRESS;
+typedef	unsigned short		WORD;
 
 // ******************************************************************
 // * NTAPI
@@ -117,3 +122,5 @@ typedef unsigned long       PHYSICAL_ADDRESS;
 #endif
 
 #endif
+
+

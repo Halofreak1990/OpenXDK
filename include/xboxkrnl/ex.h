@@ -14,7 +14,11 @@
 
 XBOXSYSAPI VOID *ExAcquireReadWriteLockExclusive;
 XBOXSYSAPI VOID *ExAcquireReadWriteLockShared;
-XBOXSYSAPI VOID *ExAllocatePool;
+//XBOXSYSAPI VOID *ExAllocatePool;
+XBOXSYSAPI EXPORTNUM(165) PVOID NTAPI ExAllocatePool
+(
+	IN ULONG NumberOfBytes
+);
 XBOXSYSAPI VOID *ExAllocatePoolWithTag;
 XBOXSYSAPI VOID *ExEventObjectType;
 XBOXSYSAPI VOID *ExFreePool;
@@ -45,3 +49,5 @@ XBOXSYSAPI VOID *InterlockedPopEntrySList;
 XBOXSYSAPI VOID *InterlockedPushEntrySList;
 
 #endif
+
+

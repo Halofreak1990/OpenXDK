@@ -58,8 +58,10 @@ XBOXSYSAPI VOID *XboxAlternateSignatureKeys;
 XBOXSYSAPI VOID *XePublicKeyData;
 XBOXSYSAPI VOID *IdexChannelObject;
 XBOXSYSAPI VOID *snprintf;
-XBOXSYSAPI VOID *sprintf;
+//XBOXSYSAPI VOID *sprintf;			// We dont want this oen
 XBOXSYSAPI VOID *vsnprintf;
 XBOXSYSAPI VOID *vsprintf;
 
 #endif
+
+

@@ -27,3 +27,5 @@ XBOXSYSAPI VOID *ObfDereferenceObject;
 XBOXSYSAPI VOID *ObfReferenceObject;
 
 #endif
+
+

@@ -14,6 +14,10 @@
 
 XBOXSYSAPI VOID *ExAcquireReadWriteLockExclusive = 0;
 XBOXSYSAPI VOID *ExAcquireReadWriteLockShared = 0;
+
+XBOXSYSAPI void* (*ExAllocatePool)( unsigned long size )=0;
+
+
 XBOXSYSAPI VOID *ExAllocatePool = 0;
 XBOXSYSAPI VOID *ExAllocatePoolWithTag = 0;
 XBOXSYSAPI VOID *ExEventObjectType = 0;

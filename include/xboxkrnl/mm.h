@@ -32,11 +32,11 @@ XBOXSYSAPI EXPORTNUM(165) PVOID NTAPI MmAllocateContiguousMemory
 // ******************************************************************
 XBOXSYSAPI EXPORTNUM(166) PVOID NTAPI MmAllocateContiguousMemoryEx
 (
-	IN ULONG NumberOfBytes,
+	IN ULONG			NumberOfBytes,
 	IN PHYSICAL_ADDRESS LowestAcceptableAddress,
 	IN PHYSICAL_ADDRESS HighestAcceptableAddress,
-	IN ULONG Alignment OPTIONAL,
-	IN ULONG ProtectionType
+	IN ULONG			Alignment OPTIONAL,
+	IN ULONG			ProtectionType
 );
 
 XBOXSYSAPI VOID *MmAllocateSystemMemory;
@@ -76,3 +76,6 @@ XBOXSYSAPI VOID *MmSetAddressProtect;
 XBOXSYSAPI VOID *MmUnmapIoSpace;
 
 #endif
+
+
+
