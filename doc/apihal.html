@@ -268,7 +268,77 @@ All of the file access APIs return a status code that you should compare against
 <tr><td>directoryName</td><td>The name of the directory to delete</td></tr>
 </table>
 </td></tr> 
+
+<tr><td><code>int XMountDrive( <br>
+&nbsp;&nbsp;char driveLetter, <br>
+&nbsp;&nbsp;char *directoryName<br>
+)</code></td>
+<td>Assigns the given drive letter to the directoryName.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>driveLetter</td><td>The drive letter to assign.  For example, <code>'d'</code></td></tr>
+<tr><td>directoryName</td><td>The directory that will be referred to as <code>driveLetter</code> from now on (until next reboot).  It should contain a trailing slash, but if you forget, one will be added for you.</td></tr>
 </table>
+</td></tr> 
+
+<tr><td><code>unsigned int XFindFirstFile( <br>
+&nbsp;&nbsp;char *directoryName, <br>
+&nbsp;&nbsp;char *mask, <br>
+&nbsp;&nbsp;PXBOX_FIND_DATA findFileData <br>
+)</code></td>
+<td>Performs a very similar function to the Win32 FindFirstFile, in that it populates (for the first file within
+the <code>directoryName</code> directory) the <code>findFileData</code> data structure.  Returns <code>ERROR_INVALID_HANDLE</code>
+if the directory is unable to be opened or is invalid, otherwise a valid file handle for the directory (which you
+should pass to <code>XFindNextFile</code> to get the next file in the list).
+<p>The elements of the data structure are:
+<p>
+<code>
+typedef struct _XBOX_FIND_DATA <br>
+{<br>
+&nbsp;&nbsp;unsigned int dwFileAttributes;<br>
+&nbsp;&nbsp;long long  ftCreationTime;<br>
+&nbsp;&nbsp;long long  ftLastAccessTime;<br>
+&nbsp;&nbsp;long long  ftLastWriteTime;<br>
+&nbsp;&nbsp;unsigned int nFileSize;<br>
+&nbsp;&nbsp;char cFileName[0x100];<br>
+} XBOX_FIND_DATA, *PXBOX_FIND_DATA;<br>
+</code>
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>directoryName</td><td>The directory that contains the file you care about</td></tr>
+<tr><td>mask</td><td>A mask for the files you want.  For example, <code>"*.xbe"</code> for all XBE files or <code>"*"</code> for all files</td></tr>
+<tr><td>fileFileData</td><td>The data structure that will be populated with the file details (name, size, etc)</td></tr>
+</table>
+</td></tr> 
+
+<tr><td><code>int XFindNextFile( <br>
+&nbsp;&nbsp;unsigned int handle, <br>
+&nbsp;&nbsp;PXBOX_FIND_DATA findFileData<br>
+)</code></td>
+<td>Gets the next file from the directory that was opened using <code>XFindFirstFile</code>.  Returns 
+<code>ERROR_NO_MORE_FILES</code> if there are no more files, <code>0</code> otherwise.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>handle</td><td>The handle that was returned from <code>XFindFirstFile</code></td></tr>
+<tr><td>fileFileData</td><td>The data structure that will be populated with the file details (name, size, etc)</td></tr>
+</table>
+</td></tr> 
+
+<tr><td><code>int XFindClose( <br>
+&nbsp;&nbsp;unsigned int handle <br>
+)</code></td>
+<td>Closes the handle that was opened when calling <code>XFindFirstFile</code>
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>handle</td><td>The handle that was returned from <code>XFindFirstFile</code></td></tr>
+</table>
+</td></tr> 
+</table>
+
 
 <h2>Controllers</h2>
 <b>Currently only one pad is supported.</b>  Details of <code>XPadState</code> are as follows:
