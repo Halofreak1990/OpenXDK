@@ -96,7 +96,10 @@ XBSYSAPI VOID *KeQueryPerformanceFrequency = 0;
 // ******************************************************************
 // * KeQuerySystemTime
 // ******************************************************************
-XBSYSAPI EXPORTNUM(128) VOID KeQuerySystemTime(PLARGE_INTEGER CurrentTime)
+XBSYSAPI EXPORTNUM(128) VOID NTAPI KeQuerySystemTime
+(
+    PLARGE_INTEGER CurrentTime
+)
 {
     return;
 }

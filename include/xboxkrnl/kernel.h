@@ -80,7 +80,10 @@ XBSYSAPI VOID *KeQueryPerformanceFrequency;
 // ******************************************************************
 // * KeQuerySystemTime
 // ******************************************************************
-XBSYSAPI EXPORTNUM(128) VOID KeQuerySystemTime(PLARGE_INTEGER CurrentTime);
+XBSYSAPI EXPORTNUM(128) VOID NTAPI KeQuerySystemTime
+(
+    PLARGE_INTEGER CurrentTime
+);
 
 XBSYSAPI VOID *KeRaiseIrqlToDpcLevel;
 XBSYSAPI VOID *KeRaiseIrqlToSynchLevel;
