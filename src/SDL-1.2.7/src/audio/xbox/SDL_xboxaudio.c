@@ -136,13 +136,34 @@ void XBOX_CloseAudio(_THIS)
 	XAudioPause();
 }
 
+#define SUPPORTED_FORMAT   AUDIO_S16
+#define SUPPORTED_FREQ         44100
+#define SUPPORTED_CHANNELS         2
+#define SUPPORTED_SAMPLES       1024
+
 int XBOX_OpenAudio(_THIS, SDL_AudioSpec *spec)
 {
-	int i;
-	
-	spec->format = AUDIO_S16;
-	spec->freq = 44100;
-	spec->samples = 512;
+	if (spec->format != SUPPORTED_FORMAT ||
+	    spec->freq != SUPPORTED_FREQ ||
+	    spec->freq != SUPPORTED_FREQ)
+	{
+		double resizeFactor = 1.0;
+		resizeFactor *= (((double)(spec->format&0xFF)) / (SUPPORTED_FORMAT&0xFF));
+		resizeFactor *= (((double)spec->freq) / SUPPORTED_FREQ);
+		resizeFactor *= (((double)spec->channels) / SUPPORTED_CHANNELS);
+
+		spec->format = SUPPORTED_FORMAT;
+		spec->freq = SUPPORTED_FREQ;
+		spec->channels = SUPPORTED_CHANNELS;
+		spec->samples = SUPPORTED_SAMPLES * resizeFactor;
+	}
+	else
+	{
+		spec->format = SUPPORTED_FORMAT;
+		spec->freq = SUPPORTED_FREQ;
+		spec->channels = SUPPORTED_CHANNELS;
+		spec->samples = SUPPORTED_SAMPLES;
+	}
 
 	/* Update the fragment size as size in bytes */
 	SDL_CalculateAudioSpec(spec);
@@ -151,12 +172,13 @@ int XBOX_OpenAudio(_THIS, SDL_AudioSpec *spec)
 	XAudioInit(spec->format & 0xFF, spec->channels, sdlAudioCallback, (void *)this);
 
 	/* Create the sound buffers */
-	for ( i = 0; i < NUM_FRAGMENTS; ++i ) 
+	int bufferSize = SUPPORTED_SAMPLES * SUPPORTED_CHANNELS * ((SUPPORTED_FORMAT&0xFF)/8);
+	for (int i = 0; i < NUM_FRAGMENTS; ++i) 
 	{
 		memset(&this->hidden->fragments[i], 0, sizeof(this->hidden->fragments[i]));
-		this->hidden->fragments[i].samplesBuffer = (unsigned char *)malloc(spec->size);
+		this->hidden->fragments[i].samplesBuffer = (unsigned char *)malloc(bufferSize);
 		memset(this->hidden->fragments[i].samplesBuffer, spec->silence, sizeof(this->hidden->fragments[i].samplesBuffer));
-		this->hidden->fragments[i].sizeOfBuffer = spec->size;
+		this->hidden->fragments[i].sizeOfBuffer = bufferSize;
 
 		XAudioProvideSamples(this->hidden->fragments[i].samplesBuffer, this->hidden->fragments[i].sizeOfBuffer, FALSE);
 	}
