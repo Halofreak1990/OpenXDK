@@ -43,7 +43,16 @@ Bitmap *get_screen_bitmap()
 	__screenbitmap.data = (uint32 *)screen.ScreenAddress;
 	__screenbitmap.w = g_ScreenWidth; //ugly, why doesn't this come with SScreen?
 	__screenbitmap.h = g_ScreenHeight;
-	__screenbitmap.pitch = screen.lpitch/4;		//lpitch is width in BYTES
+	
+	//I think this should really be:
+	__screenbitmap.pitch = g_ScreenWidth;
+	
+	//WAS:
+	//__screenbitmap.pitch = screen.lpitch/4;		
+	//lpitch is width in BYTES
+	//but since lpitch is pitch of REAL screen and we're still using 
+	//bigboys emulated screen.... 
+
 	return &__screenbitmap;
 }
 
@@ -57,7 +66,6 @@ Bitmap *load_tga(char *filename)
 	int w,h;
 	int bpp;
 
-	//"\\??\\D:\\test.tga"
 	handle = _open(filename, _O_RDWR | _O_BINARY, 0 );
 	
 	_read(handle, header, 18);
