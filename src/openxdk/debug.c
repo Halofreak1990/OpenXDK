@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <openxdk/debug.h>
 
 #define SCREEN_WIDTH  640
@@ -220,9 +221,16 @@ void debugPrintNum(int i)
 	debugPrint(num);
 }
 
-void debugPrint(unsigned char *msg)
+void debugPrint(char *format, ...)
 {
-	unsigned char *s = msg;
+	char buffer[512];
+	unsigned short len;
+	va_list argList;
+	va_start(argList, format);
+	vsprintf(buffer, format, argList);
+	va_end(argList);
+	
+	unsigned char *s = buffer;
 	while (*s)
 	{
 		if (*s == '\n')
@@ -244,4 +252,14 @@ void debugPrint(unsigned char *msg)
 		s++;
 	}
 
+}
+
+void debugPrintHex(char *buffer, int length)
+{
+	char tmp[10];
+	for (int i = 0; i < length; i++)
+	{
+		sprintf(tmp, "%02x ", buffer[i]);
+		debugPrint(tmp);
+	}
 }
