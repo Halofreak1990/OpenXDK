@@ -1,0 +1,121 @@
+<html>
+<link rel="STYLESHEET" href="style.css" Type="text/css"/>
+
+<h1>Extending OpenXDK</h1>
+<h2>Adding new kernel functions</h2>
+The xboxkrnl.exe provides over 350 functions/variables that can be used.  Each of these functions has to have the signature defined correctly - which is a time-consuming process and is typically only done for each function as it is needed.  Fortunately, most of the signatures for the XBOX kernel functions match (or are very similar to) their NT/2000 equivalents.
+<h3>Update C and H files</h3>
+You can easily see which functions have not yet been defined by looked at the files in the <code>include/xboxkrnl</code> directory.  For example, you might see a function in <code>ex.h</code> that is declared like:
+<pre>
+XBSYSAPI VOID *ExAllocatePool;
+</pre>
+Likewise, in the <code>src/hal/xboxkrnl/ex.c</code> file, you will see something like:
+<pre>
+XBSYSAPI VOID *ExAllocatePool = 0;
+</pre>
+To make this available for use, you need to figure out what parameters it takes.  Looking at the equivalent NT/2000 function signature often gives you enough information.  Alternatively, you may be able to ask someone who has an official Microsoft XDK to tell you.  In this case, there is only one parameter - an <code>unsigned long</code> indicating how many bytes is requested.  Knowing this, you should modify the <code>include</code> and <code>src</code> files.  The <code>ex.h</code> will look something like:
+<pre>
+XBSYSAPI EXPORTNUM(14) PVOID NTAPI ExAllocatePool
+(
+  IN ULONG NumberOfBytes
+);
+</pre>
+The newly implemented <code>ex.c</code> will look like:
+<pre>
+XBSYSAPI EXPORTNUM(14) PVOID NTAPI ExAllocatePool
+(
+  IN ULONG NumberOfBytes
+)
+{
+  return NULL;
+}
+</pre>
+Note that <code>ex.c</code> actually contains a function body that looks like it returns something.  Don't worry... <b>this code never gets called</b>.  These are just stubs so that we can create an <code>xboxkrnl.lib</code> that gets linked against.  At run time, the code jumps to an external function (identified by ordinal 14 in this case) in a file called <code>xboxkrnl.exe</code>.  This functionality is actually provided by the XBOX kernel (not by our dodgy stubs).
+<h3>Update xboxkrnl.exe.def</h3>
+Now, there is one more step before this function is available.  You need to update the function signature in the <code>xboxkrnl.exe.def</code> file so that it matches what the linker is expecting.  For example, the line that would be in the xboxkrnl.exe.def file would originally look like:
+<pre>
+  ExAllocatePool            @  14 NONAME
+</pre>
+You need to change it to:
+<pre>
+  ExAllocatePool@4          @  14 NONAME
+</pre>
+The <code>@4</code> indicates the total length of all parameters.  You can calculate this yourself manually, or you can do what I do and compile a very small OpenXDK program that links to this function:
+<pre>
+#include &lt;openxdk/openxdk.h&gt;
+void XBOXStartup()
+{
+  ExAllocatePool(0);
+}
+</pre>
+and then run <code>PEDUMP</code> against the <code>.EXE</code> file.  You will see something like:
+<pre>
+Imports Table: 
+  xboxkrnl.exe 
+  OrigFirstThunk:  0000ECCC (Unbound IAT) 
+  TimeDateStamp:   00000000 -> Thu Jan 01 11:00:00 1970 
+  ForwarderChain:  00000000 
+  First thunk RVA: 0000ED10 
+  Ordn  Name 
+     4  ExAllocatePool@4 
+    49 
+   156 
+   184
+</pre>
+Use this as a guide to determining the length of the parameters.  Update the <code>xboxkrnl.exe.def</code> file, remake your <code>xboxkrnl.exe</code>, rebuild your example program, and you should see something like:
+<pre>
+Imports Table: 
+  xboxkrnl.exe 
+  OrigFirstThunk:  0000ECCC (Unbound IAT) 
+  TimeDateStamp:   00000000 -> Thu Jan 01 11:00:00 1970 
+  ForwarderChain:  00000000 
+  First thunk RVA: 0000ED10 
+  Ordn  Name 
+    14
+    49 
+   156 
+   184
+</pre>
+<h3>Complex data types</h3>
+You may have noticed the convention of using <code>EXPORTNUM(xx)</code>.  This macro doesn't actually do anything... it is just a visual indicator as to the ordinal that the function is meant to be defined as.  Likewise for the <code>IN</code> and <code>OUT</code> modifiers; they are just indicators for when you are browsing the source code.
+<p>
+There are some functions (for example, <code>NtCreateFile</code>) that take complex data types such as <code>POBJECT_ATTRIBUTES</code>. Definitions for most of these structure are usually defined in <code>&lt;windows.h&gt;</code>, however, we do not want to use those definitions for a couple of reasons:
+<ol>
+<li>Including <code>&lt;windows.h&gt;</code> introduces a bunch of Cygwin definitions that we don't want</li>
+<li>Often the elements of the <code>struct</code> definitions are slightly different for the XBOX.</li>
+</ol>
+As a consequence, there is a file called <code>include/types.h</code> that contains all the Windows specific structures, macros and data types.  If you add new data types, this include file is the place to add them.
+<h2>Import Address Table</h2>
+<i>Hopefully, you will never need this information, but it caused me a lot of pain until I figured out how to patch CXBE to work around it.</i><p>
+One of the data structures in a PE file is what is known as an Import Address Table (IAT).  This table is used by the XBOX kernel (in fact, also the NT/2000 loader) to determine what addresses various functions are so that it can set up various jump tables.  The IAT contains a collection of thunk addresses, but the one we care about most is the first thunk address - which is the entry point for the application.  When we run CXBE to convert the <code>.EXE</code> to a <code>.XBE</code> file, it finds the address of the IAT from the DataDirectory, gets the first thunk address and sets that as the entry point in the XBE header.
+<p>
+However, unfortunately, GCC doesn't set the address of the IAT in the DataDirectory.  As a consequence, CXBE was unable to find the entry point of the application.  I have provided a patch to the source for CXBE that handles these cases, and I ship a binary version of CXBE with the OpenXDK distribution.  The point of this, though, is that if you do not have the updated version of CXBE, OpenXDK applications <b>will not</b> run.
+<h2>newlib</h2>
+<a href="http://sources.redhat.com/newlib">newlib</a> is an awesome collection of code to provide an alternate implementation of <code>libc</code>.  However, it caused me an inordinate amount of pain when porting to the XBOX.  Because our target platform is essentially <code>i386</code>, Cygwin thinks that it is going to be around and tries to help with providing its own implementations of various things (malloc, in particular, was a major pain).  In an attempt to get around this, I created a new target: <code>i386-pc-xbox</code>.  Because Cygwin now thinks it is cross-compiling, it provides a little less "help".  However, a side-effect of this is that automake/autoconf now also thinks we are cross-compiling, so it wants to use cross-compiler style names.  This is why you need to create the symbolic links describe in the <a href="installing.html">Installation Guide</a>.
+<p>
+I initially tried to get the <code>libgloss</code> working, but couldn't figure it out properly.  In the end, I finished up putting everything I needed in <pre>/newlib-1.12.0/newlib/libc/sys/xbox/syscalls.c</pre>
+I am working on fixing up any references in the <code>configure</code> scripts to <code>libgloss</code>, but some may still remain.  The important thing to remember, is that although we produce a number of files (<code>crt0.o, libc.a, libg.a, libm.a, libnosys.a</code>), the libgloss (<code>libnosys.a</code>) library is not used.  Hopefully, I will figure out how to stop <code>automake</code> from creating it.
+<p>
+The command line that I use to configure newlib is:
+<pre>
+./configure --target=i386-pc-xbox --prefix=/usr/local/openxdk --with-newlib --without-headers
+</pre>
+There a couple of things that I would like to add to the newlib implementation. Specifically:
+<ul>
+<li>Implement the <code>execve()</code> function.  I have seen <a href="http://www.xbdev.net/openxdk/tutorials/xbe_launcher/index.php">code</a> that can launch an XBE, but haven't actually done it myself yet</li>
+<li>Implement the <code>fork()</code> function.  Likewise, I have seen <a href="http://www.xbdev.net/openxdk/tutorials/gamepad_basics/index.php">code</a> that calls the <code>PsCreateSystemThreadEx()</code> function to do this.</li>
+<li>Fix the implementation of <code>times()</code>.  It currently returns the time since the system was booted, not since 1970. Oops!</li>
+</ul>
+<h2>SDL</h2>
+<a href="http://www.libsdl.org">libsdl</a> is a sensational multimedia library that really is designed to port to other platforms with a minimum of ease.  Yet again though, I was defeated by <code>automake/autoconf</code>, so wrote my own makefile to compile SDL for the XBOX.  It is really very simple!  Just compile like this:
+<pre>
+make -f makefile.xbox
+</pre>
+Currently supported are video, events, timer and joystick.  The video driver currently always renders 640x480 pixels.  If you request another resolution, my implementation centres it within the 640x480 view.  One of these days, I will figure out how to change the video modes...  Next on the hit list is definitely audio support.
+<h2>Missing Features</h2>
+This section describes general pieces of functionality that are currently not present.  My general philosophy is to port, rather than write from scratch.  Typically, I try to port existing software from Linux/Windows and then if there is not an already fairly well accepted standard, provide a HAL api to make it easy for developers to use (Joystick support is an example).  However, if there is a well entrenched way of using a particular piece of functionality, I try not to re-invent the wheel (for example, for networking, I hope to be able to provide typical socket-style calls - <code>socket(), ioctl()</code>, etc).
+<p>
+<br>
+<hr>
+<center>Back to <a href="index.html">Home Page</a></center>
+</html>

@@ -1,0 +1,9 @@
+body { background: #ecf0f6; font-family: verdana, geneva, lucida, arial, helvetica, sans-serif; font-size: 11px; color: #292929; text-decoration: none; }
+
+table {background:#ffffff; border:1px solid #C0C0C0; width: 100%; border-collapse: collapse;}
+td { font-family: verdana, geneva, lucida, arial, helvetica, sans-serif; font-size: 11px; color: #292929; text-decoration: none; border-collapse: collapse; border-top: 1px solid #C0C0C0; border-bottom:0px; border-left:1px solid #C0C0C0; border-right:0px; padding: 4; vertical-align: top; }
+
+pre {background:#ffffff; border:1px solid #C0C0C0; width: 100%; padding: 4; }
+
+a { font-family: verdana, geneva, lucida, arial, helvetica, sans-serif; font-size: 11px;  }
+

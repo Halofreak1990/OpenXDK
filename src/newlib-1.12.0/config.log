@@ -1,0 +1,32 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:581: checking host system type
+configure:602: checking target system type
+configure:620: checking build system type
+configure:675: checking for a BSD compatible install
+configure:2841: checking for i686-pc-cygwin-ar
+configure:2874: checking for ar
+configure:2913: checking for i686-pc-cygwin-as
+configure:2946: checking for as
+configure:2985: checking for i686-pc-cygwin-dlltool
+configure:3018: checking for dlltool
+configure:3057: checking for i686-pc-cygwin-ld
+configure:3129: checking for i686-pc-cygwin-nm
+configure:3162: checking for nm
+configure:3201: checking for i686-pc-cygwin-ranlib
+configure:3234: checking for ranlib
+configure:3273: checking for i686-pc-cygwin-windres
+configure:3306: checking for windres
+configure:3345: checking for i686-pc-cygwin-objcopy
+configure:3378: checking for objcopy
+configure:3417: checking for i686-pc-cygwin-objdump
+configure:3450: checking for objdump
+configure:3499: checking for i386-pc-xbox-ar
+configure:3571: checking for i386-pc-xbox-as
+configure:3643: checking for i386-pc-xbox-dlltool
+configure:3715: checking for i386-pc-xbox-ld
+configure:3787: checking for i386-pc-xbox-nm
+configure:3859: checking for i386-pc-xbox-ranlib
+configure:3931: checking for i386-pc-xbox-windres
+configure:4031: checking whether to enable maintainer-specific portions of Makefiles

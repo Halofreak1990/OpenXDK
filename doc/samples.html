@@ -1,0 +1,66 @@
+<html>
+<link rel="STYLESHEET" href="style.css" Type="text/css"/>
+
+<h1>Supplied Sample Programs</h1>
+<p>
+This page describes the sample programs that are supplied with OpenXDK.  You will find that most of them do whatever they do, and then reboot after sleeping for a couple of seconds.  I used to loop forever, but I got sick and tired of having to get up to reboot the damn XBOX.  Now, I get a few seconds to look at the output and it automatically reboots itself.
+<h2>ComingSoon</h2>
+This is the first program that I compiled using OpenXDK.  It came from the original Microsoft VC6 version of OpenXDK and essentially draws a logo in the middle of the screen.  The data for the logo comes from a bitmap that is defined byte-by-byte in a header file.  It is pretty simple... it just plots pixels in the middle of the screen (using direct video buffer access).
+<h2>DebugPrint</h2>
+As I was developing OpenXDK, it became a real pain to get debugging information (especially before I had file I/O working).  The debugPrint and debugPrintNum function calls draw a string/number respectively on the screen (using direct video buffer access) using a very simple 8x8 fixed font.  This program just tests that it works OK.
+<h2>FileHal</h2>
+Using the <code>HAL</code> file I/O routines:
+<ul>
+<li>creates a file</li>
+<li>writes some data</li>
+<li>closes the file</li>
+<li>opens the file</li>
+<li>reads data</li>
+<li>seeks to a certain offset</li>
+<li>reads more data</li>
+<li>closes the file</li>
+</ul>
+<h2>FileStdio</h2>
+Using the <code>libc</code> file I/O routines:
+<ul>
+<li>creates a file</li>
+<li>writes some data</li>
+<li>closes the file</li>
+<li>opens the file</li>
+<li>reads data</li>
+<li>seeks to a certain offset</li>
+<li>reads more data</li>
+<li>closes the file</li>
+</ul>
+<h2>PadTest</h2>
+Using the <code>HAL</code> joystick routines, initialises the joystick library and waits for joystick input.  Dumps out some diagnostics to the screen and then exits when you press the A button.  Very rudimentary code, but it works.
+<h2>Reboot</h2>
+Gee... I wonder what this does?
+<h2>SDLJoystick</h2>
+Using the event handling capabilities of SDL, this program waits for input from the joystick and outputs some info about what sort of events it received.  The main loop is very typical of an SDL main processing loop.  
+<h2>SDLVideo</h2>
+This was the first SDL program I ever wrote (on XBOX or PC).  It just uses the SDL graphics APIs to draw some pretty colours on the screen.  It cycles through 8, 16, 24, and 32 bit colours with the same pattern, so you can see the difference.
+<h2>TestNewlib</h2>
+This is my test harness for the newlib functions.  Nothing very exciting:
+<ul>
+<li><code>sprintf()</code></li>
+<li><code>times()</code></li>
+<li><code>stat()</code></li>
+<li><code>ctime()</code></li>
+<li><code>freopen()</code></li>
+<li><code>fclose()</code></li>
+</ul>
+Boring, boring, boring!
+<h2>Doom</h2>
+Now, we're talking!!  I downloaded the sources to <a href="http://www.libsdl.org/projects/doom">sdldoom 1.10</a> as ported by Sam Lantiga (the author of SDL).  After commenting out the network portions of the code and adding some joystick handling, we have a working version of Doom for the XBOX.  Woohoo!!  Currently supported controller configuration is as follows:
+<ul>
+<li>DPAD - Left/Right/Up/Down</li>
+<li>Button A - Shoot</li>
+<li>Button B - Strafe</li>
+<li>Button X - Speed</li>
+<li>Button Y - Use</li>
+</ul>
+<br>
+<hr>
+<center>Back to <a href="index.html">Home Page</a></center>
+</html>

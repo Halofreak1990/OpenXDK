@@ -1,0 +1,24 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:608: checking for a BSD compatible install
+configure:661: checking whether build environment is sane
+configure:718: checking whether make sets ${MAKE}
+configure:751: checking for Cygwin environment
+configure:784: checking for mingw32 environment
+configure:988: checking host system type
+configure:1009: checking target system type
+configure:1027: checking build system type
+configure:1070: checking for working aclocal-1.4
+configure:1083: checking for working autoconf
+configure:1096: checking for working automake-1.4
+configure:1109: checking for working autoheader
+configure:1122: checking for working makeinfo
+configure:1147: checking for gcc
+configure:1226: checking whether we are using GNU C
+configure:1250: checking whether i386-pc-xbox-gcc -B/cygdrive/c/source/workspaceEclipse/OpenXDK/src/newlib-1.12.0/i386-pc-xbox/newlib/ -isystem /cygdrive/c/source/workspaceEclipse/OpenXDK/src/newlib-1.12.0/i386-pc-xbox/newlib/targ-include -isystem /cygdrive/c/source/workspaceEclipse/OpenXDK/src/newlib-1.12.0/newlib/libc/include accepts -g
+configure:1281: checking for -as
+configure:1313: checking for -ar
+configure:1345: checking for -ranlib
+configure:1422: checking for a BSD compatible install
+configure:1476: checking whether to enable maintainer-specific portions of Makefiles

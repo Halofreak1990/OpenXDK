@@ -1,0 +1,80 @@
+#
+ALL = \
+	src\SDL.c \
+	src\SDL_error.c \
+	src\SDL_fatal.c \
+	src\SDL_getenv.c \
+	src\SDL_loadso.c \
+	src\audio\SDL_audio.c \
+	src\audio\SDL_audiocvt.c \
+	src\audio\SDL_audiodev.c \
+	src\audio\SDL_audiomem.c \
+	src\audio\SDL_mixer.c \
+	src\audio\SDL_mixer_m68k.c \
+	src\audio\SDL_mixer_MMX.c \
+	src\audio\SDL_mixer_MMX_VC.c \
+	src\audio\SDL_wave.c \
+	src\cdrom\SDL_cdrom.c \
+	src\cpuinfo\SDL_cpuinfo.c \
+	src\endian\SDL_endian.c \
+	src\events\SDL_active.c \
+	src\events\SDL_events.c \
+	src\events\SDL_expose.c \
+	src\events\SDL_keyboard.c \
+	src\events\SDL_mouse.c \
+	src\events\SDL_quit.c \
+	src\events\SDL_resize.c \
+	src\file\SDL_rwops.c \
+	src\joystick\SDL_joystick.c \
+	src\joystick\xbox\SDL_xboxjoystick.c \
+	src\main\arch.c \
+	src\thread\SDL_thread.c \
+	src\thread\xbox\SDL_syscond.c \
+	src\thread\xbox\SDL_sysmutex.c \
+	src\thread\xbox\SDL_syssem.c \
+	src\thread\xbox\SDL_systhread.c \
+	src\timer\SDL_timer.c \
+	src\timer\xbox\SDL_systimer.c \
+	src\video\SDL_blit.c \
+	src\video\SDL_blit_0.c \
+	src\video\SDL_blit_1.c \
+	src\video\SDL_blit_A.c \
+	src\video\SDL_blit_N.c \
+	src\video\SDL_bmp.c \
+	src\video\SDL_cursor.c \
+	src\video\SDL_gamma.c \
+	src\video\SDL_pixels.c \
+	src\video\SDL_RLEaccel.c \
+	src\video\SDL_stretch.c \
+	src\video\SDL_surface.c \
+	src\video\SDL_video.c \
+	src\video\SDL_yuv.c \
+	src\video\SDL_yuv_mmx.c \
+	src\video\SDL_yuv_sw.c \
+	src\video\xbox\SDL_xboxevents.c \
+	src\video\xbox\SDL_xboxmouse.c \
+	src\video\xbox\SDL_xboxvideo.c 
+
+CC = gcc
+AR = ar
+DEFS =-DENABLE_XBOX -DDISABLE_AUDIO -DDISABLE_CDROM -DDISABLE_THREADS -DDISABLE_TIMERS -DDISABLE_ENDIAN -DDISABLE_FILE
+
+TARGET = libSDL.a
+
+OPTFLAGS=-O2 -fomit-frame-pointer
+CFLAGS=$(DEFS) -Iinclude -I/usr/local/openxdk/include -Isrc -Isrc/audio -Isrc/cdrom -Isrc/endian -Isrc/events -Isrc/joystick -Isrc/thread/xbox -Isrc/thread -Isrc/timer -Isrc/video $(OPTFLAGS)
+
+SRCS = $(ALL)
+
+OBJS = $(SRCS:.c=.o)
+
+all: $(TARGET) 
+
+clean:
+	rm $(OBJS) $(TARGET)
+
+$(TARGET) : $(OBJS)
+	$(AR) rcs $(TARGET) $(OBJS)
+	cp $(TARGET) /usr/local/openxdk/lib
+	cp include/*.h /usr/local/openxdk/include
+

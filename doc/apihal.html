@@ -1,0 +1,314 @@
+<html>
+<link rel="STYLESHEET" href="style.css" Type="text/css"/>
+
+<h1>API - HAL</h1>
+The hal API is made up of several subsystems that each operate independantly of one another.  This document describes the available APIs and gives some advice and examples on the usage of each.
+
+<h2>General XBOX Functionality</h2>
+<table>
+<tr><td nowrap width="280"><b>Function</b></td><td><b>Description</b></td></th>
+<tr><td><code>XReboot()</code></td><td>Reboots the XBOX.  Note that this reboot takes the XBOX right back to the very start of its boot cycle.  You have some level of control over this.  Check out the <code>xboxkrnl</code> library's call to <code>HalReturnToFirmware</code> function.</td></tr>
+
+<tr><td><code>XSleep(<br>
+&nbsp;&nbsp;int milliseconds<br>
+)</code></td>
+<td>Sleeps for the specific number of milliseconds.  At the moment, it is in a tight loop, so it is not very thread friendly.  One of these days, I will get around to calling a proper <code>xboxkrnl</code> API (once I figure out which one it is)
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>milliseconds</td><td>The length of time to sleep</td></tr>
+</table>
+</td></tr>
+
+<tr><td><code>XGetTickCount()</code></td><td>Returns the current kernel tick count (which is the number of milliseconds since the XBOX was turned on).</td></tr>
+</table>
+
+<h2>File Access</h2>
+All of the file access APIs return a status code that you should compare against <code>STATUS_SUCCESS</code>.
+<p>
+<table>
+<tr><td nowrap width="280"><b>Function</b></td><td><b>Description</b></td></th>
+
+<tr><td><code>int XCreateFile(<br>
+&nbsp;&nbsp;int *handle, <br>
+&nbsp;&nbsp;char *filename, <br>
+&nbsp;&nbsp;unsigned int desiredAccess, <br>
+&nbsp;&nbsp;unsigned int sharedMode, <br>
+&nbsp;&nbsp;unsigned int creationDisposition, <br>
+&nbsp;&nbsp;unsigned int flagsAndAttributes<br>
+)</code></td>
+<td>Opens a file. Note that the title of the function is slightly misleading in that this function may not actually <b>create</b> a file... it may just open an existing one (depending on the combination of the various parameters.  For more information on the combinations of the various parameters, see the Microsoft <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/fileio/base/createfile.asp">CreateFile</a> documentation.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>handle</td><td>The handle to the opened file</td></tr>
+<tr><td>filename</td><td>The file to open.  Examples of supported filenames are: <code>c:/blah.txt, blah.txt, d:\default.txt</code></td></tr>
+<tr><td>desiredAccess</td><td>Bitwise OR of one or more of the following options:
+<ul>
+<li>DELETE</li>
+<li>SYNCHRONIZE</li>
+<li>GENERIC_ALL</li>
+<li>GENERIC_EXECUTE</li>
+<li>GENERIC_WRITE</li>
+<li>GENERIC_READ</li>
+</ul>
+</td></tr>
+<tr><td>sharedMode</td><td>Bitwise OR of one or more of the following options:
+<ul>
+<li>FILE_SHARE_READ</li>
+<li>FILE_SHARE_WRITE</li>
+<li>FILE_SHARE_DELETE</li>
+</ul>
+</td></tr>
+<tr><td>creationDisposition</td><td>Bitwise OR of one or more of the following options:
+<ul>
+<li>CREATE_NEW</li>
+<li>CREATE_ALWAYS</li>
+<li>OPEN_EXISTING</li>
+<li>OPEN_ALWAYS</li>
+<li>TRUNCATE_EXISTING</li>
+</ul>
+</td></tr>
+<tr><td>flagsAndAttributes</td><td>Bitwise OR of one or more of the following options (normally, you would just use <code>FILE_ATTRIBUTE_NORMAL</code>):
+<ul>
+<li>FILE_FLAG_OPEN_NO_RECALL</li>
+<li>FILE_FLAG_OPEN_REPARSE_POINT</li>
+<li>FILE_FLAG_POSIX_SEMANTICS</li>
+<li>FILE_FLAG_BACKUP_SEMANTICS</li>
+<li>FILE_FLAG_DELETE_ON_CLOSE</li>
+<li>FILE_FLAG_SEQUENTIAL_SCAN</li>
+<li>FILE_FLAG_RANDOM_ACCESS</li>
+<li>FILE_FLAG_NO_BUFFERING</li>
+<li>FILE_FLAG_OVERLAPPED</li>
+<li>FILE_FLAG_WRITE_THROUGH</li>
+<li>FILE_ATTRIBUTE_READONLY</li>
+<li>FILE_ATTRIBUTE_HIDDEN</li>
+<li>FILE_ATTRIBUTE_SYSTEM</li>
+<li>FILE_ATTRIBUTE_DIRECTORY</li>
+<li>FILE_ATTRIBUTE_ARCHIVE</li>
+<li>FILE_ATTRIBUTE_DEVICE</li>
+<li>FILE_ATTRIBUTE_NORMAL</li>
+<li>FILE_ATTRIBUTE_TEMPORARY</li>
+<li>FILE_ATTRIBUTE_SPARSE_FILE</li>
+<li>FILE_ATTRIBUTE_REPARSE_POINT</li>
+<li>FILE_ATTRIBUTE_COMPRESSED</li>
+<li>FILE_ATTRIBUTE_OFFLINE</li>
+<li>FILE_ATTRIBUTE_NOT_CONTENT_INDEXED</li>
+<li>FILE_ATTRIBUTE_ENCRYPTED</li>
+<li>FILE_ATTRIBUTE_VALID_FLAGS</li>
+<li>FILE_ATTRIBUTE_VALID_SET_FLAGS</li>
+<ul>
+</td></tr>
+</table>
+</td></tr>
+
+<tr><td><code>int XReadFile( <br>
+&nbsp;&nbsp;int handle, <br>
+&nbsp;&nbsp;void *buffer, <br>
+&nbsp;&nbsp;unsigned int numberOfBytesToRead, <br>
+&nbsp;&nbsp;unsigned int *numberOfBytesRead<br>
+)</code></td>
+<td>Reads data from an already opened file.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>handle</td><td>The handle to the opened file</td></tr>
+<tr><td>buffer</td><td>The char buffer to put the data into</td></tr>
+<tr><td>numberOfBytesToRead</td><td>How many bytes to read</td></tr>
+<tr><td>numberOfBytesRead</td><td>How many bytes were actually read from the file</td></tr>
+</table>
+</td></tr>
+
+<tr><td><code>int XWriteFile( <br>
+&nbsp;&nbsp;int handle, <br>
+&nbsp;&nbsp;void *buffer, <br>
+&nbsp;&nbsp;unsigned int numberOfBytesToWrite, <br>
+&nbsp;&nbsp;unsigned int *numberOfBytesWritten<br>
+)</code></td>
+<td>Writes data to an already opened file.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>handle</td><td>The handle to the opened file</td></tr>
+<tr><td>buffer</td><td>The char buffer to get the data from</td></tr>
+<tr><td>numberOfBytesToWrite</td><td>How many bytes to write</td></tr>
+<tr><td>numberOfBytesWritten</td><td>How many bytes were actually written to the file</td></tr>
+</table>
+</td></tr> 
+
+<tr><td><code>int XCloseHandle( <br>
+&nbsp;&nbsp;int handle<br>
+)</code></td>
+<td>Seems fairly obvious doesn't it?  Closes the file.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>handle</td><td>The handle to the opened file</td></tr>
+</table>
+</td></tr> 
+
+<tr><td><code>int XGetFileSize( <br>
+&nbsp;&nbsp;int handle, <br>
+&nbsp;&nbsp;unsigned int *filesize<br>
+)</code></td>
+<td>Queries the file size of a given file.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>handle</td><td>The handle to the opened file</td></tr>
+<tr><td>filesize</td><td>This variable is updated with the file's size</td></tr>
+</table>
+</td></tr> 
+
+<tr><td><code>int XSetFilePointer( <br>
+&nbsp;&nbsp;int handle, <br>
+&nbsp;&nbsp;int distanceToMove, <br>
+&nbsp;&nbsp;int *newFilePointer, <br>
+&nbsp;&nbsp;int moveMethod<br>
+)</code></td>
+<td>Seeks to a location within an open file.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>handle</td><td>The handle to the opened file</td></tr>
+<tr><td>distanceToMove</td><td>The distance to seek (can be negative).</td></tr>
+<tr><td>newFilePointer</td><td>Updated with the new absolute offset within the file</td></tr>
+<tr><td>moveMethod</td><td>One of the following options:
+<ul>
+<li>FILE_BEGIN</li>
+<li>FILE_CURRENT</li>
+<li>FILE_END</li>
+</ul>
+</td></tr>
+</table>
+</td></tr> 
+
+<tr><td><code>int XRenameFile( <br>
+&nbsp;&nbsp;char *oldFilename, <br>
+&nbsp;&nbsp;char *newFilename<br>
+)</code></td>
+<td>Renames a file
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>oldFilename</td><td>The file to rename</td></tr>
+<tr><td>newFilename</td><td>The new file name</td></tr>
+</table>
+</td></tr> 
+
+<tr><td><code>int XCreateDirectory( <br>
+&nbsp;&nbsp;char *directoryName<br>
+)</code></td>
+<td>Create a new directory
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>directoryName</td><td>The directory name</td></tr>
+</table>
+</td></tr> 
+
+<tr><td><code>int XDeleteFile( <br>
+&nbsp;&nbsp;char *filename<br>
+)</code></td>
+<td>Deletes a file.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>filename</td><td>The name of the file to delete</td></tr>
+</table>
+</td></tr> 
+
+<tr><td><code>int XDeleteDirectory( <br>
+&nbsp;&nbsp;char *directoryName<br>
+)</code></td>
+<td>Deletes a directory
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>directoryName</td><td>The name of the directory to delete</td></tr>
+</table>
+</td></tr> 
+</table>
+
+<h2>Controllers</h2>
+<b>Currently only one pad is supported.</b>  Details of <code>XPadState</code> are as follows:
+<pre>
+typedef struct
+{
+&nbsp;&nbsp;char reserved1;
+&nbsp;&nbsp;unsigned char structsize;
+
+&nbsp;&nbsp;char pad;       /* 1=up 2=down 4=left 8=right + bitwise OR combos */
+&nbsp;&nbsp;char reserved2;
+&nbsp;&nbsp;char keys[6];   /* A B X Y Black White */
+
+&nbsp;&nbsp;unsigned char trig_left;
+&nbsp;&nbsp;unsigned char trig_right;
+&nbsp;&nbsp;short stick_left_x;
+&nbsp;&nbsp;short stick_left_y;
+&nbsp;&nbsp;short stick_right_x;
+&nbsp;&nbsp;short stick_right_y;
+
+&nbsp;&nbsp;char padding[0x40];
+} XPadState;
+</pre>
+<p>
+<table>
+<tr><td nowrap width="280"><b>Function</b></td><td><b>Description</b></td></th>
+<tr><td><code>XInitInput(<br>
+&nbsp;&nbsp;XUSBControl *xcontrol<br>
+)</code></td>
+<td>Initialises the XBOX controller USB subsystem.  This function <b>must</b> be called before calling any of the other controller functions.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>xcontrol</td><td>A pointer to a control structure that will be initialised.  This control structure will be used in subsequent calls.</td></tr>
+</table>
+</td></tr>
+
+<tr><td><code>XGetPadInput(<br>
+&nbsp;&nbsp;XPadState *padState,<br>
+&nbsp;&nbsp;XUSBControl *xcontrol,<br>
+&nbsp;&nbsp;int padNumber<br>
+)</code></td>
+<td>Reads the current state of the XBOX controllers
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>padState</td><td>A pointer to a <code>XPadState</code> structure that will contain the current state</td></tr>
+<tr><td>xcontrol</td><td>The pointer to the control structure</td></tr>
+<tr><td>padNumber</td><td>Which pad number are you querying?</td></tr>
+</table>
+</td></tr>
+
+<tr><td><code>XSetPadInput(<br>
+&nbsp;&nbsp;XPadState *padState,<br>
+&nbsp;&nbsp;XUSBControl *xcontrol,<br>
+&nbsp;&nbsp;int padNumber<br>
+)</code></td>
+<td>Updates the current state of the XBOX controllers (sends a message). This function is a bit dodgy at the moment... use at your own risk!
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>padState</td><td>A pointer to a <code>XPadState</code> structure</td></tr>
+<tr><td>xcontrol</td><td>The pointer to the control structure</td></tr>
+<tr><td>padNumber</td><td>Which pad number are you updating?</td></tr>
+</table>
+</td></tr>
+
+<tr><td><code>XReleaseInput(<br>
+&nbsp;&nbsp;XUSBControl *xcontrol<br>
+)</code></td>
+<td>Shuts down the XBOX controller subsystem.  If you call this, you will need to call <code>XInitInput</code> again before you can interact with the controllers.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>xcontrol</td><td>The pointer to the control structure</td></tr>
+</table>
+</td></tr>
+</table>
+
+<br>
+<hr>
+<center>Back to <a href="index.html">Home Page</a></center>
+</html>

@@ -1,0 +1,24 @@
+<html>
+<link rel="STYLESHEET" href="style.css" Type="text/css"/>
+
+<h1>Developing Applications for the XBOX</h1>
+<h2>What are your options?</h2>
+So you want to develop games for the XBOX?  Well, the official, sanctioned method is to apply to Microsoft for an XBOX Development Kit (XDK).  However, be warned, it seems that they are quite picky as to who they would like developing games for their XBOX.  In addition to costing several thousands of dollars, you also need to justify how many copies you expect to sell, and eventually when you are finished, Microsoft has to sign it with their private key so that it will run on unmodified retail XBOXs.
+<p>
+So, what are your alternatives?  As far as I know, there is no way to develop an XBOX application that will run on an unmodded XBOX.  If you are content to require a modded XBOX, you have a couple of options:
+<ul>
+<li>Somehow get hold of a illegal bootleg copy of the Microsoft XDK.  This will give you full access to all the XBOX API (including all the DirectX stuff).  As tempting as this is, it comes with its own problems - namely that you will be unable to distribute your compiled executable (I believe due to Microsoft copyright issues).  You have to provide the source, and then your end users have to either find the same bootleg copy of the XDK and compile it themselves, or they have rely on some other party to provide the precompiled version.  Apart from the hassle, this whole process is not particularly legal.</li>
+<li>Install <a href="http://www.xbox-linux.org/">XBOX-Linux</a>.  These guys have done an awesome job creating versions of Linux that run on the XBOX and it is certainly a viable option.  The only catch is that if you develop applications for this OS, your end-users must also be running XBOX-Linux.  This somewhat limits the number of end-users.</li>
+<li>Use the <a href="http://openxdk.sourceforge.net">OpenXDK</a> development kit that was originally developed by <a href="http://www.caustik.com">Caustik</a>.  This development kit was the first kit that allowed homebrew development with for the XBOX without the official Microsoft XDK.  It originally required either Microsoft Visual C++ 6.0 or Microsoft Visual .NET, but produces legally unencumbered XBOX executables that can be run on any modified XBOX.  Sometime after the original OpenXDK was developed, it was ported over to that it could be compiled using the GNU GCC toolchain.</li>
+</ul>
+<p>
+<h2>What exactly is OpenXDK?</h2>
+OpenXDK is a development kit that can be used to build XBOX applications.  Unfortunately, because the Microsoft dashboard will only launch signed applications, it means that OpenXDK applications can only be run on modified XBOXs.  Such is life!  
+<p>
+The current incantation is a port of the original OpenXDK that can be compiled using the GNU tools (gcc, ld, make, etc).  There is no way that it could exist without the awesome work of Caustik's original MS-compilable OpenXDK, and in fact, much of the current codebase is almost directly copied from the original OpenXDK source hierarchy.  Originally, I planned to port OpenXDK and have it being able to be compiled using either the MS or GNU toolchains.  However, it became obvious that there were too many differences between the way the two worked.  In particular, one thing I wanted to do, was provide a much richer libc replacement  and I wanted to use the <a href="http://sources.redhat.com/newlib/">newlib</a> library to do so.  The newlib library was designed to act as a portable, feature-rich libc replacement for embedded environments.  To my mind, the XBOX is a merely very feature-rich embedded environment, so newlib seemed like an excellent candidate.  However, this pretty much ruled out keeping the MS and GNU kits in the same source hierarchy.  If you want to compile using Microsoft VC++ or .NET, you will have to use the original OpenXDK (which appears to have stalled), or look elsewhere. Sorry!
+<p>
+These pages are intended as a bit of a chronicle of my endeavours in getting the ported OpenXDK off the ground.  It describes some of my decisions, what I learnt, and what I have planned.  It does assume that you are a reasonably technical person and have a bit of clue as to executables, DLLs, libraries, etc.
+<br>
+<hr>
+<center>Back to <a href="index.html">Home Page</a></center>
+</html>

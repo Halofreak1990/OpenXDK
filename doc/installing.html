@@ -1,0 +1,46 @@
+<html>
+<link rel="STYLESHEET" href="style.css" Type="text/css"/>
+
+<h1>Installing OpenXDK</h1>
+OK... I assume you have decided that the OpenXDK is something you want to install.  This page describes the steps you need to install and configure it correctly.
+<p>
+Note that my development environment is Windows 2000 using the Cygwin development kit.  It may work with MingW or probably even on Linux running a cross-compiled version of gcc that produces PE files, however, I have not tested either of these cases.  [Note - I am interested in hearing from you if you have tried either of these scenarios].
+<p>
+There is very little that is actually required as a pre-req for installing and running OpenXDK.  Once this process has been completed, you will have OpenXDK installed into the <code>/usr/local/openxdk</code> directory.
+<h2>Cygwin</h2>
+You will need a pretty recent version of Cygwin.  I don't recall specifically which bits I installed, but I am do know that you will need at least the following packages:
+<ul>
+<li>gcc</li>
+<li>binutils</li>
+<li>automake</li>
+<li>autoconf</li>
+</ul>
+<h2>OpenXDK</h2>
+Download the latest stable version of OpenXDK from <a href="http://openxdk.sourceforge.net/">SourceForge</a> and extract into a directory somewhere.  It really doesn't matter where.
+<h2>Development Environment</h2>
+OpenXDK doesn't require a specific development environment.  I personally use <a href="http://www.eclipse.org">Eclipse</a> with the <a href="http://www.eclipse.org/cdt">C/C++ Development Tools</a> plugin, and highly recommend it!
+<h2>Let's have at it...</h2>
+Once you have these things installed, you should be able to (from a bash shell) go into the <code>src</code> directory of your OpenXDK directory and type:
+<pre>
+./install.sh
+</pre>
+To check that the installation worked correctly, run <code>ls -las /usr/local/openxdk/lib</code>, and you should see something like:
+<pre>
+bash-2.05b$ ls -las /usr/local/openxdk/lib
+total 720
+   4 drwxrwxrwx+   2 edwardsc None         4096 Sep  8 08:16 .
+   0 drwxrwxrwx+   6 edwardsc None            0 Sep  8 08:15 ..
+ 255 -rw-rw-rw-    1 edwardsc None       261086 Sep  8 08:16 libSDL.a
+  63 -rw-rw-rw-    1 edwardsc None        64490 Sep  8 08:15 libhal.a
+  32 -rw-rw-rw-    1 edwardsc None        32200 Sep  8 08:15 libopenxdk.a
+ 100 -rw-rw-rw-    1 edwardsc None       102348 Sep  8 08:16 libusb.a
+ 266 -rw-rw-rw-    1 edwardsc None       271764 Sep  8 08:02 libxboxkrnl.a
+</pre>
+By default, everything is configured to install into <code>/usr/local/openxdk</code>.  If you want it somewhere else, you will have to edit the individual make files and change them.  I tried to understand the automake/autoconf, but am obviously just not smart enough!  Oh well...
+<p>
+<h2>One last thing...</h2>
+In the <code>bin</code> directory of wherever you installed OpenXDK, there is a program called <code>cxbe.exe.renameme</code>.  You need to copy this into your path, and rename it to <code>cxbe.exe</code> (the reason that it is not stored in as cxbe.exe is because my CVS is setup to ignore .EXE files).
+<br>
+<hr>
+<center>Back to <a href="index.html">Home Page</a></center>
+</html>
