@@ -236,7 +236,16 @@ distclean-local:
 	find $(top_srcdir)/src/SDL-1.2.7/src/* -type f -maxdepth 0 | xargs rm -f 
 	rm -rf $(top_srcdir)/src/SDL-1.2.7/test
 	find $(top_srcdir)/src/SDL-1.2.7/* -type f -maxdepth 0 | xargs rm -f 
-	find $(top_srcdir)/* -type f | grep Makefile.in | xargs rm -f 
+	rm -f $(top_srcdir)/src/SDL-1.2.7/src/audio/xbox/Makefile.in
+	rm -f $(top_srcdir)/src/SDL-1.2.7/src/joystick/xbox/Makefile.in
+	rm -f $(top_srcdir)/src/SDL-1.2.7/src/video/xbox/Makefile.in
+	rm -f $(top_srcdir)/src/cxbe/Makefile.in
+	rm -f $(top_srcdir)/src/hal/Makefile.in
+	rm -f $(top_srcdir)/src/openxdk/Makefile.in
+	rm -f $(top_srcdir)/src/usb/Makefile.in
+	rm -f $(top_srcdir)/src/xboxkrnl/Makefile.in
+	rm -f $(top_srcdir)/src/Makefile.in
+	rm -f $(top_srcdir)/Makefile.in
 	rm -f $(top_srcdir)/.directories
 	rm -f $(top_srcdir)/.newlib
 	rm -f $(top_srcdir)/.openxdk
@@ -249,3 +258,4 @@ distclean-local:
 	rm -f $(top_srcdir)/INSTALL
 	rm -f $(top_srcdir)/install-sh
 	rm -f $(top_srcdir)/missing
+	rm -f $(top_srcdir)/mkinstalldirs
