@@ -16,6 +16,7 @@
 
 #include	<openxdk.h>
 
+#include "xhal/xboxvga_internal.h"
 
 	u32	pScreenBuffer[320*240];			// Our screen (software emulated for LOW res just now)
 	u32	FrontBuffer=0;					// Current screen address (visible)

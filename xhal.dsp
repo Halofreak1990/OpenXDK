@@ -83,6 +83,10 @@ SOURCE=.\include\xhal\xboxVGA.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\include\xhal\xboxvga_internal.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\include\xhal\xfile.h
 # End Source File
 # Begin Source File
