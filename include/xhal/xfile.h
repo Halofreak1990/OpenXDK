@@ -35,6 +35,7 @@ typedef	char*							LPCSTR;
 #define	ERROR_FILE_NOT_FOUND			(2)
 #define	ERROR_TOO_MANY_OPEN_FILES		(4)
 #define	ERROR_INVALID_HANDLE			(6)
+#define	ERROR_NOT_ENOUGH_MEMORY			(0x100000)
 #define NO_ERROR						(0)
 
 

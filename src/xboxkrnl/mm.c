@@ -33,13 +33,19 @@ NTSYSAPI EXPORTNUM(165) PVOID NTAPI MmAllocateContiguousMemory
 // ******************************************************************
 // * MmAllocateContiguousMemoryEx
 // ******************************************************************
+void* __stdcall MmAllocateContiguousMemoryEx( unsigned long NumberOfBytes, 
+											 unsigned long LowestAcceptableAddress, 
+											 unsigned long HighestAcceptableAddress, 
+											 unsigned long Alignment, 
+											 unsigned long Protect);
+
 NTSYSAPI EXPORTNUM(166) PVOID NTAPI MmAllocateContiguousMemoryEx
 (
-	IN ULONG NumberOfBytes,
+	IN ULONG			NumberOfBytes,
 	IN PHYSICAL_ADDRESS LowestAcceptableAddress,
 	IN PHYSICAL_ADDRESS HighestAcceptableAddress,
-	IN ULONG Alignment OPTIONAL,
-	IN ULONG ProtectionType
+	IN ULONG Alignment	OPTIONAL,
+	IN ULONG			ProtectionType
 )
 {
     return NULL;
@@ -62,7 +68,20 @@ NTSYSAPI EXPORTNUM(171) VOID NTAPI MmFreeContiguousMemory
 }
 
 NTSYSAPI VOID *MmFreeSystemMemory = 0;
-NTSYSAPI VOID *MmGetPhysicalAddress = 0;
+
+
+
+// ******************************************************************
+// * MmGetPhysicalAddress
+// ******************************************************************
+NTSYSAPI EXPORTNUM(173) PVOID NTAPI MmGetPhysicalAddress
+(
+    IN PVOID   BaseAddress
+)
+{
+    return 0;
+}
+//NTSYSAPI VOID *MmGetPhysicalAddress = 0;
 NTSYSAPI VOID *MmIsAddressValid = 0;
 NTSYSAPI VOID *MmLockUnlockBufferPages = 0;
 NTSYSAPI VOID *MmLockUnlockPhysicalPage = 0;
@@ -82,7 +101,19 @@ NTSYSAPI EXPORTNUM(178) VOID NTAPI MmPersistContiguousMemory
 }
 
 NTSYSAPI VOID *MmQueryAddressProtect = 0;
-NTSYSAPI VOID *MmQueryAllocationSize = 0;
+
+
+// ******************************************************************
+// * MmQueryAllocationSize
+// ******************************************************************
+NTSYSAPI EXPORTNUM(180) ULONG NTAPI MmQueryAllocationSize
+(
+    IN PVOID   BaseAddress
+)
+{
+    return 0;
+}
+//NTSYSAPI VOID *MmQueryAllocationSize = 0;
 NTSYSAPI VOID *MmQueryStatistics = 0;
 NTSYSAPI VOID *MmSetAddressProtect = 0;
 NTSYSAPI VOID *MmUnmapIoSpace = 0;

@@ -23,7 +23,10 @@ extern "C" {
 #define	RES_640X200				(3)								// Hardware mode *NOT YET*
 #define	RES_640X240				(4)								// Hardware mode *NOT YET*
 #define	RES_640X400				(5)								// Hardware mode *NOT YET*
-#define	RES_640X480				(6)								// Hardware mode
+#define	RES_640X480				(6)								// Hardware mode *NOT YET*
+#define	RES_720X480				(7)								// Hardware mode *NOT YET*
+#define	RES_800X600				(8)								// Hardware mode *NOT YET*
+#define	RES_1024X768			(9)								// Hardware mode *NOT YET*
 #define	RES_MASK				(15)
 
 //
@@ -65,6 +68,10 @@ extern	u32	pScreenBuffer[];					// Our screen (software emulated for LOW res jus
 extern	u32	FrontBuffer;						// Current screen address (visible)
 extern	u32	BackBuffer;							// Current back buffer
 extern	u32	g_nFontFlags;
+
+extern	u32	_FrontBuffer;						// Current screen address (visible)
+extern	u32	_BackBuffer;						// Current back buffer
+extern	u32	_Framebuffer;
 
 extern	int	_fltused;
 // **************************************************************
@@ -115,7 +122,7 @@ void	SetReg( int port, int reg, int data );
 #define XBV_COLOUR_REG		0xfd6013c8
 #define XBV_COLOUR_DATA		0xfd6013c9
 
-#define	XBOX_SCREENRAM		0x8003d040		// Xbox screen RAM starts here (power on default)
+#define	XBOX_SCREENRAM		0x8003d000		// Xbox screen RAM starts here (power on default)
 
 
 //

@@ -25,8 +25,31 @@ NTSYSAPI EXPORTNUM(1) PVOID NTAPI AvGetSavedDataAddress
 );
 
 NTSYSAPI VOID *AvSendTVEncoderOption;
-NTSYSAPI VOID *AvSetDisplayMode;
-NTSYSAPI VOID *AvSetSavedDataAddress;
+
+
+NTSYSAPI EXPORTNUM(4) ULONG NTAPI AvSetDisplayMode
+(
+	IN PVOID	Address,
+	IN ULONG	Step,
+	IN ULONG	Mode,
+	IN ULONG	Format,
+	IN ULONG	Pitch,
+	IN ULONG	FrameBuffer
+);
+//NTSYSAPI VOID *AvSetDisplayMode;
+
+// ******************************************************************
+// * AvGetSavedDataAddress
+// ******************************************************************
+// *
+// * get current Display Start Address
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(4) VOID NTAPI AvSetSavedDataAddress
+(
+	IN PVOID	Address
+);
+//NTSYSAPI VOID *AvSetSavedDataAddress;
 NTSYSAPI VOID *FscGetCacheSize;
 NTSYSAPI VOID *FscInvalidateIdleBlocks;
 NTSYSAPI VOID *FscSetCacheSize;

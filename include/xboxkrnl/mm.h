@@ -53,7 +53,16 @@ NTSYSAPI EXPORTNUM(171) VOID NTAPI MmFreeContiguousMemory
 );
 
 NTSYSAPI VOID *MmFreeSystemMemory;
-NTSYSAPI VOID *MmGetPhysicalAddress;
+
+
+// ******************************************************************
+// * MmGetPhysicalAddress
+// ******************************************************************
+NTSYSAPI EXPORTNUM(173) PVOID NTAPI MmGetPhysicalAddress
+(
+    IN PVOID   BaseAddress
+);
+//NTSYSAPI VOID *MmGetPhysicalAddress;
 NTSYSAPI VOID *MmIsAddressValid;
 NTSYSAPI VOID *MmLockUnlockBufferPages;
 NTSYSAPI VOID *MmLockUnlockPhysicalPage;
@@ -70,7 +79,16 @@ NTSYSAPI EXPORTNUM(178) VOID NTAPI MmPersistContiguousMemory
 );
 
 NTSYSAPI VOID *MmQueryAddressProtect;
-NTSYSAPI VOID *MmQueryAllocationSize;
+
+
+// ******************************************************************
+// * MmQueryAllocationSize
+// ******************************************************************
+NTSYSAPI EXPORTNUM(180) ULONG NTAPI MmQueryAllocationSize
+(
+    IN PVOID   BaseAddress
+);
+//NTSYSAPI VOID *MmQueryAllocationSize;
 NTSYSAPI VOID *MmQueryStatistics;
 NTSYSAPI VOID *MmSetAddressProtect;
 NTSYSAPI VOID *MmUnmapIoSpace;

@@ -21,6 +21,10 @@
 	u32	FrontBuffer=0;					// Current screen address (visible)
 	u32	BackBuffer=0;						// Current back buffer
 
+	u32	_FrontBuffer=0;					// Current screen address (visible)
+	u32	_BackBuffer=0;						// Current back buffer
+	u32	_Framebuffer;
+
 
 	int	_fltused;
 	//
@@ -198,7 +202,7 @@ void	Flip( void )
 
 	s32	i2,i=0;
 	s32	size = g_ScreenWidth*g_ScreenHeight;
-	u32	*pSCR = (u32*) BackBuffer;			// get current BACK buffer
+	u32	*pSCR = (u32*) _BackBuffer;			// get current BACK buffer
 	u32	*pScr = (u32*) (pScreenBuffer);
 
 	// Software screen copy? in 320x??? modes we need to double up on pixels
@@ -233,6 +237,10 @@ void	Flip( void )
 		}
 	}
 
+	_FrontBuffer^=_BackBuffer;
+	_BackBuffer^=_FrontBuffer;
+	_FrontBuffer^=_BackBuffer;
+
 	NVSetScreenAddress();		// Flip buffers
 #endif
 }
@@ -261,7 +269,7 @@ SScreen	GetScreen( void )
 		}
 	}
 	else{
-		Scr.ScreenAddress =BackBuffer;
+		Scr.ScreenAddress = _BackBuffer;	//_Framebuffer;	//(BackBuffer&0x0fffffff);
 		Scr.lpitch = 640*4;
 		return Scr;
 	}
@@ -304,7 +312,7 @@ void InitMode( int Mode )
 		case	_8BITCOLOUR:	g_nBPP = 2; break;
 		case	_16BITCOLOUR:	g_nBPP = 1; break;
 	}
-	NVSetBPP(Mode&COLOUR_MASK);
+	//NVSetBPP(Mode&COLOUR_MASK);
 
 
 	if( g_ScreenHeight <=240 ){
@@ -318,18 +326,44 @@ void InitMode( int Mode )
 			}
 			i++;
 		}
+
+		// Get CPU screen address
+		_FrontBuffer=XBOX_SCREENRAM+0x40;										// address of VRAM (logical address for CPU)
+		_BackBuffer = _FrontBuffer+(g_ScreenWidth*g_ScreenHeight*g_nBPP);		// Current back buffer
+
+		// Get HW address for setting buffers
+		FrontBuffer = XBOX_SCREENRAM&0xfffffff;									// Get Physical address
+		BackBuffer = FrontBuffer+(g_ScreenWidth*g_ScreenHeight*g_nBPP);			// Current back buffer
+	}
+	else{
+		XdkSetVideoMode( Mode&RES_MASK, Mode&COLOUR_MASK );
+		
+/*		
+	  AvSetDisplayMode(
+			(PVOID)NV_REGBASE,
+			0,
+			(ULONG)0,		//640,	//RESOLUTION_640,	//res,
+			(ULONG)0,		//PIXEL_32BITS,	//pix,
+			(ULONG)(640*4),			//Pitch,
+			XBOX_SCREENRAM&0xfffffff
+		);
+
+		_FrontBuffer=XBOX_SCREENRAM+ 0x40;
+		_BackBuffer=_FrontBuffer;
+
+		FrontBuffer = XBOX_SCREENRAM&0xfffffff;											// Set current visible screen
+		BackBuffer = FrontBuffer;
+*/
 	}
 
-	FrontBuffer = XBOX_SCREENRAM;											// Set current visible screen
-	BackBuffer = FrontBuffer+(g_ScreenWidth*g_ScreenHeight*g_nBPP);			// Current back buffer
 	
 	// Clear both buffers
-	i = g_ScreenWidth*g_ScreenHeight*g_nBPP*2;
-	pScr = (u8*)FrontBuffer;
-	while(i>=0){
-		pScr [i]=0;
-		i--;
-	}
+//	i = g_ScreenWidth*g_ScreenHeight*g_nBPP*2;
+//	pScr = (u8*)FrontBuffer;
+//	while(i>=0){
+//		pScr [i]=0;
+//		i--;
+//	}
 
 
 

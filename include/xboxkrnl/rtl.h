@@ -100,7 +100,14 @@ NTSYSAPI VOID *RtlLeaveCriticalSection;
 NTSYSAPI VOID *RtlLeaveCriticalSectionAndRegion;
 NTSYSAPI VOID *RtlLowerChar;
 NTSYSAPI VOID *RtlMapGenericMask;
-NTSYSAPI VOID *RtlMoveMemory;
+
+NTSYSAPI EXPORTNUM(298) VOID NTAPI RtlMoveMemory
+(
+  IN PVOID			 *New,
+  IN PVOID			 *Old,
+  IN ULONG			size
+);
+//NTSYSAPI VOID *RtlMoveMemory;
 NTSYSAPI VOID *RtlMultiByteToUnicodeN;
 NTSYSAPI VOID *RtlMultiByteToUnicodeSize;
 
@@ -130,9 +137,9 @@ NTSYSAPI VOID *RtlUpperString;
 NTSYSAPI VOID *RtlUshortByteSwap;
 NTSYSAPI VOID *RtlWalkFrameChain;
 
-NTSYSAPI EXPORTNUM(320) VOID CDECL RtlZeroMemory
+NTSYSAPI EXPORTNUM(320) VOID NTAPI RtlZeroMemory
 (
-  IN VOID UNALIGNED  *Destination,
+  IN PVOID UNALIGNED  Destination,
   IN SIZE_T           Length
 );
 

@@ -11,6 +11,18 @@ extern "C" {
 //
 //
 
+// Pixel formats for AvSetDisplayMode
+#define PIXEL_16BITS_555	0x10
+#define PIXEL_16BITS_565	0x11
+#define PIXEL_32BITS		0x12
+
+// Resolutions for AvSetDisplayMode (only 640 tested)
+#define RESOLUTION_640		0x20010101
+#define RESOLUTION_720		0x20020101
+#define RESOLUTION_800		0x20030101
+#define RESOLUTION_1024		0x200B0101
+
+
 #define NV_REGBASE				(0xFD000000)
 
 // Offsets to registers
@@ -65,6 +77,7 @@ extern "C" {
 
 void NVSetScreenAddress( void );
 void NVSetBPP( int mode );
+int	XdkSetVideoMode( u32 dwResolution, u32 dwPixelFormat );
 
 
 #ifdef	__cplusplus
