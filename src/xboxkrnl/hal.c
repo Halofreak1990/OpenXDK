@@ -81,7 +81,11 @@ XBSYSAPI EXPORTNUM(50) ULONG NTAPI HalWriteSMBusValue
     return 0;
 }
 
-XBSYSAPI VOID *HalBootSMCVideoMode = 0;
+// ******************************************************************
+// * HalBootSMCVideoMode
+// ******************************************************************
+XBSYSAPI EXPORTNUM(356) DWORD HalBootSMCVideoMode = 0;
+
 XBSYSAPI VOID *HalIsResetOrShutdownPending = 0;
 XBSYSAPI VOID *HalInitiateShutdown = 0;
 XBSYSAPI VOID *HalEnableSecureTrayEject = 0;

@@ -82,7 +82,20 @@ XBSYSAPI VOID *NtCreateSemaphore = 0;
 XBSYSAPI VOID *NtCreateTimer = 0;
 XBSYSAPI VOID *NtDeleteFile = 0;
 XBSYSAPI VOID *NtDeviceIoControlFile = 0;
-XBSYSAPI VOID *NtDuplicateObject = 0;
+
+// ******************************************************************
+// * NtDuplicateObject
+// ******************************************************************
+XBSYSAPI EXPORTNUM(197) NTSTATUS NTAPI NtDuplicateObject
+(
+    PVOID   SourceHandle,
+    PVOID  *TargetHandle,
+    DWORD   Options
+)
+{
+    return STATUS_SUCCESS;
+}
+
 XBSYSAPI VOID *NtFlushBuffersFile = 0;
 
 // ******************************************************************

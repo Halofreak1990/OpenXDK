@@ -80,7 +80,17 @@ XBSYSAPI VOID *NtCreateSemaphore;
 XBSYSAPI VOID *NtCreateTimer;
 XBSYSAPI VOID *NtDeleteFile;
 XBSYSAPI VOID *NtDeviceIoControlFile;
-XBSYSAPI VOID *NtDuplicateObject;
+
+// ******************************************************************
+// * NtDuplicateObject
+// ******************************************************************
+XBSYSAPI EXPORTNUM(197) NTSTATUS NTAPI NtDuplicateObject
+(
+    PVOID   SourceHandle,
+    PVOID  *TargetHandle,
+    DWORD   Options
+);
+
 XBSYSAPI VOID *NtFlushBuffersFile;
 
 // ******************************************************************
