@@ -128,7 +128,7 @@ double x;
 
 		    /* argument reduction : x --> x - k*ln2 */
 
-			k=invln2*x+copysign(0.5,x);	/* k=NINT(x/ln2) */
+			k=(int)(invln2*x+copysign(0.5,x));	/* k=NINT(x/ln2) */
 
 		    /* express x-k*ln2 as hi-lo and let x=hi-lo rounded */
 
@@ -173,7 +173,7 @@ double x, c;
 
 		    /* argument reduction : x --> x - k*ln2 */
 			z = invln2*x;
-			k = z + copysign(.5, x);
+			k = (int)(z + copysign(.5, x));
 
 		    /* express (x+c)-k*ln2 as hi-lo and let x=hi-lo rounded */
 

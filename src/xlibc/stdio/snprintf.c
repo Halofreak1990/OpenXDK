@@ -152,7 +152,7 @@ append_number(struct state *state,
   /* add alternate prefix */
   if(flags & alternate_flag && (base == 16 || base == 8)){
     if(base == 16)
-      if((*state->append_char)(state, rep[10] + 23)) /* XXX */
+      if((*state->append_char)(state, (unsigned char)(rep[10] + 23))) /* XXX */
 	return 1;
     if((*state->append_char)(state, '0'))
       return 1;
@@ -349,7 +349,7 @@ xyzprintf (struct state *state, const char *char_format, va_list ap)
 	}
 
       case 'c' :
-	if(append_char(state, va_arg(ap, int), width, flags))
+	if(append_char(state, (unsigned char)va_arg(ap, int), width, flags))
 	  return -1;
 	break;
       case 's' :

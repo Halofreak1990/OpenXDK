@@ -19,6 +19,7 @@ not, write to the Free Software Foundation, Inc., 675 Mass Ave,
 Cambridge, MA 02139, USA.  */
 
 #include <ansidecl.h>
+#include <stdlib.h>
 #include <string.h>
 
 
@@ -65,8 +66,8 @@ DEFUN(_strlen, (str), CONST char *str)
       lomagic = (lomagic << 32) | lomagic;
     }
   if (sizeof (longword) > 8){
-	  return -1;
-    //abort ();
+	  abort ();
+	  //return -1;
   }
 
   /* Instead of the traditional loop which tests each character,

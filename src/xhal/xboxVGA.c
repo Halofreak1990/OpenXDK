@@ -142,11 +142,11 @@ unsigned char inportb( int port )
 // **************************************************************************
 void readyVgaRegs(void)
 {
-	int v;
+	u8 v;
 	outportb(0x3d4,0x11);
     v = inportb(0x3d5) & 0x7f;
 	outportb(0x3d4,0x11);
-	outportb(0x3d5,v);
+	outportb(0x3d5,(u8)v);
 }
 
 
@@ -163,7 +163,7 @@ void outReg(Register r)
 
 		case ATTRCON_ADDR:
 			inportb(STATUS_ADDR);  		// reset read/write flip-flop 
-			outportb(ATTRCON_ADDR, r.index | 0x20);
+			outportb(ATTRCON_ADDR, (u8) (r.index | 0x20));
 										// ensure VGA output is enabled 
 			outportb(ATTRCON_ADDR, r.value);
 			break;
@@ -219,7 +219,7 @@ void NVSetScreenAddress( void )
 // **************************************************************************
 void	Flip( void )
 {
-#ifdef	_XBOX
+#ifndef	_PCEMU
 
 	u32	i=0;
 	u32	size = g_ScreenWidth*g_ScreenHeight;
@@ -270,7 +270,7 @@ u8*	GetScreen( void )
 // **************************************************************************
 void InitMode( int Mode )
 {
-#ifdef	_XBOX
+#ifndef	_PCEMU
 	int	i=0;
 
 	switch( (Mode&RES_MASK) )
@@ -375,7 +375,7 @@ void	Box( int x1,int y1, int x2,int y2 )
 void	WaitVBlank ( void )
 {
 	/*
-#ifdef	_XBOX
+#ifndef	_PCEMU
 	while(1){
 		unsigned char a =  *((volatile unsigned char*)(VBL));
 		if( (a&8)!=8 ){
@@ -447,6 +447,7 @@ void	SetColour( int reg, int R, int G, int B )
 //	Out:	int
 //
 // **************************************************************************
+/*
 #if defined(_MSC_VER) && defined(_M_IX86)
 // Standard VC++ _ftol is horribly slow because it changes rounding modes twice.
 // This replacement comes courtesy of Intel.
@@ -466,7 +467,7 @@ __declspec(naked) long _ftol(float arg)
   }
 }
 #endif // _M_IX86 && _MSC_VER
-
+*/
 
 
 
@@ -553,7 +554,7 @@ void OutChar(int x, int y, char c )
 //********************************************************
 void Print( int x, int y, char* pText )
 {
-#ifdef	_XBOX
+#ifndef	_PCEMU
 	while( *pText != 0x00 ){
 		OutChar(x,y,*pText++ );
 		x+=8;

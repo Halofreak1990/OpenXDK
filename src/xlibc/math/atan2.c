@@ -210,7 +210,7 @@ double  y,x;
     /* compute y/x */
 	x=copysign(x,one); 
 	y=copysign(y,one); 
-	if((m=(k=logb(y))-logb(x)) > 60) t=big+big; 
+	if((m=(int) ((k=(int)logb(y))-logb(x))) > 60) t=big+big; 
 	    else if(m < -80 ) t=y/x;
 	    else { t = y/x ; y = scalb(y,-k); x=scalb(x,-k); }
 
@@ -219,14 +219,14 @@ begin:
 	if (t < 2.4375) {		 
 
 	/* truncate 4(t+1/16) to integer for branching */
-	    k = 4 * (t+0.0625);
+	    k = (int) (4 * (t+0.0625));
 	    switch (k) {
 
 	    /* t is in [0,7/16] */
 	    case 0:                    
 	    case 1:
 		if (t < small) 
-		    { big + small ;  /* raise inexact flag */
+		    { (big + small) ;  /* raise inexact flag */
 		      return (copysign((signx>zero)?t:PI-t,signy)); }
 
 		hi = zero;  lo = zero;  break;
@@ -261,7 +261,7 @@ begin:
 
 	    /* t is in [big, INF] */
 	    else          
-	      { big+small;	/* raise inexact flag */
+	      { (big+small);	/* raise inexact flag */
 		t = zero; }
 	}
     /* end of argument reduction */

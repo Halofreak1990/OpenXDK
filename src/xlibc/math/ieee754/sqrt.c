@@ -33,17 +33,22 @@ DEFUN (_sqrt, (x), double x)
   if (__isnan (x) || x == zero)
     return x;
 
-  if (x < zero)
-    return zero / zero;
+  // Throw an FPU error!!!
+  // we dont want to do this just yet.... so just return 0.0
+  if (x < zero){
+    return 0.0;
+    //return zero / zero;			
+  }
+
 
   /* sqrt (Inf) is Inf.  */
   if (__isinf (x))
     return x;
 
   /* Scale X to [1,4).  */
-  n = __logb (x);
+  n = (int) __logb (x);
   x = __scalb (x, -n);
-  m = __logb (x);
+  m = (int) __logb (x);
   if (m != 0)
     /* Subnormal number.  */
     x = __scalb (x, -m);

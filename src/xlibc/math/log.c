@@ -82,7 +82,10 @@ static char sccsid[] = "@(#)log.c	8.2 (Berkeley) 11/30/93";
 #define _IEEE		1
 #define endian		(((*(int *) &one)) ? 1 : 0)
 #define TRUNC(x)	*(((int *) &x) + endian) &= 0xf8000000
-#define infnan(x)	0.0
+#ifndef	infnan
+#define	infnan(error)	__infnan(error)
+//#define infnan(x)	0.0
+#endif
 #endif
 
 #define N 128
@@ -365,6 +368,7 @@ static double logF_tail[N+1] = {
 	-.00000000000017239444525614834
 };
 
+	double g_zero = 0.0;
 double
 #ifdef _ANSI_SOURCE
 log(double x)
@@ -373,13 +377,14 @@ _log(x) double x;
 #endif
 {
 	int m, j;
-	double F, f, g, q, u, u2, v, zero = 0.0, one = 1.0;
+	double F, f, g, q, u, u2, v, zero=0.0, one = 1.0;
 	volatile double u1;
-
+	double *Varzero=&g_zero;
+	
 	/* Catch special cases */
 	if (x <= 0)
 		if (_IEEE && x == zero)	/* log(0) = -Inf */
-			return (-one/zero);
+			return ( -1.0 / *Varzero );					// get round optimisation warning of (-1.0/0.0)
 		else if (_IEEE)		/* log(neg) = NaN */
 			return (zero/zero);
 		else if (x == zero)	/* NOT REACHED IF _IEEE */
@@ -395,13 +400,13 @@ _log(x) double x;
 	/* Argument reduction: 1 <= g < 2; x/2^m = g;	*/
 	/* y = F*(1 + f/F) for |f| <= 2^-8		*/
 
-	m = logb(x);
+	m = (int) logb(x);
 	g = ldexp(x, -m);
 	if (_IEEE && m == -1022) {
-		j = logb(g), m += j;
+		j = (int)logb(g), m += j;
 		g = ldexp(g, -j);
 	}
-	j = N*(g-1) + .5;
+	j = (int)(N*(g-1) + .5);
 	F = (1.0/N) * j + 1;	/* F*128 is an integer in [128, 512] */
 	f = g - F;
 
@@ -455,13 +460,13 @@ __log__D(x) double x;
 	/* Argument reduction: 1 <= g < 2; x/2^m = g;	*/
 	/* y = F*(1 + f/F) for |f| <= 2^-8		*/
 
-	m = logb(x);
+	m = (int) logb(x);
 	g = ldexp(x, -m);
 	if (_IEEE && m == -1022) {
-		j = logb(g), m += j;
+		j = (int) logb(g), m += j;
 		g = ldexp(g, -j);
 	}
-	j = N*(g-1) + .5;
+	j = (int)(N*(g-1) + .5);
 	F = (1.0/N) * j + 1;
 	f = g - F;
 

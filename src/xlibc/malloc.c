@@ -1951,7 +1951,7 @@ nextchunk-> +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 #define REQUEST_OUT_OF_RANGE(req)                                 \
   ((unsigned long)(req) >=                                        \
-   (unsigned long)(INTERNAL_SIZE_T)(-2 * MINSIZE))    
+   (unsigned long)(INTERNAL_SIZE_T)(NEGU32((2 * MINSIZE))))    
 
 /* pad request bytes into a usable size -- internal version */
 
@@ -3622,7 +3622,7 @@ Void_t* mALLOc(size_t bytes)
 //		Print(40,140,&s[0]);
 //		Flip();
 
-		return p;
+		return (void*)p;
 	}
 
   }

@@ -128,7 +128,7 @@ double x;
 
 	   /* argument reduction */
 	      if(copysign(x,one)<small) return(x);
-	      k=logb(one+x); z=scalb(x,-k); t=scalb(one,-k);
+	      k= (int) (logb(one+x)); z=scalb(x,-k); t=scalb(one,-k);
 	      if(z+t >= sqrt2 ) 
 		  { k += 1 ; z *= half; t *= half; }
 	      t += negone; x = z + t;

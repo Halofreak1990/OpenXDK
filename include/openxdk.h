@@ -50,7 +50,7 @@ typedef	unsigned short		u16;
 typedef	signed short		s16;
 typedef	unsigned int		u32;
 typedef	signed int			s32;
-//typedef	signed __int64		s64;		// We dont have an __int64 all the time yet
+//typedef	signed __int64		s64;		// We dont have an __int64 all the time 
 //typedef	unsigned __int64	u64;
 
 // ******************************************************************

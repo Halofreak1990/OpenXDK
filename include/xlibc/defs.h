@@ -20,9 +20,14 @@ typedef	unsigned __int64	u64;
 //
 // LIBC basics
 //
+
+// GET rid of C4146 compiler warnings: unary minus operator applied to unsigned type, result still unsigned
+#define	NEGU32(a)		((u32) (-((s32)(a))) )
+
 //typedef	unsigned int		size_t;
 #define	op_t	unsigned long int
 #define OPSIZ	(sizeof(op_t))
+
 /*
 #define	CONST			const*/
 #define	__CONSTVALUE

@@ -122,10 +122,10 @@ double x, y;
 		    { t=x; x=y; y=t; }
 		if(x == zero) return(zero);
 		if(y == zero) return(x);
-		exp= logb(x);
+		exp= (int)logb(x);
 		if(exp-(int)logb(y) > ibig ) 	
 			/* raise inexact flag and return |x| */
-		   { one+small; return(x); }
+		   { (one+small); return(x); }
 
 	    /* start computing sqrt(x^2 + y^2) */
 		r=x-y;

@@ -60,7 +60,7 @@ double x;
 	}
 
 	if (a < small) {		/* rtn. S(x) */
-		big+a;
+		(big+a);
 		return x;
 	}
 	return x+x*sin__S(x*x);
@@ -87,7 +87,7 @@ double x;
 		}
 	}
 	if (a < small) {
-		big+a;
+		(big+a);
 		return s;		/* rtn. s*C(a) */
 	}
 	z = a*a;

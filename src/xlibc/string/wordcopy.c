@@ -76,13 +76,13 @@ DEFUN(_wordcopy_fwd_aligned, (dstp, srcp, len),
       if (OP_T_THRES <= 3 * OPSIZ && len == 0)
 	return;
       a0 = ((op_t *) srcp)[0];
-      srcp -= 0 * OPSIZ;
+      //srcp -= 0 * OPSIZ;
       dstp -= 1 * OPSIZ;
       goto do7;
     case 1:
       a1 = ((op_t *) srcp)[0];
-      srcp -=-1 * OPSIZ;
-      dstp -= 0 * OPSIZ;
+      srcp -=NEGU32(OPSIZ);		//srcp -=-1 * OPSIZ;
+      //dstp -= 0 * OPSIZ;
       len -= 1;
       if (OP_T_THRES <= 3 * OPSIZ && len == 0)
 	goto do0;
@@ -148,7 +148,7 @@ DEFUN(_wordcopy_fwd_dest_aligned, (dstp, srcp, len),
 
   /* Make SRCP aligned by rounding it down to the beginning of the `op_t'
      it points in the middle of.  */
-  srcp &= -OPSIZ;
+  srcp &= NEGU32(OPSIZ);
 
   switch (len % 4)
     {
@@ -171,14 +171,14 @@ DEFUN(_wordcopy_fwd_dest_aligned, (dstp, srcp, len),
 	return;
       a3 = ((op_t *) srcp)[0];
       a0 = ((op_t *) srcp)[1];
-      srcp -=-1 * OPSIZ;
+      srcp -=NEGU32(OPSIZ);		//srcp -=-1 * OPSIZ;
       dstp -= 1 * OPSIZ;
       len += 0;
       goto do3;
     case 1:
       a2 = ((op_t *) srcp)[0];
       a3 = ((op_t *) srcp)[1];
-      srcp -=-2 * OPSIZ;
+      srcp -=NEGU32(2 * OPSIZ);
       dstp -= 0 * OPSIZ;
       len -= 1;
       if (OP_T_THRES <= 3 * OPSIZ && len == 0)
@@ -339,7 +339,7 @@ DEFUN(_wordcopy_bwd_dest_aligned, (dstp, srcp, len),
 
   /* Make srcp aligned by rounding it down to the beginning of the op_t
      it points in the middle of.  */
-  srcp &= -OPSIZ;
+  srcp &= NEGU32(OPSIZ);
   srcp += OPSIZ;
 
   switch (len % 4)

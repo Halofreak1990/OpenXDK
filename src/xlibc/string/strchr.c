@@ -21,6 +21,7 @@ not, write to the Free Software Foundation, Inc., 675 Mass Ave,
 Cambridge, MA 02139, USA.  */
 
 #include <ansidecl.h>
+#include <stdlib.h>
 #include <string.h>
 
 
@@ -37,7 +38,7 @@ DEFUN(strchr, (s, c), CONST char *s AND int c)
 
   /* Handle the first few characters by reading one character at a time.
      Do this until CHAR_PTR is aligned on a longword boundary.  */
-  for (char_ptr = s; ((unsigned long int) char_ptr
+  for (char_ptr = (CONST unsigned char*) s; ((unsigned long int) char_ptr
 		      & (sizeof (longword) - 1)) != 0;
        ++char_ptr)
     if (*char_ptr == c)

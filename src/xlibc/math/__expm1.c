@@ -125,7 +125,7 @@ double x;
 		if( x >= -40.0 ) {
 
 		    /* argument reduction : x - k*ln2 */
-			k= invln2 *x+copysign(0.5,x);	/* k=NINT(x/ln2) */
+			k= (int) (invln2 *x+copysign(0.5,x));	/* k=NINT(x/ln2) */
 			hi=x-k*ln2hi ; 
 			z=hi-(lo=k*ln2lo);
 			c=(hi-z)-lo;
@@ -154,7 +154,7 @@ double x;
 		else 
 		     /* expm1(-big#) rounded to -1 (inexact) */
 		     if(finite(x))  
-			 { ln2hi+ln2lo; return(-one);}
+			 { (ln2hi+ln2lo); return(-one);}
 
 		     /* expm1(-INF) is -1 */
 		     else return(-one);

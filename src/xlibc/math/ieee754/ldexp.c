@@ -84,7 +84,7 @@ DEFUN(ldexp, (x, exp),
 		  return u.d;
 		}
 
-	      if (exponent <= - (unsigned int) (DBL_MANT_DIG + 1))
+	      if (exponent <= NEGU32((unsigned int) (DBL_MANT_DIG + 1))   )
 		{
 		  /* Underflow.  */
 		  CONST int negative = u.ieee.negative;

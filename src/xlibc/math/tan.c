@@ -54,7 +54,7 @@ double x;
 	else {
 		k = 0;
 		if (a < small) {
-			big+a;
+			(big+a);
 			return x;
 		}
 	}

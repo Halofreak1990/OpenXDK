@@ -52,8 +52,8 @@ DEFUN(memmove, (a1, a2, len),
       if (len >= OP_T_THRES)
 	{
 	  /* Copy just a few bytes to make DSTP aligned.  */
-	  len -= (-dstp) % OPSIZ;
-	  BYTE_COPY_FWD (dstp, srcp, (-dstp) % OPSIZ);
+	  len -= (-(s32)dstp) % OPSIZ;
+	  BYTE_COPY_FWD (dstp, srcp, (-(s32)dstp) % OPSIZ);
 
 	  /* Copy from SRCP to DSTP taking advantage of the known
 	     alignment of DSTP.  Number of bytes remaining is put

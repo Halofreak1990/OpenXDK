@@ -91,7 +91,7 @@ double x;
 	    else if ( x > small )
 		{t= -expm1(-(x+x)); return(copysign(t/(two-t),sign));}
 	    else		/* raise the INEXACT flag for non-zero x */
-		{big+x; return(copysign(x,sign));}
+		{(big+x); return(copysign(x,sign));}
 	else if(finite(x))
 	    return (sign+1.0E-37); /* raise the INEXACT flag */
 	else

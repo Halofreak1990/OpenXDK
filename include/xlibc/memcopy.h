@@ -133,8 +133,8 @@ extern void _wordcopy_fwd_dest_aligned __P ((long int, long int, size_t));
 	_wordcopy_fwd_aligned (dst_bp, src_bp, (nbytes) / OPSIZ);	      \
       else								      \
 	_wordcopy_fwd_dest_aligned (dst_bp, src_bp, (nbytes) / OPSIZ);	      \
-      src_bp += (nbytes) & -OPSIZ;					      \
-      dst_bp += (nbytes) & -OPSIZ;					      \
+      src_bp += (nbytes) & NEGU32(OPSIZ);					      \
+      dst_bp += (nbytes) & NEGU32(OPSIZ);					      \
       (nbytes_left) = (nbytes) % OPSIZ;					      \
     } while (0)
 
@@ -153,8 +153,8 @@ extern void _wordcopy_bwd_dest_aligned __P ((long int, long int, size_t));
 	_wordcopy_bwd_aligned (dst_ep, src_ep, (nbytes) / OPSIZ);	      \
       else								      \
 	_wordcopy_bwd_dest_aligned (dst_ep, src_ep, (nbytes) / OPSIZ);	      \
-      src_ep -= (nbytes) & -OPSIZ;					      \
-      dst_ep -= (nbytes) & -OPSIZ;					      \
+      src_ep -= (nbytes) & NEGU32(OPSIZ);					      \
+      dst_ep -= (nbytes) & NEGU32(OPSIZ);					      \
       (nbytes_left) = (nbytes) % OPSIZ;					      \
     } while (0)
 

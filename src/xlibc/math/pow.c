@@ -105,6 +105,7 @@ static char sccsid[] = "@(#)pow.c	8.1 (Berkeley) 6/4/93";
  */
 
 #include <errno.h>
+#include <float.h>
 #include <math.h>
 
 #include "mathimpl.h"
@@ -116,7 +117,10 @@ static char sccsid[] = "@(#)pow.c	8.1 (Berkeley) 6/4/93";
 #define _IEEE		1
 #define endian		(((*(int *) &one)) ? 1 : 0)
 #define TRUNC(x) 	*(((int *) &x)+endian) &= 0xf8000000
-#define infnan(x)	0.0
+#ifndef	infnan
+#define	infnan(error)	__infnan(error)
+//#define infnan(x)	0.0
+#endif
 #endif		/* vax or tahoe */
 
 const static double zero=0.0, one=1.0, two=2.0, negone= -1.0;
@@ -180,7 +184,7 @@ pow_P(x, y) double x, y;
 		if (y > zero)
 			return (zero);
 		else if (_IEEE)
-			return (huge*huge);
+			return INF;
 		else
 			return (infnan(ERANGE));
 	if (x == one)
@@ -189,14 +193,14 @@ pow_P(x, y) double x, y;
 		if (y < zero)
 			return (zero);
 		else if (_IEEE)
-			return (huge*huge);
+			return INF;			
 		else
 			return (infnan(ERANGE));
 	if (y >= 7e18)		/* infinity */
 		if (x < 1)
 			return(tiny*tiny);
 		else if (_IEEE)
-			return (huge*huge);
+			return INF;			
 		else
 			return (infnan(ERANGE));
 

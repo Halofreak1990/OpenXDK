@@ -130,7 +130,7 @@ double x,c;
 	/* end of |x| > small */
 
 	else {
-	    if(x!=zero) one+small;	/* raise the inexact flag */
+	    if(x!=zero) (one+small);	/* raise the inexact flag */
 	    return(copysign(zero,x));
 	}
 }

@@ -23,8 +23,8 @@ Cambridge, MA 02139, USA.  */
 /* Return the first ocurrence of NEEDLE in HAYSTACK.  */
 char *
 DEFUN(strstr, (haystack, needle),
-      CONST char *CONST haystack AND
-      CONST char *CONST needle)
+      CONST char *haystack AND
+      CONST char *needle)
 {
   register CONST char *CONST needle_end = strchr(needle, '\0');
   register CONST char *CONST haystack_end = strchr(haystack, '\0');

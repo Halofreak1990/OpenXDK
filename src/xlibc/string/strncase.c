@@ -17,6 +17,7 @@ not, write to the Free Software Foundation, Inc., 675 Mass Ave,
 Cambridge, MA 02139, USA.  */
 
 #include <ansidecl.h>
+#include <ctype.h>
 #include <string.h>
 
 /* Compare no more than N characters of S1 and S2,

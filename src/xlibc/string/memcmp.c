@@ -16,9 +16,12 @@ License along with the GNU C Library; see the file COPYING.LIB.  If
 not, write to the Free Software Foundation, Inc., 675 Mass Ave,
 Cambridge, MA 02139, USA.  */
 
+#include	<defs.h>
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
 
 #undef	__ptr_t
 #if defined (__cplusplus) || (defined (__STDC__) && __STDC__)
@@ -219,7 +222,7 @@ memcmp_not_common_alignment (srcp1, srcp2, len)
 
   /* Make SRCP1 aligned by rounding it down to the beginning of the `op_t'
      it points in the middle of.  */
-  srcp1 &= -OPSIZ;
+  srcp1 &= NEGU32(OPSIZ);				//srcp1 &= -OPSIZ;
 
   switch (len % 4)
     {
@@ -342,8 +345,8 @@ _memcmp (s1, s2, len)
 	return res;
 
       /* Number of bytes remaining in the interval [0..OPSIZ-1].  */
-      srcp1 += len & -OPSIZ;
-      srcp2 += len & -OPSIZ;
+      srcp1 += len & NEGU32(OPSIZ);
+      srcp2 += len & NEGU32(OPSIZ);
       len %= OPSIZ;
     }
 

@@ -5,16 +5,20 @@
 extern "C" {
 #endif
 
+#include	<ansidecl.h>
+
 
 #ifndef _CRTIMP
 #define _CRTIMP
 #endif  
 
-extern	u32			_Nan[2];
+extern	u8			_Nan[8];
+extern	u8			_Inf[8];
 
 //#define NAN		((unsigned __int64)0xfff8000000000000)
 
 #define	NAN			*((double*)(&_Nan[0]))		// instead of using __int64, store a NAN somwhere in memory  (misc_vars.c)
+#define	INF			*((double*)(&_Inf[0]))		// Constant INF
 
 #define DBL_DIG         15                      // # of decimal digits of precision 
 #define DBL_EPSILON     2.2204460492503131e-016 // smallest such that 1.0+DBL_EPSILON != 1.0 

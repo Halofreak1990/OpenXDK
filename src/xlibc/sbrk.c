@@ -5,7 +5,7 @@ extern	void Print( int x, int y, char* pText );
 extern	char	s[64];
 extern	void Flip(void );
 
-#ifndef	_XBOX
+#ifdef	_PCEMU
 	char	MemoryHeap[1024*1024*32];
 	int		index=0;
 #endif
@@ -13,7 +13,7 @@ extern	void Flip(void );
 
 void* sbrk( long	size )
 {
-#ifdef	_XBOX
+#ifndef	_PCEMU
 	void* p;
 
 //   	sprintf(&s[0],"Size %x" , size );
