@@ -74,120 +74,84 @@
 	</Configurations>
 	<Files>
 		<Filter
-			Name="debug"
+			Name="include"
 			Filter="">
 			<File
-				RelativePath=".\src\xboxkrnl\dbg.c">
+				RelativePath="include\xboxkrnl\dbg.h">
 			</File>
 			<File
-				RelativePath=".\include\xboxkrnl\dbg.h">
+				RelativePath="include\xboxkrnl\ex.h">
+			</File>
+			<File
+				RelativePath="include\xboxkrnl\hal.h">
+			</File>
+			<File
+				RelativePath="include\xboxkrnl\io.h">
+			</File>
+			<File
+				RelativePath="include\xboxkrnl\kernel.h">
+			</File>
+			<File
+				RelativePath="include\xboxkrnl\mm.h">
+			</File>
+			<File
+				RelativePath="include\xboxkrnl\nt.h">
+			</File>
+			<File
+				RelativePath="include\xboxkrnl\ob.h">
+			</File>
+			<File
+				RelativePath="include\xboxkrnl\ps.h">
+			</File>
+			<File
+				RelativePath="include\xboxkrnl\rtl.h">
+			</File>
+			<File
+				RelativePath="include\xboxkrnl\xbox.h">
 			</File>
 		</Filter>
 		<Filter
-			Name="i/o manager"
+			Name="src"
 			Filter="">
 			<File
-				RelativePath=".\src\xboxkrnl\io.c">
+				RelativePath="src\xboxkrnl\dbg.c">
 			</File>
 			<File
-				RelativePath=".\include\xboxkrnl\io.h">
-			</File>
-		</Filter>
-		<Filter
-			Name="nt"
-			Filter="">
-			<File
-				RelativePath=".\src\xboxkrnl\nt.c">
+				RelativePath="src\xboxkrnl\ex.c">
 			</File>
 			<File
-				RelativePath=".\include\xboxkrnl\nt.h">
-			</File>
-		</Filter>
-		<Filter
-			Name="hal"
-			Filter="">
-			<File
-				RelativePath=".\src\xboxkrnl\hal.c">
+				RelativePath="src\xboxkrnl\hal.c">
 			</File>
 			<File
-				RelativePath=".\include\xboxkrnl\hal.h">
-			</File>
-		</Filter>
-		<Filter
-			Name="executive"
-			Filter="">
-			<File
-				RelativePath=".\src\xboxkrnl\ex.c">
+				RelativePath="src\xboxkrnl\io.c">
 			</File>
 			<File
-				RelativePath=".\include\xboxkrnl\ex.h">
-			</File>
-		</Filter>
-		<Filter
-			Name="memory manager"
-			Filter="">
-			<File
-				RelativePath=".\src\xboxkrnl\mm.c">
+				RelativePath="src\xboxkrnl\kernel.c">
 			</File>
 			<File
-				RelativePath=".\include\xboxkrnl\mm.h">
-			</File>
-		</Filter>
-		<Filter
-			Name="object manager"
-			Filter="">
-			<File
-				RelativePath=".\src\xboxkrnl\ob.c">
+				RelativePath="src\xboxkrnl\mm.c">
 			</File>
 			<File
-				RelativePath=".\include\xboxkrnl\ob.h">
-			</File>
-		</Filter>
-		<Filter
-			Name="process structure"
-			Filter="">
-			<File
-				RelativePath=".\src\xboxkrnl\ps.c">
+				RelativePath="src\xboxkrnl\nt.c">
 			</File>
 			<File
-				RelativePath=".\include\xboxkrnl\ps.h">
-			</File>
-		</Filter>
-		<Filter
-			Name="run-time library"
-			Filter="">
-			<File
-				RelativePath=".\src\xboxkrnl\rtl.c">
+				RelativePath="src\xboxkrnl\ob.c">
 			</File>
 			<File
-				RelativePath=".\include\xboxkrnl\rtl.h">
-			</File>
-		</Filter>
-		<Filter
-			Name="xbox"
-			Filter="">
-			<File
-				RelativePath=".\src\xboxkrnl\xbox.c">
+				RelativePath="src\xboxkrnl\ps.c">
 			</File>
 			<File
-				RelativePath=".\include\xboxkrnl\xbox.h">
-			</File>
-		</Filter>
-		<Filter
-			Name="kernel"
-			Filter="">
-			<File
-				RelativePath=".\src\xboxkrnl\kernel.c">
+				RelativePath="src\xboxkrnl\rtl.c">
 			</File>
 			<File
-				RelativePath=".\include\xboxkrnl\kernel.h">
+				RelativePath="src\xboxkrnl\xbox.c">
 			</File>
 		</Filter>
 		<File
-			RelativePath=".\src\xboxkrnl\xboxkrnl.def">
+			RelativePath="src\xboxkrnl\xboxkrnl.def">
 		</File>
 		<File
-			RelativePath=".\include\xboxkrnl\xboxkrnl.h">
+			RelativePath="include\xboxkrnl\xboxkrnl.h">
 		</File>
 	</Files>
 	<Globals>

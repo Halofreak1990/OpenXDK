@@ -7,6 +7,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xlibc", "xlibc.vcproj", "{9
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xvga", "xvga.vcproj", "{13B9D337-EE49-4741-AA12-D0460435ED7C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xgfx2d", "xgfx2d.vcproj", "{154D5987-CB32-482E-AB75-E1E5009B11ED}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glibc", "glibc.vcproj", "{55012859-C5CE-487B-976A-AB67ECF4F7FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Release
@@ -24,6 +28,10 @@ Global
 		{99217C81-B8D9-45E9-87BA-B860D438BF7A}.Release.Build.0 = Release|Win32
 		{13B9D337-EE49-4741-AA12-D0460435ED7C}.Release.ActiveCfg = Release|Win32
 		{13B9D337-EE49-4741-AA12-D0460435ED7C}.Release.Build.0 = Release|Win32
+		{154D5987-CB32-482E-AB75-E1E5009B11ED}.Release.ActiveCfg = Release|Win32
+		{154D5987-CB32-482E-AB75-E1E5009B11ED}.Release.Build.0 = Release|Win32
+		{55012859-C5CE-487B-976A-AB67ECF4F7FA}.Release.ActiveCfg = Release|Win32
+		{55012859-C5CE-487B-976A-AB67ECF4F7FA}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

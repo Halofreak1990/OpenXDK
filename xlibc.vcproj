@@ -12,38 +12,40 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\lib"
-			IntermediateDirectory=".\lib"
+			OutputDirectory=".\lib\xlibc"
+			IntermediateDirectory=".\lib\xlibc"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/QIfist "
+				Optimization="4"
+				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="1"
 				ImproveFloatingPointConsistency="TRUE"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="TRUE"
 				OptimizeForProcessor="2"
 				AdditionalIncludeDirectories="include\xlibc,include"
-				PreprocessorDefinitions="NDEBUG,_LIB,_LIBC,__STD_C,_XBOX"
+				PreprocessorDefinitions="NDEBUG,_LIB,_LIBC,__STD_C"
 				IgnoreStandardIncludePath="TRUE"
-				StringPooling="TRUE"
 				RuntimeLibrary="4"
-				EnableFunctionLevelLinking="TRUE"
 				DisableLanguageExtensions="TRUE"
-				PrecompiledHeaderFile=".\lib/xlibc.pch"
-				AssemblerListingLocation=".\lib/"
-				ObjectFile=".\lib/"
-				ProgramDataBaseFileName=".\lib/"
+				PrecompiledHeaderFile=".\lib\xlibc/xlibc.pch"
+				AssemblerListingLocation=".\lib\xlibc/"
+				ObjectFile=".\lib\xlibc/"
+				ProgramDataBaseFileName=".\lib\xlibc/"
 				WarningLevel="2"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="3"
 				CompileAs="0"
 				UndefineAllPreprocessorDefinitions="TRUE"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\lib\xlibc.lib"
+				OutputFile="lib\xlibc.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -63,82 +65,34 @@
 	</Configurations>
 	<Files>
 		<Filter
-			Name="Source Files"
-			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
+			Name="src"
+			Filter="">
 			<File
-				RelativePath=".\src\xlibc\__random.c">
+				RelativePath=".\src\xlibc\abort.c">
 			</File>
 			<File
 				RelativePath=".\src\xlibc\abs.c">
 			</File>
 			<File
-				RelativePath=".\src\xlibc\atof.c">
-			</File>
-			<File
-				RelativePath=".\src\xlibc\atoi.c">
-			</File>
-			<File
-				RelativePath=".\src\xlibc\bsearch.c">
-			</File>
-			<File
-				RelativePath=".\src\xlibc\ctype.c">
-			</File>
-			<File
-				RelativePath=".\src\xlibc\ctype.h">
-			</File>
-			<File
-				RelativePath=".\src\xlibc\ctypes.c">
-			</File>
-			<File
 				RelativePath=".\src\xlibc\div.c">
-			</File>
-			<File
-				RelativePath=".\src\xlibc\fileio.c">
-			</File>
-			<File
-				RelativePath=".\src\xlibc\gnu-stabs.h">
 			</File>
 			<File
 				RelativePath=".\src\xlibc\itoa.c">
 			</File>
 			<File
-				RelativePath=".\src\xlibc\labs.c">
+				RelativePath=".\src\xlibc\ldiv.c">
 			</File>
 			<File
-				RelativePath=".\src\xlibc\ldiv.c">
+				RelativePath=".\src\xlibc\ltoa.c">
 			</File>
 			<File
 				RelativePath=".\src\xlibc\malloc.c">
 			</File>
 			<File
-				RelativePath=".\src\xlibc\mblen.c">
-			</File>
-			<File
-				RelativePath=".\src\xlibc\mbstowcs.c">
-			</File>
-			<File
 				RelativePath=".\src\xlibc\misc_vars.c">
 			</File>
 			<File
-				RelativePath=".\src\xlibc\qsort.c">
-			</File>
-			<File
 				RelativePath=".\src\xlibc\rand.c">
-			</File>
-			<File
-				RelativePath=".\src\xlibc\random.c">
-			</File>
-			<File
-				RelativePath=".\src\xlibc\sbrk.c">
-			</File>
-			<File
-				RelativePath=".\src\xlibc\srand.c">
-			</File>
-			<File
-				RelativePath=".\src\xlibc\strtol.c">
-			</File>
-			<File
-				RelativePath=".\src\xlibc\strtoul.c">
 			</File>
 			<Filter
 				Name="String"
@@ -147,64 +101,16 @@
 					RelativePath=".\src\xlibc\string\__memccpy.c">
 				</File>
 				<File
-					RelativePath=".\src\xlibc\string\__stpncpy.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\bcmp.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\bcopy.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\bzero.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\ffs.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\index.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\memccpy.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\memchr.c">
-				</File>
-				<File
 					RelativePath=".\src\xlibc\string\memcmp.c">
 				</File>
 				<File
 					RelativePath=".\src\xlibc\string\memcpy.c">
 				</File>
 				<File
-					RelativePath=".\src\xlibc\string\memfrob.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\memmem.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\memmove.c">
-				</File>
-				<File
 					RelativePath=".\src\xlibc\string\memset.c">
 				</File>
 				<File
-					RelativePath=".\src\xlibc\string\rindex.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\stpcpy.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\stpncpy.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\strcasecmp.c">
-				</File>
-				<File
 					RelativePath=".\src\xlibc\string\strcat.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\strchr.c">
 				</File>
 				<File
 					RelativePath=".\src\xlibc\string\strcmp.c">
@@ -213,19 +119,7 @@
 					RelativePath=".\src\xlibc\string\strcpy.c">
 				</File>
 				<File
-					RelativePath=".\src\xlibc\string\strcspn.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\strdup.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\strfry.c">
-				</File>
-				<File
 					RelativePath=".\src\xlibc\string\strlen.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\strncase.c">
 				</File>
 				<File
 					RelativePath=".\src\xlibc\string\strncat.c">
@@ -233,103 +127,40 @@
 				<File
 					RelativePath=".\src\xlibc\string\strncmp.c">
 				</File>
-				<File
-					RelativePath=".\src\xlibc\string\strncpy.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\strpbrk.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\strrchr.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\strsep.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\strspn.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\strstr.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\strtok.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\swab.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\string\wordcopy.c">
-				</File>
 			</Filter>
 			<Filter
 				Name="stdio"
 				Filter="">
 				<File
-					RelativePath=".\src\xlibc\stdio\snprintf.c">
+					RelativePath=".\src\xlibc\stdio\conio.c">
+				</File>
+				<File
+					RelativePath=".\src\xlibc\stdio\file_io.c">
+				</File>
+				<File
+					RelativePath=".\src\xlibc\stdio\sprintf.c">
 				</File>
 			</Filter>
 			<Filter
 				Name="math"
 				Filter="">
 				<File
-					RelativePath=".\src\xlibc\math\__expm1.c">
+					RelativePath=".\src\xlibc\math\acos.c">
 				</File>
 				<File
-					RelativePath=".\src\xlibc\math\__finite.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\__rint.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\__scalb.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\_fltused.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\acosh.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\asincos.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\asinh.c">
+					RelativePath=".\src\xlibc\math\asin.c">
 				</File>
 				<File
 					RelativePath=".\src\xlibc\math\atan.c">
 				</File>
 				<File
-					RelativePath=".\src\xlibc\math\atan2.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\atanh.c">
-				</File>
-				<File
 					RelativePath=".\src\xlibc\math\ceil.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\copysign.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\cosh.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\drem.c">
 				</File>
 				<File
 					RelativePath=".\src\xlibc\math\exp.c">
 				</File>
 				<File
-					RelativePath=".\src\xlibc\math\exp__E.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\expm1.c">
-				</File>
-				<File
 					RelativePath=".\src\xlibc\math\fabs.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\finite.c">
 				</File>
 				<File
 					RelativePath=".\src\xlibc\math\floor.c">
@@ -338,139 +169,36 @@
 					RelativePath=".\src\xlibc\math\fmod.c">
 				</File>
 				<File
-					RelativePath=".\src\xlibc\math\infnan.c">
+					RelativePath=".\src\xlibc\math\ftol.c">
 				</File>
 				<File
-					RelativePath=".\src\xlibc\math\isinf.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\isnan.c">
+					RelativePath=".\src\xlibc\math\hypot.c">
 				</File>
 				<File
 					RelativePath=".\src\xlibc\math\log.c">
 				</File>
 				<File
-					RelativePath=".\src\xlibc\math\log1p.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\log__L.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\logb.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\mathimpl.h">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\modf.c">
-				</File>
-				<File
 					RelativePath=".\src\xlibc\math\pow.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\rint.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\scalb.c">
 				</File>
 				<File
 					RelativePath=".\src\xlibc\math\sincos.c">
 				</File>
 				<File
-					RelativePath=".\src\xlibc\math\sinh.c">
+					RelativePath=".\src\xlibc\math\sqrt.c">
 				</File>
 				<File
 					RelativePath=".\src\xlibc\math\tan.c">
 				</File>
-				<File
-					RelativePath=".\src\xlibc\math\tanh.c">
-				</File>
-				<File
-					RelativePath=".\src\xlibc\math\trig.h">
-				</File>
-				<Filter
-					Name="ieee754"
-					Filter="">
-					<File
-						RelativePath=".\src\xlibc\math\ieee754\__copysign.c">
-					</File>
-					<File
-						RelativePath=".\src\xlibc\math\ieee754\__drem.c">
-					</File>
-					<File
-						RelativePath=".\src\xlibc\math\ieee754\__infnan.c">
-					</File>
-					<File
-						RelativePath=".\src\xlibc\math\ieee754\__isinf.c">
-					</File>
-					<File
-						RelativePath=".\src\xlibc\math\ieee754\__isnan.c">
-					</File>
-					<File
-						RelativePath=".\src\xlibc\math\ieee754\__logb.c">
-					</File>
-					<File
-						RelativePath=".\src\xlibc\math\ieee754\cabs.c">
-					</File>
-					<File
-						RelativePath=".\src\xlibc\math\ieee754\cbrt.c">
-					</File>
-					<File
-						RelativePath=".\src\xlibc\math\ieee754\frexp.c">
-					</File>
-					<File
-						RelativePath=".\src\xlibc\math\ieee754\ieee754.h">
-					</File>
-					<File
-						RelativePath=".\src\xlibc\math\ieee754\ldexp.c">
-					</File>
-					<File
-						RelativePath=".\src\xlibc\math\ieee754\log10.c">
-					</File>
-					<File
-						RelativePath=".\src\xlibc\math\ieee754\sqrt.c">
-					</File>
-				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl">
+			Name="inc"
+			Filter="">
 			<File
 				RelativePath=".\include\xlibc\ansidecl.h">
 			</File>
 			<File
 				RelativePath=".\include\xlibc\ctype.h">
-			</File>
-			<File
-				RelativePath=".\include\xlibc\defs.h">
-			</File>
-			<File
-				RelativePath=".\include\xlibc\endian.h">
-			</File>
-			<File
-				RelativePath=".\include\xlibc\errno.h">
-			</File>
-			<File
-				RelativePath=".\include\xlibc\errnos.h">
-			</File>
-			<File
-				RelativePath=".\include\xlibc\features.h">
-			</File>
-			<File
-				RelativePath=".\include\xlibc\features_old.h">
-			</File>
-			<File
-				RelativePath=".\include\xlibc\float.h">
-			</File>
-			<File
-				RelativePath=".\include\xlibc\gnu-stabs.h">
-			</File>
-			<File
-				RelativePath=".\include\xlibc\huge_val.h">
-			</File>
-			<File
-				RelativePath=".\include\xlibc\limits.h">
 			</File>
 			<File
 				RelativePath=".\include\xlibc\malloc.h">
@@ -479,13 +207,7 @@
 				RelativePath=".\include\xlibc\math.h">
 			</File>
 			<File
-				RelativePath=".\include\xlibc\memcopy.h">
-			</File>
-			<File
 				RelativePath=".\include\xlibc\stdarg.h">
-			</File>
-			<File
-				RelativePath=".\include\xlibc\stddef.h">
 			</File>
 			<File
 				RelativePath=".\include\xlibc\stdio.h">
@@ -496,44 +218,6 @@
 			<File
 				RelativePath=".\include\xlibc\string.h">
 			</File>
-			<Filter
-				Name="bits"
-				Filter="">
-				<File
-					RelativePath=".\include\xlibc\bits\endian.h">
-				</File>
-				<File
-					RelativePath=".\include\xlibc\bits\types.h">
-				</File>
-			</Filter>
-			<Filter
-				Name="misc"
-				Filter="">
-				<Filter
-					Name="sys No. 1"
-					Filter="">
-					<File
-						RelativePath=".\include\xlibc\misc\sys\cdefs.h">
-					</File>
-				</Filter>
-			</Filter>
-			<Filter
-				Name="string No. 1"
-				Filter="">
-				<File
-					RelativePath=".\include\xlibc\string\endian.h">
-				</File>
-			</Filter>
-			<Filter
-				Name="sys"
-				Filter="">
-				<File
-					RelativePath=".\include\xlibc\sys\cdefs.h">
-				</File>
-				<File
-					RelativePath=".\include\xlibc\sys\djtypes.h">
-				</File>
-			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

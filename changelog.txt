@@ -1,5 +1,14 @@
 OpenXDK website: http://openxdk.sourceforge.net/
 
+version: 0.0.2 (01/07/03)
+--------------------------------
+
+- Lots of kernel additions
+
+- Merged with CXBX/CXBE
+
+- Many libraries changed dramatically
+
 version: 0.0.1-BETA2 (11/27/02)
 --------------------------------
 

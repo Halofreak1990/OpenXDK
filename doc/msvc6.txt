@@ -42,7 +42,7 @@
 
     http://openxdk.sourceforge.net/
 
-    The web site will point you in the right direction.
+    Hint: You want "OpenXDK" and perhaps one of the Samples.
 
     b) Unzip
 
@@ -54,15 +54,10 @@
 
     c) Build
  
-    Note: If you downloaded a pre-built version, you can skip this step.
-
     Building OpenXDK is very easy. The decompressed folder (C:\OpenXDK)
     contains a file called OpenXDK.dsw. To build OpenXDK, simply open
     this workspace with Microsoft Visual Studio 6.0, and then build the
-    XBox Kernel, xhal, xlibc, and xvga.
-
-    When building, you may recieve a crapload of warnings with xlibc. These
-    can be safely ignored, unless there is also an *error*.
+    projects.
 
     Note: To build, click Build->Batch Build, then click "Rebuild All".
 
@@ -186,18 +181,17 @@
     a valid entry point for your application. Typically, the below code is a
     good place to start development from:
 
-    #include <openxdk.h>
+#include <openxdk.h>
 
-    void WinMainCRTStartup()
-    {
-        infinite:
-        goto infinite;
-        return;
-    }
+void WinMainCRTStartup()
+{
+    HalReturnToFirmware(ReturnFirmwareFatal);
+    return;
+}
 
-    You can use whatever code you like, the only reason for the infinite loop
-    is that XBox software is not intended to ever return from the entry point,
-    as it is the only process running.
+    Note: After you run the above code, your xbox will go to the "fatal" boot
+    screen. It is ok, nothing is harmed, it is simply a demonstration of what
+    OpenXDK can do. (Your Xbox will be back to normal after rebooting).
 
     g) Building Your Project
 
