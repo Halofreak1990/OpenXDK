@@ -132,12 +132,36 @@ XBSYSAPI VOID *KeRestoreFloatingPointState = 0;
 XBSYSAPI VOID *KeResumeThread = 0;
 XBSYSAPI VOID *KeRundownQueue = 0;
 XBSYSAPI VOID *KeSaveFloatingPointState = 0;
-XBSYSAPI VOID *KeSetBasePriorityThread = 0;
+
+
+//XBSYSAPI VOID *KeSetBasePriorityThread = 0;
+XBSYSAPI EXPORTNUM(143) BOOLEAN NTAPI KeSetBasePriorityThread
+(
+    IN PKTHREAD  Thread,
+    IN PVOID  Priority
+)
+{
+	return TRUE;
+}
+
+
 XBSYSAPI VOID *KeSetDisableBoostThread = 0;
 XBSYSAPI VOID *KeSetEvent = 0;
 XBSYSAPI VOID *KeSetEventBoostPriority = 0;
 XBSYSAPI VOID *KeSetPriorityProcess = 0;
-XBSYSAPI VOID *KeSetPriorityThread = 0;
+
+
+
+//XBSYSAPI VOID *KeSetPriorityThread = 0;
+XBSYSAPI EXPORTNUM(148) BOOLEAN NTAPI KeSetPriorityThread
+(
+    IN PKTHREAD  Thread,
+    IN PVOID  Priority
+)
+{
+	return TRUE;
+}
+
 
 // ******************************************************************
 // * KeSetTimer

@@ -19,7 +19,18 @@ XBSYSAPI VOID *ObMakeTemporaryObject = 0;
 XBSYSAPI VOID *ObOpenObjectByName = 0;
 XBSYSAPI VOID *ObOpenObjectByPointer = 0;
 XBSYSAPI VOID *ObpObjectHandleTable = 0;
-XBSYSAPI VOID *ObReferenceObjectByHandle = 0;
+
+//XBSYSAPI VOID *ObReferenceObjectByHandle = 0;
+XBSYSAPI EXPORTNUM(246) BOOLEAN NTAPI ObReferenceObjectByHandle
+( unsigned int a,
+  unsigned int b,
+  unsigned int c 
+)
+{
+    return TRUE;
+};
+
+
 XBSYSAPI VOID *ObReferenceObjectByName = 0;
 XBSYSAPI VOID *ObReferenceObjectByPointer = 0;
 XBSYSAPI VOID *ObSymbolicLinkObjectType = 0;

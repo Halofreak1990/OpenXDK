@@ -12,7 +12,18 @@
 #ifndef XBOXKRNL_PS_H
 #define XBOXKRNL_PS_H
 
-XBSYSAPI VOID *PsCreateSystemThread;
+//XBSYSAPI VOID *PsCreateSystemThread;
+
+XBSYSAPI EXPORTNUM(254) NTSTATUS NTAPI PsCreateSystemThread
+(
+   PULONG lpThreadAttributes,               // SD
+   DWORD dwStackSize,                       // initial stack size
+   PKSTART_ROUTINE lpStartAddress,          // thread function
+   VOID* lpParameter,                       // thread argument
+   DWORD dwCreationFlags,                   // creation option
+   DWORD* lpThreadId                        // thread identifier
+
+);
 
 // ******************************************************************
 // * PsCreateSystemThreadEx
@@ -39,7 +50,8 @@ XBSYSAPI VOID *PsSetCreateThreadNotifyRoutine;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(258) VOID NTAPI PsTerminateSystemThread(IN NTSTATUS ExitStatus);
 
-XBSYSAPI VOID *PsThreadObjectType;
+//XBSYSAPI VOID *PsThreadObjectType;
+XBSYSAPI EXPORTNUM(259) volatile DWORD PsThreadObjectType;
 
 #endif
 

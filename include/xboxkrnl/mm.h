@@ -78,7 +78,16 @@ XBSYSAPI EXPORTNUM(173) PHYSICAL_ADDRESS NTAPI MmGetPhysicalAddress
 );
 
 XBSYSAPI VOID *MmIsAddressValid;
-XBSYSAPI VOID *MmLockUnlockBufferPages;
+
+//XBSYSAPI VOID *MmLockUnlockBufferPages;
+XBSYSAPI EXPORTNUM(175) PHYSICAL_ADDRESS NTAPI MmLockUnlockBufferPages
+(
+    IN PHYSICAL_ADDRESS   BaseAddress,
+	IN ULONG            NumberOfBytes,
+    IN ULONG            Protect
+);
+
+
 XBSYSAPI VOID *MmLockUnlockPhysicalPage;
 
 // ******************************************************************
