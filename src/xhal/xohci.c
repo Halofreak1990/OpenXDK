@@ -22,10 +22,9 @@ void xohci_init()
     xohci_pci_init();
 
     // ******************************************************************
-    // * verify revision
+    // * verify revision (BCD representation of the lowest 8 bits)
     // ******************************************************************
     {
-        // revision is BCD representation of the lowest 8 bits
         uint32 revision = READ_REGISTER_ULONG(&g_ohci_regs->hc_revision) & 0x000000FF;
 
         if(revision != 0x10)
@@ -42,14 +41,42 @@ void xohci_init()
     }
 
     // ******************************************************************
+    // * wait 10ms per USB Specification
+    // ******************************************************************
+    {
+        DWORD start = KeTickCount;
+
+        while( (start + 10) < KeTickCount );
+    }
+
+    // ******************************************************************
     // * setup host controller
     // ******************************************************************
     {
         uint32 restore_interval = READ_REGISTER_ULONG(&g_ohci_regs->hc_fm_interval);
 
-        // issue a software reset
+        // ******************************************************************
+        // * Issue Software Reset
+        // ******************************************************************
         WRITE_REGISTER_ULONG(&g_ohci_regs->hc_cmdstatus, (LONG)HC_CMDSTATUS_HCR);
 
+        // ******************************************************************
+        // * wait max of 10ms for reset to complete
+        // ******************************************************************
+        {
+            DWORD start = KeTickCount;
+
+            while( (READ_REGISTER_ULONG(&g_ohci_regs->hc_cmdstatus) & HC_CMDSTATUS_HCR) != 0)
+                if(KeTickCount > start + 10)
+                    HalReturnToFirmware(ReturnFirmwareReboot);  // TODO: Fatal Error
+        }
+
+        // ******************************************************************
+        // * Restore hc_fm_interval
+        // ******************************************************************
+        WRITE_REGISTER_ULONG(&g_ohci_regs->hc_fm_interval, restore_interval);
+
+        /*
         // ******************************************************************
         // * allocate hcca
         // ******************************************************************
@@ -65,9 +92,7 @@ void xohci_init()
             phys = MmGetPhysicalAddress(hcca);
 
             WRITE_REGISTER_ULONG(&g_ohci_regs->hc_hcca, (ULONG)phys);
-
-            sprintf(buffer, "OpenXDK : phys : 0x%.08X", phys);
-        }
+        }*/
     }
 
     // ******************************************************************

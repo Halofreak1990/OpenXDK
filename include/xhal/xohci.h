@@ -87,7 +87,7 @@ typedef struct _xohci_hcca
     uint16 pad1;
     uint32 done_head;
     uint08 reserved[116];
-    uint08 the_rest[4];     // (to complete the "256" byte sized structure)
+    // less than 256 bytes..why?
 }
 xohci_hcca;
 #pragma pack()
