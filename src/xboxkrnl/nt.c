@@ -252,7 +252,18 @@ XBSYSAPI VOID *NtReadFileScatter = 0;
 XBSYSAPI VOID *NtReleaseMutant = 0;
 XBSYSAPI VOID *NtReleaseSemaphore = 0;
 XBSYSAPI VOID *NtRemoveIoCompletion = 0;
-XBSYSAPI VOID *NtResumeThread = 0;
+
+// ******************************************************************
+// * NtResumeThread
+// ******************************************************************
+XBSYSAPI EXPORTNUM(224) NTSTATUS NTAPI NtResumeThread
+(
+    IN  HANDLE ThreadHandle,
+    OUT PULONG PreviousSuspendCount
+)
+{
+    return STATUS_SUCCESS;
+}
 
 // ******************************************************************
 // * NtSetEvent
@@ -286,7 +297,19 @@ XBSYSAPI VOID *NtSetSystemTime = 0;
 XBSYSAPI VOID *NtSetTimerEx = 0;
 XBSYSAPI VOID *NtSignalAndWaitForSingleObjectEx = 0;
 XBSYSAPI VOID *NtSuspendThread = 0;
-XBSYSAPI VOID *NtUserIoApcDispatcher = 0;
+
+// ******************************************************************
+// * NtUserIoApcDispatcher
+// ******************************************************************
+XBSYSAPI EXPORTNUM(232) VOID NtUserIoApcDispatcher
+(
+    PVOID            ApcContext,
+    PIO_STATUS_BLOCK IoStatusBlock,
+    ULONG            Reserved
+)
+{
+    return;
+}
 
 // ******************************************************************
 // * NtWaitForSingleObject
