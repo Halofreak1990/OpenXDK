@@ -167,7 +167,20 @@ XBSYSAPI VOID *RtlTimeFieldsToTime = 0;
 XBSYSAPI VOID *RtlTimeToTimeFields = 0;
 XBSYSAPI VOID *RtlTryEnterCriticalSection = 0;
 XBSYSAPI VOID *RtlUlongByteSwap = 0;
-XBSYSAPI VOID *RtlUnicodeStringToAnsiString = 0;
+
+// ******************************************************************
+// * RtlUnicodeStringToAnsiString
+// ******************************************************************
+XBSYSAPI EXPORTNUM(308) NTSTATUS NTAPI RtlUnicodeStringToAnsiString
+(
+    IN OUT PSTRING         DestinationString,
+    IN     PUNICODE_STRING SourceString,
+    IN     BOOLEAN         AllocateDestinationString
+)
+{
+    return STATUS_SUCCESS;
+}
+
 XBSYSAPI VOID *RtlUnicodeStringToInteger = 0;
 XBSYSAPI VOID *RtlUnicodeToMultiByteN = 0;
 XBSYSAPI VOID *RtlUnicodeToMultiByteSize = 0;
