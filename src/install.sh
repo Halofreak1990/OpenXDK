@@ -1,28 +1,40 @@
 #!/bin/bash
-echo OpenXDK - Creating symbolics links...
-ln -s /usr/bin/ar /usr/bin/i386-pc-xbox-ar
-ln -s /usr/bin/as /usr/bin/i386-pc-xbox-as
-ln -s /usr/bin/ld /usr/bin/i386-pc-xbox-ld
-ln -s /usr/bin/nm /usr/bin/i386-pc-xbox-nm
-ln -s /usr/bin/gcc /usr/bin/i386-pc-xbox-gcc
-ln -s /usr/bin/ranlib /usr/bin/i386-pc-xbox-ranlib
-ln -s /usr/bin/dlltool /usr/bin/i386-pc-xbox-dlltool
-ln -s /usr/bin/windres /usr/bin/i386-pc-xbox-windres
+
+# if you are using a cross compiler (ie. on Linux), you
+# will most likely need to set your gccPrefix and gccPathPrefix
+# variables so something like (depending on what cross-compiler
+# you are using and where you installed it):
+#   gccPrefix="i586-mingw32msvc-"
+#   gccPathPrefix="/opt/cross-tools/bin"
+# The default values should work for Cygwin on Win32
+
+gccPrefix=""
+gccPathPrefix="/usr/bin"
+installDir="/usr/local/openxdk"
+
+echo Setting execute permissions
+chmod +x *.sh
+chmod +x */configure
+ 
+echo OpenXDK - Creating symbolic links...
+for x in ar as ld nm gcc ranlib dlltool windres; do
+	ln -s $gccPathPrefix/$gccPrefix$x $gccPathPrefix/i386-pc-xbox-$x
+done
 
 echo OpenXDK - Copying system headers...
-mkdir -p /usr/local/openxdk/lib
-mkdir -p /usr/local/openxdk/include/hal
-mkdir -p /usr/local/openxdk/include/openxdk
-mkdir -p /usr/local/openxdk/include/usb
-mkdir -p /usr/local/openxdk/include/xboxkrnl
-cp ../include/hal/*.h /usr/local/openxdk/include/hal
-cp ../include/openxdk/*.h /usr/local/openxdk/include/openxdk
-cp ../include/usb/*.h /usr/local/openxdk/include/usb
-cp ../include/xboxkrnl/*.h /usr/local/openxdk/include/xboxkrnl
+mkdir -p $installDir/lib
+mkdir -p $installDir/include/hal
+mkdir -p $installDir/include/openxdk
+mkdir -p $installDir/include/usb
+mkdir -p $installDir/include/xboxkrnl
+cp ../include/hal/*.h $installDir/include/hal
+cp ../include/openxdk/*.h $installDir/include/openxdk
+cp ../include/usb/*.h $installDir/include/usb
+cp ../include/xboxkrnl/*.h $installDir/include/xboxkrnl
 
 echo OpenXDK - Configuring newlib...
 cd newlib-1.12.0
-./configure --target=i386-pc-xbox --prefix=/usr/local/openxdk --with-newlib --without-headers
+./configure --target=i386-pc-xbox --prefix=$installDir --with-newlib --without-headers
 cd ..
 
 echo OpenXDK - Compiling xboxkrnl...
@@ -52,7 +64,7 @@ cd ..
 
 echo OpenXDK - Compiling SDL...
 cd SDL-1.2.7
-make -f makefile.xbox
+make -f Makefile.xbox
 cd ..
 
 echo OpenXDK - Finished

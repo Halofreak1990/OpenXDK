@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>
@@ -32,6 +33,9 @@ struct tms
 
 //char *__env[1] = { 0 };
 //char **environ = __env;
+
+// A place holder to cope with mingw compiled programs
+FILE (*_imp___iob)[];    /* A pointer to an array of FILE */
 
 /*
  * Convert a XBOX time format to Unix time.
