@@ -56,6 +56,8 @@ static char rcsid =
 #include "SDL_xboxevents_c.h"
 #include "SDL_xboxmouse_c.h"
 
+#include <hal/xbox.h>
+
 #define XBOXVID_DRIVER_NAME "xbox"
 
 /* Initialization/Query functions */
@@ -231,7 +233,7 @@ static void XBOX_UpdateRects(_THIS, int numrects, SDL_Rect *rects)
 	int SCREEN_PIXELWIDTH = 4;
 	           
 	// center the screen 
-	int VIDEO_BUFFER_ADDR = 0xF0040240 + (((SCREEN_HEIGHT - this->screen->h)/2) * (SCREEN_WIDTH * SCREEN_PIXELWIDTH)) + (((SCREEN_WIDTH - this->screen->w)/2) * SCREEN_PIXELWIDTH);        
+	int VIDEO_BUFFER_ADDR = XBOX_VIDEO_ADDRESS + (((SCREEN_HEIGHT - this->screen->h)/2) * (SCREEN_WIDTH * SCREEN_PIXELWIDTH)) + (((SCREEN_WIDTH - this->screen->w)/2) * SCREEN_PIXELWIDTH);        
 	
 	// These are the values for the incoming image
 	xinc = this->screen->format->BytesPerPixel ; 

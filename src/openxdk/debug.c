@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <openxdk/debug.h>
+#include <hal/xbox.h>
 
 #define SCREEN_WIDTH  640
 #define SCREEN_HEIGHT 480
@@ -149,7 +150,7 @@ static unsigned char systemFont[] =
 
 void drawChar(unsigned char c, int x, int y, int fgColour, int bgColour)
 {
-	int *videoBuffer = (int *)0xF0040240;
+	int *videoBuffer = (int *)XBOX_VIDEO_ADDRESS;
 	videoBuffer += y*SCREEN_WIDTH+x;
 
 	unsigned char mask;
