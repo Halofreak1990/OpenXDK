@@ -23,15 +23,11 @@ extern	u8 SystemFont[];						// handy to use system font
 
 
 
-extern	u32	g_nFlags;
-extern	u32	g_nInk;
-extern	u32	g_nPaper;
 extern	u8	*pFont;								// point to the system Font by default. You can change it to your own
 
 extern	u32	pScreenBuffer[];					// Our screen (software emulated for LOW res just now)
 extern	u32	FrontBuffer;						// Current screen address (visible)
 extern	u32	BackBuffer;							// Current back buffer
-extern	u32	g_nFontFlags;
 
 extern	u32	_FrontBuffer;						// Current screen address (visible)
 extern	u32	_BackBuffer;						// Current back buffer

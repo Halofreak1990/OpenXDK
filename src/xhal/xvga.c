@@ -314,7 +314,7 @@ void vga_init_mode( int Mode )
 		case	_8BITCOLOUR:	g_nBPP = 2; break;
 		case	_16BITCOLOUR:	g_nBPP = 1; break;
 	}
-	//NVSetBPP(Mode&COLOUR_MASK);
+	NVSetBPP(Mode&COLOUR_MASK);
 
 
 	if( g_ScreenHeight <=240 ){

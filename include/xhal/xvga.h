@@ -58,6 +58,7 @@ extern "C" {
 #define	MODE_640x480x16			(RES_640X480|_16BITCOLOUR)		// not yet
 
 
+
 // GetScreen() return struct
 typedef	struct {
 	u32	ScreenAddress;
@@ -68,8 +69,15 @@ typedef	struct {
 #define	FONT_SOLID			(1)				// render font with SOLID background (with paper colour)
 #define	FONT_WRAP			(2)				// Wrap PRINT's when they go off the screen
 
-extern  u32	g_ScreenWidth;			// Current Screen Width
-extern  u32	g_ScreenHeight;			// Current Screen Height
+//
+// User variables.
+//
+extern  u32	g_ScreenWidth;					// Current Screen Width
+extern  u32	g_ScreenHeight;					// Current Screen Height
+extern	u32	g_nFlags;
+extern	u32	g_nInk;
+extern	u32	g_nPaper;
+extern	u32	g_nFontFlags;
 
 // **************************************************************
 //
