@@ -1,4 +1,4 @@
-Current
+0.06
 - Migrated to be fully automake/autoconf compliant
 - Included CXBE source in OpenXDK tree to provide better support for Linux users
 - OpenXDK now has working knowledge of what directory it was launched out of.  

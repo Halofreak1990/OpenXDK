@@ -12,4 +12,5 @@ Credits
   hardware interrupts from protected mode
 - Ender and Tom for their feedback on getting cross-compilation on
   Linux working.
-- xphile for migrating the whole build process to automake
+- xphile for migrating the whole build process to automake and doing 
+  the final work on getting Linux compilation to work.
