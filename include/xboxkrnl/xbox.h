@@ -57,10 +57,10 @@ XBOXSYSAPI VOID *XboxLANKey;
 XBOXSYSAPI VOID *XboxAlternateSignatureKeys;
 XBOXSYSAPI VOID *XePublicKeyData;
 XBOXSYSAPI VOID *IdexChannelObject;
-XBOXSYSAPI VOID *snprintf;
-//XBOXSYSAPI VOID *sprintf;			// We dont want this oen
-XBOXSYSAPI VOID *vsnprintf;
-XBOXSYSAPI VOID *vsprintf;
+XBOXSYSAPI VOID *xsnprintf;     // prefixed with "x" to avoid xlibc collisions
+XBOXSYSAPI VOID *xsprintf;      // ""
+XBOXSYSAPI VOID *xvsnprintf;    // ""
+XBOXSYSAPI VOID *xvsprintf;     // ""
 
 #endif
 

@@ -362,9 +362,9 @@ EXPORTS
     HalIsResetOrShutdownPending                   @ 358
     IoMarkIrpMustComplete                         @ 359
     HalInitiateShutdown                           @ 360
-    snprintf                                      @ 361
-    sprintf                                       @ 362
-    vsnprintf                                     @ 363
-    vsprintf                                      @ 364
+    xsnprintf                                     @ 361
+    xsprintf                                      @ 362
+    xvsnprintf                                    @ 363
+    xvsprintf                                     @ 364
     HalEnableSecureTrayEject                      @ 365
     HalWriteSMCScratchRegister                    @ 366
