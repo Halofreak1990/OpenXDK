@@ -164,7 +164,7 @@
 
     Inside the box marked "Command Line" you will need to use the following text:
 
-    cxbe /TITLE:"CXBX Demo" /OUT:"$(TargetDir)default.xbe" $(TargetPath)
+    cxbe /TITLE:"CXBX Demo" /OUT:"$(TargetDir)default.xbe" "$(TargetPath)"
 
     You will probably want to replace the phrase "CXBX Demo" with the title
     you want to use for your program.
