@@ -37,7 +37,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "lib"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /G6 /Ze /W3 /O2 /X /I "include" /I "include/xvga" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "_XBOX" /FD /QIfist /c
+# ADD CPP /nologo /G6 /W3 /O2 /X /I "include" /I "include/xvga" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "_XBOX" /FD /QIfist /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
@@ -57,6 +57,10 @@ LIB32=link.exe -lib
 
 SOURCE=.\src\xvga\xvga.c
 # End Source File
+# Begin Source File
+
+SOURCE=.\src\xvga\xvga_tables.c
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -64,6 +68,14 @@ SOURCE=.\src\xvga\xvga.c
 # Begin Source File
 
 SOURCE=.\include\xvga\xvga.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xvga\xvga_internal.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xvga\xvga_tables.h
 # End Source File
 # End Group
 # End Target

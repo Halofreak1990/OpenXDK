@@ -20,34 +20,35 @@
 // ************************************************************************************
 #include	<openxdk.h>
 
+#include "xhal/xfile_internal.h"
 
 
-	u32	LastErrorCode=1;
+u32	LastErrorCode=1;
 
-	u32		ErrorCodes[]={	ERROR_HANDLE_DISK_FULL,
-							ERROR_INVALID_NAME,
-							ERROR_OPEN_FAILED,
-							ERROR_DRIVE_LOCKED,
-							ERROR_FILE_NOT_FOUND,
-							ERROR_TOO_MANY_OPEN_FILES,
-							ERROR_INVALID_HANDLE,
-							0,	
-						};
-
-
-	char	Errors[][128]={	"The disk is full.",
-							"The filename, directory name, or volume label syntax is incorrect.",
-							"The system cannot open the device or file specified.",
-							"The disk is in use or locked by another process.",
-							"The system cannot find the file specified.",
-							"The system cannot open the file.",
-							"The handle is invalid.",
-							"No error found, or unknown code",
-	};
+u32		ErrorCodes[]={	ERROR_HANDLE_DISK_FULL,
+						ERROR_INVALID_NAME,
+						ERROR_OPEN_FAILED,
+						ERROR_DRIVE_LOCKED,
+						ERROR_FILE_NOT_FOUND,
+						ERROR_TOO_MANY_OPEN_FILES,
+						ERROR_INVALID_HANDLE,
+						0,	
+					};
 
 
+char	Errors[][128]={	"The disk is full.",
+						"The filename, directory name, or volume label syntax is incorrect.",
+						"The system cannot open the device or file specified.",
+						"The disk is in use or locked by another process.",
+						"The system cannot find the file specified.",
+						"The system cannot open the file.",
+						"The handle is invalid.",
+						"No error found, or unknown code",
+};
 
-							
+
+
+						
 //********************************************************
 //
 // Name:		GetLastErrorMessage

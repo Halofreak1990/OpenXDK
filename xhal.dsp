@@ -1,5 +1,5 @@
 # Microsoft Developer Studio Project File - Name="xhal" - Package Owner=<4>
-# Microsoft Developer Studio Generated Build File, Format Version 6.00
+# Microsoft Developer Studio Generated Build File, Format Version 60000
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
@@ -37,7 +37,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "lib"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /G6 /W3 /GX- /O2 /X /I "include" /I "include\xlibc" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "_XBOX" /FD /QIfist /c
+# ADD CPP /nologo /G6 /W3 /O2 /X /I "include" /I "include\xlibc" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "_XBOX" /FD /QIfist /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x809 /d "NDEBUG"
 # ADD RSC /l 0x809 /d "NDEBUG"
@@ -84,6 +84,10 @@ SOURCE=.\include\xhal\xboxVGA.h
 # Begin Source File
 
 SOURCE=.\include\xhal\xfile.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xhal\xfile_internal.h
 # End Source File
 # End Group
 # End Target
