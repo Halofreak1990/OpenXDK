@@ -72,7 +72,13 @@ XBOXSYSAPI VOID *RtlUpperChar;
 XBOXSYSAPI VOID *RtlUpperString;
 XBOXSYSAPI VOID *RtlUshortByteSwap;
 XBOXSYSAPI VOID *RtlWalkFrameChain;
-XBOXSYSAPI VOID *RtlZeroMemory;
+
+XBOXSYSAPI EXPORTNUM(320) VOID CDECL RtlZeroMemory
+(
+  IN VOID UNALIGNED  *Destination,
+  IN SIZE_T           Length
+);
+
 XBOXSYSAPI VOID *RtlRip;
 
 #endif

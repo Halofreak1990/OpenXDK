@@ -39,20 +39,23 @@ typedef unsigned char       BYTE;
 typedef BYTE                BOOLEAN;
 typedef	unsigned int		DWORD;
 typedef unsigned long       ULONG;
-typedef	unsigned __int64	ULONGULONG;
 typedef unsigned long      *PULONG;
 typedef unsigned long       PHYSICAL_ADDRESS;
+typedef long               *LONG_PTR;
 typedef	unsigned short		WORD;
+typedef unsigned long       SIZE_T;
 
 // ******************************************************************
 // * NTAPI
 // ******************************************************************
 #define NTAPI __stdcall
+#define CDECL __cdecl
 
 // ******************************************************************
 // * Documentation purposes only
 // ******************************************************************
 #define EXPORTNUM(a)
+#define UNALIGNED
 #define OPTIONAL
 #define IN
 #define OUT
