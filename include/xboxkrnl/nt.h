@@ -225,7 +225,16 @@ XBSYSAPI EXPORTNUM(219) NTSTATUS NTAPI NtReadFile
 );
 
 XBSYSAPI VOID *NtReadFileScatter;
-XBSYSAPI VOID *NtReleaseMutant;
+
+// ******************************************************************
+// * NtReleaseMutant
+// ******************************************************************
+XBSYSAPI EXPORTNUM(221) NTSTATUS NTAPI NtReleaseMutant
+(
+    IN  HANDLE  MutantHandle,
+    OUT PLONG   PreviousCount
+);
+
 XBSYSAPI VOID *NtReleaseSemaphore;
 XBSYSAPI VOID *NtRemoveIoCompletion;
 
