@@ -31,7 +31,7 @@ extern "C"
 //you're supposed to pass these ones into blit, check blit.h
 
 DECLARE_BLITTER(normal_blit,none);   //just a straight blit
-DECLARE_BLITTER(sprite_blit,none);   //ignores black pixels (use rgb 1,1,1 for black)
+DECLARE_BLITTER(sprite_blit,none);   //ignores 0xFF00FF
 DECLARE_BLITTER(additive_blit,none); //adds images together
 DECLARE_BLITTER(additive_alpha_blit,alpha); //adds image multiplied with alpha to the other one
 DECLARE_BLITTER(alpha_blit,none);  //takes alpha from image! yes, a true alpha blender

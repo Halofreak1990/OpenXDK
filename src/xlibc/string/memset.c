@@ -25,3 +25,15 @@ void* memset( void *Dest, int fill, size_t length )
 }
 
 
+void* memset( void *Dest, int fill, size_t length )
+{
+	__asm
+	{
+		mov eax,fill
+		mov edi,dest
+		mov ecx,length
+		rep stosb
+	}
+}
+
+

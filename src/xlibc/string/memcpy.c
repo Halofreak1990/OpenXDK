@@ -26,3 +26,29 @@ void* memcpy( void *dest, const void *src, unsigned int count )
 }
 
 
+
+//to be further optimized: 4-byte align first
+//test properly too before using :)
+/*
+void* memcpy( void *dest, const void *src, unsigned int count )
+{
+	__asm
+	{
+		cmp count,0
+		je bail
+		mov edi,dest
+		mov esi,src
+		mov ebx,count
+		mov ecx,count
+		shr ecx,2
+		jz finishup
+		rep movsd
+	finishup:
+		and ebx,3
+		jz bail
+		mov ecx,ebx
+		rep movsb
+	bail:
+	}
+}
+*/

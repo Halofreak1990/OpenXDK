@@ -24,7 +24,7 @@ DECLARE_BLITTER(normal_blit,none) {
 
 DECLARE_BLITTER(sprite_blit,none) {
 	for (; len; len--, s++, d++)
-		if ((*s & 0xffffff) != 0) *d=*s;
+		if ((*s & 0xFF00FF) != 0xFF00FF) *d=*s;
 }
 
 //use for fonts and stuff

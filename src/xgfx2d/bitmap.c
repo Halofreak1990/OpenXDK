@@ -13,6 +13,7 @@
 #include <malloc.h>
 #include <stdio.h>
 #include "xgfx2d/bitmap.h"
+#include "xhal/xboxVGA.h"
 
 Bitmap *create_bitmap(int w, int h)
 {
@@ -38,13 +39,11 @@ Bitmap __screenbitmap;
 
 Bitmap *get_screen_bitmap()
 {
-	if (__screenbitmap.data==0)
-	{
-		__screenbitmap.data=pScreenBuffer;
-		__screenbitmap.w=320;
-		__screenbitmap.h=240;
-		__screenbitmap.pitch=320;
-	}
+	SScreen screen = GetScreen();
+	__screenbitmap.data = screen.ScreenAddress;
+	__screenbitmap.w = g_ScreenWidth; //ugly, why doesn't this come with SScreen?
+	__screenbitmap.h = g_ScreenHeight;
+	__screenbitmap.pitch = g_ScreenWidth; //lpitch seems wrong
 	return &__screenbitmap;
 }
 
@@ -67,13 +66,13 @@ Bitmap *load_tga(char *filename)
 	h = *(short *)(header+14);
 	bpp = (int)header[16];
 
-	/* //not sure if this test is correct.. TODO: verify
 	if (bpp != 32) 
 	{
+		//wrong bitdepth
 		_close(handle );
 		return 0; //we need some format converters to read other bitdepths
 	}
-	*/
+	
 	bmp = create_bitmap(w,h);
 
 	_read(handle, bmp->data, w*h*4);
