@@ -123,7 +123,24 @@ XBSYSAPI VOID *NtOpenSymbolicLinkObject;
 XBSYSAPI VOID *NtProtectVirtualMemory;
 XBSYSAPI VOID *NtPulseEvent;
 XBSYSAPI VOID *NtQueueApcThread;
-XBSYSAPI VOID *NtQueryDirectoryFile;
+
+// ******************************************************************
+// * NtQueryDirectoryFile
+// ******************************************************************
+XBSYSAPI EXPORTNUM(207) NTSTATUS NTAPI NtQueryDirectoryFile
+(
+    IN  HANDLE                  FileHandle,
+    IN  HANDLE                  Event OPTIONAL,
+    IN  PVOID                   ApcRoutine, // Todo: define this routine's prototype
+    IN  PVOID                   ApcContext,
+    OUT PIO_STATUS_BLOCK        IoStatusBlock,
+    OUT PVOID                   FileInformation,
+    IN  ULONG                   Length,
+    IN  FILE_INFORMATION_CLASS  FileInformationClass,
+    IN  PSTRING                 FileMask,
+    IN  BOOLEAN                 RestartScan
+);
+
 XBSYSAPI VOID *NtQueryDirectoryObject;
 XBSYSAPI VOID *NtQueryEvent;
 
