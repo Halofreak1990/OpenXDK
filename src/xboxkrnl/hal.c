@@ -20,7 +20,22 @@ XBSYSAPI VOID *HalDiskModelNumber = 0;
 XBSYSAPI VOID *HalDiskSerialNumber = 0;
 XBSYSAPI VOID *HalEnableSystemInterrupt = 0;
 XBSYSAPI VOID *HalGetInterruptVector = 0;
-XBSYSAPI VOID *HalReadSMBusValue = 0;
+
+// ******************************************************************
+// * HalReadSMBusValue
+// ******************************************************************
+XBSYSAPI EXPORTNUM(45) VOID NTAPI HalReadSMBusValue
+(
+    ULONG   BusNumber,
+    ULONG   SlotNumber,
+    ULONG   RegisterNumber,
+    PVOID   Buffer,
+    ULONG   Length,
+    BOOLEAN WritePCISpace
+)
+{
+    return;
+}
 
 // ******************************************************************
 // * HalReadWritePCISpace
@@ -52,7 +67,20 @@ XBSYSAPI EXPORTNUM(49) VOID DECLSPEC_NORETURN HalReturnToFirmware
 
 }
 
-XBSYSAPI VOID *HalWriteSMBusValue = 0;
+// ******************************************************************
+// * HalWriteSMBusValue
+// ******************************************************************
+XBSYSAPI EXPORTNUM(50) ULONG NTAPI HalWriteSMBusValue
+(
+    UCHAR   SlaveAddress,
+    UCHAR   CommandCode,
+    BOOLEAN WriteWordValue,
+    ULONG   DataValue
+)
+{
+    return 0;
+}
+
 XBSYSAPI VOID *HalBootSMCVideoMode = 0;
 XBSYSAPI VOID *HalIsResetOrShutdownPending = 0;
 XBSYSAPI VOID *HalInitiateShutdown = 0;
