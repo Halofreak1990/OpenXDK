@@ -17,11 +17,6 @@ NTSYSAPI VOID *MmGlobalData = 0;
 // ******************************************************************
 // * MmAllocateContiguousMemory
 // ******************************************************************
-// *
-// * allocates a range of physically contiguous, cache-aligned 
-// * memory from nonpaged pool (main pool on xbox).
-// *
-// ******************************************************************
 NTSYSAPI EXPORTNUM(165) PVOID NTAPI MmAllocateContiguousMemory
 (
 	IN ULONG NumberOfBytes
@@ -33,12 +28,6 @@ NTSYSAPI EXPORTNUM(165) PVOID NTAPI MmAllocateContiguousMemory
 // ******************************************************************
 // * MmAllocateContiguousMemoryEx
 // ******************************************************************
-void* __stdcall MmAllocateContiguousMemoryEx( unsigned long NumberOfBytes, 
-											 unsigned long LowestAcceptableAddress, 
-											 unsigned long HighestAcceptableAddress, 
-											 unsigned long Alignment, 
-											 unsigned long Protect);
-
 NTSYSAPI EXPORTNUM(166) PVOID NTAPI MmAllocateContiguousMemoryEx
 (
 	IN ULONG			NumberOfBytes,
@@ -69,19 +58,17 @@ NTSYSAPI EXPORTNUM(171) VOID NTAPI MmFreeContiguousMemory
 
 NTSYSAPI VOID *MmFreeSystemMemory = 0;
 
-
-
 // ******************************************************************
 // * MmGetPhysicalAddress
 // ******************************************************************
-NTSYSAPI EXPORTNUM(173) PVOID NTAPI MmGetPhysicalAddress
+NTSYSAPI EXPORTNUM(173) PHYSICAL_ADDRESS NTAPI MmGetPhysicalAddress
 (
     IN PVOID   BaseAddress
 )
 {
     return 0;
 }
-//NTSYSAPI VOID *MmGetPhysicalAddress = 0;
+
 NTSYSAPI VOID *MmIsAddressValid = 0;
 NTSYSAPI VOID *MmLockUnlockBufferPages = 0;
 NTSYSAPI VOID *MmLockUnlockPhysicalPage = 0;
@@ -102,7 +89,6 @@ NTSYSAPI EXPORTNUM(178) VOID NTAPI MmPersistContiguousMemory
 
 NTSYSAPI VOID *MmQueryAddressProtect = 0;
 
-
 // ******************************************************************
 // * MmQueryAllocationSize
 // ******************************************************************
@@ -113,7 +99,7 @@ NTSYSAPI EXPORTNUM(180) ULONG NTAPI MmQueryAllocationSize
 {
     return 0;
 }
-//NTSYSAPI VOID *MmQueryAllocationSize = 0;
+
 NTSYSAPI VOID *MmQueryStatistics = 0;
 NTSYSAPI VOID *MmSetAddressProtect = 0;
 NTSYSAPI VOID *MmUnmapIoSpace = 0;

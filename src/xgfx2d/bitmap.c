@@ -52,7 +52,7 @@ Bitmap *get_screen_bitmap()
 // will probably load images upside down :D
 Bitmap *load_tga(char *filename)
 {
-	HANDLE handle;
+	int handle;
 	char header[18];
 	Bitmap *bmp;
 	int w,h;

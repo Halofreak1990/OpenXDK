@@ -15,7 +15,14 @@
 NTSYSAPI VOID *ExAcquireReadWriteLockExclusive;
 NTSYSAPI VOID *ExAcquireReadWriteLockShared;
 
-NTSYSAPI EXPORTNUM(165) PVOID NTAPI ExAllocatePool
+// ******************************************************************
+// * ExAllocatePool
+// ******************************************************************
+// *
+// * Allocates pool memory
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(14) PVOID NTAPI ExAllocatePool
 (
 	IN ULONG NumberOfBytes
 );

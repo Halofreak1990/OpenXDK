@@ -39,7 +39,7 @@ extern "C"
 // * Basic types
 // ******************************************************************
 typedef char                CHAR;
-typedef char*               PCHAR;
+typedef char               *PCHAR;
 typedef void                VOID;
 typedef void               *PVOID;
 typedef unsigned char       BYTE;
@@ -52,6 +52,8 @@ typedef unsigned long       PHYSICAL_ADDRESS;
 typedef long               *LONG_PTR;
 typedef	unsigned short		WORD;
 typedef unsigned long       SIZE_T;
+typedef void               *HANDLE;
+typedef HANDLE             *PHANDLE;
 
 // ******************************************************************
 // * NTSTATUS

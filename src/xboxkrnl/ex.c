@@ -16,12 +16,7 @@ NTSYSAPI VOID *ExAcquireReadWriteLockExclusive = 0;
 NTSYSAPI VOID *ExAcquireReadWriteLockShared = 0;
 
 // ******************************************************************
-// * MmAllocateContiguousMemory
-// ******************************************************************
-// *
-// * allocates a range of physically contiguous, cache-aligned 
-// * memory from nonpaged pool (main pool on xbox).
-// *
+// * ExAllocatePool
 // ******************************************************************
 NTSYSAPI EXPORTNUM(14) PVOID NTAPI ExAllocatePool
 (

@@ -18,7 +18,7 @@ NTSYSAPI VOID *MmGlobalData;
 // * MmAllocateContiguousMemory
 // ******************************************************************
 // *
-// * allocates a range of physically contiguous, cache-aligned 
+// * Allocates a range of physically contiguous, cache-aligned 
 // * memory from nonpaged pool (main pool on xbox).
 // *
 // ******************************************************************
@@ -54,15 +54,14 @@ NTSYSAPI EXPORTNUM(171) VOID NTAPI MmFreeContiguousMemory
 
 NTSYSAPI VOID *MmFreeSystemMemory;
 
-
 // ******************************************************************
 // * MmGetPhysicalAddress
 // ******************************************************************
-NTSYSAPI EXPORTNUM(173) PVOID NTAPI MmGetPhysicalAddress
+NTSYSAPI EXPORTNUM(173) PHYSICAL_ADDRESS NTAPI MmGetPhysicalAddress
 (
     IN PVOID   BaseAddress
 );
-//NTSYSAPI VOID *MmGetPhysicalAddress;
+
 NTSYSAPI VOID *MmIsAddressValid;
 NTSYSAPI VOID *MmLockUnlockBufferPages;
 NTSYSAPI VOID *MmLockUnlockPhysicalPage;
@@ -80,7 +79,6 @@ NTSYSAPI EXPORTNUM(178) VOID NTAPI MmPersistContiguousMemory
 
 NTSYSAPI VOID *MmQueryAddressProtect;
 
-
 // ******************************************************************
 // * MmQueryAllocationSize
 // ******************************************************************
@@ -88,7 +86,7 @@ NTSYSAPI EXPORTNUM(180) ULONG NTAPI MmQueryAllocationSize
 (
     IN PVOID   BaseAddress
 );
-//NTSYSAPI VOID *MmQueryAllocationSize;
+
 NTSYSAPI VOID *MmQueryStatistics;
 NTSYSAPI VOID *MmSetAddressProtect;
 NTSYSAPI VOID *MmUnmapIoSpace;

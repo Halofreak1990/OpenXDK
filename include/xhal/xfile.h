@@ -15,8 +15,8 @@ extern "C" {
 //	Types and #defines
 //
 // **************************************************************************
-typedef	int								HANDLE;		// normal handle
-typedef u32								NTSTATUS;	// The usual NTSTATUS
+//typedef	int								HANDLE;		// normal handle
+//typedef u32								NTSTATUS;	// The usual NTSTATUS
 typedef	char*							LPCSTR;
 
 #ifndef	FALSE

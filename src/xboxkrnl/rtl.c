@@ -54,14 +54,10 @@ NTSYSAPI VOID *RtlCompareUnicodeString = 0;
 // ******************************************************************
 // * RtlCopyString
 // ******************************************************************
-// *
-// * Copy string1 into string2  (like libc function strcpy)
-// *
-// ******************************************************************
 NTSYSAPI EXPORTNUM(272) VOID NTAPI RtlCopyString
 (
-  IN OUT PVOID	Destination,    // TODO: should be STRING
-  IN     PVOID	Source OPTIONAL // TODO: should be STRING
+  IN OUT PVOID	Destination,        // TODO: should be STRING
+  IN     PVOID	Source OPTIONAL     // TODO: should be STRING
 )
 {
 	return;

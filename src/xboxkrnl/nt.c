@@ -19,19 +19,14 @@ NTSYSAPI VOID *NtClearEvent = 0;
 // ******************************************************************
 // * NtClose
 // ******************************************************************
-// *
-// * Close file with handle
-// *
-// ******************************************************************
 NTSYSAPI EXPORTNUM(187) ULONG NTAPI NtClose
 (
-	IN	void**		 FileHandle
+	IN HANDLE Handle
 )
 {
     return 0;
 }
 
-//NTSYSAPI VOID *NtClose = 0;
 NTSYSAPI VOID *NtCreateDirectoryObject = 0;
 NTSYSAPI VOID *NtCreateEvent = 0;
 
@@ -39,27 +34,27 @@ NTSYSAPI VOID *NtCreateEvent = 0;
 // * NtCreateFile
 // ******************************************************************
 // *
-// * This is "like" the standard NT  Create File
-// * Its parammaters 
+// * Causes a new file or directory to be created, or opens and
+// * existing file, device, directory, or volume, giving the caller
+// * a handle for the file object.
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(190) ULONG NTAPI NtCreateFile
+NTSYSAPI EXPORTNUM(190) NTSTATUS NTAPI NtCreateFile
 (
-	IN	void**		 FileHandle, 
-	IN	unsigned long DesiredAccess, 
-	IN	PVOID	ObjectAttributes, 
-	IN	PVOID	IoStatusBlock, 
-	IN	PVOID	AllocationSize, 
-	IN	ULONG	FileAttributes, 
-	IN	ULONG	ShareAccess, 
-	IN	ULONG	CreateDisposition, 
-	IN	ULONG	CreateOptions 
+	OUT PHANDLE  FileHandle, 
+	IN  ULONG    DesiredAccess,      // TODO: should be ACCESS_MASK
+	IN  PVOID	ObjectAttributes,    // TODO: correct other params
+	OUT PVOID	IoStatusBlock,   
+	IN  PVOID	AllocationSize, 
+	IN  ULONG	FileAttributes, 
+	IN  ULONG	ShareAccess, 
+	IN  ULONG	CreateDisposition, 
+	IN  ULONG	CreateOptions 
 )
 {
     return 0;
 }
 
-//NTSYSAPI VOID *NtCreateFile = 0;
 NTSYSAPI VOID *NtCreateIoCompletion = 0;
 NTSYSAPI VOID *NtCreateMutant = 0;
 NTSYSAPI VOID *NtCreateSemaphore = 0;
@@ -82,24 +77,24 @@ NTSYSAPI VOID *NtQueryEvent = 0;
 NTSYSAPI VOID *NtQueryFullAttributesFile = 0;
 
 // ******************************************************************
-// * NtReadFile
+// * NtQueryInformationFile
 // ******************************************************************
 // *
-// * Read from an open file
+// * Return various kinds of information about a given file object.
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(211) ULONG NTAPI NtQueryInformationFile
+NTSYSAPI EXPORTNUM(211) NTSTATUS NTAPI NtQueryInformationFile
 (	
-	IN	LONG	FileHandle, 
-	IN	PVOID	IoStatusBlock,
-	IN	PVOID	FileInformation, 
-	IN	ULONG	Length, 
-	IN	ULONG	FileInfo
+	IN  HANDLE FileHandle,          // TODO: improve parameter accuracy
+	OUT PVOID  IoStatusBlock,
+	OUT PVOID  FileInformation, 
+	IN  ULONG  Length, 
+	IN  ULONG  FileInfo
 )
 {
     return 0;
 }
-//NTSYSAPI VOID *NtQueryInformationFile = 0;
+
 NTSYSAPI VOID *NtQueryIoCompletion = 0;
 NTSYSAPI VOID *NtQueryMutant = 0;
 NTSYSAPI VOID *NtQuerySemaphore = 0;
@@ -108,30 +103,28 @@ NTSYSAPI VOID *NtQueryTimer = 0;
 NTSYSAPI VOID *NtQueryVirtualMemory = 0;
 NTSYSAPI VOID *NtQueryVolumeInformationFile = 0;
 
-
-
 // ******************************************************************
 // * NtReadFile
 // ******************************************************************
 // *
-// * Read from an open file
+// * Read data from an opened file.
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(219) ULONG NTAPI NtReadFile
-(	
-	IN	PVOID	Handle,
-	IN	PVOID	Event,
-	IN	PVOID	CALLBACK,
-	IN	PVOID	Context,
-	IN	PVOID	IoStatusBlock,
-	IN	PVOID	Buffer,
-	IN	ULONG	nNumberOfBytesToRead,
-	IN	PVOID	Offset
+NTSYSAPI EXPORTNUM(219) NTSTATUS NTAPI NtReadFile
+(
+	IN  HANDLE   FileHandle,            // TODO: correct paramters
+	IN  PVOID    Event OPTIONAL,
+	IN  PVOID    ApcRoutine OPTIONAL,
+	IN  PVOID    ApcContext,
+	OUT PVOID    IoStatusBlock,
+	OUT PVOID    Buffer,
+	IN  ULONG    Length,
+	IN  PVOID    ByteOffset
 )
 {
     return 0;
 }
-//NTSYSAPI VOID *NtReadFile = 0;
+
 NTSYSAPI VOID *NtReadFileScatter = 0;
 NTSYSAPI VOID *NtReleaseMutant = 0;
 NTSYSAPI VOID *NtReleaseSemaphore = 0;
@@ -186,28 +179,27 @@ NTSYSAPI EXPORTNUM(233) ULONG NTAPI NtWaitForSingleObject
 NTSYSAPI VOID *NtWaitForSingleObjectEx = 0;
 NTSYSAPI VOID *NtWaitForMultipleObjectsEx = 0;
 
-
 // ******************************************************************
 // * NtWriteFile
 // ******************************************************************
 // *
-// * 
+// * Write data to an opened file.
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(233) ULONG NTAPI NtWriteFile
+NTSYSAPI EXPORTNUM(236) ULONG NTAPI NtWriteFile
 (	
-	IN	PVOID	Handle,
+	IN  HANDLE  FileHandle,            // TODO: correct paramters
 	IN	PVOID	Event,
-	IN	PVOID	callback,
-	IN	PVOID	context,
-	IN	PVOID	IOstat,
-	IN	PVOID	pBuffer,
+	IN	PVOID	ApcRoutine,
+	IN	PVOID	ApcContext,
+	IN	PVOID	IoStatusBlock,
+	IN	PVOID	Buffer,
 	IN	ULONG	Length,
-	IN	PVOID	Offset
+	IN	PVOID	ByteOffset
 )
 {
     return 0;
 }
-//NTSYSAPI VOID *NtWriteFile = 0;
+
 NTSYSAPI VOID *NtWriteFileGather = 0;
 NTSYSAPI VOID *NtYieldExecution = 0;

@@ -24,7 +24,7 @@ int _open( char *filename, int oflag, int permission )
 	int	RW_flags=0;
 	int	open_flags=0;
 	int	sys_flags=0;
-	int	handle;
+	HANDLE	handle;
 
 	//
 	// Translate flags and settings 
@@ -78,7 +78,7 @@ int _open( char *filename, int oflag, int permission )
 							NULL
 						);
 
-	return	handle;
+	return (int)handle;
 }
 
 
@@ -91,7 +91,7 @@ int _open( char *filename, int oflag, int permission )
 int _read( int handle, void* buffer, unsigned int count )
 {
 	unsigned int	AmountRead;
-	int status = ReadFile( handle,  buffer, count, &AmountRead, NULL );
+	int status = ReadFile( (HANDLE)handle,  buffer, count, &AmountRead, NULL );
 	
 	return AmountRead;
 }
@@ -106,7 +106,7 @@ int _read( int handle, void* buffer, unsigned int count )
 int _write( int handle, void* buffer, unsigned int count )
 {
 	unsigned int	AmountWritten;
-	int status = WriteFile( handle,  buffer, count, &AmountWritten, NULL );
+	int status = WriteFile( (HANDLE)handle,  buffer, count, &AmountWritten, NULL );
 	
 	return AmountWritten;
 }
@@ -120,7 +120,7 @@ int _write( int handle, void* buffer, unsigned int count )
 // ********************************************************
 int _close( int handle )
 {
-	return CloseHandle( handle );
+	return CloseHandle( (HANDLE)handle );
 }
 
 
@@ -147,7 +147,7 @@ int _lseek( int handle, u32 offset, int base )
 	NewLocation.HighPart=0;
 	NewLocation.LowPart=0;
 
-	SetFilePointerEx( handle, Distance, &NewLocation, flags );
+	SetFilePointerEx( (HANDLE)handle, Distance, &NewLocation, flags );
 	return NewLocation.LowPart;
 }
 

@@ -289,7 +289,7 @@ void InitMode( int Mode )
 {
 #ifndef	_PCEMU
 	int	i=0;
-	u8*	pScr;
+//	u8*	pScr;
 
 	switch( (Mode&RES_MASK) )
 	{

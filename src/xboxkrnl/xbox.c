@@ -41,10 +41,6 @@ NTSYSAPI EXPORTNUM(4) ULONG NTAPI AvSetDisplayMode
 // ******************************************************************
 // * AvGetSavedDataAddress
 // ******************************************************************
-// *
-// * get current Display Start Address
-// *
-// ******************************************************************
 NTSYSAPI EXPORTNUM(4) VOID NTAPI AvSetSavedDataAddress
 (
 	IN PVOID	Address

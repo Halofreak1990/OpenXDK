@@ -39,6 +39,9 @@ NTSYSAPI VOID *HalReadSMBusValue;
 // ******************************************************************
 // * 0x002E - HalReadWritePCISpace
 // ******************************************************************
+//
+// TODO: work on this for usb
+//
 NTSYSAPI VOID *HalReadWritePCISpace;
 
 NTSYSAPI VOID *HalRegisterShutdownNotification;
