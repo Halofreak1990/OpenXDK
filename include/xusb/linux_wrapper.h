@@ -18,6 +18,8 @@
 /*------------------------------------------------------------------------*/
 /* Typedefs */
 /*------------------------------------------------------------------------*/ 
+#define	__inline__		__inline
+#include	<xlibc/ansidecl.h>
 
 typedef unsigned int __u32;
 typedef __u32 u32;
@@ -556,8 +558,8 @@ void my_wait_for_completion(struct completion*);
 /*------------------------------------------------------------------------*/ 
 
 #include "asm/errno.h"
-#include "linux/bitops.h"
-#include "linux/pci_ids.h"
+#include "asm/bitops.h"
+#include "asm/pci_ids.h"
 
 /*------------------------------------------------------------------------*/ 
 /* global variables */
