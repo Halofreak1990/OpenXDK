@@ -32,16 +32,37 @@
 	u32	g_nFlags=0;						// System flags
 	u32	g_nScreenRes=0;					// Current Screen RES
 
+	u32	g_ActualWidth = 640;			// ACTUAL display buffer Width
+	u32	g_ActualHeight = 240;			// ACTUAL display buffer Height
 	u32	g_ScreenWidth = 320;			// Current Screen Width
 	u32	g_ScreenHeight = 240;			// Current Screen Height
 	u32	g_nBPP=4;						// number of bytes per pixel
+
+
+	u32	g_ScreenBase=0;					// base address of BOTH screens
 
 	u32	g_nFontFlags=0;					// font rendering options
 	u32	g_nInk = 0xffffff;				// font drawing. In native screen mode colours
 	u32	g_nPaper=0x000000;				//
 
 
+// **************************************************************************
+//
+// Flip buffers (320x240) or (320x200) only just now...more later
+//
+// **************************************************************************
+void	vga_testpattern( int shift)
+{
+	int	x,y,i;
+	uint32 *pix = (uint32*)g_ScreenBase; 
 
+	for(y=0;y<480;y++){
+		for(x=0;x<640;x++){
+			*pix++ = x<<shift;
+		}
+	}
+
+}
 
 // **************************************************************************
 //
@@ -50,6 +71,7 @@
 // **************************************************************************
 void	vga_flip( void )
 {
+//#if 1
 #ifndef	_PCEMU
 
 	s32	i2,i=0;
@@ -111,12 +133,12 @@ ScreenInfo vga_get_screen_info( void )
 	if(	(g_nFlags & XHAL_320SCREEN) != 0 ){
 		if(	(g_nFlags & YHAL_200SCREEN) != 0 ){
 			Scr.ScreenAddress = (u32) &pScreenBuffer[320*20*g_nBPP];
-			Scr.lpitch = 640*4;
+			Scr.lpitch = 320*4;	//640*4;
 			return Scr;
 		}
 		else{
 			Scr.ScreenAddress = (u32) &pScreenBuffer[0];
-			Scr.lpitch = 640*4;
+			Scr.lpitch = 320*4; //640*4;
 			return Scr;
 		}
 	}
@@ -142,11 +164,12 @@ void vga_init_mode( int Mode )
 #ifndef	_PCEMU
 	int		i=0;
 	u32*	pScr;
+	u32		ReqRes = Mode;
 
 	// Use the 640x480 display thats aready set up at boot time....
 	if( Mode == MODE_640x480x32_DEBUG )
 	{
-		_FrontBuffer=XBOX_SCREENRAM+0x40;										// address of VRAM (logical address for CPU)
+		_FrontBuffer=XBOX_SCREENRAM+0x240;//0x40;										// address of VRAM (logical address for CPU)
 		_BackBuffer = _FrontBuffer;												// Single buffer
 
 		// Get HW address for setting buffers
@@ -155,6 +178,8 @@ void vga_init_mode( int Mode )
 
 		g_ScreenWidth = 640;
 		g_ScreenHeight= 480;
+		g_ActualWidth = 640;
+		g_ActualHeight = 480;
 		g_nBPP=4;
 		NVSetFlickerFilter(1);				// Set flicker fixer to a sharper image
 		return;
@@ -165,14 +190,22 @@ void vga_init_mode( int Mode )
 	{
 		case	RES_320X200:	g_ScreenWidth = 320;
 								g_ScreenHeight= 240;
+								g_ActualWidth = 640;
+								g_ActualHeight = 240;
 								g_nFlags |= XHAL_320SCREEN|YHAL_200SCREEN;			// Software mode, screen will need copied
+								ReqRes = RES_640X480;
 								break;
 		case	RES_320X240:	g_ScreenWidth = 320;
 								g_ScreenHeight= 240;
+								g_ActualWidth = 640;
+								g_ActualHeight = 240;
 								g_nFlags |= XHAL_320SCREEN;							// Software mode, screen will need copied
+								ReqRes = RES_640X480;
 								break;
 		case	RES_640X480:	g_ScreenWidth = 640;
 								g_ScreenHeight= 480;
+								g_ActualWidth = 640;
+								g_ActualHeight = 480;
 								break;
 	}
 
@@ -184,6 +217,10 @@ void vga_init_mode( int Mode )
 	}
 
 	if( g_ScreenHeight <=240 ){
+		NVSetVideoMode( ReqRes&RES_MASK, Mode&COLOUR_MASK );
+		g_ScreenBase = _FrontBuffer;
+
+		// Kick into 240 high mode
 		readyVgaRegs();
 		while( 1 ){
 			if( Mode320x200[i].port!=-1 ){
@@ -196,29 +233,40 @@ void vga_init_mode( int Mode )
 		}
 
 		// Get CPU screen address
-		_FrontBuffer=XBOX_SCREENRAM+0x40;										// address of VRAM (logical address for CPU)
-		_BackBuffer = _FrontBuffer+(g_ScreenWidth*g_ScreenHeight*g_nBPP);		// Current back buffer
+		//_FrontBuffer=XBOX_SCREENRAM+0x240;//0x40;										// address of VRAM (logical address for CPU)
+		//_BackBuffer = _FrontBuffer+(g_ActualWidth*g_ActualHeight*g_nBPP);		// Current back buffer
 
 		// Get HW address for setting buffers
-		FrontBuffer = XBOX_SCREENRAM&0xfffffff;									// Get Physical address
-		BackBuffer = FrontBuffer+(g_ScreenWidth*g_ScreenHeight*g_nBPP);			// Current back buffer
+		//FrontBuffer = XBOX_SCREENRAM&0xfffffff;									// Get Physical address
+		//BackBuffer = FrontBuffer+(g_ActualWidth*g_ActualHeight*g_nBPP);			// Current back buffer(second one)
 	}
 	else{
 		NVSetVideoMode( Mode&RES_MASK, Mode&COLOUR_MASK );
+		g_ScreenBase = _FrontBuffer;
 		
 	}
 
 	NVSetBPP(Mode&COLOUR_MASK);			// Set the correct bits per pixel
-	
+
 	// Clear both buffers
-	i = (g_ScreenWidth*g_ScreenHeight*g_nBPP*2)/4;
+	i = (g_ActualWidth*g_ActualHeight*g_nBPP*2)/4;
 	pScr = (u32*)_FrontBuffer;
-	while(i>=0){
-		pScr [i--]=0;
+	while(i-->=0){
+		*pScr=0;
 	}
 
-	NVSetFlickerFilter(1);				// Set flicker fixer to a sharper image
+	//vga_testpattern( 0 );
+	//vga_flip();
+	// Clear both buffers
+/*	i = (g_ActualWidth*g_ActualHeight*g_nBPP*2)/4;
+	pScr = (u32*)_FrontBuffer;
+	while(i-->=0){
+		*pScr=0xffffffff;
+	}
+*/
+	//vga_testpattern( 8 );
 
+	NVSetFlickerFilter(1);				// Set flicker fixer to a sharper image
 
 
 #endif
@@ -230,6 +278,7 @@ void vga_init_mode( int Mode )
 //
 //	Name:		Cls
 //	Function:	Clear the screen to BLACK (better will follow)
+//				if in a 320x???? mode, this clears the software buffer
 //
 // **************************************************************************
 void vga_clear( void )
@@ -300,7 +349,6 @@ void vga_vsync( void )
 #endif
     
 }
-
 
 
 //********************************************************
