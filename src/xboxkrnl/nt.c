@@ -28,7 +28,17 @@ XBSYSAPI EXPORTNUM(184) NTSTATUS NTAPI NtAllocateVirtualMemory
 }
 
 XBSYSAPI VOID *NtCancelTimer = 0;
-XBSYSAPI VOID *NtClearEvent = 0;
+
+// ******************************************************************
+// * NtClearEvent
+// ******************************************************************
+XBSYSAPI EXPORTNUM(186) NTSTATUS NTAPI NtClearEvent
+(
+    IN HANDLE EventHandle
+)
+{
+    return STATUS_SUCCESS;
+}
 
 // ******************************************************************
 // * NtClose
