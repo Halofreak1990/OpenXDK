@@ -345,14 +345,14 @@ XBSYSAPI VOID *NtWaitForMultipleObjectsEx = 0;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(236) NTSTATUS NTAPI NtWriteFile
 (	
-	IN  HANDLE  FileHandle,            // TODO: correct paramters
-	IN	PVOID	Event,
-	IN	PVOID	ApcRoutine,
-	IN	PVOID	ApcContext,
-	OUT	PVOID	IoStatusBlock,
-	IN	PVOID	Buffer,
-	IN	ULONG	Length,
-	IN	PVOID	ByteOffset
+	IN  HANDLE          FileHandle,            // TODO: correct paramters
+	IN	PVOID	        Event,
+	IN	PVOID	        ApcRoutine,
+	IN	PVOID	        ApcContext,
+	OUT	PVOID	        IoStatusBlock,
+	IN	PVOID	        Buffer,
+	IN	ULONG	        Length,
+	IN	PLARGE_INTEGER  ByteOffset
 )
 {
     return STATUS_SUCCESS;

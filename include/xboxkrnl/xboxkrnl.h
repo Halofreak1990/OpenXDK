@@ -97,7 +97,7 @@ typedef BOOLEAN            *PBOOLEAN;
 typedef UCHAR              *PUCHAR;
 typedef USHORT             *PUSHORT;
 typedef ULONG              *PULONG;
-typedef DWORD              *LPDWORD;
+typedef DWORD              *PDWORD, *LPDWORD;
 typedef ACCESS_MASK        *PACCESS_MASK;
 typedef LONG               *PLONG, *LONG_PTR;
 typedef ULONG              *ULONG_PTR;
