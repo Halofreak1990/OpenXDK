@@ -19,7 +19,17 @@ XBSYSAPI VOID *KeBugCheck;
 XBSYSAPI VOID *KeBugCheckEx;
 XBSYSAPI VOID *KeCancelTimer;
 XBSYSAPI VOID *KeConnectInterrupt;
-XBSYSAPI VOID *KeDelayExecutionThread;
+
+// ******************************************************************
+// * KeDelayExecutionThread
+// ******************************************************************
+XBSYSAPI EXPORTNUM(99) NTSTATUS NTAPI KeDelayExecutionThread
+(
+    IN KPROCESSOR_MODE  WaitMode,
+    IN BOOLEAN          Alertable,
+    IN PLARGE_INTEGER   Interval
+);
+
 XBSYSAPI VOID *KeDisconnectInterrupt;
 XBSYSAPI VOID *KeEnterCriticalRegion;
 XBSYSAPI VOID *KeGetCurrentIrql;

@@ -69,7 +69,7 @@ typedef void                VOID;
 // ******************************************************************
 // * Basic types
 // ******************************************************************
-typedef char                CHAR;
+typedef char                CHAR, CCHAR;
 typedef short               SHORT, CSHORT;
 typedef long                LONG;
 typedef unsigned char       UCHAR;
@@ -166,6 +166,22 @@ typedef long                            NTSTATUS;
 #define OPTIONAL
 #define IN
 #define OUT
+
+// ******************************************************************
+// * KPROCESSOR_MODE
+// ******************************************************************
+typedef CCHAR KPROCESSOR_MODE;
+
+// ******************************************************************
+// * MODE
+// ******************************************************************
+typedef enum _MODE
+{
+    KernelMode,
+    UserMode,
+    MaximumMode
+}
+MODE;
 
 // ******************************************************************
 // * LARGE_INTEGER
