@@ -76,7 +76,12 @@ XBSYSAPI VOID *KeQueryBasePriorityThread;
 XBSYSAPI VOID *KeQueryInterruptTime;
 XBSYSAPI VOID *KeQueryPerformanceCounter;
 XBSYSAPI VOID *KeQueryPerformanceFrequency;
-XBSYSAPI VOID *KeQuerySystemTime;
+
+// ******************************************************************
+// * KeQuerySystemTime
+// ******************************************************************
+XBSYSAPI EXPORTNUM(128) VOID KeQuerySystemTime(PLARGE_INTEGER CurrentTime);
+
 XBSYSAPI VOID *KeRaiseIrqlToDpcLevel;
 XBSYSAPI VOID *KeRaiseIrqlToSynchLevel;
 XBSYSAPI VOID *KeReleaseMutant;
