@@ -67,9 +67,7 @@ XBSYSAPI VOID *KiUnlockDispatcherDatabase;
 // ******************************************************************
 // * LaunchDataPage (actually a pointer)
 // ******************************************************************
-//XBSYSAPI EXPORTNUM(164) PLAUNCH_DATA_PAGE LaunchDataPage;
-XBSYSAPI EXPORTNUM(164) volatile DWORD LaunchDataPage;
-
+XBSYSAPI EXPORTNUM(164) PLAUNCH_DATA_PAGE LaunchDataPage;
 
 XBSYSAPI VOID *PhyGetLinkState;
 XBSYSAPI VOID *PhyInitialize;
