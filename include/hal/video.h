@@ -16,6 +16,10 @@
 #define VIDEO_BPP_16				0x00000011
 #define VIDEO_BPP_32				0x00000012
 
+// Defines for video adapter packs
+#define VIDEO_ADAPTER_NORMAL		0x00000000
+#define VIDEO_ADAPTER_RGBSCART		0x00000003
+
 // Defines for video encoder options
 #define VIDEO_ENC_GET_SETTINGS		6
 #define VIDEO_ENC_VIDEOENABLE		9
