@@ -59,7 +59,7 @@
     Building OpenXDK is very easy. The decompressed folder (C:\OpenXDK)
     contains a file called OpenXDK.sln. To build OpenXDK, simply open
     this workspace with Microsoft Visual Studio .NET, and then build the
-    XBox Kernel, xhal, and xlibc.
+    XBox Kernel, xhal, xlibc, and xvga.
 
     When building, you may recieve a crapload of warnings with xlibc. These
     can be safely ignored, unless there is also an *error*.
@@ -124,7 +124,7 @@
     to set the box marked "Ignore All Default Libraries" to "Yes". Then,
     under "Additional Dependencies", you should paste the following:
 
-    xboxkrnl.lib xlibc.lib xhal.lib
+    xboxkrnl.lib xlibc.lib xhal.lib xvga.lib
 
     Next, you will need to add a few linker options by switching to the
     category titled "Command Line" and typing directly into the box marked
