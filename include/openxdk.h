@@ -15,7 +15,7 @@
 // ******************************************************************
 // * OpenXDK Version Number
 // ******************************************************************
-#define OPENXDK_VERSION "0.0.2-BETA"
+#define OPENXDK_VERSION "0.1.0-Pre1"
 
 // ******************************************************************
 // * OpenXDK Full Title
@@ -43,28 +43,28 @@ typedef signed long    sint32;
 // ******************************************************************
 // * Humor Bigboy with some of his favorite typedefs  :)
 // ******************************************************************
-typedef	unsigned char		byte;
-typedef	unsigned char		u8;
-typedef	signed char			s8;
-typedef	unsigned short		u16;
-typedef	signed short		s16;
-typedef	unsigned int		u32;
-typedef	signed int			s32;
+typedef unsigned char       byte;
+typedef unsigned char       u8;
+typedef signed char         s8;
+typedef unsigned short      u16;
+typedef signed short        s16;
+typedef unsigned int        u32;
+typedef signed int          s32;
 
 // ******************************************************************
 // * XBox Kernel
 // ******************************************************************
-#include    "xboxkrnl/xboxkrnl.h"
+#include "xboxkrnl/xboxkrnl.h"
 
 // ******************************************************************
 // * XHal
 // ******************************************************************
-#include    "xhal/xhal.h"
+#include "xhal/xhal.h"
 
 // ******************************************************************
 // * XVGA
 // ******************************************************************
-#include	"xvga/xvga.h"
+#include "xvga/xvga.h"
 
 #endif
 

@@ -177,7 +177,7 @@ XBSYSAPI EXPORTNUM(211) NTSTATUS NTAPI NtQueryInformationFile
 (   
     IN  HANDLE                      FileHandle,
     OUT PIO_STATUS_BLOCK            IoStatusBlock,
-    OUT PFILE_FS_SIZE_INFORMATION   FileInformation, 
+    OUT PVOID                       FileInformation, 
     IN  ULONG                       Length, 
     IN  FILE_INFORMATION_CLASS      FileInfo
 )

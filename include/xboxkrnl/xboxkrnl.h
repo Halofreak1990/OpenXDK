@@ -39,18 +39,18 @@ extern "C"
 // ******************************************************************
 // * Null
 // ******************************************************************
-#ifndef	NULL
+#ifndef NULL
 #define NULL                0
 #endif
 
 // ******************************************************************
 // * TRUE / FALSE
 // ******************************************************************
-#ifndef	FALSE
-#define	FALSE	0
+#ifndef FALSE
+#define FALSE   0
 #endif
-#ifndef	TRUE
-#define	TRUE	1
+#ifndef TRUE
+#define TRUE    1
 #endif
 
 // ******************************************************************
@@ -76,17 +76,16 @@ typedef unsigned char       UCHAR;
 typedef unsigned char       BYTE;
 typedef unsigned char       BOOLEAN;
 typedef unsigned short      USHORT;
-typedef	unsigned short		WORD;
+typedef unsigned short      WORD;
 typedef unsigned long       ULONG;
-typedef	unsigned long       DWORD;
+typedef unsigned long       DWORD;
 typedef unsigned long       SIZE_T, *PSIZE_T;
 typedef unsigned long       ACCESS_MASK, *PACCESS_MASK;
 typedef unsigned long       PHYSICAL_ADDRESS;
 typedef long                INT_PTR;
 typedef signed __int64      LONGLONG;
 typedef unsigned __int64    ULONGLONG;
-typedef unsigned short      wchar_t;
-typedef wchar_t             WCHAR;
+typedef unsigned short      WCHAR;
 
 // ******************************************************************
 // * Pointer types
@@ -118,25 +117,25 @@ typedef void* LPSECURITY_ATTRIBUTES;
 typedef long                            NTSTATUS;
 
 #define NT_SUCCESS(Status)              ((NTSTATUS) (Status) >= 0)
-#define STATUS_SUCCESS					 ((DWORD   )0x00000000L)  
+#define STATUS_SUCCESS                   ((DWORD   )0x00000000L)  
 #ifndef STATUS_PENDING
 #define STATUS_PENDING                   ((DWORD   )0x00000103L)    
 #endif
-#define STATUS_TIMER_RESUME_IGNORED		 ((DWORD   )0x40000025L)  
-#define STATUS_UNSUCCESSFUL				 ((DWORD   )0xC0000001)  
-#define STATUS_UNRECOGNIZED_MEDIA		 ((DWORD   )0xC0000014)  
+#define STATUS_TIMER_RESUME_IGNORED      ((DWORD   )0x40000025L)  
+#define STATUS_UNSUCCESSFUL              ((DWORD   )0xC0000001)  
+#define STATUS_UNRECOGNIZED_MEDIA        ((DWORD   )0xC0000014)  
 #ifndef STATUS_NO_MEMORY
 #define STATUS_NO_MEMORY                 ((DWORD   )0xC0000017L)    
 #endif
-#define STATUS_ALERTED					 ((DWORD   )0x00000101)  
+#define STATUS_ALERTED                   ((DWORD   )0x00000101)  
 #define STATUS_USER_APC                  ((DWORD   )0x000000C0L)    
 // The SCSI input buffer was too large (not necessarily an error!)
-#define STATUS_DATA_OVERRUN				 ((DWORD   )0xC000003CL)  
-#define STATUS_INVALID_IMAGE_FORMAT		 ((DWORD   )0xC000007BL)  
-#define STATUS_INSUFFICIENT_RESOURCES	 ((DWORD   )0xC000009AL)  
-#define STATUS_TOO_MANY_SECRETS			 ((DWORD   )0xC0000156L)  
-#define STATUS_XBE_REGION_MISMATCH		 ((DWORD   )0xC0050001L)  
-#define STATUS_XBE_MEDIA_MISMATCH		 ((DWORD   )0xC0050002L)  
+#define STATUS_DATA_OVERRUN              ((DWORD   )0xC000003CL)  
+#define STATUS_INVALID_IMAGE_FORMAT      ((DWORD   )0xC000007BL)  
+#define STATUS_INSUFFICIENT_RESOURCES    ((DWORD   )0xC000009AL)  
+#define STATUS_TOO_MANY_SECRETS          ((DWORD   )0xC0000156L)  
+#define STATUS_XBE_REGION_MISMATCH       ((DWORD   )0xC0050001L)  
+#define STATUS_XBE_MEDIA_MISMATCH        ((DWORD   )0xC0050002L)  
 #define STATUS_OBJECT_NAME_COLLISION     ((DWORD   )0xC0000035L)
 
 // ******************************************************************
@@ -263,10 +262,10 @@ LIST_ENTRY, *PLIST_ENTRY;
 // ******************************************************************
 typedef struct _FILE_FS_SIZE_INFORMATION
 {
-    LARGE_INTEGER	TotalAllocationUnits;
-    LARGE_INTEGER	AvailableAllocationUnits;
-    ULONG		    SectorsPerAllocationUnit;
-    ULONG		    BytesPerSector;
+    LARGE_INTEGER   TotalAllocationUnits;
+    LARGE_INTEGER   AvailableAllocationUnits;
+    ULONG           SectorsPerAllocationUnit;
+    ULONG           BytesPerSector;
 }
 FILE_FS_SIZE_INFORMATION, *PFILE_FS_SIZE_INFORMATION;
 
@@ -421,7 +420,7 @@ typedef struct _IO_STATUS_BLOCK
     }
     u1;
 
-	ULONG_PTR Information;
+    ULONG_PTR Information;
 }
 IO_STATUS_BLOCK, *PIO_STATUS_BLOCK;
 
@@ -535,11 +534,11 @@ PCI_COMMON_CONFIG, *PPCI_COMMON_CONFIG;
 
 #define PCI_VENDOR_NVIDIA_CORPORATION       0x10DE
 
-#define PCI_USB0_DEVICE_ID				    2
-#define PCI_USB0_FUNCTION_ID				0
-#define PCI_USB0_IRQ					    1
-#define PCI_USB0_REGISTER_BASE				0xFED00000
-#define PCI_USB0_REGISTER_LENGTH			0x00001000
+#define PCI_USB0_DEVICE_ID                  2
+#define PCI_USB0_FUNCTION_ID                0
+#define PCI_USB0_IRQ                        1
+#define PCI_USB0_REGISTER_BASE              0xFED00000
+#define PCI_USB0_REGISTER_LENGTH            0x00001000
 #define PCI_USB0_OHCI_CONTROLLER            0x01C2
 
 // ******************************************************************
@@ -654,7 +653,7 @@ KOBJECTS, *PKOBJECTS;
 typedef struct _RTL_CRITICAL_SECTION
 {
     DWORD               Unknown[4];                                     // 0x00
-	LONG                LockCount;                                      // 0x10
+    LONG                LockCount;                                      // 0x10
     LONG                RecursionCount;                                 // 0x14
     ULONG               OwningThread;                                   // 0x18
 }
