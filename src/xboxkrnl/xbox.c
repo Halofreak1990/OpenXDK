@@ -97,7 +97,11 @@ XBSYSAPI EXPORTNUM(321) UCHAR XboxEEPROMKey[16];
 // ******************************************************************
 XBSYSAPI EXPORTNUM(322) XBOX_HARDWARE_INFO XboxHardwareInfo;
 
-XBSYSAPI VOID *XboxHDKey = 0;
+// ******************************************************************
+// * XboxHDKey
+// ******************************************************************
+XBSYSAPI EXPORTNUM(323) UCHAR XboxHDKey[16] = {0};
+
 XBSYSAPI VOID *XboxKrnlVersion = 0;
 
 // ******************************************************************
