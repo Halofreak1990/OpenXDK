@@ -236,11 +236,11 @@ int AddString( char* pDest, int index, int count, char* pSrc )
 //				standard call fro sprintf, printf etc.
 //
 // ********************************************************
-int vsnprintf( char *buffer, unsigned int count, char *format, va_list ap )
+int vsnprintf( char *buffer, unsigned int count, const char *format, va_list ap )
 {
 	int		index=0;
 	char*	pDest = buffer;
-	char*	pSrc = format;
+	const char*	pSrc = format;
 	char	c;
 	float	f;
 
@@ -306,3 +306,15 @@ int	sprintf (char *str, const char *format, ...)
 }
 
 
+int
+snprintf (char *str, size_t size, const char *format, ...)
+{
+  va_list	Params;
+  int		ret;
+
+  va_start( Params, format);
+  ret = vsnprintf( str, size, format, Params );
+  va_end(Params);
+
+  return ret;
+}
