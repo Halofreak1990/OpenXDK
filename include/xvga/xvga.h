@@ -25,6 +25,7 @@ extern "C"
 extern void xvga_set256x240();
 extern void xvga_set320x240();
 extern void xvga_set320x200();
+
 extern void xvga_wait_vblank();
 extern void xvga_wait_vblank_end();
 

@@ -71,9 +71,6 @@ xohci_regs *g_ohci_regs;
 // ******************************************************************
 // * hc_control register masks
 // ******************************************************************
-#define HC_CONTROL_FUNCTIONAL_STATE (3 << 6)
-#define HC_CONTROL_INT_ROUTING      (1 << 8)
-/*
 #define OHCI_CTRL_CBSR	(3 << 0)	// control/bulk service ratio
 #define OHCI_CTRL_PLE	(1 << 2)	// periodic list enable
 #define OHCI_CTRL_IE	(1 << 3)	// isochronous enable
@@ -83,7 +80,6 @@ xohci_regs *g_ohci_regs;
 #define OHCI_CTRL_IR	(1 << 8)	// interrupt routing
 #define OHCI_CTRL_RWC	(1 << 9)	// remote wakeup connected
 #define OHCI_CTRL_RWE	(1 << 10)	// remote wakeup enable
-*/
 
 // ******************************************************************
 // * pre-shifted values for HC_CONTROL_FUNCTIONAL_STATE
@@ -96,15 +92,24 @@ xohci_regs *g_ohci_regs;
 // ******************************************************************
 // * hc_cmdstatus register masks
 // ******************************************************************
-// Host Controller Reset
-#define HC_CMDSTATUS_HCR (1 << 0)
-/*
-#define OHCI_HCR	(1 << 0)	host controller reset
-#define OHCI_CLF  	(1 << 1)	control list filled
-#define OHCI_BLF  	(1 << 2)	bulk list filled
-#define OHCI_OCR  	(1 << 3)	ownership change request
-#define OHCI_SOC  	(3 << 16)	scheduling overrun count
-*/
+#define OHCI_HCR	(1 << 0)	// host controller reset
+#define OHCI_CLF  	(1 << 1)	// control list filled
+#define OHCI_BLF  	(1 << 2)	// bulk list filled
+#define OHCI_OCR  	(1 << 3)	// ownership change request
+#define OHCI_SOC  	(3 << 16)	// scheduling overrun count
+
+// ******************************************************************
+// * interrupt register masks (status/enable/disable regs)
+// ******************************************************************
+#define OHCI_INTR_SO	(1 << 0)	// scheduling overrun
+#define OHCI_INTR_WDH	(1 << 1)	// writeback of done_head
+#define OHCI_INTR_SF	(1 << 2)	// start frame
+#define OHCI_INTR_RD	(1 << 3)	// resume detect
+#define OHCI_INTR_UE	(1 << 4)	// unrecoverable error
+#define OHCI_INTR_FNO	(1 << 5)	// frame number overflow
+#define OHCI_INTR_RHSC	(1 << 6)	// root hub status change
+#define OHCI_INTR_OC	(1 << 30)	// ownership change
+#define OHCI_INTR_MIE	(1 << 31)	// master interrupt enable
 
 #if defined(__cplusplus)
 }

@@ -51,7 +51,7 @@ void xohci_init()
     // ******************************************************************
     {
         uint32 control = READ_REGISTER_ULONG(&g_ohci_regs->hc_control);
-        if( (control & HC_CONTROL_FUNCTIONAL_STATE) != OHCI_USB_RESET || (control & HC_CONTROL_INT_ROUTING))
+        if( (control & OHCI_CTRL_HCFS) != OHCI_USB_RESET || (control & OHCI_CTRL_IR))
             HalReturnToFirmware(ReturnFirmwareReboot);  // TODO: Fatal Error
     }
 
@@ -73,7 +73,7 @@ void xohci_init()
         // ******************************************************************
         // * Issue Software Reset
         // ******************************************************************
-        WRITE_REGISTER_ULONG(&g_ohci_regs->hc_cmdstatus, (LONG)HC_CMDSTATUS_HCR);
+        WRITE_REGISTER_ULONG(&g_ohci_regs->hc_cmdstatus, (LONG)OHCI_HCR);
 
         // ******************************************************************
         // * wait max of 10ms for reset to complete
@@ -81,7 +81,7 @@ void xohci_init()
         {
             DWORD start = KeTickCount;
 
-            while( (READ_REGISTER_ULONG(&g_ohci_regs->hc_cmdstatus) & HC_CMDSTATUS_HCR) != 0)
+            while( (READ_REGISTER_ULONG(&g_ohci_regs->hc_cmdstatus) & OHCI_HCR) != 0)
                 if(KeTickCount > start + 10)
                     HalReturnToFirmware(ReturnFirmwareReboot);  // TODO: Fatal Error
         }
@@ -102,14 +102,48 @@ void xohci_init()
         // * data state (lists are empty at this point)
         // ******************************************************************
         {
+            ULONG fminterval = 0x2EDF;
+
+            g_xohci.m_disabled = 1;
+
+            // empty lists at this point
             WRITE_REGISTER_ULONG(&g_ohci_regs->hc_control_head, 0);
             WRITE_REGISTER_ULONG(&g_ohci_regs->hc_bulk_head, 0);
 
             // reset clears this, so we have to write it again
             WRITE_REGISTER_ULONG(&g_ohci_regs->hc_hcca, (ULONG)g_xohci.m_hcca);
+
+            // enable all interrupts except SOF detect
+            {
+                ULONG mask = OHCI_INTR_SO | OHCI_INTR_WDH | OHCI_INTR_UE | OHCI_INTR_MIE;
+
+                WRITE_REGISTER_ULONG(&g_ohci_regs->hc_int_enable, mask);
+                WRITE_REGISTER_ULONG(&g_ohci_regs->hc_int_status, mask);
+            }
+
+            // set hc_control to have "all queues on" & set OHCI_USB_OPERATIONAL
+            {
+                ULONG hc_control = (OHCI_CTRL_CBSR & 0x3) | OHCI_CTRL_PLE | OHCI_CTRL_IE | OHCI_USB_OPERATIONAL;
+
+                g_xohci.m_hc_control = hc_control;
+
+                WRITE_REGISTER_ULONG(&g_ohci_regs->hc_control, hc_control);
+
+                g_xohci.m_disabled = 0;
+            }
+
+            // hc_periodic_start = 90% of FrameInterval field of fminterval
+            WRITE_REGISTER_ULONG(&g_ohci_regs->hc_periodic_start, (fminterval*9)/10);
+
+            // make sure fminterval is set correctly (from usb_ohci.c linux 2.4.19)
+            fminterval |= ((((fminterval - 210) * 6) / 7) << 16);
+            WRITE_REGISTER_ULONG(&g_ohci_regs->hc_fm_interval, fminterval);
+
+            // this is not really necessary, because this value is probably already correct
+            WRITE_REGISTER_ULONG(&g_ohci_regs->hc_ls_threshold, 0x628);
         }
 
-        sprintf(buffer, "hc_fm_interval : %.08X", READ_REGISTER_ULONG(&g_ohci_regs->hc_fm_interval));
+        sprintf(buffer, "OHCI : Time to send SOFs");
     }
 
     // ******************************************************************
@@ -127,7 +161,7 @@ void xohci_init()
         {
             int v;
 
-            for(v=0;v<50*3;v++)
+            for(v=0;v<50*10;v++)
                 vga_vsync();
         }
     }

@@ -10,8 +10,7 @@
 // *
 // ******************************************************************
 #include "xvga.h"
-#include "xvga_internal.h"
-#include "xvga_tables.h"
+#include "xvga_def.h"
 
 // ******************************************************************
 // * static functions
@@ -80,8 +79,8 @@ void xvga_set256x240()
 
     init_unchained();
 
-    for (v = 0; v < MODE256x240SIZE; v++)
-        write_vgareg( mode_256x240[v].port, mode_256x240[v].index, mode_256x240[v].value );
+    for(v=0;v<MODE256x240SIZE;v++)
+        write_vgareg(mode_256x240[v].port, mode_256x240[v].index, mode_256x240[v].value);
 }
 
 
@@ -94,8 +93,8 @@ void xvga_set320x240()
 
     init_unchained();
 
-    for (v = 0; v < MODE320x240SIZE; v++)
-        write_vgareg( mode_320x240[v].port, mode_320x240[v].index, mode_320x240[v].value );
+    for(v=0;v<MODE320x240SIZE;v++)
+        write_vgareg(mode_320x240[v].port, mode_320x240[v].index, mode_320x240[v].value);
 }
 
 
@@ -108,8 +107,8 @@ void xvga_set320x200()
 
     init_unchained();
 
-    for (v = 0; v < MODE320x200SIZE; v++)
-        write_vgareg( mode_320x200[v].port, mode_320x200[v].index, mode_320x200[v].value );
+    for(v=0;v<MODE320x200SIZE;v++)
+        write_vgareg(mode_320x200[v].port, mode_320x200[v].index, mode_320x200[v].value);
 }
 
 // ******************************************************************
@@ -117,23 +116,25 @@ void xvga_set320x200()
 // ******************************************************************
 void xvga_wait_vblank()
 {
-	while (1) {
-		unsigned char a = *((volatile unsigned char*)(XVGA_VBL));
-		if ((a&8) != 8) {
-			break;
-		}
-	}
+    while(1)
+    {
+        uint08 a = *VERTICAL_BLANK;
 
-	//this part should probably be put in xvga_wait_vblank_end()
-	//not sure though
-	while (1) {
-		unsigned char a = *((volatile unsigned char*)(XVGA_VBL));
-		if ((a&8) != 0)
-			break;
-	}
+        if(!(a&8))
+            break;
+    }
 }
 
+// ******************************************************************
+// * xvga_wait_vblank_end
+// ******************************************************************
 void xvga_wait_vblank_end()
 {
-	//take last part of above function?
+    while(1)
+    {
+        uint08 a = *VERTICAL_BLANK;
+
+        if(a&8)
+            break;
+    }
 }

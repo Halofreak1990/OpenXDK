@@ -102,6 +102,8 @@ xohci_hcca;
 typedef struct _xohci
 {
     xohci_hcca *m_hcca;
+    uint32      m_hc_control;
+    uint32      m_disabled;
 }
 xohci;
 
