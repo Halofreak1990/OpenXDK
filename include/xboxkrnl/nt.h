@@ -229,7 +229,15 @@ XBSYSAPI VOID *NtReleaseMutant;
 XBSYSAPI VOID *NtReleaseSemaphore;
 XBSYSAPI VOID *NtRemoveIoCompletion;
 XBSYSAPI VOID *NtResumeThread;
-XBSYSAPI VOID *NtSetEvent;
+
+// ******************************************************************
+// * NtSetEvent
+// ******************************************************************
+XBSYSAPI EXPORTNUM(225) NTSTATUS NTAPI NtSetEvent
+(
+    IN  HANDLE  EventHandle,
+    OUT PLONG   PreviousState
+);
 
 // ******************************************************************
 // * NtSetInformationFile

@@ -205,7 +205,7 @@ XBSYSAPI EXPORTNUM(211) NTSTATUS NTAPI NtQueryInformationFile
     IN  FILE_INFORMATION_CLASS      FileInfo
 )
 {
-    return 0;
+    return STATUS_SUCCESS;
 }
 
 XBSYSAPI VOID *NtQueryIoCompletion = 0;
@@ -245,7 +245,7 @@ XBSYSAPI EXPORTNUM(219) NTSTATUS NTAPI NtReadFile
 	IN  PLARGE_INTEGER  ByteOffset OPTIONAL
 )
 {
-    return 0;
+    return STATUS_SUCCESS;
 }
 
 XBSYSAPI VOID *NtReadFileScatter = 0;
@@ -253,7 +253,18 @@ XBSYSAPI VOID *NtReleaseMutant = 0;
 XBSYSAPI VOID *NtReleaseSemaphore = 0;
 XBSYSAPI VOID *NtRemoveIoCompletion = 0;
 XBSYSAPI VOID *NtResumeThread = 0;
-XBSYSAPI VOID *NtSetEvent = 0;
+
+// ******************************************************************
+// * NtSetEvent
+// ******************************************************************
+XBSYSAPI EXPORTNUM(225) NTSTATUS NTAPI NtSetEvent
+(
+    IN  HANDLE  EventHandle,
+    OUT PLONG   PreviousState
+)
+{
+    return STATUS_SUCCESS;
+}
 
 // ******************************************************************
 // * NtSetInformationFile
@@ -267,7 +278,7 @@ XBSYSAPI EXPORTNUM(226) NTSTATUS NTAPI NtSetInformationFile
 	IN	ULONG	FileInformationClass
 )
 {
-    return 0;
+    return STATUS_SUCCESS;
 }
 
 XBSYSAPI VOID *NtSetIoCompletion = 0;
@@ -321,7 +332,7 @@ XBSYSAPI EXPORTNUM(236) NTSTATUS NTAPI NtWriteFile
 	IN	PVOID	ByteOffset
 )
 {
-    return 0;
+    return STATUS_SUCCESS;
 }
 
 XBSYSAPI VOID *NtWriteFileGather = 0;

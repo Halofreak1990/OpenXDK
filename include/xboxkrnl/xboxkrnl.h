@@ -99,7 +99,7 @@ typedef USHORT             *PUSHORT;
 typedef ULONG              *PULONG;
 typedef DWORD              *LPDWORD;
 typedef ACCESS_MASK        *PACCESS_MASK;
-typedef LONG               *LONG_PTR;
+typedef LONG               *PLONG, *LONG_PTR;
 typedef ULONG              *ULONG_PTR;
 typedef INT_PTR            *PINT_PTR;
 typedef VOID               *PVOID, *LPVOID;
