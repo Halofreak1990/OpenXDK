@@ -37,7 +37,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "lib\glibc"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /G6 /Za /W3 /Ot /Oa /Ow /Og /Oy /Ob1 /X /I "include\glibc" /I "include" /u /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "_LIBC" /D "__STD_C" /FD /c
+# ADD CPP /nologo /G6 /Za /W3 /Ot /Oa /Ow /Og /Oy /Ob1 /X /I "include\glibc" /I "include" /u /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "_LIBC" /D "__STD_C" /FR /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x809 /d "NDEBUG"
 # ADD RSC /l 0x809 /d "NDEBUG"
