@@ -29,6 +29,7 @@ case $build in
 		AC_PATH_PROG(STRIP,strip)
 		
 		AC_SUBST(host_alias,$host)
+		AC_SUBST(XDKEXEEXT,".exe")
     ;;
 
   *-*-linux*)

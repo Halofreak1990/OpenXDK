@@ -1,3 +1,6 @@
+CXX=g++
+EXEEXT=$(XDKEXEEXT)
+
 bin_PROGRAMS = cxbe
 cxbe_SOURCES = $(SRCS)
 
