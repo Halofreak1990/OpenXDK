@@ -85,6 +85,8 @@ typedef unsigned long       PHYSICAL_ADDRESS;
 typedef long                INT_PTR;
 typedef signed __int64      LONGLONG;
 typedef unsigned __int64    ULONGLONG;
+typedef unsigned short      wchar_t;
+typedef wchar_t             WCHAR;
 
 // ******************************************************************
 // * Pointer types
@@ -387,6 +389,25 @@ typedef enum _FSINFOCLASS
     FileFsMaximumInformation
 }
 FS_INFORMATION_CLASS, *PFS_INFORMATION_CLASS;
+
+// ******************************************************************
+// * FILE_DIRECTORY_INFORMATION
+// ******************************************************************
+typedef struct _FILE_DIRECTORY_INFORMATION 
+{
+    ULONG           NextEntryOffset;
+    ULONG           FileIndex;
+    LARGE_INTEGER   CreationTime;
+    LARGE_INTEGER   LastAccessTime;
+    LARGE_INTEGER   LastWriteTime;
+    LARGE_INTEGER   ChangeTime;
+    LARGE_INTEGER   EndOfFile;
+    LARGE_INTEGER   AllocationSize;
+    ULONG           FileAttributes;
+    ULONG           FileNameLength;
+    CHAR            FileName[1];        // Offset: 0x40
+}
+FILE_DIRECTORY_INFORMATION;
 
 // ******************************************************************
 // * IO_STATUS_BLOCK *Same as Win2k/XP*

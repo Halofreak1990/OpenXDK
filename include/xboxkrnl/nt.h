@@ -129,16 +129,16 @@ XBSYSAPI VOID *NtQueueApcThread;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(207) NTSTATUS NTAPI NtQueryDirectoryFile
 (
-    IN  HANDLE                  FileHandle,
-    IN  HANDLE                  Event OPTIONAL,
-    IN  PVOID                   ApcRoutine, // Todo: define this routine's prototype
-    IN  PVOID                   ApcContext,
-    OUT PIO_STATUS_BLOCK        IoStatusBlock,
-    OUT PVOID                   FileInformation,
-    IN  ULONG                   Length,
-    IN  FILE_INFORMATION_CLASS  FileInformationClass,
-    IN  PSTRING                 FileMask,
-    IN  BOOLEAN                 RestartScan
+    IN  HANDLE                      FileHandle,
+    IN  HANDLE                      Event OPTIONAL,
+    IN  PVOID                       ApcRoutine, // Todo: define this routine's prototype
+    IN  PVOID                       ApcContext,
+    OUT PIO_STATUS_BLOCK            IoStatusBlock,
+    OUT FILE_DIRECTORY_INFORMATION *FileInformation,
+    IN  ULONG                       Length,
+    IN  FILE_INFORMATION_CLASS      FileInformationClass,
+    IN  PSTRING                     FileMask,
+    IN  BOOLEAN                     RestartScan
 );
 
 XBSYSAPI VOID *NtQueryDirectoryObject;
