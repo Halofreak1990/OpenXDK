@@ -46,8 +46,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="lib\xlibc.lib"
-				SuppressStartupBanner="TRUE"
-				IgnoreAllDefaultLibraries="TRUE"/>
+				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool

@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="glibc"
-	ProjectGUID="{55012859-C5CE-487B-976A-AB67ECF4F7FA}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -46,8 +45,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="lib\glibc.lib"
-				SuppressStartupBanner="TRUE"
-				IgnoreAllDefaultLibraries="TRUE"/>
+				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool

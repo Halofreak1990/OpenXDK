@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="xgfx2d"
-	ProjectGUID="{154D5987-CB32-482E-AB75-E1E5009B11ED}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -43,8 +42,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile=".\lib\xgfx2d.lib"
-				SuppressStartupBanner="TRUE"
-				IgnoreAllDefaultLibraries="TRUE"/>
+				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool

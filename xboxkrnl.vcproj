@@ -20,15 +20,18 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/QIfist "
 				InlineFunctionExpansion="1"
+				ImproveFloatingPointConsistency="TRUE"
 				OptimizeForProcessor="2"
-				AdditionalIncludeDirectories="include"
-				PreprocessorDefinitions="WIN32,NDEBUG,_WINDOWS"
+				AdditionalIncludeDirectories="include,include\xlibc"
+				PreprocessorDefinitions="_XBOX,NDEBUG"
 				IgnoreStandardIncludePath="TRUE"
 				StringPooling="TRUE"
 				RuntimeLibrary="0"
+				BufferSecurityCheck="TRUE"
 				EnableFunctionLevelLinking="TRUE"
-				UsePrecompiledHeader="2"
+				DisableLanguageExtensions="TRUE"
 				PrecompiledHeaderFile=".\lib/xboxkrnl.pch"
 				AssemblerListingLocation=".\lib/"
 				ObjectFile=".\lib/"
@@ -40,8 +43,8 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386 /subsystem:native"
-				AdditionalDependencies="odbc32.lib odbccp32.lib"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="odbc32.lib odbccp32.lib $(NOINHERIT)"
 				OutputFile=".\lib/xboxkrnl.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -49,9 +52,8 @@
 				ModuleDefinitionFile=".\src\xboxkrnl\xboxkrnl.def"
 				ProgramDatabaseFile=".\lib/xboxkrnl.pdb"
 				SubSystem="2"
-				OptimizeReferences="0"
-				EnableCOMDATFolding="0"
-				EntryPointSymbol="EntryDummy"/>
+				EntryPointSymbol="EntryDummy"
+				ResourceOnlyDLL="FALSE"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
@@ -80,81 +82,81 @@
 			Name="include"
 			Filter="">
 			<File
-				RelativePath="include\xboxkrnl\dbg.h">
+				RelativePath=".\include\xboxkrnl\dbg.h">
 			</File>
 			<File
-				RelativePath="include\xboxkrnl\ex.h">
+				RelativePath=".\include\xboxkrnl\ex.h">
 			</File>
 			<File
-				RelativePath="include\xboxkrnl\hal.h">
+				RelativePath=".\include\xboxkrnl\hal.h">
 			</File>
 			<File
-				RelativePath="include\xboxkrnl\io.h">
+				RelativePath=".\include\xboxkrnl\io.h">
 			</File>
 			<File
-				RelativePath="include\xboxkrnl\kernel.h">
+				RelativePath=".\include\xboxkrnl\kernel.h">
 			</File>
 			<File
-				RelativePath="include\xboxkrnl\mm.h">
+				RelativePath=".\include\xboxkrnl\mm.h">
 			</File>
 			<File
-				RelativePath="include\xboxkrnl\nt.h">
+				RelativePath=".\include\xboxkrnl\nt.h">
 			</File>
 			<File
-				RelativePath="include\xboxkrnl\ob.h">
+				RelativePath=".\include\xboxkrnl\ob.h">
 			</File>
 			<File
-				RelativePath="include\xboxkrnl\ps.h">
+				RelativePath=".\include\xboxkrnl\ps.h">
 			</File>
 			<File
-				RelativePath="include\xboxkrnl\rtl.h">
+				RelativePath=".\include\xboxkrnl\rtl.h">
 			</File>
 			<File
-				RelativePath="include\xboxkrnl\xbox.h">
+				RelativePath=".\include\xboxkrnl\xbox.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="src"
 			Filter="">
 			<File
-				RelativePath="src\xboxkrnl\dbg.c">
+				RelativePath=".\src\xboxkrnl\dbg.c">
 			</File>
 			<File
-				RelativePath="src\xboxkrnl\ex.c">
+				RelativePath=".\src\xboxkrnl\ex.c">
 			</File>
 			<File
-				RelativePath="src\xboxkrnl\hal.c">
+				RelativePath=".\src\xboxkrnl\hal.c">
 			</File>
 			<File
-				RelativePath="src\xboxkrnl\io.c">
+				RelativePath=".\src\xboxkrnl\io.c">
 			</File>
 			<File
-				RelativePath="src\xboxkrnl\kernel.c">
+				RelativePath=".\src\xboxkrnl\kernel.c">
 			</File>
 			<File
-				RelativePath="src\xboxkrnl\mm.c">
+				RelativePath=".\src\xboxkrnl\mm.c">
 			</File>
 			<File
-				RelativePath="src\xboxkrnl\nt.c">
+				RelativePath=".\src\xboxkrnl\nt.c">
 			</File>
 			<File
-				RelativePath="src\xboxkrnl\ob.c">
+				RelativePath=".\src\xboxkrnl\ob.c">
 			</File>
 			<File
-				RelativePath="src\xboxkrnl\ps.c">
+				RelativePath=".\src\xboxkrnl\ps.c">
 			</File>
 			<File
-				RelativePath="src\xboxkrnl\rtl.c">
+				RelativePath=".\src\xboxkrnl\rtl.c">
 			</File>
 			<File
-				RelativePath="src\xboxkrnl\xbox.c">
+				RelativePath=".\src\xboxkrnl\xbox.c">
 			</File>
 		</Filter>
 		<File
-			RelativePath="src\xboxkrnl\xboxkrnl.def">
+			RelativePath=".\src\xboxkrnl\xboxkrnl.def">
 		</File>
 		<File
-			RelativePath="include\xboxkrnl\xboxkrnl.h">
+			RelativePath=".\include\xboxkrnl\xboxkrnl.h">
 		</File>
 	</Files>
 	<Globals>
