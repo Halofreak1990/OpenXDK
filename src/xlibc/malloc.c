@@ -1,3 +1,4 @@
+#include "../xboxkrnl/xboxkrnl.h"
 #include <ansidecl.h>
 #include <malloc.h>
 
@@ -6,7 +7,6 @@
 void *malloc(size_t size)
 {
 	return (void *)ExAllocatePool(size);
-
 }
 
 
