@@ -1,5 +1,5 @@
 # Microsoft Developer Studio Project File - Name="xhal" - Package Owner=<4>
-# Microsoft Developer Studio Generated Build File, Format Version 6.00
+# Microsoft Developer Studio Generated Build File, Format Version 60000
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
@@ -50,9 +50,9 @@ LIB32=link.exe -lib
 # Begin Target
 
 # Name "xhal - Win32 Release"
-# Begin Group "Source Files"
+# Begin Group "src"
 
-# PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+# PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=.\src\xhal\xfile.c
@@ -60,6 +60,10 @@ SOURCE=.\src\xhal\xfile.c
 # Begin Source File
 
 SOURCE=.\src\xhal\xnvidia.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xhal\xohci.c
 # End Source File
 # Begin Source File
 
@@ -74,9 +78,9 @@ SOURCE=.\src\xhal\xvga.c
 SOURCE=.\src\xhal\xvga_sys.c
 # End Source File
 # End Group
-# Begin Group "Header Files"
+# Begin Group "include"
 
-# PROP Default_Filter "h;hpp;hxx;hm;inl"
+# PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=.\include\xhal\xfile.h
@@ -91,6 +95,10 @@ SOURCE=.\include\xhal\xnvidia.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\include\xhal\xohci.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\include\xhal\xvga.h
 # End Source File
 # Begin Source File
@@ -98,5 +106,9 @@ SOURCE=.\include\xhal\xvga.h
 SOURCE=.\include\xhal\xvga_def.h
 # End Source File
 # End Group
+# Begin Source File
+
+SOURCE=.\include\xhal\xhal.h
+# End Source File
 # End Target
 # End Project

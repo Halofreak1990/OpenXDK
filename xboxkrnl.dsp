@@ -55,7 +55,55 @@ LINK32=link.exe
 # Begin Target
 
 # Name "xboxkrnl - Win32 Release"
-# Begin Group "debug"
+# Begin Group "include"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\xboxkrnl\dbg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xboxkrnl\ex.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xboxkrnl\hal.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xboxkrnl\io.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xboxkrnl\kernel.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xboxkrnl\mm.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xboxkrnl\nt.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xboxkrnl\ob.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xboxkrnl\ps.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xboxkrnl\rtl.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xboxkrnl\xbox.h
+# End Source File
+# End Group
+# Begin Group "src"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -64,127 +112,43 @@ SOURCE=.\src\xboxkrnl\dbg.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\xboxkrnl\dbg.h
+SOURCE=.\src\xboxkrnl\ex.c
 # End Source File
-# End Group
-# Begin Group "i/o manager"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\xboxkrnl\io.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\xboxkrnl\io.h
-# End Source File
-# End Group
-# Begin Group "nt"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\xboxkrnl\nt.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\xboxkrnl\nt.h
-# End Source File
-# End Group
-# Begin Group "hal"
-
-# PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=.\src\xboxkrnl\hal.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\xboxkrnl\hal.h
+SOURCE=.\src\xboxkrnl\io.c
 # End Source File
-# End Group
-# Begin Group "executive"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\xboxkrnl\ex.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\xboxkrnl\ex.h
-# End Source File
-# End Group
-# Begin Group "memory manager"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\xboxkrnl\mm.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\xboxkrnl\mm.h
-# End Source File
-# End Group
-# Begin Group "object manager"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\xboxkrnl\ob.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\xboxkrnl\ob.h
-# End Source File
-# End Group
-# Begin Group "process structure"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\xboxkrnl\ps.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\xboxkrnl\ps.h
-# End Source File
-# End Group
-# Begin Group "run-time library"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\xboxkrnl\rtl.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\xboxkrnl\rtl.h
-# End Source File
-# End Group
-# Begin Group "xbox"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\xboxkrnl\xbox.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\xboxkrnl\xbox.h
-# End Source File
-# End Group
-# Begin Group "kernel"
-
-# PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=.\src\xboxkrnl\kernel.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\xboxkrnl\kernel.h
+SOURCE=.\src\xboxkrnl\mm.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xboxkrnl\nt.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xboxkrnl\ob.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xboxkrnl\ps.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xboxkrnl\rtl.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xboxkrnl\xbox.c
 # End Source File
 # End Group
 # Begin Source File

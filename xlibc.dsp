@@ -1,5 +1,5 @@
 # Microsoft Developer Studio Project File - Name="xlibc" - Package Owner=<4>
-# Microsoft Developer Studio Generated Build File, Format Version 6.00
+# Microsoft Developer Studio Generated Build File, Format Version 60000
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
@@ -49,9 +49,9 @@ LIB32=link.exe -lib
 # Begin Target
 
 # Name "xlibc - Win32 Release"
-# Begin Group "Source Files"
+# Begin Group "src"
 
-# PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+# PROP Default_Filter ""
 # Begin Group "String"
 
 # PROP Default_Filter ""
@@ -217,9 +217,9 @@ SOURCE=.\src\xlibc\misc_vars.c
 SOURCE=.\src\xlibc\rand.c
 # End Source File
 # End Group
-# Begin Group "Header Files"
+# Begin Group "inc"
 
-# PROP Default_Filter "h;hpp;hxx;hm;inl"
+# PROP Default_Filter ""
 # Begin Group "bits"
 
 # PROP Default_Filter ""

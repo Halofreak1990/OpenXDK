@@ -50,9 +50,9 @@ LIB32=link.exe -lib
 # Begin Target
 
 # Name "xvga - Win32 Release"
-# Begin Group "Source Files"
+# Begin Group "src"
 
-# PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+# PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=.\src\xvga\xvga.c
@@ -62,9 +62,9 @@ SOURCE=.\src\xvga\xvga.c
 SOURCE=.\src\xvga\xvga_tables.c
 # End Source File
 # End Group
-# Begin Group "Header Files"
+# Begin Group "inc"
 
-# PROP Default_Filter "h;hpp;hxx;hm;inl"
+# PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=.\include\xvga\xvga.h

@@ -1,5 +1,5 @@
 # Microsoft Developer Studio Project File - Name="xgfx2d" - Package Owner=<4>
-# Microsoft Developer Studio Generated Build File, Format Version 6.00
+# Microsoft Developer Studio Generated Build File, Format Version 60000
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
@@ -37,7 +37,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "lib"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /G6 /W3 /O2 /Op /Oy /X /I "include" /I "include\xlibc" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "_XBOX" /FD /QIfist /c
+# ADD CPP /nologo /G6 /W3 /O2 /Op /X /I "include" /I "include\xlibc" /D "NDEBUG" /D "_MBCS" /D "_LIB" /D "_XBOX" /FD /QIfist /c
 # ADD BASE RSC /l 0x41d /d "NDEBUG"
 # ADD RSC /l 0x41d /d "NDEBUG"
 BSC32=bscmake.exe
@@ -49,9 +49,9 @@ LIB32=link.exe -lib
 # Begin Target
 
 # Name "xgfx2d - Win32 Release"
-# Begin Group "Source Files"
+# Begin Group "src"
 
-# PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+# PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=.\src\xgfx2d\bitmap.c
@@ -73,9 +73,9 @@ SOURCE=.\src\xgfx2d\charmap.c
 SOURCE=.\src\xgfx2d\drawprim.c
 # End Source File
 # End Group
-# Begin Group "Header Files"
+# Begin Group "include"
 
-# PROP Default_Filter "h;hpp;hxx;hm;inl"
+# PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=.\include\xgfx2d\bitmap.h
