@@ -17,11 +17,21 @@
 #include	<openxdk.h>
 
 
-	u32	pScreenBuffer[640*480];			// Our screen (software emulator just now)
-	u8*	pCurrentScreen;					// Current screen address
+	u32	pScreenBuffer[320*240];			// Our screen (software emulated for LOW res just now)
+	u32	FrontBuffer=0;					// Current screen address (visible)
+	u32	BackBuffer=0;						// Current back buffer
+
+	//
+	// 
+	//
+	u32	g_nFlags=0;						// System flags
+	u32	g_nScreenRes=0;					// Current Screen RES
+
 	u32	g_ScreenWidth = 320;			// Current Screen Width
 	u32	g_ScreenHeight = 240;			// Current Screen Height
-	u32	g_nFlags=0;
+	u32	g_nBPP=4;						// number of bytes per pixel
+
+	u32	g_nFontFlags=0;
 	u32	g_nInk = 0xffffff;
 	u32	g_nPaper=0x000000;
 
@@ -69,8 +79,10 @@ Register Mode320x200[] =
 //	{ 0x3d4, 0x5, 0x80},
 //	{ 0x3d4, 0x6, 0xbf},
 //	{ 0x3d4, 0x7, 0x1f},
-//	{ 0x3d4, 0x8, 0x00},
+	{ 0x3d4, 0x8, 0x00},
 	{ 0x3d4, 0x9, 0x41},		// make 640x240 or 640x200 mode
+//	{ 0x3d4, 0x9, 0x42},		// 160 high?
+//	{ 0x3d4, 0x9, 0x43},		// 128 high?
 //	{ 0x3d4, 0x10, 0x9c},
 //	{ 0x3d4, 0x11, 0x8e},
 //	{ 0x3d4, 0x12, 0x8f},
@@ -172,6 +184,34 @@ void outReg(Register r)
 }
 
 
+//********************************************************
+//
+// Name:		NVSetScreenAddress
+// Function:   	Set screen address, and do a WaitVBlank()
+//
+// In:			None
+// Out:			None
+//
+//********************************************************
+void NVSetScreenAddress( void )
+{
+	while(CRTC_READ(NV_INPUT_STATUS) & 0x08);		// Wait for VBLANK to start
+
+	// swap buffers around
+	FrontBuffer ^= BackBuffer;
+	BackBuffer ^= FrontBuffer;
+	FrontBuffer ^= BackBuffer;
+
+	if (FrontBuffer && BackBuffer)
+	{
+		CRTC_WRITEL(NV_CRTC_FB_ADDR, FrontBuffer );
+	}
+
+	while(!(CRTC_READ(NV_INPUT_STATUS) & 0x08));	// Wait till start of frame.... Why?
+
+}
+
+
 // **************************************************************************
 //
 // Flip buffers (320x240) or (320x200) only just now...more later
@@ -180,17 +220,24 @@ void outReg(Register r)
 void	Flip( void )
 {
 #ifdef	_XBOX
+
 	u32	i=0;
 	u32	size = g_ScreenWidth*g_ScreenHeight;
-	u32	*pSCR = (u32*) XBOX_SCREENRAM;
+	u32	*pSCR = (u32*) BackBuffer;			// get current BACK buffer
 	u32	*pScr = (u32*) (pScreenBuffer);
 
-	while(i!=size ){
-		u32 a  = *pScr++;
-		*pSCR++ = a;
-		*pSCR++ = a;
-		i++;
+	// Software screen copy? in 320x??? modes we need to double up on pixels
+	if(	(g_nFlags & XHAL_320SCREEN) != 0 )
+	{
+		while(i!=size )	{
+			u32 a  = *pScr++;
+			*pSCR++ = a;
+			*pSCR++ = a;
+			i++;
+		}
 	}
+
+	NVSetScreenAddress();		// Flip buffers
 #endif
 }
 
@@ -203,7 +250,12 @@ void	Flip( void )
 // **************************************************************************
 u8*	GetScreen( void )
 {
-	return	(u8*)&(pScreenBuffer[0]);
+	if(	(g_nFlags & XHAL_320SCREEN) != 0 ){
+		return (u8*) &pScreenBuffer[0];
+	}
+	else{
+		return	(u8*) BackBuffer;
+	}
 }
 
 
@@ -218,25 +270,52 @@ u8*	GetScreen( void )
 // **************************************************************************
 void InitMode( int Mode )
 {
+#ifdef	_XBOX
 	int	i=0;
 
-
-	g_ScreenWidth = 320;		// Set Current Screen Width
-	g_ScreenHeight= 240;			// Set Current Screen Height
-
-
-#ifdef	_XBOX
-	readyVgaRegs();
-	while( 1 ){
-		if( Mode320x200[i].port!=-1 ){
-			outReg( Mode320x200[i] );
-		}
-		else{
-			return;
-		}
-		i++;
+	switch( (Mode&RES_MASK) )
+	{
+		case	RES_320X200:	g_ScreenWidth = 320;
+								g_ScreenHeight= 200;
+								g_nFlags |= XHAL_320SCREEN;			// Software mode, screen will need copied
+								break;
+		case	RES_320X240:	g_ScreenWidth = 320;
+								g_ScreenHeight= 240;
+								g_nFlags |= XHAL_320SCREEN;			// Software mode, screen will need copied
+								break;
+		case	RES_640X480:	g_ScreenWidth = 640;
+								g_ScreenHeight= 480;
+								break;
 	}
+
+	switch( (Mode&COLOUR_MASK) )
+	{
+		case	_32BITCOLOUR:	g_nBPP = 4; break;
+		case	_8BITCOLOUR:	g_nBPP = 2; break;
+		case	_16BITCOLOUR:	g_nBPP = 1; break;
+	}
+
+
+	if( g_ScreenHeight <=240 ){
+		readyVgaRegs();
+		while( 1 ){
+			if( Mode320x200[i].port!=-1 ){
+				outReg( Mode320x200[i] );
+			}
+			else{
+				break;
+			}
+			i++;
+		}
+	}
+
+	FrontBuffer = XBOX_SCREENRAM;											// Set current visible screen
+	BackBuffer = FrontBuffer+(g_ScreenWidth*g_ScreenHeight*g_nBPP);			// Current back buffer
+
+
+
 #endif
+
 }
 
 
@@ -295,6 +374,7 @@ void	Box( int x1,int y1, int x2,int y2 )
 // **************************************************************************
 void	WaitVBlank ( void )
 {
+	/*
 #ifdef	_XBOX
 	while(1){
 		unsigned char a =  *((volatile unsigned char*)(VBL));
@@ -308,7 +388,7 @@ void	WaitVBlank ( void )
 			break;
 		}
 	}
-#endif
+#endif*/
 }
 
 // **************************************************************************
@@ -428,14 +508,8 @@ void OutChar(int x, int y, char c )
 	ScrMod = (g_ScreenWidth-8);
 	cx=8;
 
-//	if( ( x+8 )> g_nScreen_X ){
-//		int	diff = (x+8)-g_nScreen_X
-//		DataMod += diff;
-//		ScrMod += diff;
-//		cx -= diff;
-//	}
 
-	if((g_nFlags&1)==0 ){
+	if((g_nFontFlags&FONT_SOLID)==0 ){
 		for(i2=0;i2<15;i2++){
 			for(i=0;i<cx;i++){
 				if( pData[index++]==0 ){
@@ -486,5 +560,9 @@ void Print( int x, int y, char* pText )
 	}
 #endif
 }
+
+
+
+
 
 
