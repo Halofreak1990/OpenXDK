@@ -24,7 +24,7 @@ void* memset( void *Dest, int fill, size_t length )
 	return Dest;
 }
 
-
+/*
 void* memset( void *Dest, int fill, size_t length )
 {
 	__asm
@@ -37,3 +37,4 @@ void* memset( void *Dest, int fill, size_t length )
 }
 
 
+*/
