@@ -90,20 +90,6 @@ extern "C" {
 #define FILE_EXISTS                     0x00000004
 #define FILE_DOES_NOT_EXIST             0x00000005
 
-// Error codes
-#define STATUS_SUCCESS					0x00000000
-#ifndef STATUS_PENDING
-#define STATUS_PENDING					0x00000103
-#endif
-#define STATUS_TIMER_RESUME_IGNORED		0x40000025
-#define STATUS_UNSUCCESSFUL				0xC0000001
-#define STATUS_UNRECOGNIZED_MEDIA		0xC0000014
-#ifndef STATUS_NO_MEMORY
-#define STATUS_NO_MEMORY				0xC0000017
-#endif
-#define STATUS_ALERTED					0x00000101
-#define STATUS_USER_APC					0x000000C0
-
 // Flags for OBJECT_ATTRIBUTES::Attributes		
 #define OBJ_INHERIT								(0x00000002L)
 #define OBJ_PERMANENT							(0x00000010L)

@@ -62,7 +62,8 @@ extern "C"
 // * VOID
 // ******************************************************************
 #ifndef VOID
-#define VOID                void
+typedef void                VOID;
+    //#define VOID                void
 #endif
 
 // ******************************************************************
@@ -106,25 +107,25 @@ typedef HANDLE             *PHANDLE;
 typedef long                            NTSTATUS;
 
 #define NT_SUCCESS(Status)              ((NTSTATUS) (Status) >= 0)
-#define STATUS_SUCCESS					0x00000000
+#define STATUS_SUCCESS					 ((DWORD   )0x00000000L)  
 #ifndef STATUS_PENDING
-#define STATUS_PENDING					0x00000103
+#define STATUS_PENDING                   ((DWORD   )0x00000103L)    
 #endif
-#define STATUS_TIMER_RESUME_IGNORED		0x40000025
-#define STATUS_UNSUCCESSFUL				0xC0000001
-#define STATUS_UNRECOGNIZED_MEDIA		0xC0000014
+#define STATUS_TIMER_RESUME_IGNORED		 ((DWORD   )0x40000025L)  
+#define STATUS_UNSUCCESSFUL				 ((DWORD   )0xC0000001)  
+#define STATUS_UNRECOGNIZED_MEDIA		 ((DWORD   )0xC0000014)  
 #ifndef STATUS_NO_MEMORY
-#define STATUS_NO_MEMORY				0xC0000017
+#define STATUS_NO_MEMORY                 ((DWORD   )0xC0000017L)    
 #endif
-#define STATUS_ALERTED					0x00000101
-#define STATUS_USER_APC					0x000000C0
+#define STATUS_ALERTED					 ((DWORD   )0x00000101)  
+#define STATUS_USER_APC                  ((DWORD   )0x000000C0L)    
 // The SCSI input buffer was too large (not necessarily an error!)
-#define STATUS_DATA_OVERRUN				0xC000003C
-#define STATUS_INVALID_IMAGE_FORMAT		0xC000007B
-#define STATUS_INSUFFICIENT_RESOURCES	0xC000009A
-#define STATUS_TOO_MANY_SECRETS			0xC0000156
-#define STATUS_XBE_REGION_MISMATCH		0xC0050001
-#define STATUS_XBE_MEDIA_MISMATCH		0xC0050002
+#define STATUS_DATA_OVERRUN				 ((DWORD   )0xC000003CL)  
+#define STATUS_INVALID_IMAGE_FORMAT		 ((DWORD   )0xC000007BL)  
+#define STATUS_INSUFFICIENT_RESOURCES	 ((DWORD   )0xC000009AL)  
+#define STATUS_TOO_MANY_SECRETS			 ((DWORD   )0xC0000156L)  
+#define STATUS_XBE_REGION_MISMATCH		 ((DWORD   )0xC0050001L)  
+#define STATUS_XBE_MEDIA_MISMATCH		 ((DWORD   )0xC0050002L)  
 
 // ******************************************************************
 // * PAGE Masks
@@ -279,7 +280,7 @@ typedef struct _PCI_COMMON_CONFIG
 }
 PCI_COMMON_CONFIG, *PPCI_COMMON_CONFIG;
 
-#define FIELD_OFFSET(type, field) ((LONG)(INT_PTR)&(((type *)0)->field))
+#define FIELD_OFFSET(type, field)    ((LONG)(LONG_PTR)&(((type *)0)->field))
 
 #define PCI_COMMON_HDR_LENGTH (FIELD_OFFSET (PCI_COMMON_CONFIG, DeviceSpecific))
 
