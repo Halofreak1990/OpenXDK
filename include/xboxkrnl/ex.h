@@ -48,12 +48,35 @@ XBSYSAPI VOID *ExInterlockedAddLargeStatistic;
 XBSYSAPI VOID *ExInterlockedCompareExchange64;
 XBSYSAPI VOID *ExMutantObjectType;
 XBSYSAPI VOID *ExQueryPoolBlockSize;
-XBSYSAPI VOID *ExQueryNonVolatileSetting;
+
+// ******************************************************************
+// * ExQueryNonVolatileSetting
+// ******************************************************************
+XBSYSAPI EXPORTNUM(24) NTSTATUS NTAPI ExQueryNonVolatileSetting
+(
+	IN  NVRAM_SETTING_CLASS ValueIndex,
+	OUT PNVRAM_TYPE_CLASS Type,
+	OUT PUCHAR Value,
+	IN  SIZE_T ValueLength,
+	OUT PSIZE_T ResultLength OPTIONAL
+);
+
 XBSYSAPI VOID *ExReadWriteRefurbInfo;
 XBSYSAPI VOID *ExRaiseException;
 XBSYSAPI VOID *ExRaiseStatus;
 XBSYSAPI VOID *ExReleaseReadWriteLock;
-XBSYSAPI VOID *ExSaveNonVolatileSetting;
+
+// ******************************************************************
+// * ExSaveNonVolatileSetting
+// ******************************************************************
+XBSYSAPI EXPORTNUM(29) NTSTATUS NTAPI ExSaveNonVolatileSetting
+(
+    IN  NVRAM_SETTING_CLASS ValueIndex,
+    OUT PNVRAM_TYPE_CLASS   Type,
+    IN  PUCHAR              Value,
+    IN  SIZE_T              ValueLength
+);
+
 XBSYSAPI VOID *ExSemaphoreObjectType;
 XBSYSAPI VOID *ExTimerObjectType;
 XBSYSAPI VOID *ExfInterlockedInsertHeadList;

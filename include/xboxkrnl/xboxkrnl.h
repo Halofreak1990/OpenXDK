@@ -78,7 +78,7 @@ typedef unsigned short      USHORT;
 typedef	unsigned short		WORD;
 typedef unsigned long       ULONG;
 typedef	unsigned long       DWORD;
-typedef unsigned long       SIZE_T;
+typedef unsigned long       SIZE_T, *PSIZE_T;
 typedef unsigned long       ACCESS_MASK;
 typedef unsigned long       PHYSICAL_ADDRESS;
 typedef long                INT_PTR;
@@ -289,6 +289,32 @@ typedef enum _RETURN_FIRMWARE
     ReturnFirmwareAll           = 0x5
 }
 RETURN_FIRMWARE, *LPRETURN_FIRMWARE;
+
+// ******************************************************************
+// * NVRAM_SETTING_CLASS
+// ******************************************************************
+typedef enum _NVRAM_SETTING_CLASS
+{
+	// Returns the 0x60 byte factory settings portion (includes encrypted)
+	NvramFactorySettings  = 0x00FF,
+	// Returns the 48 byte encrypted portion (untested)
+	NvramEncryptedPortion = 0xFFFE,
+	// Returns the raw 256 byte EEPROM (tested)
+	NvramRawData          = 0xFFFF,
+	// Forces this type to be a ULONG
+	NvramForceUlong       = 0xFFFFFFFF
+}
+NVRAM_SETTING_CLASS, *PNVRAM_SETTING_CLASS;
+
+// ******************************************************************
+// * NVRAM_SETTING_CLASS
+// ******************************************************************
+typedef enum _NVRAM_TYPE_CLASS
+{
+	NvramByteArray  = 3,
+	NvramDword      = 4
+}
+NVRAM_TYPE_CLASS, *PNVRAM_TYPE_CLASS;
 
 // ******************************************************************
 // * READ_REGISTER_UCHAR
