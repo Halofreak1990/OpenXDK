@@ -36,9 +36,9 @@
 	u32	g_ScreenHeight = 240;			// Current Screen Height
 	u32	g_nBPP=4;						// number of bytes per pixel
 
-	u32	g_nFontFlags=0;
-	u32	g_nInk = 0xffffff;
-	u32	g_nPaper=0x000000;
+	u32	g_nFontFlags=0;					// font rendering options
+	u32	g_nInk = 0xffffff;				// font drawing. In native screen mode colours
+	u32	g_nPaper=0x000000;				//
 
 
 
@@ -362,7 +362,7 @@ void OutChar(int x, int y, char c )
 			}
 		}
 	}
-	else //if( g_nBPP == 2 )
+	else if( g_nBPP == 2 )
 	{
 		u16*	pScreen16 = (u16*) &(pS[baseindex]);
 

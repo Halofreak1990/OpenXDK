@@ -1,5 +1,5 @@
 # Microsoft Developer Studio Project File - Name="xgfx2d" - Package Owner=<4>
-# Microsoft Developer Studio Generated Build File, Format Version 60000
+# Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
@@ -66,6 +66,10 @@ SOURCE=.\src\xgfx2d\blitters.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\xgfx2d\charmap.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\xgfx2d\drawprim.c
 # End Source File
 # End Group
@@ -83,6 +87,10 @@ SOURCE=.\include\xgfx2d\blit.h
 # Begin Source File
 
 SOURCE=.\include\xgfx2d\blitters.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xgfx2d\charmap.h
 # End Source File
 # Begin Source File
 
