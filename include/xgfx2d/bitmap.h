@@ -21,6 +21,12 @@ extern "C"
 #endif
 
 
+//you shouldn't need to mess with this if you use the functions in this lib,
+//but feel free to :)
+//data = the raw bitmap data
+//w = width in pixels
+//h = height in pixels
+//pitch = memory distance between rows, in pixels (you don't need to care)
 
 typedef struct
 {
@@ -31,7 +37,9 @@ typedef struct
 } Bitmap;
 
 
+//creates a bitmap, sized WxH
 Bitmap *create_bitmap(int w, int h);
+//destroys a bitmap
 void destroy_bitmap(Bitmap *bmp);
 
 //image loaders

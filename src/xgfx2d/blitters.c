@@ -183,6 +183,48 @@ alpha50_loop:
 #endif
 }
 
+DECLARE_BLITTER(alpha_blit,none) {
+#ifndef __GNUC__
+	__asm {
+		mov esi,s
+		mov edi,d
+		mov ecx,len
+		//esi -> source
+		//edi -> dest
+	alphaloop:
+		mov eax, [esi]
+		movd mm1, eax
+		punpcklbw mm1, mm1
+		movd mm0, [edi]
+		punpcklbw mm0, mm0
+
+		//get pixel alpha
+		shr eax,24
+		movd mm7, eax
+		punpcklbw mm7, mm7
+		punpcklwd mm7, mm7
+		punpcklwd mm7, mm7
+		psrlw mm7, 4
+
+		psrlw mm0, 4
+		psrlw mm1, 4
+
+		psubw mm1, mm0
+		pmulhw mm1, mm7
+		psrlw mm0, 4
+		paddw mm0, mm1
+    
+		packuswb mm0, mm0
+    
+		movd [edi], mm0
+		add esi,4
+		add edi,4
+		dec ecx
+		jnz alphaloop
+		emms
+	}
+#endif
+}
 
 DECLARE_BLITTER(additive_blit,none) {
 #ifndef __GNUC__

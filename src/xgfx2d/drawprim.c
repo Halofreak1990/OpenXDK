@@ -35,7 +35,7 @@ void putpixel(Bitmap *bmp, int x, int y, uint32 col)
 	*(bmp->data + bmp->pitch*y + x) = col;
 }
 
-void line(Bitmap *bmp, int x1, int y1, int x2, int y2, int d) {
+void line(Bitmap *bmp, int x1, int y1, int x2, int y2, uint32 color) {
   int dx = x2-x1;
   int dy = y2-y1;
   int i1, i2;
@@ -46,7 +46,7 @@ void line(Bitmap *bmp, int x1, int y1, int x2, int y2, int d) {
   #define DO_LINE(pri_sign, pri_c, pri_cond, sec_sign, sec_c, sec_cond)    \
   {                                                                        \
     if (d##pri_c == 0) {                                                   \
-      putpixel(bmp, x1, y1, d);                                                \
+      putpixel(bmp, x1, y1, color);                                                \
       return;                                                              \
     }                                                                      \
 									                                                         \
@@ -58,7 +58,7 @@ void line(Bitmap *bmp, int x1, int y1, int x2, int y2, int d) {
     y = y1;                                                                \
 									                                                         \
     while (pri_c pri_cond pri_c##2) {                                      \
-      putpixel(bmp, x, y, d);                                              \
+      putpixel(bmp, x, y, color);                                              \
 									                                                         \
       if (dd sec_cond 0) {                                                 \
 	      sec_c sec_sign##= 1;                                               \
@@ -136,7 +136,6 @@ void hline(Bitmap *bmp, int x1, int y, int x2, uint32 color) {
 		mov eax,color
 		rep stosd
 	}
-	
 }
 
 void vline(Bitmap *bmp,int x, int y1, int y2, uint32 color) {
@@ -167,12 +166,15 @@ vlineloop:
 	}
 }
 
+
 void rect(Bitmap *bmp,int x1, int y1, int x2, int y2, uint32 color) {
 	hline(bmp, x1,y1,x2,color);
 	hline(bmp, x1,y2,x2,color);
 	vline(bmp, x1,y1,y2,color);
 	vline(bmp, x2,y1,y2+1,color);
 }
+
+
 
 void rectfill(Bitmap *bmp,int x1, int y1, int x2, int y2, uint32 color) {
 	int y;

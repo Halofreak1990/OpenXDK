@@ -18,7 +18,8 @@ Bitmap *create_bitmap(int w, int h)
 {
 	int dataSize = w*h*sizeof(uint32);
 	void *block = malloc(sizeof(Bitmap) + dataSize);
-	Bitmap *theBmp = block;
+
+	Bitmap *theBmp = (Bitmap *)block;
 	theBmp->data = (uint32 *) ((char *)block + sizeof(Bitmap));
 	theBmp->w = w;
 	theBmp->h = h;
@@ -50,12 +51,13 @@ Bitmap *load_tga(char *filename)
 	h = *(short *)(header+14);
 	bpp = (int)header[16];
 
-	if (bpp != 32)
+	/* //not sure if this test is correct.. TODO: verify
+	if (bpp != 32) 
 	{
 		_close(handle );
 		return 0; //we need some format converters to read other bitdepths
 	}
-
+	*/
 	bmp = create_bitmap(w,h);
 
 	_read(handle, bmp->data, w*h*4);
