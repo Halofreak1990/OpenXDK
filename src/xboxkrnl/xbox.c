@@ -70,7 +70,12 @@ XBSYSAPI VOID *KfRaiseIrql = 0;
 XBSYSAPI VOID *KfLowerIrql = 0;
 XBSYSAPI VOID *KiBugCheckData = 0;
 XBSYSAPI VOID *KiUnlockDispatcherDatabase = 0;
-XBSYSAPI VOID *LaunchDataPage = 0;
+
+// ******************************************************************
+// * LaunchDataPage (actually a pointer)
+// ******************************************************************
+XBSYSAPI DWORD LaunchDataPage = 0;
+
 XBSYSAPI VOID *PhyGetLinkState = 0;
 XBSYSAPI VOID *PhyInitialize = 0;
 

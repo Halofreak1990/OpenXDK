@@ -58,7 +58,12 @@ XBSYSAPI VOID *KfRaiseIrql;
 XBSYSAPI VOID *KfLowerIrql;
 XBSYSAPI VOID *KiBugCheckData;
 XBSYSAPI VOID *KiUnlockDispatcherDatabase;
-XBSYSAPI VOID *LaunchDataPage;
+
+// ******************************************************************
+// * LaunchDataPage (actually a pointer)
+// ******************************************************************
+XBSYSAPI DWORD LaunchDataPage;
+
 XBSYSAPI VOID *PhyGetLinkState;
 XBSYSAPI VOID *PhyInitialize;
 

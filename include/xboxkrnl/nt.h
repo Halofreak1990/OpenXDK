@@ -19,7 +19,7 @@ XBSYSAPI EXPORTNUM(184) NTSTATUS NtAllocateVirtualMemory
 (
     IN OUT PVOID    *BaseAddress,
     IN ULONG         ZeroBits,
-    IN OUT SIZE_T    AllocationSize,
+    IN OUT PULONG    AllocationSize,
     IN DWORD         AllocationType,
     IN DWORD         Protect
 );
