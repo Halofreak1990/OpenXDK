@@ -558,7 +558,7 @@ void my_wait_for_completion(struct completion*);
 /*------------------------------------------------------------------------*/ 
 
 #include "asm/errno.h"
-#include "asm/bitops.h"
+#include "linux/bitops.h"
 #include "asm/pci_ids.h"
 
 /*------------------------------------------------------------------------*/ 
