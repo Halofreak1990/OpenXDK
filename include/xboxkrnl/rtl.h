@@ -23,8 +23,8 @@ NTSYSAPI VOID *RtlAnsiStringToUnicodeString;
 // ******************************************************************
 NTSYSAPI EXPORTNUM(261) ULONG NTAPI RtlAppendStringToString
 (
-  IN PVOID			Destination,
-  IN PVOID			Source
+  IN PVOID			Destination,    // TODO: should be STRING
+  IN PVOID			Source          // TODO: should be STRING
 );
 
 NTSYSAPI VOID *RtlAppendUnicodeStringToString;
@@ -61,11 +61,10 @@ NTSYSAPI VOID *RtlCompareUnicodeString;
 // ******************************************************************
 NTSYSAPI EXPORTNUM(272) VOID NTAPI RtlCopyString
 (
-  IN PVOID			String1,
-  IN PVOID			String2
+  IN OUT PVOID	Destination,    // TODO: should be STRING
+  IN     PVOID	Source OPTIONAL // TODO: should be STRING
 );
 
-//NTSYSAPI VOID *RtlCopyString;
 NTSYSAPI VOID *RtlCopyUnicodeString;
 NTSYSAPI VOID *RtlCreateUnicodeString;
 NTSYSAPI VOID *RtlDowncaseUnicodeChar;
@@ -83,14 +82,19 @@ NTSYSAPI VOID *RtlFreeAnsiString;
 NTSYSAPI VOID *RtlFreeUnicodeString;
 NTSYSAPI VOID *RtlGetCallersAddress;
 
-
-
-NTSYSAPI EXPORTNUM(289) VOID NTAPI RtlInitAnsiString 
+// ******************************************************************
+// * RtlInitAnsiString
+// ******************************************************************
+// *
+// * Initialize a counted ANSI string.
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(289) VOID CDECL RtlInitAnsiString 
 (
-  IN PVOID			 *OutputString,
-  IN PCHAR			FileName
+  IN OUT PVOID *DestinationString,  // TODO: should be PANSI_STRING
+  IN     PCHAR  SourceString        // TODO: should be PCSZ
 );
-//NTSYSAPI VOID *RtlInitAnsiString;
+
 NTSYSAPI VOID *RtlInitUnicodeString;
 NTSYSAPI VOID *RtlInitializeCriticalSection;
 NTSYSAPI VOID *RtlIntegerToChar;
@@ -100,23 +104,32 @@ NTSYSAPI VOID *RtlLeaveCriticalSectionAndRegion;
 NTSYSAPI VOID *RtlLowerChar;
 NTSYSAPI VOID *RtlMapGenericMask;
 
-NTSYSAPI EXPORTNUM(298) VOID NTAPI RtlMoveMemory
+// ******************************************************************
+// * RtlMoveMemory
+// ******************************************************************
+// *
+// * Move memory either forward or backward, aligned or unaligned,
+// * in 4-byte blocks, followed by any remaining blocks.
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(298) VOID CDECL RtlMoveMemory
 (
-  IN PVOID			 *New,
-  IN PVOID			 *Old,
-  IN ULONG			size
+  IN VOID UNALIGNED       *Destination,
+  IN CONST VOID UNALIGNED *Source,
+  IN SIZE_T                Length
 );
-//NTSYSAPI VOID *RtlMoveMemory;
+
 NTSYSAPI VOID *RtlMultiByteToUnicodeN;
 NTSYSAPI VOID *RtlMultiByteToUnicodeSize;
 
+// ******************************************************************
+// * RtlNtStatusToDosError
+// ******************************************************************
 NTSYSAPI EXPORTNUM(301) ULONG NTAPI RtlNtStatusToDosError
 (
-	IN ULONG	Status
+	IN NTSTATUS	Status
 );
 
-
-//NTSYSAPI VOID *RtlNtStatusToDosError;
 NTSYSAPI VOID *RtlRaiseException;
 NTSYSAPI VOID *RtlRaiseStatus;
 NTSYSAPI VOID *RtlTimeFieldsToTime;
@@ -136,9 +149,16 @@ NTSYSAPI VOID *RtlUpperString;
 NTSYSAPI VOID *RtlUshortByteSwap;
 NTSYSAPI VOID *RtlWalkFrameChain;
 
-NTSYSAPI EXPORTNUM(320) VOID NTAPI RtlZeroMemory
+// ******************************************************************
+// * RtlZeroMemory
+// ******************************************************************
+// *
+// * Fill a block of memory with zeros.
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(320) VOID CDECL RtlZeroMemory
 (
-  IN PVOID UNALIGNED  Destination,
+  IN VOID UNALIGNED  *Destination,
   IN SIZE_T           Length
 );
 
