@@ -67,10 +67,10 @@ XBSYSAPI EXPORTNUM(49) VOID DECLSPEC_NORETURN HalReturnToFirmware
 // ******************************************************************
 XBSYSAPI EXPORTNUM(50) ULONG NTAPI HalWriteSMBusValue
 (
-    UCHAR   SlaveAddress,
-    UCHAR   CommandCode,
-    BOOLEAN WriteWordValue,
-    ULONG   DataValue
+    UCHAR   Address,
+    UCHAR   Command,
+    BOOLEAN WordFlag,
+    ULONG   Value
 );
 
 XBSYSAPI VOID *HalBootSMCVideoMode;
