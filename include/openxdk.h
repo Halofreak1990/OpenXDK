@@ -15,7 +15,7 @@
 // ******************************************************************
 // * OpenXDK Version Number
 // ******************************************************************
-#define OPENXDK_VERSION "0.1.0"
+#define OPENXDK_VERSION "0.0.1-BETA"
 
 // ******************************************************************
 // * OpenXDK Full Title
@@ -43,7 +43,6 @@ typedef signed long    sint32;
 // ******************************************************************
 // * Humor Bigboy with some of his favorite typedefs  :)
 // ******************************************************************
-
 typedef	unsigned char		byte;
 typedef	unsigned char		u8;
 typedef	signed char			s8;
@@ -53,7 +52,6 @@ typedef	unsigned int		u32;
 typedef	signed int			s32;
 typedef	signed __int64		s64;
 typedef	unsigned __int64	u64;
-
 
 // ******************************************************************
 // * Some "handy" #defines that I always make 
@@ -72,7 +70,12 @@ typedef	unsigned __int64	u64;
 // * XBox Kernel
 // ******************************************************************
 #include	"xboxkrnl/xboxkrnl.h"
+
+// ******************************************************************
+// * XHal
+// ******************************************************************
 #include	"xhal/xboxVGA.h"
+
 #endif
 
 

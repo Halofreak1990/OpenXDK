@@ -54,16 +54,25 @@
 
     c) Build
  
+    Note: If you downloaded a pre-built version, you can skip this step.
+
     Building OpenXDK is very easy. The decompressed folder (C:\OpenXDK)
     contains a file called OpenXDK.dsw. To build OpenXDK, simply open
     this workspace with Microsoft Visual Studio 6.0, and then build the
-    XBox Kernel.
+    XBox Kernel, xhal, and xlibc.
 
-    Note: To build, click Build->Build xboxkrnl.exe, or simply push F7.
+    When building, you may recieve a crapload of warnings with xlibc. These
+    can be safely ignored, unless there is also an *error*.
+
+    Note: To build, click Build->Batch Build, then click "Rebuild All".
 
  2) Development
 
     a) Creating a New Project
+
+    Note: If you just wish to build / add on to the included "Sample"
+    project, you *only* need to complete part d). Everything else is
+    already configured.
 
     There are some specific steps that must be taken when creating a
     project for use with OpenXDK. Primarily, Compiler and Linker options
@@ -111,7 +120,12 @@
 
     The next set of options we need to change are located under the
     "Link" tab. You will need to check the box marked "Ignore all default
-    libraries". Next, you will need to add a few linker options by typing
+    libraries". Then, under "Object/library modules", you should remove
+    everything that is listed and replace them with the following:
+
+    xboxkrnl.lib xlibc.lib xhal.lib
+
+    Next, you will need to add a few linker options by typing
     directly into the box marked "Project Options". Add the following text
     to the very end of the existing text:
 

@@ -1,5 +1,10 @@
 OpenXDK website: http://openxdk.sourceforge.net/
 
+version: 0.0.1-BETA (11/23/02)
+--------------------------------
+
+- First Beta release! Start testing! Enjoy!
+
 version: 0.0.1-pre4 (11/22/02)
 --------------------------------
 

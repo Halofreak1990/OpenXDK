@@ -75,7 +75,12 @@ XBOXSYSAPI VOID *KeSuspendThread;
 XBOXSYSAPI VOID *KeSynchronizeExecution;
 XBOXSYSAPI VOID *KeSystemTime;
 XBOXSYSAPI VOID *KeTestAlertThread;
-XBOXSYSAPI VOID *KeTickCount;
+
+// ******************************************************************
+// * KeTickCount
+// ******************************************************************
+XBOXSYSAPI EXPORTNUM(156) DWORD KeTickCount;
+
 XBOXSYSAPI VOID *KeTimeIncrement;
 XBOXSYSAPI VOID *KeWaitForMultipleObjects;
 XBOXSYSAPI VOID *KeWaitForSingleObject;
