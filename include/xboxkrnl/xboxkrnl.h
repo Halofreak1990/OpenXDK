@@ -136,6 +136,7 @@ typedef long                            NTSTATUS;
 #define STATUS_TOO_MANY_SECRETS          ((DWORD   )0xC0000156L)  
 #define STATUS_XBE_REGION_MISMATCH       ((DWORD   )0xC0050001L)  
 #define STATUS_XBE_MEDIA_MISMATCH        ((DWORD   )0xC0050002L)  
+#define STATUS_OBJECT_NAME_NOT_FOUND     ((DWORD   )0xC0000034L)
 #define STATUS_OBJECT_NAME_COLLISION     ((DWORD   )0xC0000035L)
 
 // ******************************************************************

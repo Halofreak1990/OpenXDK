@@ -248,12 +248,22 @@ XBSYSAPI VOID *NtUserIoApcDispatcher;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(233) NTSTATUS NTAPI NtWaitForSingleObject
 (	
-	IN  HANDLE  Handle,            // TODO: correct paramters
+	IN  HANDLE  Handle,
 	IN	BOOLEAN	Alertable,
 	IN	PVOID	Timeout
 );
 
-XBSYSAPI VOID *NtWaitForSingleObjectEx;
+// ******************************************************************
+// * NtWaitForSingleObjectEx
+// ******************************************************************
+XBSYSAPI EXPORTNUM(234) NTSTATUS NTAPI NtWaitForSingleObjectEx
+(
+    IN  HANDLE          Handle,
+    IN  DWORD           WaitMode,
+    IN  BOOLEAN         Alertable,
+    IN  PLARGE_INTEGER  Timeout
+);
+
 XBSYSAPI VOID *NtWaitForMultipleObjectsEx;
 
 // ******************************************************************

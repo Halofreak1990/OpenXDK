@@ -47,7 +47,15 @@ XBSYSAPI EXPORTNUM(67) NTSTATUS IoCreateSymbolicLink
 );
 
 XBSYSAPI VOID *IoDeleteDevice;
-XBSYSAPI VOID *IoDeleteSymbolicLink;
+
+// ******************************************************************
+// * IoDeleteSymbolicLink
+// ******************************************************************
+XBSYSAPI EXPORTNUM(69) NTSTATUS IoDeleteSymbolicLink
+(
+    IN PSTRING SymbolicLinkName
+);
+
 XBSYSAPI VOID *IoDeviceObjectType;
 XBSYSAPI VOID *IoFileObjectType;
 XBSYSAPI VOID *IoFreeIrp;
