@@ -65,7 +65,12 @@ XBSYSAPI VOID *RtlCopyUnicodeString;
 XBSYSAPI VOID *RtlCreateUnicodeString;
 XBSYSAPI VOID *RtlDowncaseUnicodeChar;
 XBSYSAPI VOID *RtlDowncaseUnicodeString;
-XBSYSAPI VOID *RtlEnterCriticalSection;
+
+// ******************************************************************
+// * RtlEnterCriticalSection
+// ******************************************************************
+XBSYSAPI EXPORTNUM(277) VOID RtlEnterCriticalSection(DWORD Unknown);
+
 XBSYSAPI VOID *RtlEnterCriticalSectionAndRegion;
 XBSYSAPI VOID *RtlEqualString;
 XBSYSAPI VOID *RtlEqualUnicodeString;
@@ -95,7 +100,12 @@ XBSYSAPI VOID *RtlInitUnicodeString;
 XBSYSAPI VOID *RtlInitializeCriticalSection;
 XBSYSAPI VOID *RtlIntegerToChar;
 XBSYSAPI VOID *RtlIntegerToUnicodeString;
-XBSYSAPI VOID *RtlLeaveCriticalSection;
+
+// ******************************************************************
+// * RtlLeaveCriticalSection
+// ******************************************************************
+XBSYSAPI EXPORTNUM(294) VOID RtlLeaveCriticalSection(DWORD Unknown);
+
 XBSYSAPI VOID *RtlLeaveCriticalSectionAndRegion;
 XBSYSAPI VOID *RtlLowerChar;
 XBSYSAPI VOID *RtlMapGenericMask;
