@@ -233,6 +233,15 @@ PCI_COMMON_CONFIG, *PPCI_COMMON_CONFIG;
 #define PCI_MAX_BRIDGE_NUMBER               0xFF
 #define PCI_INVALID_VENDORID                0xFFFF
 
+#define PCI_VENDOR_NVIDIA_CORPORATION       0x10DE
+
+#define PCI_USB0_DEVICE_ID				    2
+#define PCI_USB0_FUNCTION_ID				0
+#define PCI_USB0_IRQ					    1
+#define PCI_USB0_REGISTER_BASE				0xFED00000
+#define PCI_USB0_REGISTER_LENGTH			0x00001000
+#define PCI_USB0_OHCI_CONTROLLER            0x01C2
+
 // ******************************************************************
 // * RETURN_FIRMWARE
 // ******************************************************************
