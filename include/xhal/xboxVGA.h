@@ -72,6 +72,8 @@ extern	u32	g_nFontFlags;
 extern	u32	_FrontBuffer;						// Current screen address (visible)
 extern	u32	_BackBuffer;						// Current back buffer
 extern	u32	_Framebuffer;
+extern  u32	g_ScreenWidth;			// Current Screen Width
+extern  u32	g_ScreenHeight;			// Current Screen Height
 
 extern	int	_fltused;
 // **************************************************************

@@ -40,7 +40,7 @@ Bitmap __screenbitmap;
 Bitmap *get_screen_bitmap()
 {
 	SScreen screen = GetScreen();
-	__screenbitmap.data = screen.ScreenAddress;
+	__screenbitmap.data = (uint32 *)screen.ScreenAddress;
 	__screenbitmap.w = g_ScreenWidth; //ugly, why doesn't this come with SScreen?
 	__screenbitmap.h = g_ScreenHeight;
 	__screenbitmap.pitch = g_ScreenWidth; //lpitch seems wrong
