@@ -132,8 +132,6 @@ void xohci_init()
             {
                 ULONG hc_control = (XOHCI_CTRL_CBSR & 0x3) | XOHCI_CTRL_PLE | XOHCI_CTRL_IE;
 
-                g_xohci.m_hc_control = hc_control;
-
                 WRITE_REGISTER_ULONG(&g_xohci_regs->hc_control, hc_control);
             }
 
@@ -148,7 +146,6 @@ void xohci_init()
             WRITE_REGISTER_ULONG(&g_xohci_regs->hc_ls_threshold, 0x628);
 
             // set host controller functional state to XOHCI_USB_OPERATIONAL
-            g_xohci.m_hc_control = XOHCI_USB_OPERATIONAL;
             WRITE_REGISTER_ULONG(&g_xohci_regs->hc_control, XOHCI_USB_OPERATIONAL);
 
             // we're enabled now
@@ -162,13 +159,38 @@ void xohci_init()
     {
         int v;
 
-        for(v=0;v<50*10;v++)
+        for(v=0;v<50*5;v++)
         {
             vga_clear();
 
-            sprintf(buffer, "Frames Remaining : %.08X", READ_REGISTER_ULONG(&g_xohci_regs->hc_fm_remaining));
+            sprintf(buffer, "USB Operational...");
 
             vga_print(50, 50, buffer);
+
+            sprintf(buffer, "Current Done Head : %.08X", READ_REGISTER_ULONG(&g_xohci.m_hcca->done_head));
+
+            vga_print(50, 80, buffer);
+
+            vga_vsync();
+
+            vga_flip();
+
+        }
+
+        // set host controller functional state to XOHCI_USB_SUSPEND
+        WRITE_REGISTER_ULONG(&g_xohci_regs->hc_control, XOHCI_USB_SUSPEND);
+
+        for(v=0;v<50*5;v++)
+        {
+            vga_clear();
+
+            sprintf(buffer, "USB Suspended...");
+
+            vga_print(50, 50, buffer);
+
+            sprintf(buffer, "Current Done Head : %.08X", READ_REGISTER_ULONG(&g_xohci.m_hcca->done_head));
+
+            vga_print(50, 80, buffer);
 
             vga_vsync();
 

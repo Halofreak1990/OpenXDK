@@ -12,7 +12,21 @@
 #define _XBOXKRNL_INTERNAL_
 #include "xboxkrnl/xboxkrnl.h"
 
-XBSYSAPI VOID *NtAllocateVirtualMemory = 0;
+// ******************************************************************
+// * NtAllocateVirtualMemory
+// ******************************************************************
+XBSYSAPI EXPORTNUM(184) NTSTATUS NtAllocateVirtualMemory
+(
+    IN OUT PVOID    *BaseAddress,
+    IN ULONG         ZeroBits,
+    IN OUT PULONG    AllocationSize,
+    IN ULONG         AllocationType,
+    IN ULONG         Protect
+)
+{
+    return 0;
+}
+
 XBSYSAPI VOID *NtCancelTimer = 0;
 XBSYSAPI VOID *NtClearEvent = 0;
 
@@ -57,7 +71,20 @@ XBSYSAPI VOID *NtDeleteFile = 0;
 XBSYSAPI VOID *NtDeviceIoControlFile = 0;
 XBSYSAPI VOID *NtDuplicateObject = 0;
 XBSYSAPI VOID *NtFlushBuffersFile = 0;
-XBSYSAPI VOID *NtFreeVirtualMemory = 0;
+
+// ******************************************************************
+// * NtFreeVirtualMemory
+// ******************************************************************
+XBSYSAPI EXPORTNUM(199) NTSTATUS NtFreeVirtualMemory
+(
+    IN OUT PVOID *BaseAddress,
+    IN OUT PULONG FreeSize,
+    IN ULONG      FreeType
+)
+{
+    return 0;
+}
+
 XBSYSAPI VOID *NtFsControlFile = 0;
 XBSYSAPI VOID *NtOpenDirectoryObject = 0;
 XBSYSAPI VOID *NtOpenFile = 0;
