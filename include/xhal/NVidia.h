@@ -1,6 +1,10 @@
 #ifndef		__NVIDIA_H__
 #define		__NVIDIA_H__
 
+#ifdef	__cplusplus
+extern "C" {
+#endif
+
 //
 //
 // Massive thanks go to SNK for help with RAW NVidia stuff
@@ -63,5 +67,8 @@ void NVSetScreenAddress( void );
 void NVSetBPP( int mode );
 
 
+#ifdef	__cplusplus
+};
+#endif
 
 #endif		//__NVIDIA_H__
