@@ -19,6 +19,9 @@ Bitmap *create_bitmap(int w, int h)
 	void *block = malloc(sizeof(Bitmap) + dataSize);
 	Bitmap *theBmp = block;
 	theBmp->data = (uint32 *) ((char *)block + sizeof(Bitmap));
+	theBmp->w = w;
+	theBmp->h = h;
+	theBmp->pitch = w;
 	return theBmp;
 }
 
