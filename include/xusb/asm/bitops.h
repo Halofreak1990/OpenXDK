@@ -33,14 +33,24 @@
  * Note that @nr may be almost arbitrarily large; this function is not
  * restricted to acting on a single-word quantity.
  */
-static __inline void set_bit(int nr, volatile void * addr)
+/*static __inline__ void set_bit(int nr, volatile void * addr)
+{
+	__asm__ __volatile__( LOCK_PREFIX
+		"btsl %1,%0"
+		:"=m" (ADDR)
+		:"Ir" (nr));
+}
+*/
+
+static  __inline void set_bit(int nr, volatile void * addr)
 {
     __asm
     {
-        mov eax, [nr]
-        mov edx, [addr] FIXME!
-        lock bts [edx], eax
-    };
+            mov		eax, nr
+            mov		ebx, addr
+    lock    bts		[ebx], eax
+            sbb		eax, eax
+    }
 }
 
 /**
@@ -56,10 +66,11 @@ static __inline void __set_bit(int nr, volatile void * addr)
 {
     __asm
     {
-        mov eax, [nr]
-        mov edx, [addr] FIXME!
-        bts [edx], eax
-    };
+            mov		eax, nr
+            mov		ebx, addr
+    lock    bts		[ebx], eax
+            sbb		eax, eax
+    }
 }
 
 /**
@@ -76,9 +87,10 @@ static __inline void clear_bit(int nr, volatile void * addr)
 {
     __asm
     {
-        mov eax, [nr]
-        mov edx, [addr] FIXME!
-        lock btr [edx], eax
+            mov		eax, nr
+            mov		ebx, addr
+    lock	btr		[ebx], eax
+            sbb		eax, eax
     }
 }
 #define smp_mb__before_clear_bit()	barrier()
@@ -97,9 +109,10 @@ static __inline void __change_bit(int nr, volatile void * addr)
 {
     __asm
     {
-        mov eax, [nr]
-        mov edx, [addr] FIXME!
-        btc [edx], eax
+            mov		eax, nr
+            mov		ebx, addr
+    lock	btc		[ebx], eax
+            sbb		eax, eax
     }
 }
 
@@ -116,9 +129,10 @@ static __inline void change_bit(int nr, volatile void * addr)
 {
     __asm
     {
-        mov eax, [nr]
-        mov edx, [addr] FIXME!
-        lock btc [edx], eax
+            mov		eax, nr
+            mov		ebx, addr
+    lock	btc		[ebx], eax
+            sbb		eax, eax
     }
 }
 
@@ -133,11 +147,19 @@ static __inline void change_bit(int nr, volatile void * addr)
 static __inline int test_and_set_bit(int nr, volatile void * addr)
 {
 	int oldbit;
-
-	__asm__ __volatile__( LOCK_PREFIX
+    __asm
+    {
+            mov eax, nr
+            mov ebx, addr
+    lock    bts [ebx], eax
+            sbb eax, eax			// result into eax
+			mov	oldbit,eax			// store in oldbit for returning (0 or 1)
+    }
+/*	__asm__ __volatile__( LOCK_PREFIX
 		"btsl %2,%1\n\tsbbl %0,%0"
 		:"=r" (oldbit),"=m" (ADDR)
 		:"Ir" (nr) : "memory");
+	*/
 	return oldbit;
 }
 
@@ -150,14 +172,21 @@ static __inline int test_and_set_bit(int nr, volatile void * addr)
  * If two examples of this operation race, one can appear to succeed
  * but actually fail.  You must protect multiple accesses with a lock.
  */
-static __inline__ int __test_and_set_bit(int nr, volatile void * addr)
+static __inline int __test_and_set_bit(int nr, volatile void * addr)
 {
 	int oldbit;
-
-	__asm__(
+    __asm
+    {
+            mov eax, nr
+            mov ebx, addr
+    lock    bts [ebx], eax
+            sbb eax, eax			// result into eax
+			mov	oldbit,eax			// store in oldbit for returning (0 or 1)
+    }
+	/*__asm__(
 		"btsl %2,%1\n\tsbbl %0,%0"
 		:"=r" (oldbit),"=m" (ADDR)
-		:"Ir" (nr));
+		:"Ir" (nr));*/
 	return oldbit;
 }
 
@@ -169,14 +198,24 @@ static __inline__ int __test_and_set_bit(int nr, volatile void * addr)
  * This operation is atomic and cannot be reordered.  
  * It also implies a memory barrier.
  */
-static __inline__ int test_and_clear_bit(int nr, volatile void * addr)
+static __inline int test_and_clear_bit(int nr, volatile void * addr)
 {
 	int oldbit;
 
+    __asm
+    {
+            mov eax, nr
+            mov ebx, addr
+    lock    btr [ebx], eax
+            sbb eax, eax			// result into eax
+			mov	oldbit,eax			// store in oldbit for returning (0 or 1)
+    }
+	/*
 	__asm__ __volatile__( LOCK_PREFIX
 		"btrl %2,%1\n\tsbbl %0,%0"
 		:"=r" (oldbit),"=m" (ADDR)
 		:"Ir" (nr) : "memory");
+		*/
 	return oldbit;
 }
 
@@ -189,26 +228,45 @@ static __inline__ int test_and_clear_bit(int nr, volatile void * addr)
  * If two examples of this operation race, one can appear to succeed
  * but actually fail.  You must protect multiple accesses with a lock.
  */
-static __inline__ int __test_and_clear_bit(int nr, volatile void * addr)
+static __inline int __test_and_clear_bit(int nr, volatile void * addr)
 {
 	int oldbit;
 
+    __asm
+    {
+            mov eax, nr
+            mov ebx, addr
+    lock    btr [ebx], eax
+            sbb eax, eax			// result into eax
+			mov	oldbit,eax			// store in oldbit for returning (0 or 1)
+    }
+/*
 	__asm__(
 		"btrl %2,%1\n\tsbbl %0,%0"
 		:"=r" (oldbit),"=m" (ADDR)
 		:"Ir" (nr));
+		*/
 	return oldbit;
 }
 
 /* WARNING: non atomic and it can be reordered! */
-static __inline__ int __test_and_change_bit(int nr, volatile void * addr)
+static __inline int __test_and_change_bit(int nr, volatile void * addr)
 {
 	int oldbit;
 
+    __asm
+    {
+            mov eax, nr
+            mov ebx, addr
+    lock    btc [ebx], eax
+            sbb eax, eax			// result into eax
+			mov	oldbit,eax			// store in oldbit for returning (0 or 1)
+    }
+/*
 	__asm__ __volatile__(
 		"btcl %2,%1\n\tsbbl %0,%0"
 		:"=r" (oldbit),"=m" (ADDR)
-		:"Ir" (nr) : "memory");
+		:"Ir" (nr) : "memory");*/
 	return oldbit;
 }
 
@@ -220,14 +278,23 @@ static __inline__ int __test_and_change_bit(int nr, volatile void * addr)
  * This operation is atomic and cannot be reordered.  
  * It also implies a memory barrier.
  */
-static __inline__ int test_and_change_bit(int nr, volatile void * addr)
+static __inline int test_and_change_bit(int nr, volatile void * addr)
 {
 	int oldbit;
 
+    __asm
+    {
+            mov eax, nr
+            mov ebx, addr
+    lock    btc [ebx], eax
+            sbb eax, eax			// result into eax
+			mov	oldbit,eax			// store in oldbit for returning (0 or 1)
+    }
+	/*
 	__asm__ __volatile__( LOCK_PREFIX
 		"btcl %2,%1\n\tsbbl %0,%0"
 		:"=r" (oldbit),"=m" (ADDR)
-		:"Ir" (nr) : "memory");
+		:"Ir" (nr) : "memory");*/
 	return oldbit;
 }
 
@@ -240,19 +307,27 @@ static __inline__ int test_and_change_bit(int nr, volatile void * addr)
 static int test_bit(int nr, const volatile void * addr);
 #endif
 
-static __inline__ int constant_test_bit(int nr, const volatile void * addr)
+static __inline int constant_test_bit(int nr, const volatile void * addr)
 {
 	return ((1UL << (nr & 31)) & (((const volatile unsigned int *) addr)[nr >> 5])) != 0;
 }
 
-static __inline__ int variable_test_bit(int nr, volatile void * addr)
+static __inline int variable_test_bit(int nr, volatile void * addr)
 {
 	int oldbit;
-
+    __asm
+    {
+            mov eax, nr
+            mov ebx, addr
+    lock    bt  [ebx], eax
+            sbb eax, eax			// result into eax
+			mov	oldbit,eax			// store in oldbit for returning (0 or 1)
+    }
+	/*
 	__asm__ __volatile__(
 		"btl %2,%1\n\tsbbl %0,%0"
 		:"=r" (oldbit)
-		:"m" (ADDR),"Ir" (nr));
+		:"m" (ADDR),"Ir" (nr));*/
 	return oldbit;
 }
 
@@ -269,7 +344,8 @@ static __inline__ int variable_test_bit(int nr, volatile void * addr)
  * Returns the bit-number of the first zero bit, not the number of the byte
  * containing a bit.
  */
-static __inline__ int find_first_zero_bit(void * addr, unsigned size)
+#if 0
+static __inline int find_first_zero_bit(void * addr, unsigned size)
 {
 	int d0, d1, d2;
 	int res;
@@ -292,13 +368,14 @@ static __inline__ int find_first_zero_bit(void * addr, unsigned size)
 		:"1" ((size + 31) >> 5), "2" (addr), "b" (addr));
 	return res;
 }
-
+#endif 
 /**
  * find_next_zero_bit - find the first zero bit in a memory region
  * @addr: The address to base the search on
  * @offset: The bitnumber to start searching at
  * @size: The maximum size to search
  */
+#if 0
 static __inline__ int find_next_zero_bit (void * addr, int size, int offset)
 {
 	unsigned long * p = ((unsigned long *) addr) + (offset >> 5);
@@ -325,19 +402,27 @@ static __inline__ int find_next_zero_bit (void * addr, int size, int offset)
 	res = find_first_zero_bit (p, size - 32 * (p - (unsigned long *) addr));
 	return (offset + set + res);
 }
-
+#endif 
 /**
  * ffz - find first zero in word.
  * @word: The word to search
  *
  * Undefined if no zero exists, so code should check against ~0UL first.
  */
-static __inline__ unsigned long ffz(unsigned long word)
+static __inline unsigned long ffz(unsigned long DWordValue )
 {
-	__asm__("bsfl %1,%0"
+	unsigned long OutputData;
+    __asm
+    {
+            xor eax, eax
+            mov ebx, DWordValue
+    lock    bsf eax, ebx
+			mov	OutputData,eax			// store in oldbit for returning (0 or 1)
+    }
+/*	__asm__("bsfl %1,%0"
 		:"=r" (word)
-		:"r" (~word));
-	return word;
+		:"r" (~word));*/
+	return OutputData;
 }
 
 #ifdef __KERNEL__
