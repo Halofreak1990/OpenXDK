@@ -19,6 +19,7 @@ extern "C" {
 # endif
 
 #include	<openxdk.h>
+#include	<stdarg.h>
 
 
 #define _O_RDONLY					(0x00000001)
@@ -59,6 +60,7 @@ int _close( int handle );
 int _lseek( int handle, u32 offset, int base );
 
 //int printf(const char *format, ...);
+int vsnprintf( char *buffer, unsigned int count, char *format, va_list ap );
 int sprintf(char*, const char *format, ...);
 
 
