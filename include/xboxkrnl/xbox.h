@@ -51,7 +51,12 @@ XBSYSAPI EXPORTNUM(4) VOID NTAPI AvSetSavedDataAddress
 
 XBSYSAPI VOID *FscGetCacheSize;
 XBSYSAPI VOID *FscInvalidateIdleBlocks;
-XBSYSAPI VOID *FscSetCacheSize;
+
+// ******************************************************************
+// * FscSetCacheSize
+// ******************************************************************
+XBSYSAPI EXPORTNUM(37) LONG NTAPI FscSetCacheSize(ULONG uCachePages);
+
 XBSYSAPI VOID *KdDebuggerEnabled;
 XBSYSAPI VOID *KdDebuggerNotPresent;
 XBSYSAPI VOID *KfRaiseIrql;
