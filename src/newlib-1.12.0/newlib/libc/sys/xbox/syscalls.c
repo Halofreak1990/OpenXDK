@@ -112,9 +112,7 @@ int close(int fd)
 
 int execve(char *name, char **argv, char **env)
 {
-	// one of these days I will write code that kicks
-	// off a new XBE file, but for now, it isn't supported
-	errno = EACCES;
+	XLaunchXBE(name);
 	return -1;
 }
 

@@ -3,8 +3,9 @@
 
 <h1>OpenXDK FAQ</h1>
 <h2>My application doesn't seem to launch</h2>
-There are usually two causes for this:
+There are usually three causes for this:
 <ol>
+<li>You are running with an xecuter bios.  For some reason, OpenXDK applications will not run using this BIOS.  I personally use Evox, but there are a number of others that work (<a href="http://www.xbox-scene.com/bios_retail.html">click here</a> to see some info about which bios's are supported).  I am trying desperately to work out why this is happening!!<br><br></li>
 <li>Your XBE file is not able to be loaded by the kernel due to import issues.  An 
 example of this is if you try to dynamially link to code that is provided by Cygwin.
 Usually, the linker flag <code>-nostdlib</code> stops this from happening, but if
@@ -40,7 +41,7 @@ only entry you should see is the one from <code>xboxkrnl.exe</code>.  In additio
 the entries in <code>xboxkrnl.exe</code> all have to be imported via ordinal, not by name.
 If you see a name, then that is bad also (you have most likely used a function that
 hasn't yet been defined in the xboxkrnl.  See <a href="extending.html">extending the OpenXDK</a>
-for more details<br><br></li>
+for more details</li>
 <li>There has been a runtime error in the execution of your code.  This is usually a bugger
 to track down!  Things to look for are dereferencing NULL pointers, array index out of bounds,
 etc (the same sort of things that normally cause a core dump).  The only way I have 
