@@ -1,10 +1,10 @@
 <html>
 <link rel="STYLESHEET" href="style.css" Type="text/css"/>
 
-<h1>Developing using OpenXDK</h1>
+<h1>Developing your application using OpenXDK</h1>
 OK, so you have (hopefully) read the <a href="overview.html">overview</a>, the <a href="xbox.html">XBOX details</a> and are still keen to develop XBOX applications.  You need to have installed the OpenXDK headers and libraries as per the instructions in the <a href="installing.html">installation guide</a>.  Before you progress to actually developing application, there are a few more housekeeping items that probably need to be described.
 <p>
-For simplicities sake, I will assume that you have extracted the OpenXDK files into <code>/OpenXDK</code>.  It doesn't really matter where you put it... I just need somewhere so I can describe relative paths of various files.
+For simplicities sake, I will assume that you have extracted the OpenXDK source into <code>/home/craig/openxdk</code>, and installed the libraries into <code>/usr/local/openxdk</code>.  It doesn't really matter where you put it... I just need somewhere so I can describe relative paths of various files.
 <p>
 
 <h2>Development process</h2>
@@ -43,10 +43,11 @@ An example invocation might look like:
 cxbe -OUT:default.xbe -DUMPINFO:cxbe.txt -TITLE:CoolApp CoolApp.exe
 </pre> 
 
+<code>cxbe</code> is built as part of the installation process and can be found in the <code>/usr/local/openxdk/bin</code> directory.
 <h2>libc</h2>
-In a normal gcc development environment you get a system library called libc that gives you such features as malloc, fopen, etc.  Now, this library is very operating system specific (think about it - it allocates memory, access files, etc) and normally provided by your Cygwin installation.  However, the Cygwin libc obviously doesn't know how to access the XBOX file system, or allocate memory, and so on, so we had to provide our own implementation.  The implementation that I chose to use was <a href="http://sources.redhat.com/newlib">newlib</a>.  It is designed to be portable with new implementations filling out a bunch of predefined stubs.  If you are curious to see how that works, have a look at:
+In a normal gcc development environment you get a system library called libc that gives you such features as malloc, fopen, etc.  Now, this library is very operating system specific (think about it - it allocates memory, access files, etc) and is normally provided by your Cygwin installation.  However, the Cygwin libc obviously doesn't know how to access the XBOX file system, or allocate memory, and so on, so we had to provide our own implementation.  The implementation that I chose to use was <a href="http://sources.redhat.com/newlib">newlib</a>.  It is designed to be portable with new implementations filling out a bunch of predefined stubs.  If you are curious to see how that works, have a look at:
 <pre>
-/OpenXDK/newlib-1.12.0/newlib/libc/sys/xbox/syscalls.c
+/home/craig/openxdk/newlib-1.12.0/newlib/libc/sys/xbox/syscalls.c
 </pre>
 
 <h2>Compiler Options</h2>
@@ -139,7 +140,7 @@ Compiling is only half the battle.  The next challenge is linking correctly so t
 An example of a <code>makefile</code> that I normally use is:
 <pre>
 # 
-CC = gcc 
+CC = i386-pc-gcc 
 CXBE = cxbe 
 
 SDLFLAGS = -DENABLE_XBOX -DDISABLE_AUDIO -DDISABLE_CDROM -DDISABLE_THREADS -DDISABLE_TIMERS -DDISABLE_ENDIAN -DDISABLE_FILE 

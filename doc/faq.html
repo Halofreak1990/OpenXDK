@@ -68,6 +68,16 @@ however by using the following code somewhere near the start of your program:<p>
 freopen ("c:/stdout.txt", "w", stdout);
 freopen ("c:/stderr.txt", "w", stderr);
 </pre>
+
+<h2>Undefined reference to __imp__XXX</h2>
+There were some changes checked into Cygwin's <code>winbase.h</code> in August 2004 that caused
+the OpenXDK build process to fail.  They have subsequently been backed out (or more correctly, modified), but
+not before they made it into production Cygwin builds.  Version 0.06 of OpenXDK has a fix to handle all cases of the following error:
+<pre>
+/usr/local/openxdk/i386-pc-xbox/lib/libc.a(mallocr.o)(.text+0x1b): In function makeGmListElement':
+/usr/local/OpenXDK/src/newlib-1.12.0/i386-pc-xbox/newlib/libc/stdlib/../../../../newlib/libc/stdlib/mallocr.c:1112: undefined reference to 
+`__imp__LocalAlloc@8'
+</pre>
 <br>
 <hr>
 <center>Back to <a href="index.html">Home Page</a></center>
