@@ -31,14 +31,12 @@ extern "C" {
 #define RESOLUTION_800		0x20030101
 #define RESOLUTION_1024		0x200B0101
 
-
 // ******************************************************************
 // * Parameters for AvSendTVEncoderOption
 // ******************************************************************
 #define AV_OPTION_SET_MACROVISION		0x01
 #define AV_OPTION_CONFIRM_MACROVISION	0x0A
 #define AV_OPTION_SET_FLICKER_FILTER	0x0B
-
 
 // ******************************************************************
 // * NVidia registers base / offsets
@@ -70,7 +68,6 @@ extern "C" {
 #define NVPTR_BLIT		((PNV_BLIT)(NV_REGBASE + NV_FIFO + 0x6000))
 #define NVPTR_BITMAP	((PNV_BITMAP)(NV_REGBASE + NV_FIFO + 0xA000))
 #define NVPTR_LINE		((PNV_LINE)(NV_REGBASE + NV_FIFO + 0xC000))
-
 
 // ******************************************************************
 // * Registers

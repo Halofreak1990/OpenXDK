@@ -9,9 +9,8 @@
 // * note : XBox VGA
 // *
 // ******************************************************************
-
-#ifndef XVGATABLES_H
-#define XVGATABLES_H
+#ifndef XVGA_TABLES_H
+#define XVGA_TABLES_H
 
 #include "xvga_internal.h"
 

@@ -9,8 +9,8 @@
 // * note : XBox VGA
 // *
 // ******************************************************************
-#ifndef XVGAINTERNAL_H
-#define XVGAINTERNAL_H
+#ifndef XVGA_INTERNAL_H
+#define XVGA_INTERNAL_H
 
 #include "openxdk.h"
 
@@ -32,9 +32,7 @@ static volatile char * const SEQ_REG_INDEX  = (char * const)0xFD0c03c4;
 static volatile char * const SEQ_REG_DATA   = (char * const)0xFD0c03c5;
 static volatile char * const MISC_REG       = (char * const)0xFD0c03c2;
 
-//from bigboy's code
 #define XVGA_VBL 0xfd6013da
-
 
 // ******************************************************************
 // * vga_reg
