@@ -4,7 +4,9 @@
 <h1>Developing your application using OpenXDK</h1>
 OK, so you have (hopefully) read the <a href="overview.html">overview</a>, the <a href="xbox.html">XBOX details</a> and are still keen to develop XBOX applications.  You need to have installed the OpenXDK headers and libraries as per the instructions in the <a href="installing.html">installation guide</a>.  Before you progress to actually developing application, there are a few more housekeeping items that probably need to be described.
 <p>
-For simplicities sake, I will assume that you have extracted the OpenXDK source into <code>/home/craig/openxdk</code>, and installed the libraries into <code>/usr/local/openxdk</code>.  It doesn't really matter where you put it... I just need somewhere so I can describe relative paths of various files.
+For simplicities sake, I will assume that you have installed the libraries into <code>/usr/local/openxdk</code>.  It doesn't really matter where you put it... I just need somewhere so I can describe relative paths of various files.  In addition, although you don't actually need the source to the OpenXDK
+libraries to compile your own application, I will assume you extracted the OpenXDK source into <code>/home/craig/openxdk</code>.
+
 <p>
 
 <h2>Development process</h2>
@@ -139,35 +141,39 @@ Compiling is only half the battle.  The next challenge is linking correctly so t
 <h2>Example makefile</h2>
 An example of a <code>makefile</code> that I normally use is:
 <pre>
-# 
-CC = i386-pc-gcc 
-CXBE = cxbe 
+#
+# update this variable to wherever you installed the OpenXDK libraries
+#
+PREFIX = /usr/local/openxdk
 
-SDLFLAGS = -DENABLE_XBOX -DDISABLE_AUDIO -DDISABLE_CDROM -DDISABLE_THREADS -DDISABLE_TIMERS -DDISABLE_ENDIAN -DDISABLE_FILE 
-CC_FLAGS = -c -g -std=gnu99 -ffreestanding -nostdlib -fno-builtin -fno-exceptions -mno-cygwin -march=i386 $(SDLFLAGS) 
-INCLUDE  = -I/usr/local/i386-pc-xbox/include -I/usr/local/include 
+CC = i386-pc-xbox-gcc
+CXBE = cxbe
 
-CLINK = -nostdlib 
+SDLFLAGS = -DENABLE_XBOX -DDISABLE_CDROM 
+CC_FLAGS = -c -g -std=gnu99 -ffreestanding -nostdlib -fno-builtin -fno-exceptions -mno-cygwin -march=i386 $(SDLFLAGS)
+INCLUDE  = -I$(PREFIX)/i386-pc-xbox/include -I$(PREFIX)/include -I$(PREFIX)/include/SDL
+
+CLINK = -nostdlib
 ALIGN = -Wl,--file-alignment,0x20 -Wl,--section-alignment,0x20 
-SHARED = -shared 
+SHARED = -shared
 ENTRYPOINT = -Wl,--entry,_WinMainCRTStartup 
-STRIP = -Wl,--strip-all 
-LD_FLAGS = $(CLINK) $(ALIGN) $(SHARED) $(ENTRYPOINT) $(STRIP) 
-LD_DIRS = -L/usr/local/i386-pc-xbox/lib -L/usr/local/lib 
-LD_LIBS  = $(LD_DIRS) -lSDL -lopenxdk -lhal -lc -lhal -lc -lusb -lxboxkrnl 
+STRIP = -Wl,--strip-all
+LD_FLAGS = $(CLINK) $(ALIGN) $(SHARED) $(ENTRYPOINT) $(STRIP)
+LD_DIRS = -L$(PREFIX)/i386-pc-xbox/lib -L$(PREFIX)/lib 
+LD_LIBS  = $(LD_DIRS) -lSDL -lopenxdk -lhal -lc -lhal -lc -lusb -lxboxkrnl
 
+all: blah.exe
 
-all: blah.exe 
-
-.c.o: 
-        $(CC) -c $< $(CC_FLAGS) $(INCLUDE) 
+.c.o:
+	$(CC) -c $< $(CC_FLAGS) $(INCLUDE)
 
 blah.exe: blah.o 
-        $(CC) -o $@ $< $(LD_LIBS) $(LD_FLAGS) 
-        $(CXBE) -TITLE:"$@" -DUMPINFO:"blah.cxbe" -OUT:"blah.xbe" $@ > /dev/null 
+	$(CC) -o $@ $< $(LD_LIBS) $(LD_FLAGS)
+	$(CXBE) -TITLE:"$@" -DUMPINFO:"blah.cxbe" -OUT:"blah.xbe" $@ > /dev/null
 
 clean: 
-        rm -f *.o *.exe *.dll *.xbe *.cxbe 
+	rm -f *.o *.exe *.dll *.xbe *.cxbe
+
 </pre>
 
 <h2>Available APIs</h2>
