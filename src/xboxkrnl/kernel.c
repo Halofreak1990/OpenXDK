@@ -12,7 +12,12 @@
 #define _XBOXKRNL_INTERNAL_
 #include "xboxkrnl/xboxkrnl.h"
 
-void EntryDummy(){}
+// ******************************************************************
+// * XboxKrnlEntryDummy
+// ******************************************************************
+XBSYSAPI VOID XboxKrnlEntryDummy()
+{
+}
 
 XBSYSAPI VOID *KeAlertResumeThread = 0;
 XBSYSAPI VOID *KeAlertThread = 0;

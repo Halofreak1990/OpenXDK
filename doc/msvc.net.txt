@@ -26,7 +26,7 @@
     c) Setting Compiler and Linker Options
     d) Setting Required Directories
     e) Configuring CXBE for Custom Build
-    f) Adding WinMainCRTStartup
+    f) Adding XBoxStartup
     g) Building Your Project
 
 ------------------------------------------------------------------
@@ -175,7 +175,7 @@
 
     After you have added these settings, just click "OK".
 
-    f) Adding WinMainCRTStartup
+    f) Adding XBoxStartup
 
     The last requirement to complete your project configuration is to include
     a valid entry point for your application. Typically, the below code is a
@@ -183,7 +183,7 @@
 
 #include <openxdk.h>
 
-void WinMainCRTStartup()
+void XBoxStartup()
 {
     HalReturnToFirmware(ReturnFirmwareFatal);
     return;

@@ -71,6 +71,10 @@ SOURCE=.\src\xhal\xohci_pci.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\xhal\xstartup.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\xhal\xsysfont.c
 # End Source File
 # Begin Source File
