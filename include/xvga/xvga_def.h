@@ -47,16 +47,16 @@ vga_reg;
 // ******************************************************************
 // * vga mode definitions
 // ******************************************************************
-extern vga_reg mode_256x240[];
-extern vga_reg mode_320x240[];
-extern vga_reg mode_320x200[];
+extern vga_reg xvga_mode_256x240[];
+extern vga_reg xvga_mode_320x240[];
+extern vga_reg xvga_mode_320x200[];
 
 // ******************************************************************
 // * mode sizes
 // ******************************************************************
-#define MODE256x240SIZE (sizeof(*mode_256x240)/sizeof(vga_reg))
-#define MODE320x240SIZE (sizeof(*mode_320x240)/sizeof(vga_reg))
-#define MODE320x200SIZE (sizeof(*mode_320x200)/sizeof(vga_reg))
+#define MODE256x240SIZE (sizeof(*xvga_mode_256x240)/sizeof(vga_reg))
+#define MODE320x240SIZE (sizeof(*xvga_mode_320x240)/sizeof(vga_reg))
+#define MODE320x200SIZE (sizeof(*xvga_mode_320x200)/sizeof(vga_reg))
 
 // ******************************************************************
 // * NVidia registers base / offsets

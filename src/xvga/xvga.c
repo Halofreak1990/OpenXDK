@@ -23,7 +23,7 @@ static void write_vgareg(int port, int index, int value);
 // ******************************************************************
 void init_unchained(void)
 {
-    uint08 x;
+    uint08 x = 0;
 
     CRTC_WRITE(CRTC_REG_INDEX, 0x11);
 
@@ -71,44 +71,42 @@ void write_vgareg(int port, int index, int value)
 }
 
 // ******************************************************************
-// * xvga_set256x240
+// * xvga_setmode
 // ******************************************************************
-void xvga_set256x240()
+void xvga_setmode(xvga_mode mode)
 {
-    uint32 v = 0;
+    vga_reg *table = 0;
+    uint32   tsize = 0;
+
+    switch(mode)
+    {
+        case XVGA_MODE_256x240:
+            table = xvga_mode_256x240;
+            tsize = MODE256x240SIZE;
+            break;
+        case XVGA_MODE_320x240:
+            table = xvga_mode_320x240;
+            tsize = MODE320x240SIZE;
+            break;
+        case XVGA_MODE_320x200:
+            table = xvga_mode_320x200;
+            tsize = MODE320x200SIZE;
+            break;
+        default:
+            return;
+    }
 
     init_unchained();
 
-    for(v=0;v<MODE256x240SIZE;v++)
-        write_vgareg(mode_256x240[v].port, mode_256x240[v].index, mode_256x240[v].value);
-}
+    // ******************************************************************
+    // * set mode registers
+    // ******************************************************************
+    {
+        uint32 v = 0;
 
-
-// ******************************************************************
-// * xvga_set320x240
-// ******************************************************************
-void xvga_set320x240()
-{
-    uint32 v = 0;
-
-    init_unchained();
-
-    for(v=0;v<MODE320x240SIZE;v++)
-        write_vgareg(mode_320x240[v].port, mode_320x240[v].index, mode_320x240[v].value);
-}
-
-
-// ******************************************************************
-// * xvga_set320x200
-// ******************************************************************
-void xvga_set320x200()
-{
-    uint32 v = 0;
-
-    init_unchained();
-
-    for(v=0;v<MODE320x200SIZE;v++)
-        write_vgareg(mode_320x200[v].port, mode_320x200[v].index, mode_320x200[v].value);
+        for(v=0;v<tsize;v++)
+            write_vgareg(table[v].port, table[v].index, table[v].value);
+    }
 }
 
 // ******************************************************************
@@ -120,5 +118,17 @@ void xvga_wait_vblank()
     while(CRTC_READ(VERTICAL_BLANK) & 0x08);
 
     // wait until we are in vblank
+    while(!(CRTC_READ(VERTICAL_BLANK) & 0x08));
+}
+
+// ******************************************************************
+// * xvga_wait_vblank_end
+// ******************************************************************
+void xvga_wait_vblank_end()
+{
+    // wait until we are in vblank
     while(CRTC_READ(VERTICAL_BLANK) ^ 0x08);
+
+    // wait until we are not vblank
+    while(CRTC_READ(VERTICAL_BLANK) & 0x08);
 }
