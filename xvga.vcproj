@@ -41,7 +41,8 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile=".\lib\xvga.lib"
-				SuppressStartupBanner="TRUE"/>
+				SuppressStartupBanner="TRUE"
+				IgnoreAllDefaultLibraries="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool

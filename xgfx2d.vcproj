@@ -43,7 +43,8 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile=".\lib\xgfx2d.lib"
-				SuppressStartupBanner="TRUE"/>
+				SuppressStartupBanner="TRUE"
+				IgnoreAllDefaultLibraries="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool

@@ -46,7 +46,8 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="lib\glibc.lib"
-				SuppressStartupBanner="TRUE"/>
+				SuppressStartupBanner="TRUE"
+				IgnoreAllDefaultLibraries="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
