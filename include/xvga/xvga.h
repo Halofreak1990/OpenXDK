@@ -34,20 +34,12 @@ xvga_mode;
 // * set video mode
 // ******************************************************************
 extern void xvga_setmode(xvga_mode mode);
-extern void xvga_set256x240();
-extern void xvga_set320x240();
-extern void xvga_set320x200();
 
 // ******************************************************************
 // * wait for vblank / end vblank
 // ******************************************************************
 extern void xvga_wait_vblank();
 extern void xvga_wait_vblank_end();
-
-// ******************************************************************
-// * framebuffer pointer
-// ******************************************************************
-extern void *xvga_framebuffer();
 
 #if defined(__cplusplus)
 }

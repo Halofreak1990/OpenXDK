@@ -19,6 +19,71 @@ static void init_unchained(void);
 static void write_vgareg(int port, int index, int value);
 
 // ******************************************************************
+// * xvga_setmode
+// ******************************************************************
+void xvga_setmode(xvga_mode mode)
+{
+    vga_reg *table = 0;
+    uint32   tsize = 0;
+
+    switch(mode)
+    {
+        case XVGA_MODE_256x240:
+            table = xvga_mode_256x240;
+            tsize = MODE256x240SIZE;
+            break;
+        case XVGA_MODE_320x240:
+            table = xvga_mode_320x240;
+            tsize = MODE320x240SIZE;
+            break;
+        case XVGA_MODE_320x200:
+            table = xvga_mode_320x200;
+            tsize = MODE320x200SIZE;
+            break;
+        default:
+            return;
+    }
+
+    init_unchained();
+
+    // ******************************************************************
+    // * set mode registers
+    // ******************************************************************
+    {
+        uint32 v = 0;
+
+        for(v=0;v<tsize;v++)
+            write_vgareg(table[v].port, table[v].index, table[v].value);
+    }
+
+//    CRTC_WRITEL(FB_REG, 0xF0040240 );
+}
+
+// ******************************************************************
+// * xvga_wait_vblank
+// ******************************************************************
+void xvga_wait_vblank()
+{
+    // wait until we are not vblank
+    while(CRTC_READ(VERTICAL_BLANK) & 0x08);
+
+    // wait until we are in vblank
+    while(!(CRTC_READ(VERTICAL_BLANK) & 0x08));
+}
+
+// ******************************************************************
+// * xvga_wait_vblank_end
+// ******************************************************************
+void xvga_wait_vblank_end()
+{
+    // wait until we are in vblank
+    while(CRTC_READ(VERTICAL_BLANK) ^ 0x08);
+
+    // wait until we are not vblank
+    while(CRTC_READ(VERTICAL_BLANK) & 0x08);
+}
+
+// ******************************************************************
 // * init_unchained
 // ******************************************************************
 void init_unchained(void)
@@ -68,67 +133,4 @@ void write_vgareg(int port, int index, int value)
         real_port[0] = index;
         real_port[1] = value;
     }
-}
-
-// ******************************************************************
-// * xvga_setmode
-// ******************************************************************
-void xvga_setmode(xvga_mode mode)
-{
-    vga_reg *table = 0;
-    uint32   tsize = 0;
-
-    switch(mode)
-    {
-        case XVGA_MODE_256x240:
-            table = xvga_mode_256x240;
-            tsize = MODE256x240SIZE;
-            break;
-        case XVGA_MODE_320x240:
-            table = xvga_mode_320x240;
-            tsize = MODE320x240SIZE;
-            break;
-        case XVGA_MODE_320x200:
-            table = xvga_mode_320x200;
-            tsize = MODE320x200SIZE;
-            break;
-        default:
-            return;
-    }
-
-    init_unchained();
-
-    // ******************************************************************
-    // * set mode registers
-    // ******************************************************************
-    {
-        uint32 v = 0;
-
-        for(v=0;v<tsize;v++)
-            write_vgareg(table[v].port, table[v].index, table[v].value);
-    }
-}
-
-// ******************************************************************
-// * xvga_wait_vblank
-// ******************************************************************
-void xvga_wait_vblank()
-{
-    // wait until we are not vblank
-    while(CRTC_READ(VERTICAL_BLANK) & 0x08);
-
-    // wait until we are in vblank
-    while(!(CRTC_READ(VERTICAL_BLANK) & 0x08));
-}
-
-// ******************************************************************
-// * xvga_wait_vblank_end
-// ******************************************************************
-void xvga_wait_vblank_end()
-{
-    // wait until we are in vblank
-    while(CRTC_READ(VERTICAL_BLANK) ^ 0x08);
-
-    // wait until we are not vblank
-    while(CRTC_READ(VERTICAL_BLANK) & 0x08);
 }

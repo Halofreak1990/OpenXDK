@@ -71,11 +71,7 @@ SOURCE=.\include\xvga\xvga.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\xvga\xvga_internal.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\xvga\xvga_tables.h
+SOURCE=.\include\xvga\xvga_def.h
 # End Source File
 # End Group
 # End Target

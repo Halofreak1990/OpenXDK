@@ -54,9 +54,9 @@ extern vga_reg xvga_mode_320x200[];
 // ******************************************************************
 // * mode sizes
 // ******************************************************************
-#define MODE256x240SIZE (sizeof(*xvga_mode_256x240)/sizeof(vga_reg))
-#define MODE320x240SIZE (sizeof(*xvga_mode_320x240)/sizeof(vga_reg))
-#define MODE320x200SIZE (sizeof(*xvga_mode_320x200)/sizeof(vga_reg))
+extern uint32 MODE256x240SIZE;
+extern uint32 MODE320x240SIZE;
+extern uint32 MODE320x200SIZE;
 
 // ******************************************************************
 // * NVidia registers base / offsets
@@ -78,6 +78,7 @@ static const int ATTR_REG_INDEX = 0x13c0;
 static const int ATTR_REG_DATA  = 0x13c1;
 static const int CRTC_REG_INDEX = 0x13d4;
 static const int CRTC_REG_DATA  = 0x13d5;
+static const int FB_REG         = 0x0800;
 static const int VERTICAL_BLANK = 0x13DA;
 static const int GRA_REG_INDEX  = 0x03ce;
 static const int GRA_REG_DATA   = 0x03cf;
@@ -108,6 +109,11 @@ static const int MISC_REG       = 0x03c2;
 #define MISC_READL(a)      (*((volatile uint32*)(NV_REGBASE + NV_MISC + (a))))
 #define MISC_WRITE(a,b)     *((volatile uint08*)(NV_REGBASE + NV_MISC + (a)))  = (b)
 #define MISC_WRITEL(a,b)    *((volatile uint32*)(NV_REGBASE + NV_MISC + (a)))  = (b)
+
+// ******************************************************************
+// * frame buffer
+// ******************************************************************
+#define FRAMEBUFFER ((void*)(0xF0040240))
 
 #if defined(__cplusplus)
 }
