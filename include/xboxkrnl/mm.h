@@ -111,7 +111,13 @@ XBSYSAPI EXPORTNUM(180) ULONG NTAPI MmQueryAllocationSize
     IN PVOID   BaseAddress
 );
 
-XBSYSAPI VOID *MmQueryStatistics;
+// ******************************************************************
+// * MmQueryStatistics
+// ******************************************************************
+XBSYSAPI EXPORTNUM(181) NTSTATUS NTAPI MmQueryStatistics
+(
+    OUT PMM_STATISTICS MemoryStatistics
+);
 
 // ******************************************************************
 // * MmSetAddressProtect

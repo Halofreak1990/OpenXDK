@@ -90,8 +90,22 @@ XBSYSAPI VOID *KeLeaveCriticalRegion = 0;
 XBSYSAPI VOID *KePulseEvent = 0;
 XBSYSAPI VOID *KeQueryBasePriorityThread = 0;
 XBSYSAPI VOID *KeQueryInterruptTime = 0;
-XBSYSAPI VOID *KeQueryPerformanceCounter = 0;
-XBSYSAPI VOID *KeQueryPerformanceFrequency = 0;
+
+// ******************************************************************
+// * KeQueryPerformanceCounter
+// ******************************************************************
+XBSYSAPI EXPORTNUM(126) VOID __cdecl KeQueryPerformanceCounter()
+{
+    return;
+}
+
+// ******************************************************************
+// * KeQueryPerformanceFrequency
+// ******************************************************************
+XBSYSAPI EXPORTNUM(127) VOID __cdecl KeQueryPerformanceFrequency()
+{
+    return;
+}
 
 // ******************************************************************
 // * KeQuerySystemTime

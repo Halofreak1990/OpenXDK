@@ -133,7 +133,16 @@ XBSYSAPI EXPORTNUM(180) ULONG NTAPI MmQueryAllocationSize
     return 0;
 }
 
-XBSYSAPI VOID *MmQueryStatistics = 0;
+// ******************************************************************
+// * MmQueryStatistics
+// ******************************************************************
+XBSYSAPI EXPORTNUM(181) NTSTATUS NTAPI MmQueryStatistics
+(
+    OUT PMM_STATISTICS MemoryStatistics
+)
+{
+    return STATUS_SUCCESS;
+}
 
 // ******************************************************************
 // * MmQueryAllocationSize

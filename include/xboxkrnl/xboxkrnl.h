@@ -410,6 +410,23 @@ typedef struct _FILE_DIRECTORY_INFORMATION
 FILE_DIRECTORY_INFORMATION;
 
 // ******************************************************************
+// * MM_STATISTICS
+// ******************************************************************
+typedef struct _MM_STATISTICS
+{
+    ULONG   Length;
+    ULONG   TotalPhysicalPages;
+    ULONG   AvailablePages;
+    ULONG   VirtualMemoryBytesCommitted;
+    ULONG   VirtualMemoryBytesReserved;
+    ULONG   CachePagesCommitted;
+    ULONG   PoolPagesCommitted;
+    ULONG   StackPagesCommitted;
+    ULONG   ImagePagesCommitted;
+}
+MM_STATISTICS, *PMM_STATISTICS;
+
+// ******************************************************************
 // * IO_STATUS_BLOCK *Same as Win2k/XP*
 // ******************************************************************
 typedef struct _IO_STATUS_BLOCK
