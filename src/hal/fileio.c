@@ -2,6 +2,12 @@
 #include <hal/fileio.h>
 #include <xboxkrnl/xboxkrnl.h>
 
+// #define DEBUG 
+
+#ifdef DEBUG
+	#include <openxdk/debug.h>
+#endif
+
 char currentDrive = 'C';
 char *partitions[] = 
 {
@@ -122,6 +128,10 @@ int XCreateFile(
 	IO_STATUS_BLOCK   ioStatusBlock;
 	NTSTATUS          status;
 
+#ifdef DEBUG
+	debugPrint("XCreateFile filename=%s access=%08x shared=%08x creation=%08x flags=%08x ", filename, desiredAccess, sharedMode, creationDisposition, flagsAndAttributes);
+#endif
+
 	// first thing we do is invalidate the handle
 	*handle = INVALID_HANDLE_VALUE;
 	
@@ -220,6 +230,10 @@ int XCreateFile(
 		status = STATUS_SUCCESS;
 	}
 
+#ifdef DEBUG
+	debugPrint(" ==>  handle=%08x status=%08x\n", *handle, status);
+#endif
+
 	return status;
 }	
 
@@ -231,6 +245,10 @@ int XReadFile(
 {
 	IO_STATUS_BLOCK ioStatusBlock;
 	NTSTATUS        status;
+
+#ifdef DEBUG
+	debugPrint("XReadFile handle=%08x numberOfBytesToRead=%08x\n", handle, numberOfBytesToRead);
+#endif
 	
 	if (numberOfBytesRead)
 		*numberOfBytesRead = 0;
@@ -267,6 +285,10 @@ int XWriteFile(
 	IO_STATUS_BLOCK ioStatusBlock;
 	NTSTATUS        status;
 
+#ifdef DEBUG
+	debugPrint("XWriteFile handle=%08x numberOfBytesToWrite=%08x\n", handle, numberOfBytesToWrite);
+#endif
+
 	if(numberOfBytesWritten)
 		*numberOfBytesWritten = 0;
 	
@@ -298,6 +320,10 @@ int XCloseHandle(int handle)
 {
 	NTSTATUS status = NtClose((void*)handle);
 
+#ifdef DEBUG
+	debugPrint("XCloseHandle handle=%08x\n", handle);
+#endif
+
 	if (!NT_SUCCESS(status))
 		return RtlNtStatusToDosError(status);
 	else
@@ -310,6 +336,10 @@ int XGetFileSize(int handle, unsigned int *filesize)
 	IO_STATUS_BLOCK               ioStatusBlock;
 	FILE_NETWORK_OPEN_INFORMATION openInfo;
 	
+#ifdef DEBUG
+	debugPrint("XGetFileSize handle=%08x\n", handle);
+#endif
+
 	// We use FileNetworkOpenInformation from NtQueryInformationFile to get
 	// the file size.  This trick I got from Windows XP's implementation,
 	// which seems to work on XBOX.
@@ -342,6 +372,10 @@ int XSetFilePointer(
 	NTSTATUS                  status;
 	int                       filesize;
 	
+#ifdef DEBUG
+	debugPrint("XSetFilePointer handle=%08x distance=%08x method=%02x\n", handle, distanceToMove, moveMethod);
+#endif
+
 	// Calculate the target pointer
 	switch (moveMethod)
 	{
@@ -397,6 +431,10 @@ int XRenameFile(
 	FILE_RENAME_INFORMATION renameInfo;
 	NTSTATUS                status;
 	int                     handle;
+
+#ifdef DEBUG
+	debugPrint("XRenameFile oldFilename=%s newFilename=%s\n", oldFilename, newFilename);
+#endif
 
 	char tmp[200];
 	int rc = XConvertDOSFilenameToXBOX(oldFilename, tmp);
@@ -460,6 +498,10 @@ int XCreateDirectory(char *directoryName)
 	NTSTATUS          status;
 	int               handle;
 
+#ifdef DEBUG
+	debugPrint("XCreateDirectory directoryName=%s\n", directoryName);
+#endif
+
 	char tmp[200];
 	int rc = XConvertDOSFilenameToXBOX(directoryName, tmp);
 	if (rc != STATUS_SUCCESS)
@@ -499,6 +541,10 @@ int XDeleteFile(char *fileName)
 	FILE_DISPOSITION_INFORMATION deleteInfo;
 	NTSTATUS                     status;
 	int                          handle;
+
+#ifdef DEBUG
+	debugPrint("XDeleteFile fileName=%s\n", fileName);
+#endif
 
 	char tmp[200];
 	int rc = XConvertDOSFilenameToXBOX(fileName, tmp);
@@ -552,6 +598,10 @@ int XDeleteDirectory(char *directoryName)
 	FILE_DISPOSITION_INFORMATION deleteInfo;
 	NTSTATUS                     status;
 	int                          handle;
+
+#ifdef DEBUG
+	debugPrint("XDeleteDirectory directoryName=%s\n", directoryName);
+#endif
 
 	char tmp[200];
 	int rc = XConvertDOSFilenameToXBOX(directoryName, tmp);
