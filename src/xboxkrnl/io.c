@@ -19,7 +19,27 @@ XBSYSAPI VOID *IoBuildSynchronousFsdRequest = 0;
 XBSYSAPI VOID *IoCheckShareAccess = 0;
 XBSYSAPI VOID *IoCompletionObjectType = 0;
 XBSYSAPI VOID *IoCreateDevice = 0;
-XBSYSAPI VOID *IoCreateFile = 0;
+
+// ******************************************************************
+// * IoCreateFile
+// ******************************************************************
+XBSYSAPI EXPORTNUM(66) NTSTATUS NTAPI IoCreateFile
+(
+    OUT PHANDLE             FileHandle,
+    IN  ACCESS_MASK         DesiredAccess,
+    IN  POBJECT_ATTRIBUTES  ObjectAttributes,
+    OUT PIO_STATUS_BLOCK    IoStatusBlock,
+    IN  PLARGE_INTEGER      AllocationSize,
+    IN  ULONG               FileAttributes,
+    IN  ULONG               ShareAccess,
+    IN  ULONG               Disposition,
+    IN  ULONG               CreateOptions,
+    IN  ULONG               Options
+)
+{
+    return STATUS_SUCCESS;
+}
+
 XBSYSAPI VOID *IoCreateSymbolicLink = 0;
 XBSYSAPI VOID *IoDeleteDevice = 0;
 XBSYSAPI VOID *IoDeleteSymbolicLink = 0;
