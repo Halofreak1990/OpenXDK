@@ -40,7 +40,18 @@ XBSYSAPI EXPORTNUM(166) PVOID NTAPI MmAllocateContiguousMemoryEx
     return NULL;
 }
 
-XBSYSAPI VOID *MmAllocateSystemMemory = 0;
+// ******************************************************************
+// * MmAllocateSystemMemory
+// ******************************************************************
+XBSYSAPI EXPORTNUM(167) PVOID NTAPI MmAllocateSystemMemory
+(
+    ULONG NumberOfBytes,
+    ULONG Protect
+)
+{
+    return NULL;
+}
+
 XBSYSAPI VOID *MmClaimGpuInstanceMemory = 0;
 XBSYSAPI VOID *MmCreateKernelStack = 0;
 XBSYSAPI VOID *MmDeleteKernelStack = 0;
@@ -56,7 +67,17 @@ XBSYSAPI EXPORTNUM(171) VOID NTAPI MmFreeContiguousMemory
     return;
 }
 
-XBSYSAPI VOID *MmFreeSystemMemory = 0;
+// ******************************************************************
+// * MmFreeSystemMemory
+// ******************************************************************
+XBSYSAPI EXPORTNUM(172) NTSTATUS NTAPI MmFreeSystemMemory
+(
+    PVOID BaseAddress,
+    ULONG NumberOfBytes
+)
+{
+    return STATUS_SUCCESS;
+}
 
 // ******************************************************************
 // * MmGetPhysicalAddress
