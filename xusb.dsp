@@ -37,7 +37,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "lib\xusb"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /G6 /W3 /GX- /O2 /X /I "include\xusb" /I "include" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /FD /c
+# ADD CPP /nologo /G6 /W3 /O2 /X /I "include\xusb" /I "include" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
@@ -50,11 +50,27 @@ LIB32=link.exe -lib
 # Begin Target
 
 # Name "xusb - Win32 Release"
-# Begin Group "src"
+# Begin Group "include"
 
 # PROP Default_Filter ""
+# Begin Group "linux"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\xusb\linux\usb.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\xusb\linux\usb_ch9.h
+# End Source File
 # End Group
-# Begin Group "inc"
+# Begin Source File
+
+SOURCE=.\include\xusb\xusb.h
+# End Source File
+# End Group
+# Begin Group "src"
 
 # PROP Default_Filter ""
 # End Group

@@ -25,7 +25,7 @@ extern "C" {
 #define DELETE							(0x00010000L)
 
 #ifndef PAGE_SIZE
-#define PAGE_SIZE			(0x1000)			//PAGE_SIZE
+#define PAGE_SIZE 4096
 #endif 
 #define ALIGN_SIZE			(0x10000)			// NT's allocation alignment size (64k)
 
