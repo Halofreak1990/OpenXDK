@@ -95,7 +95,7 @@ void charmap_render_character( s32 x, s32 y )
 // ******************************************************************
 void charmap_blit_screen( void )
 {
-#if 1
+#if 0
 	ScreenInfo	ScrStruct = vga_get_screen_info();
 	PCharMap	pCharMap = g_pCharMap;						// get current screen
 	s32			x,y,w,h;
