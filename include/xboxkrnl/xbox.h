@@ -62,7 +62,7 @@ XBSYSAPI VOID *KiUnlockDispatcherDatabase;
 // ******************************************************************
 // * LaunchDataPage (actually a pointer)
 // ******************************************************************
-XBSYSAPI DWORD LaunchDataPage;
+XBSYSAPI EXPORTNUM(164) DWORD LaunchDataPage;
 
 XBSYSAPI VOID *PhyGetLinkState;
 XBSYSAPI VOID *PhyInitialize;
@@ -72,7 +72,11 @@ XBSYSAPI VOID *PhyInitialize;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(321) UCHAR XboxEEPROMKey[16];
 
-XBSYSAPI VOID *XboxHardwareInfo;
+// ******************************************************************
+// * XboxHardwareInfo
+// ******************************************************************
+XBSYSAPI EXPORTNUM(322) XBOX_HARDWARE_INFO XboxHardwareInfo;
+
 XBSYSAPI VOID *XboxHDKey;
 XBSYSAPI VOID *XboxKrnlVersion;
 XBSYSAPI VOID *XboxSignatureKey;

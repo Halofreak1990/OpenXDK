@@ -37,7 +37,15 @@ XBSYSAPI EXPORTNUM(66) NTSTATUS NTAPI IoCreateFile
     IN  ULONG               Options
 );
 
-XBSYSAPI VOID *IoCreateSymbolicLink;
+// ******************************************************************
+// * IoCreateSymbolicLink
+// ******************************************************************
+XBSYSAPI EXPORTNUM(67) NTSTATUS IoCreateSymbolicLink
+(
+    IN PSTRING SymbolicLinkName,
+    IN PSTRING DeviceName
+);
+
 XBSYSAPI VOID *IoDeleteDevice;
 XBSYSAPI VOID *IoDeleteSymbolicLink;
 XBSYSAPI VOID *IoDeviceObjectType;

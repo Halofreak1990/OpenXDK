@@ -99,50 +99,6 @@ extern "C" {
 #define OBJ_VALID_ATTRIBUTES                    (0x000003F2L)
 
 // ******************************************************************
-// * For NtQueryInformationFile / NtSetInformationFile
-// ******************************************************************
-typedef enum _FILE_INFORMATION_CLASS
-{
-    FileDirectoryInformation = 1,
-    FileFullDirectoryInformation,
-    FileBothDirectoryInformation,
-    FileBasicInformation,       // known supported for "set" only; query???
-    FileStandardInformation,    // known NOT supported; use NetworkOpen instead
-    FileInternalInformation,
-    FileEaInformation,
-    FileAccessInformation,
-    FileNameInformation,
-    FileRenameInformation,
-    FileLinkInformation,
-    FileNamesInformation,
-    FileDispositionInformation, // known to be supported; not tested
-    FilePositionInformation,    // known to be supported; not tested
-    FileFullEaInformation,
-    FileModeInformation,
-    FileAlignmentInformation,
-    FileAllInformation,
-    FileAllocationInformation,
-    FileEndOfFileInformation,
-    FileAlternateNameInformation,
-    FileStreamInformation,
-    FilePipeInformation,
-    FilePipeLocalInformation,
-    FilePipeRemoteInformation,
-    FileMailslotQueryInformation,
-    FileMailslotSetInformation,
-    FileCompressionInformation,
-    FileObjectIdInformation,
-    FileCompletionInformation,
-    FileMoveClusterInformation,
-    FileQuotaInformation,
-    FileReparsePointInformation,
-    FileNetworkOpenInformation,     // known to be supported
-    FileAttributeTagInformation,
-    FileTrackingInformation
-}
-FILE_INFORMATION_CLASS, *PFILE_INFORMATION_CLASS;
-
-// ******************************************************************
 // * File pointer information (SetFilePointer, etc)
 // ******************************************************************
 typedef struct _FILE_POSITION_INFORMATION

@@ -83,6 +83,7 @@ typedef unsigned long       SIZE_T, *PSIZE_T;
 typedef unsigned long       ACCESS_MASK, *PACCESS_MASK;
 typedef unsigned long       PHYSICAL_ADDRESS;
 typedef long                INT_PTR;
+typedef signed __int64      LONGLONG;
 typedef unsigned __int64    ULONGLONG;
 
 // ******************************************************************
@@ -134,6 +135,7 @@ typedef long                            NTSTATUS;
 #define STATUS_TOO_MANY_SECRETS			 ((DWORD   )0xC0000156L)  
 #define STATUS_XBE_REGION_MISMATCH		 ((DWORD   )0xC0050001L)  
 #define STATUS_XBE_MEDIA_MISMATCH		 ((DWORD   )0xC0050002L)  
+#define STATUS_OBJECT_NAME_COLLISION     ((DWORD   )0xC0000035L)
 
 // ******************************************************************
 // * PAGE Masks
@@ -186,10 +188,16 @@ MODE;
 // ******************************************************************
 // * LARGE_INTEGER
 // ******************************************************************
-typedef struct _LARGE_INTEGER
+typedef union _LARGE_INTEGER
 {
-    DWORD   LowPart;
-    LONG    HighPart;
+    struct
+    {
+        DWORD   LowPart;
+        LONG    HighPart;
+    }
+    u;
+
+    LONGLONG QuadPart;
 }
 LARGE_INTEGER, *PLARGE_INTEGER;
 
@@ -238,6 +246,67 @@ typedef struct _LIST_ENTRY
 LIST_ENTRY, *PLIST_ENTRY;
 
 // ******************************************************************
+// * FILE_FS_SIZE_INFORMATION
+// ******************************************************************
+typedef struct _FILE_FS_SIZE_INFORMATION
+{
+    LARGE_INTEGER	TotalAllocationUnits;
+    LARGE_INTEGER	AvailableAllocationUnits;
+    ULONG		    SectorsPerAllocationUnit;
+    ULONG		    BytesPerSector;
+}
+FILE_FS_SIZE_INFORMATION, *PFILE_FS_SIZE_INFORMATION;
+
+// ******************************************************************
+// * FILE_INFORMATION_CLASS
+// ******************************************************************
+typedef enum _FILE_INFORMATION_CLASS
+{
+    FileDirectoryInformation        = 1,
+    FileFullDirectoryInformation,
+    FileBothDirectoryInformation,
+    FileBasicInformation,
+    FileStandardInformation,
+    FileInternalInformation,
+    FileEaInformation,
+    FileAccessInformation,
+    FileNameInformation,
+    FileRenameInformation,
+    FileLinkInformation,
+    FileNamesInformation,
+    FileDispositionInformation,
+    FilePositionInformation,
+    FileFullEaInformation,
+    FileModeInformation,
+    FileAlignmentInformation,
+    FileAllInformation,
+    FileAllocationInformation,
+    FileEndOfFileInformation,
+    FileAlternateNameInformation,
+    FileStreamInformation,
+    FilePipeInformation,
+    FilePipeLocalInformation,
+    FilePipeRemoteInformation,
+    FileMailslotQueryInformation,
+    FileMailslotSetInformation,
+    FileCompressionInformation,
+    FileCopyOnWriteInformation,
+    FileCompletionInformation,
+    FileMoveClusterInformation,
+    FileQuotaInformation,
+    FileReparsePointInformation,
+    FileNetworkOpenInformation,
+    FileObjectIdInformation,
+    FileTrackingInformation,
+    FileOleDirectoryInformation,
+    FileContentIndexInformation,
+    FileInheritContentIndexInformation,
+    FileOleInformation,
+    FileMaximumInformation
+}
+FILE_INFORMATION_CLASS, *PFILE_INFORMATION_CLASS;
+
+// ******************************************************************
 // * OBJECT_ATTRIBUTES
 // ******************************************************************
 typedef struct _OBJECT_ATTRIBUTES
@@ -268,7 +337,7 @@ FS_INFORMATION_CLASS, *PFS_INFORMATION_CLASS;
 // ******************************************************************
 // * IO_STATUS_BLOCK *Same as Win2k/XP*
 // ******************************************************************
-typedef struct  _IO_STATUS_BLOCK
+typedef struct _IO_STATUS_BLOCK
 {
     union
     {
@@ -584,6 +653,19 @@ typedef enum _EEPROM_INDEX
     EEPROM_MISC = 0x11
 }
 EEPROM_INDEX, *PEEPROM_INDEX;
+
+// ******************************************************************
+// * XBOX_HARDWARE_INFO
+// ******************************************************************
+typedef struct _XBOX_HARDWARE_INFO
+{
+    ULONG Flags;
+    UCHAR Unknown1;
+    UCHAR Unknown2;
+    UCHAR Unknown3;
+    UCHAR Unknown4;
+}
+XBOX_HARDWARE_INFO;
 
 // ******************************************************************
 // * READ_REGISTER_UCHAR

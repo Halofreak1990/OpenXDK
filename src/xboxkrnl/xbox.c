@@ -84,7 +84,11 @@ XBSYSAPI VOID *PhyInitialize = 0;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(321) UCHAR XboxEEPROMKey[16];
 
-XBSYSAPI VOID *XboxHardwareInfo = 0;
+// ******************************************************************
+// * XboxHardwareInfo
+// ******************************************************************
+XBSYSAPI EXPORTNUM(322) XBOX_HARDWARE_INFO XboxHardwareInfo;
+
 XBSYSAPI VOID *XboxHDKey = 0;
 XBSYSAPI VOID *XboxKrnlVersion = 0;
 XBSYSAPI VOID *XboxSignatureKey = 0;

@@ -417,8 +417,8 @@ int ReadFile
 
     if (lpOverlapped)
     {
-        Offset.LowPart = lpOverlapped->Offset;
-        Offset.HighPart = lpOverlapped->OffsetHigh;
+        Offset.u.LowPart = lpOverlapped->Offset;
+        Offset.u.HighPart = lpOverlapped->OffsetHigh;
         lpOverlapped->Internal = STATUS_PENDING;
 
         Status = NtReadFile(
@@ -562,12 +562,12 @@ int SetFilePointerEx(   HANDLE hFile,
     IO_STATUS_BLOCK                 IoStatusBlock;
     NTSTATUS                        Status;
 
-    TargetPointer.HighPart = liDistanceToMove.HighPart;
+    TargetPointer.u.HighPart = liDistanceToMove.u.HighPart;
     // Calculate the target pointer
     switch (dwMoveMethod)
     {
         // From the beginning of the file
-        case FILE_BEGIN:            TargetPointer.LowPart = liDistanceToMove.LowPart;
+        case FILE_BEGIN:            TargetPointer.u.LowPart = liDistanceToMove.u.LowPart;
                                     break;
 
         // From the current position
@@ -575,8 +575,8 @@ int SetFilePointerEx(   HANDLE hFile,
                                     if(Status!=NO_ERROR) goto Error;
 
                                     // Calculate new file pointer
-                                    TargetPointer.LowPart = PositionInfo.CurrentByteOffset.LowPart + liDistanceToMove.LowPart;
-                                    //*((PLARGE_INTEGER) &TargetPointer.LowPart) = AddU64((PLARGE_INTEGER) &(PositionInfo.CurrentByteOffset.LowPart) , (PLARGE_INTEGER) &(liDistanceToMove.LowPart));
+                                    TargetPointer.u.LowPart = PositionInfo.CurrentByteOffset.u.LowPart + liDistanceToMove.u.LowPart;
+                                    //*((PLARGE_INTEGER) &TargetPointer.u.LowPart) = AddU64((PLARGE_INTEGER) &(PositionInfo.CurrentByteOffset.u.LowPart) , (PLARGE_INTEGER) &(liDistanceToMove.u.LowPart));
                                     break;
 
         // From the end of the file
@@ -584,7 +584,7 @@ int SetFilePointerEx(   HANDLE hFile,
                                     goto ErrorWin32;
 
                                     // Calculate new file pointer
-                                    TargetPointer.LowPart -= liDistanceToMove.LowPart;
+                                    TargetPointer.u.LowPart -= liDistanceToMove.u.LowPart;
                                     //TargetPointer.QuadPart -= liDistanceToMove.QuadPart;
                                     break;
 
@@ -595,15 +595,15 @@ int SetFilePointerEx(   HANDLE hFile,
 
     // Don't allow a negative seek
     //if (TargetPointer.QuadPart < 0)
-    if ( (TargetPointer.LowPart&0x80000000) != 0)
+    if ( (TargetPointer.u.LowPart&0x80000000) != 0)
     {
         SetLastError(ERROR_NEGATIVE_SEEK);
         goto ErrorWin32;
     }
 
     // Fill in the new position information
-    PositionInfo.CurrentByteOffset.HighPart = TargetPointer.HighPart;
-    PositionInfo.CurrentByteOffset.LowPart= TargetPointer.LowPart;
+    PositionInfo.CurrentByteOffset.u.HighPart = TargetPointer.u.HighPart;
+    PositionInfo.CurrentByteOffset.u.LowPart= TargetPointer.u.LowPart;
 
     // Set the new position
     Status = NtSetInformationFile( (void*) hFile, &IoStatusBlock,&PositionInfo, sizeof(PositionInfo), FilePositionInformation );
@@ -611,8 +611,8 @@ int SetFilePointerEx(   HANDLE hFile,
 
     // Return the new pointer
     if (lpNewFilePointer) {
-        lpNewFilePointer->HighPart = TargetPointer.HighPart;
-        lpNewFilePointer->LowPart = TargetPointer.LowPart;
+        lpNewFilePointer->u.HighPart = TargetPointer.u.HighPart;
+        lpNewFilePointer->u.LowPart = TargetPointer.u.LowPart;
     }
     return TRUE;
 
@@ -655,8 +655,8 @@ int WriteFile(  HANDLE          hFile,
 
     if (lpOverlapped)
     {
-        Offset.LowPart = lpOverlapped->Offset;
-        Offset.HighPart = lpOverlapped->OffsetHigh;
+        Offset.u.LowPart = lpOverlapped->Offset;
+        Offset.u.HighPart = lpOverlapped->OffsetHigh;
         lpOverlapped->Internal = STATUS_PENDING;
 
         Status = NtWriteFile(

@@ -141,14 +141,14 @@ int _lseek( int handle, u32 offset, int base )
 		case	SEEK_CUR:	flags = FILE_CURRENT; break;
 		case	SEEK_END:	flags = FILE_END; break;
 	}
-	Distance.HighPart = 0;
-	Distance.LowPart = offset;
+	Distance.u.HighPart = 0;
+	Distance.u.LowPart = offset;
 
-	NewLocation.HighPart=0;
-	NewLocation.LowPart=0;
+	NewLocation.u.HighPart=0;
+	NewLocation.u.LowPart=0;
 
 	SetFilePointerEx( (HANDLE)handle, Distance, &NewLocation, flags );
-	return NewLocation.LowPart;
+	return NewLocation.u.LowPart;
 }
 
 
