@@ -21,6 +21,7 @@
 #define		__CHARMAP_H_
 
 #include <openxdk.h>
+#include <stdio.h>
 
 #if defined(__cplusplus)
 extern "C"
@@ -102,6 +103,7 @@ void charmap_init( s32 baseX, s32 baseY, s32 width, s32 height );
 void charmap_display( void );
 void charmap_clear( void );
 void charmap_print( char *pStr );
+void charmap_printf( const char *format, ...);
 void charmap_printat( s32 x, s32 y, char *pStr );
 void charmap_outchar( char Ch );
 void charmap_newline( void );

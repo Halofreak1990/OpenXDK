@@ -14,9 +14,10 @@
 // ******************************************************************
 
 #include <openxdk.h>
+#include <malloc.h>
+#include <stdio.h>
 #include "xhal/xvga_def.h"
 #include <xgfx2d/charmap.h>
-#include <malloc.h>
 
 #include <xgfx2d/bitmap.h>
 #include <xgfx2d/blit.h>
@@ -29,6 +30,8 @@
 	u32			CharMap_Attrib[]={	0x00000000, 0x000000ff, 0x0000ff00,0x00ff0000, 
 									0x0000ffff, 0x00ffff00, 0x00ff00ff,0x00ffffff
 	};
+
+	char		g_TempString[16385];		// 16K string MAX
 
 // ******************************************************************
 // * charmap_render_character
@@ -405,6 +408,29 @@ void charmap_print( char *pStr )
 }
 
 
+// ******************************************************************
+// * charmap_print
+// ******************************************************************
+// *
+// * Print a string into our character map display
+// *
+// ******************************************************************
+void charmap_printf( const char *format, ...)
+{
+	PCharMap	pCharMap = g_pCharMap;									// get current screen
+	va_list		Params;
+	int			ret;
+	char*		pStr;
+
+	va_start(Params, format);
+	ret = vsnprintf( g_TempString, 0x4000, (char*) format, Params);
+	va_end(Params);
+
+	pStr = &g_TempString[0];
+	while(*pStr!=0x00 ){
+		charmap_outchar(*pStr++);
+	}
+}
 
 // ******************************************************************
 // * charmap_printat
