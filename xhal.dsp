@@ -75,7 +75,7 @@ SOURCE=.\src\xhal\xfile.c
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=.\include\xhal\NVidia.h
+SOURCE=.\include\xhal\nvidia.h
 # End Source File
 # Begin Source File
 
