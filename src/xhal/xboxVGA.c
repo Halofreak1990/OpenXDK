@@ -21,6 +21,8 @@
 	u32	FrontBuffer=0;					// Current screen address (visible)
 	u32	BackBuffer=0;						// Current back buffer
 
+
+	int	_fltused;
 	//
 	// 
 	//
@@ -194,7 +196,7 @@ void outReg(Register r)
 //********************************************************
 void NVSetScreenAddress( void )
 {
-	while(CRTC_READ(NV_INPUT_STATUS) & 0x08);		// Wait for VBLANK to start
+	//while(CRTC_READ(NV_INPUT_STATUS) & 0x08);		// Wait for VBLANK to start
 
 	// swap buffers around
 	FrontBuffer ^= BackBuffer;
@@ -206,7 +208,7 @@ void NVSetScreenAddress( void )
 		CRTC_WRITEL(NV_CRTC_FB_ADDR, FrontBuffer );
 	}
 
-	while(!(CRTC_READ(NV_INPUT_STATUS) & 0x08));	// Wait till start of frame.... Why?
+	//while(!(CRTC_READ(NV_INPUT_STATUS) & 0x08));	// Wait till start of frame.... Why?
 
 }
 
@@ -373,7 +375,7 @@ void	Box( int x1,int y1, int x2,int y2 )
 // **************************************************************************
 void	WaitVBlank ( void )
 {
-	/*
+
 #ifndef	_PCEMU
 	while(1){
 		unsigned char a =  *((volatile unsigned char*)(VBL));
@@ -388,7 +390,7 @@ void	WaitVBlank ( void )
 		}
 	}
 #endif
-    */
+    
 }
 
 // **************************************************************************
