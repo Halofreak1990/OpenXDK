@@ -39,6 +39,12 @@ typedef struct
 
 //creates a bitmap, sized WxH
 Bitmap *create_bitmap(int w, int h);
+
+//gets the screen bitmap, so you can draw to it easily
+//you have to have inited VGA before calling this
+//also currently UNTESTED, but should work :D
+Bitmap *get_screen_bitmap();
+
 //destroys a bitmap
 void destroy_bitmap(Bitmap *bmp);
 

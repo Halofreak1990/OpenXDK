@@ -32,6 +32,22 @@ void destroy_bitmap(Bitmap *bmp)
 	free(bmp);
 }
 
+
+//this stuff will have to be changed later
+Bitmap __screenbitmap;
+
+Bitmap *get_screen_bitmap()
+{
+	if (__screenbitmap.data==0)
+	{
+		__screenbitmap.data=pScreenBuffer;
+		__screenbitmap.w=320;
+		__screenbitmap.h=240;
+		__screenbitmap.pitch=320;
+	}
+	return &__screenbitmap;
+}
+
 //UNTESTED, assuming standard Type 2 32-bit TGA files
 // will probably load images upside down :D
 Bitmap *load_tga(char *filename)
