@@ -39,21 +39,26 @@ extern "C"
 // * Basic types
 // ******************************************************************
 typedef char                CHAR;
-typedef char               *PCHAR;
-typedef char               *PCSZ;
-typedef void                VOID;
-typedef void               *PVOID;
 typedef unsigned char       BYTE;
-typedef BYTE                BOOLEAN;
-typedef	unsigned int		DWORD;
+typedef unsigned char       BOOLEAN;
 typedef unsigned short      USHORT;
-typedef unsigned long       ULONG;
-typedef	long				LONG;
-typedef unsigned long      *PULONG;
-typedef unsigned long       PHYSICAL_ADDRESS;
-typedef long               *LONG_PTR;
 typedef	unsigned short		WORD;
+typedef unsigned long       ULONG;
+typedef	unsigned long       DWORD;
 typedef unsigned long       SIZE_T;
+typedef unsigned long       PHYSICAL_ADDRESS;
+typedef	long				LONG;
+typedef void                VOID;
+
+// ******************************************************************
+// * Pointer types
+// ******************************************************************
+typedef CHAR               *PCHAR;
+typedef CHAR               *PCSZ;
+typedef BOOLEAN            *PBOOLEAN;
+typedef ULONG              *PULONG;
+typedef LONG               *LONG_PTR;
+typedef VOID               *PVOID;
 typedef void               *HANDLE;
 typedef HANDLE             *PHANDLE;
 
