@@ -203,24 +203,24 @@ PCI_SLOT_NUMBER, *PPCI_SLOT_NUMBER;
 // ******************************************************************
 typedef struct _PCI_COMMON_CONFIG
 {
-    USHORT  VendorID;                   // (ro)
-    USHORT  DeviceID;                   // (ro)
-    USHORT  Command;                    // Device control
-    USHORT  Status;
-    UCHAR   RevisionID;                 // (ro)
-    UCHAR   ProgIf;                     // (ro)
-    UCHAR   SubClass;                   // (ro)
-    UCHAR   BaseClass;                  // (ro)
-    UCHAR   CacheLineSize;              // (ro+)
-    UCHAR   LatencyTimer;               // (ro+)
-    UCHAR   HeaderType;                 // (ro)
-    UCHAR   BIST;                       // Built in self test
+    USHORT  VendorID;                   // 0x00 (ro)
+    USHORT  DeviceID;                   // 0x02 (ro)
+    USHORT  Command;                    // 0x04 Device control
+    USHORT  Status;                     // 0x06
+    UCHAR   RevisionID;                 // 0x08 (ro)
+    UCHAR   ProgIf;                     // 0x09 (ro)
+    UCHAR   SubClass;                   // 0x0A (ro)
+    UCHAR   BaseClass;                  // 0x0B (ro)
+    UCHAR   CacheLineSize;              // 0x0C (ro+)
+    UCHAR   LatencyTimer;               // 0x0D (ro+)
+    UCHAR   HeaderType;                 // 0x0E (ro)
+    UCHAR   BIST;                       // 0x0F Built in self test
 
     union
     {
         struct _PCI_HEADER_TYPE_0
         {
-            ULONG   BaseAddresses[PCI_TYPE0_ADDRESSES];
+            ULONG   BaseAddresses[PCI_TYPE0_ADDRESSES]; // 0x10
             ULONG   CIS;
             USHORT  SubVendorID;
             USHORT  SubSystemID;
