@@ -39,7 +39,7 @@ Bitmap __screenbitmap;
 
 Bitmap *get_screen_bitmap()
 {
-	SScreen screen = GetScreen();
+	ScreenInfo screen = vga_get_screen_info();
 	__screenbitmap.data = (uint32 *)screen.ScreenAddress;
 	__screenbitmap.w = g_ScreenWidth; //ugly, why doesn't this come with SScreen?
 	__screenbitmap.h = g_ScreenHeight;

@@ -18,7 +18,6 @@ extern "C" {
 #endif
 
 #include	"openxdk.h"
-#include	"NVidia.h"
 
 //
 // Bit depths
@@ -60,56 +59,40 @@ extern "C" {
 
 
 // GetScreen() return struct
-typedef	struct SScreen{
+typedef	struct {
 	u32	ScreenAddress;
 	u32	lpitch;
-}SScreen;
+} ScreenInfo;
 
+//for print
+#define	FONT_SOLID			(1)				// render font with SOLID background (with paper colour)
+#define	FONT_WRAP			(2)				// Wrap PRINT's when they go off the screen
 
-extern	u8 SystemFont[];						// handy to use system font
-
-
-
-extern	u32	g_nFlags;
-extern	u32	g_nInk;
-extern	u32	g_nPaper;
-extern	u8	*pFont;								// point to the system Font by default. You can change it to your own
-
-extern	u32	pScreenBuffer[];					// Our screen (software emulated for LOW res just now)
-extern	u32	FrontBuffer;						// Current screen address (visible)
-extern	u32	BackBuffer;							// Current back buffer
-extern	u32	g_nFontFlags;
-
-extern	u32	_FrontBuffer;						// Current screen address (visible)
-extern	u32	_BackBuffer;						// Current back buffer
-extern	u32	_Framebuffer;
 extern  u32	g_ScreenWidth;			// Current Screen Width
 extern  u32	g_ScreenHeight;			// Current Screen Height
 
-extern	int	_fltused;
 // **************************************************************
 //
 //	User Functions
 //
 // **************************************************************
-void	InitMode( int Mode );					// Init VGA screen to a selected mode
-void	WaitVBlank( void );						// Wait for vertical blank
-void	Flip( void );							// Flip buffers
-void	Cls( void );							// Clear screen
-SScreen	GetScreen( void );						// get screen base address
-void	Box( int x1,int y1, int x2,int y2 );	// Draw wireframe BOX (WHITE)
-void	Print( int x, int y, char* pText );		// Draw text using SYSTEM font (32bit modes only just now)
+void	vga_init_mode( int Mode );					// Init VGA screen to a selected mode
+void	vga_vsync( void );						// Wait for vertical blank
+void	vga_flip( void );							// Flip buffers
+ScreenInfo	vga_get_screen_info( void );						// get screen base address
+
+//debugging purposes
+void	vga_clear( void );							// Clear screen
+void	vga_box( int x1,int y1, int x2,int y2 );	// Draw wireframe BOX (WHITE)
+void	vga_print( int x, int y, char* pText );		// Draw text using SYSTEM font (32bit modes only just now)
 
 // **************************************************************
 //
 // Misc things... will be used later
 //
 // **************************************************************
-void	SetColour( int reg, int R, int G, int B );
-void	SetReg( int port, int reg, int data );
-
-
-
+void	vga_set_color( int reg, int R, int G, int B );
+void	vga_set_reg( int port, int reg, int data );
 
 
 

@@ -17,6 +17,27 @@
 extern "C" {
 #endif
 
+
+	
+extern	u8 SystemFont[];						// handy to use system font
+
+
+
+extern	u32	g_nFlags;
+extern	u32	g_nInk;
+extern	u32	g_nPaper;
+extern	u8	*pFont;								// point to the system Font by default. You can change it to your own
+
+extern	u32	pScreenBuffer[];					// Our screen (software emulated for LOW res just now)
+extern	u32	FrontBuffer;						// Current screen address (visible)
+extern	u32	BackBuffer;							// Current back buffer
+extern	u32	g_nFontFlags;
+
+extern	u32	_FrontBuffer;						// Current screen address (visible)
+extern	u32	_BackBuffer;						// Current back buffer
+extern	u32	_Framebuffer;
+
+
 // **************************************************************
 //
 // internally used stuff
@@ -49,8 +70,9 @@ extern "C" {
 #define	XHAL_320SCREEN		(1)				// Software emulation of 320x??? mode
 #define	YHAL_200SCREEN		(2)				// Center 200 screen inside a 240 one
 
-#define	FONT_SOLID			(1)				// render font with SOLID background (with paper colour)
-#define	FONT_WRAP			(2)				// Wrap PRINT's when they go off the screen
+
+//what is the purpose of this?
+extern int _fltused;
 
 /*
 	xxxxADDR defines the base port number used to access VGA component xxxx,
@@ -64,8 +86,8 @@ extern "C" {
 		STATUS		-	Status Register
 */
 typedef struct
-	{
-			short	port;
+{
+	short	port;
 	unsigned char	index;
 	unsigned char	value;
 } Register;
@@ -77,7 +99,6 @@ typedef struct
 #define GRACON_ADDR		0x3ce
 #define CRTC_ADDR		0x3d4
 #define STATUS_ADDR		0x3da
-
 
 
 /*

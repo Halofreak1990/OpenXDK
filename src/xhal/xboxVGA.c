@@ -17,30 +17,31 @@
 #include	<openxdk.h>
 
 #include "xhal/xboxvga_internal.h"
+#include "xhal/NVidia.h"
 
-	u32	pScreenBuffer[320*240];			// Our screen (software emulated for LOW res just now)
-	u32	FrontBuffer=0;					// Current screen address (visible)
-	u32	BackBuffer=0;						// Current back buffer
+u32	pScreenBuffer[320*240];			// Our screen (software emulated for LOW res just now)
+u32	FrontBuffer=0;					// Current screen address (visible)
+u32	BackBuffer=0;						// Current back buffer
 
-	u32	_FrontBuffer=0;					// Current screen address (visible)
-	u32	_BackBuffer=0;						// Current back buffer
-	u32	_Framebuffer;
+u32	_FrontBuffer=0;					// Current screen address (visible)
+u32	_BackBuffer=0;						// Current back buffer
+u32	_Framebuffer;
 
 
-	int	_fltused;
-	//
-	// 
-	//
-	u32	g_nFlags=0;						// System flags
-	u32	g_nScreenRes=0;					// Current Screen RES
+int	_fltused;
+//
+// 
+//
+u32	g_nFlags=0;						// System flags
+u32	g_nScreenRes=0;					// Current Screen RES
 
-	u32	g_ScreenWidth = 320;			// Current Screen Width
-	u32	g_ScreenHeight = 240;			// Current Screen Height
-	u32	g_nBPP=4;						// number of bytes per pixel
+u32	g_ScreenWidth = 320;			// Current Screen Width
+u32	g_ScreenHeight = 240;			// Current Screen Height
+u32	g_nBPP=4;						// number of bytes per pixel
 
-	u32	g_nFontFlags=0;
-	u32	g_nInk = 0xffffff;
-	u32	g_nPaper=0x000000;
+u32	g_nFontFlags=0;
+u32	g_nInk = 0xffffff;
+u32	g_nPaper=0x000000;
 
 
 // These will get binned soon
@@ -197,7 +198,7 @@ void outReg(Register r)
 // Flip buffers (320x240) or (320x200) only just now...more later
 //
 // **************************************************************************
-void	Flip( void )
+void	vga_flip( void )
 {
 #ifndef	_PCEMU
 
@@ -253,9 +254,9 @@ void	Flip( void )
 //				This is simulated just now, since the screen is copied
 //
 // **************************************************************************
-SScreen	GetScreen( void )
+ScreenInfo vga_get_screen_info( void )
 {
-	SScreen Scr;
+	ScreenInfo Scr;
 
 	if(	(g_nFlags & XHAL_320SCREEN) != 0 ){
 		if(	(g_nFlags & YHAL_200SCREEN) != 0 ){
@@ -286,7 +287,7 @@ SScreen	GetScreen( void )
 //	Out:		none
 //
 // **************************************************************************
-void InitMode( int Mode )
+void vga_init_mode( int Mode )
 {
 #ifndef	_PCEMU
 	int	i=0;
@@ -379,10 +380,10 @@ void InitMode( int Mode )
 //	Function:	Clear the screen to BLACK (better will follow)
 //
 // **************************************************************************
-void	Cls( void )
+void vga_clear( void )
 {
 	u32		c, size = g_ScreenWidth*g_ScreenHeight;
-	SScreen	ScrStruct = GetScreen();
+	ScreenInfo ScrStruct = vga_get_screen_info();
 	u32*	pScr = (u32*)ScrStruct.ScreenAddress;
 
 	for(c=0;c<size;c++){
@@ -400,10 +401,10 @@ void	Cls( void )
 //	Out:	none
 //
 // **************************************************************************
-void	Box( int x1,int y1, int x2,int y2 )
+void vga_box( int x1,int y1, int x2,int y2 )
 {
 	int	x,y;
-	SScreen	ScrStruct = GetScreen();
+	ScreenInfo ScrStruct = vga_get_screen_info();
 	u32*	pScreen = (u32*)ScrStruct.ScreenAddress;
 
 	x2 = x1+x2;
@@ -428,7 +429,7 @@ void	Box( int x1,int y1, int x2,int y2 )
 //	Function:	Wait for vertical blanking. Must be a nicer way to handle this.
 //
 // **************************************************************************
-void	WaitVBlank ( void )
+void vga_vsync( void )
 {
 
 #ifndef	_PCEMU
@@ -459,7 +460,7 @@ void	WaitVBlank ( void )
 //	Out:		none
 //
 // **************************************************************************
-void	SetReg( int port, int reg, int data )
+void vga_set_reg( int port, int reg, int data )
 {
 	if( port == 0x3c0){	
 		*((volatile unsigned char*)(XBV_ATTR_REG_INDEX)) = reg|0x20;
@@ -485,7 +486,7 @@ void	SetReg( int port, int reg, int data )
 //	Out:		none
 //
 // **************************************************************************
-void	SetColour( int reg, int R, int G, int B )
+void vga_set_color( int reg, int R, int G, int B )
 {
 	*((volatile unsigned char*)(XBV_COLOUR_REG)) = reg;
 	*((volatile unsigned char*)(XBV_COLOUR_DATA)) = R;
@@ -593,7 +594,7 @@ void OutChar(int x, int y, char c )
 	u8*		pData;
 	int		ScrMod, DataMod;
 	int		cx;
-	SScreen	ScrStruct = GetScreen();
+	ScreenInfo	ScrStruct = vga_get_screen_info();
 	u32*	pScreen = (u32*)ScrStruct.ScreenAddress;
 
 	if( x>(int)g_ScreenWidth ) return;		// clip x>max
@@ -658,7 +659,7 @@ void OutChar(int x, int y, char c )
 // Out:			None
 //
 //********************************************************
-void Print( int x, int y, char* pText )
+void vga_print( int x, int y, char* pText )
 {
 #ifndef	_PCEMU
 	int		StartX=x;
