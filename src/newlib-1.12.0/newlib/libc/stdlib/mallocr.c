@@ -1084,10 +1084,8 @@ struct mallinfo mALLINFo();
 #define AlignPage(add) (((add) + (malloc_getpagesize-1)) & \
 ~(malloc_getpagesize-1))
 
-/* resrve 8MB to insure large contiguous space */ 
-/* changed from 64MB - because the XBOX only has 64 to */
-/* start with... don't want to use it all at once */
-#define RESERVED_SIZE (1024*1024*8)
+/* resrve 64MB to insure large contiguous space */ 
+#define RESERVED_SIZE (1024*1024*64)
 #define NEXT_SIZE (2048*1024)
 #define TOP_MEMORY ((unsigned long)2*1024*1024*1024)
 
