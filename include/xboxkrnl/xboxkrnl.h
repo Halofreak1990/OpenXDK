@@ -669,10 +669,25 @@ NT_TIB, *PNT_TIB;
 typedef struct _KTHREAD
 {
     UCHAR           UnknownA[0x28];
-    PVOID           TlsData;                                        // 0x28
-    UCHAR           UnknownB[0x10C];                                // 0x2C
+    PVOID           TlsData;        // 0x28
+    UCHAR           UnknownB[0xE4]; // 0x2C
 }
 KTHREAD, *PKTHREAD;
+
+// ******************************************************************
+// * ETHREAD
+// ******************************************************************
+// *
+// * NOTE: INCOMPLETE!!
+// *
+// ******************************************************************
+typedef struct _ETHREAD
+{
+    struct _KTHREAD Tcb;
+    UCHAR           UnknownA[0x1C]; // 0x110
+    DWORD           UniqueThread;   // 0x12C
+}
+ETHREAD, *PETHREAD;
 
 // ******************************************************************
 // * KPCRB
