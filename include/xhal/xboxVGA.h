@@ -83,7 +83,7 @@ void	SetReg( int port, int reg, int data );
 #define XBV_COLOUR_REG		0xfd6013c8
 #define XBV_COLOUR_DATA		0xfd6013c9
 
-#define	XBOX_SCREENRAM		0x8003d000		//0xF0040240	//+(95*4)		// Xbox screen RAM starts here
+#define	XBOX_SCREENRAM		0x8003d040		//0xF0040240	//+(95*4)		// Xbox screen RAM starts here
 
 
 /*
