@@ -40,7 +40,17 @@ XBSYSAPI EXPORTNUM(187) NTSTATUS NTAPI NtClose
 );
 
 XBSYSAPI VOID *NtCreateDirectoryObject;
-XBSYSAPI VOID *NtCreateEvent;
+
+// ******************************************************************
+// * NtCreateEvent
+// ******************************************************************
+XBSYSAPI EXPORTNUM(189) NTSTATUS NTAPI NtCreateEvent
+(
+    OUT PHANDLE             EventHandle,
+    IN  POBJECT_ATTRIBUTES  ObjectAttributes OPTIONAL,
+    IN  EVENT_TYPE          EventType,
+    IN  BOOLEAN             InitialState
+);
 
 // ******************************************************************
 // * NtCreateFile
@@ -117,11 +127,11 @@ XBSYSAPI VOID *NtQueryFullAttributesFile;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(211) NTSTATUS NTAPI NtQueryInformationFile
 (   
-    IN  HANDLE                  FileHandle,
-    OUT PIO_STATUS_BLOCK        IoStatusBlock,
-    OUT PVOID                   FileInformation, 
-    IN  ULONG                   Length, 
-    IN  FILE_INFORMATION_CLASS  FileInfo
+    IN  HANDLE                      FileHandle,
+    OUT PIO_STATUS_BLOCK            IoStatusBlock,
+    OUT PFILE_FS_SIZE_INFORMATION   FileInformation, 
+    IN  ULONG                       Length, 
+    IN  FILE_INFORMATION_CLASS      FileInfo
 );
 
 XBSYSAPI VOID *NtQueryIoCompletion;
@@ -136,11 +146,11 @@ XBSYSAPI VOID *NtQueryVirtualMemory;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(218) NTSTATUS NTAPI NtQueryVolumeInformationFile
 (
-    IN  HANDLE                  FileHandle,
-    OUT PIO_STATUS_BLOCK        IoStatusBlock,
-    OUT PVOID                   FileInformation,
-    IN  ULONG                   Length,
-    IN  FS_INFORMATION_CLASS    FileInformationClass
+    IN  HANDLE                      FileHandle,
+    OUT PIO_STATUS_BLOCK            IoStatusBlock,
+    OUT PFILE_FS_SIZE_INFORMATION   FileInformation,
+    IN  ULONG                       Length,
+    IN  FS_INFORMATION_CLASS        FileInformationClass
 );
 
 // ******************************************************************

@@ -24,7 +24,7 @@ XBSYSAPI EXPORTNUM(184) NTSTATUS NtAllocateVirtualMemory
     IN DWORD         Protect
 )
 {
-    return 0;
+    return STATUS_SUCCESS;
 }
 
 XBSYSAPI VOID *NtCancelTimer = 0;
@@ -38,11 +38,24 @@ XBSYSAPI EXPORTNUM(187) NTSTATUS NTAPI NtClose
 	IN HANDLE Handle
 )
 {
-    return 0;
+    return STATUS_SUCCESS;
 }
 
 XBSYSAPI VOID *NtCreateDirectoryObject = 0;
-XBSYSAPI VOID *NtCreateEvent = 0;
+
+// ******************************************************************
+// * NtCreateEvent
+// ******************************************************************
+XBSYSAPI EXPORTNUM(189) NTSTATUS NTAPI NtCreateEvent
+(
+    OUT PHANDLE             EventHandle,
+    IN  POBJECT_ATTRIBUTES  ObjectAttributes OPTIONAL,
+    IN  EVENT_TYPE          EventType,
+    IN  BOOLEAN             InitialState
+)
+{
+    return STATUS_SUCCESS;
+}
 
 // ******************************************************************
 // * NtCreateFile
@@ -60,7 +73,7 @@ XBSYSAPI EXPORTNUM(190) NTSTATUS NTAPI NtCreateFile
 	IN  ULONG	            CreateOptions 
 )
 {
-    return 0;
+    return STATUS_SUCCESS;
 }
 
 XBSYSAPI VOID *NtCreateIoCompletion = 0;
@@ -82,7 +95,7 @@ XBSYSAPI EXPORTNUM(199) NTSTATUS NtFreeVirtualMemory
     IN ULONG      FreeType
 )
 {
-    return 0;
+    return STATUS_SUCCESS;
 }
 
 XBSYSAPI VOID *NtFsControlFile = 0;
@@ -118,11 +131,11 @@ XBSYSAPI VOID *NtQueryFullAttributesFile = 0;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(211) NTSTATUS NTAPI NtQueryInformationFile
 (   
-    IN  HANDLE                  FileHandle,
-    OUT PIO_STATUS_BLOCK        IoStatusBlock,
-    OUT PVOID                   FileInformation, 
-    IN  ULONG                   Length, 
-    IN  FILE_INFORMATION_CLASS  FileInfo
+    IN  HANDLE                      FileHandle,
+    OUT PIO_STATUS_BLOCK            IoStatusBlock,
+    OUT PFILE_FS_SIZE_INFORMATION   FileInformation, 
+    IN  ULONG                       Length, 
+    IN  FILE_INFORMATION_CLASS      FileInfo
 )
 {
     return 0;
@@ -140,11 +153,11 @@ XBSYSAPI VOID *NtQueryVirtualMemory = 0;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(218) NTSTATUS NTAPI NtQueryVolumeInformationFile
 (
-    IN  HANDLE                  FileHandle,
-    OUT PIO_STATUS_BLOCK        IoStatusBlock,
-    OUT PVOID                   FileInformation,
-    IN  ULONG                   Length,
-    IN  FS_INFORMATION_CLASS    FileInformationClass
+    IN  HANDLE                      FileHandle,
+    OUT PIO_STATUS_BLOCK            IoStatusBlock,
+    OUT PFILE_FS_SIZE_INFORMATION   FileInformation,
+    IN  ULONG                       Length,
+    IN  FS_INFORMATION_CLASS        FileInformationClass
 )
 {
     return STATUS_SUCCESS;
