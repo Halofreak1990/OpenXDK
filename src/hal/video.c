@@ -115,7 +115,7 @@ BOOL XVideoSetMode(int width, int height, int bpp, int refresh)
 	{
 		pVidMode = &vidModes[i];
 
-		if((pVidMode->dwFlags & 0x000000FF) != dwAdapter)
+		if( (pVidMode->dwFlags > 0) && ((pVidMode->dwFlags & 0x000000FF) != dwAdapter ))
 			continue;
 
 		if(pVidMode->dwStandard != dwStandard)
