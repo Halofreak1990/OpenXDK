@@ -110,7 +110,7 @@ void charmap_setink( u8 ink );
 void charmap_setpaper( u8 paper );
 void charmap_set_window( s32 x1,s32 y1,s32 x2, s32 y2 );
 void charmap_home( void );
-void charset_move_cursor( s32 x, s32 y);
+void charmap_move_cursor( s32 x, s32 y);
 
 
 

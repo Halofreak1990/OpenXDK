@@ -366,14 +366,14 @@ void charmap_outchar( char Ch )
 
 
 // ******************************************************************
-// * charset_move_cursor
+// * charmap_move_cursor
 // ******************************************************************
 // *
 // * Move the cursor to a new location (check its inside the current 
 // * TEXT window.
 // *
 // ******************************************************************
-void charset_move_cursor( s32 x, s32 y)
+void charmap_move_cursor( s32 x, s32 y)
 {
 	// make sure we are ON screen
 	if( x<g_pCharMap->wx1) x = g_pCharMap->wx1;
@@ -418,7 +418,7 @@ void charmap_printat( s32 x, s32 y, char *pStr )
 	PCharMap	pCharMap = g_pCharMap;									// get current screen
 	
 
-	charset_move_cursor(x,y);
+	charmap_move_cursor(x,y);
 	while(*pStr!=0x00 ){
 		charmap_outchar(*pStr++);
 	}
@@ -479,3 +479,6 @@ void charmap_home( void )
 	g_pCharMap->curx = g_pCharMap->wx1;
 	g_pCharMap->cury = g_pCharMap->wy1;
 }
+
+
+
