@@ -1,0 +1,195 @@
+--------------------------------------------------------------------
+ OpenXDK - Microsoft Visual Studio 6.0 - Installation Instructions
+--------------------------------------------------------------------
+
+ This document describes the process which should be used if you
+ wish to develop "homebrew" software for the XBox using OpenXDK.
+
+ Information is as precise and correct as I can make it, but feel
+ free to submit suggestions. After all, OpenXDK is an open source
+ project, and our success relies on community contributions.
+
+------------------------------------------------------------------
+ Table of Contents
+------------------------------------------------------------------
+
+ 1) Installation
+
+    a) Download
+    b) Unzip
+    c) Build
+
+ 2) Development
+
+    a) Creating a New Project
+    b) Removing "Debug" Configuration
+    c) Setting Compiler and Linker Options
+    d) Setting Required Directories
+    e) Configuring CXBE for Custom Build
+    f) Adding WinMainCRTStartup
+    g) Building Your Project
+
+------------------------------------------------------------------
+ Information
+------------------------------------------------------------------
+
+ 1) Installation
+
+    a) Download
+
+    To download the latest OpenXDK files, go to the OpenXDK web site
+    displayed below, and locate the appropriate download file(s).
+
+    http://openxdk.sourceforge.net/
+
+    The web site will point you in the right direction.
+
+    b) Unzip
+
+    OpenXDK is distributed in .zip format. After downloading OpenXDK,
+    the next step is to decompress the .zip file into a directory of
+    your choice. The preferred directory is C:\OpenXDK, but you may
+    put these files wherever you wish. The only requirment is that
+    you must remember where this directory is. 
+
+    c) Build
+ 
+    Building OpenXDK is very easy. The decompressed folder (C:\OpenXDK)
+    contains a file called OpenXDK.dsw. To build OpenXDK, simply open
+    this workspace with Microsoft Visual Studio 6.0, and then build the
+    XBox Kernel.
+
+    Note: To build, click Build->Build xboxkrnl.exe, or simply push F7.
+
+ 2) Development
+
+    a) Creating a New Project
+
+    There are some specific steps that must be taken when creating a
+    project for use with OpenXDK. Primarily, Compiler and Linker options
+    must be tweaked, and 3 directories must be added to the compiler's
+    search path. The details on how to configure these options are
+    explained in detail below.
+
+    The first step is to create a new project. This can be done by
+    opening Microsoft Visual Studio 6.0 and creating a new Win32
+    project and workspace. This can be done via File->New. The type
+    of project you will want to create is "Win32 Application". It
+    does not matter where you put your project files, as we will add
+    the necessary directories for includes, lib, and binaries later
+    in this tutorial.
+
+    After you click OK, you will be asked what type of windows
+    application you would like to create. You want to create "An empty
+    project" (the first option). Other options may pull in libraries
+    that will not work with OpenXDK. After clicking "Finish" a dialog
+    window will come up telling you that the project was created. You
+    can just click OK on this dialog.
+
+    Now that you have a new project, you will need to modify a few of
+    the default options before your .exe will relink correctly. The
+    exact options that need to be changed are described next.
+
+    b) Removing "Debug" Configuration
+
+    Since you can not use "Debug" configuration with OpenXDK, it is
+    recommended that you remove this configuration completely. To do
+    this, use the menu Build->Configurations, and select "Win32 Debug".
+    After this is selected, click the "Remove" button. Then click Yes
+    on the confirmation dialog that comes up next. Once this is done
+    you can close the Configurations dialog.
+
+    c) Setting Compiler and Linker Options.
+
+    Compiler options are accessed through the menu Project->Settings. 
+
+    The first set of options we are concerned about are located under
+    the "C/C++" tab. First, switch to the category titled "C++ Language"
+    and uncheck the box marked "Enable exception handling". Optionally,
+    you might want to go to the category marked "Code Generation" and
+    switch "Processor" to "Pentium Pro".
+
+    The next set of options we need to change are located under the
+    "Link" tab. You will need to check the box marked "Ignore all default
+    libraries". Next, you will need to add a few linker options by typing
+    directly into the box marked "Project Options". Add the following text
+    to the very end of the existing text:
+
+    /align:0x20 /driver /fixed:no
+
+    Failure to do this correctly will result in linker errors, and you
+    will not be able to compile your .xbe correctly. You can copy and
+    paste the text exactly as it is above, but you must be absolutely
+    certain to paste the text at the very end of the text in the box.
+
+    After you have added these settings, just click "OK".
+
+    d) Setting Required Directories
+
+    In order for your code to compile and link correctly, you will need
+    to add a few paths to your configuration. To add these directories,
+    you can use the menu Tools->Options. Then, click over to the tab named
+    "Directories". You will need to add the following directories:
+
+    "Include files" -> C:\OpenXDK\include\
+    "Library files" -> C:\OpenXDK\lib\
+    "Executable files" -> C:\OpenXDK\bin\
+
+    You must be sure to add these directories to the correct choice under
+    the drop down box titled "Show directories for:". Your paths may be
+    different, depending on where you chose to unzip the OpenXDK files.
+
+    After you have added these settings, just click "OK".
+
+    e) Configuring CXBE for Custom Build
+
+    Now, you must configure your project to use CXBE as a custom build step.
+    This is the process that is used to convert your .exe file to an .xbe
+    file that is compatible with the XBox. To configure this setting, you can
+    use the menu Project->Settings, then switch to the "Custom Build" tab.
+
+    Inside the box marked "Description", you can put whatever you like, but
+    I usually use the following text:
+
+    Relinking $(InputName).exe -> default.xbe
+
+    Inside the box marked "Commands" you will need to use the following text:
+
+    cxbe /TITLE:"CXBX Demo" /OUT:"$(InputDir)\default.xbe" $(InputPath)
+
+    You will probably want to replace the phrase "CXBX Demo" with the title
+    you want to use for your program.
+
+    Inside the box marked "Outputs" you will need to use the following text:
+
+    $(TargetDir)\default.xbe
+
+    After you have added these settings, just click "OK".
+
+    f) Adding WinMainCRTStartup
+
+    The last requirement to complete your project configuration is to include
+    a valid entry point for your application. Typically, the below code is a
+    good place to start development from:
+
+    #include <openxdk.h>
+
+    void WinMainCRTStartup()
+    {
+        infinite:
+        goto infinite;
+        return;
+    }
+
+    You can use whatever code you like, the only reason for the infinite loop
+    is that XBox software is not intended to ever return from the entry point,
+    as it is the only process running.
+
+    g) Building Your Project
+
+    If everything went well, you now have a valid project, and you can
+    immediately start developing. Try building your project containing
+    only the simple entry point as shown above, and if all goes well,
+    your build will succeed and the file "default.xbe" will be created.
+
+    You should be able to run this executable on a modded xbox.
