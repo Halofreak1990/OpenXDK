@@ -1,9 +1,11 @@
-Current
+0.05
 - Doc update
 - Added SDL_File and SDL_Timer capabilities (things like SDL_LoadBMP work now)
 - Added SDL_Thread, SDL_Mutex and SDL_Semaphore support
 - vararg support in debugPrint
 - Added audio support (currently support 16 bit stereo 44.1kHz samples)
+- Added SDL_Audio support
+- A couple of bugfixes in the file support in libc
 
 
 0.04.1

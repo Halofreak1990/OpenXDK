@@ -6,5 +6,7 @@ Credits
 - Andy Green for writing the Cromwell audio that I based
   the OpenXDK audio on, and answering my ridiculously naive 
   questions about how audio works
+- The SDL gurus at com.lib.sdl - thanks so much for listening to
+  and answering my endless questions on SDL
 - The good folks at alt.os.development for teaching me how to hook
   hardware interrupts from protected mode
