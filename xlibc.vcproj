@@ -28,15 +28,15 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="2"
-				AdditionalIncludeDirectories="include\xlibc,include"
-				PreprocessorDefinitions="NDEBUG,_LIB,_LIBC,__STD_C,STANDALONE"
+				AdditionalIncludeDirectories="include;include\xlibc"
+				PreprocessorDefinitions="_XBOX,NDEBUG,_WINDOWS"
 				IgnoreStandardIncludePath="TRUE"
 				RuntimeLibrary="4"
 				PrecompiledHeaderFile=".\lib\xlibc/xlibc.pch"
 				AssemblerListingLocation=".\lib\xlibc/"
 				ObjectFile=".\lib\xlibc/"
 				ProgramDataBaseFileName=".\lib\xlibc/"
-				WarningLevel="2"
+				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"
 				UndefineAllPreprocessorDefinitions="TRUE"/>
@@ -212,7 +212,7 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="inc"
+			Name="include"
 			Filter="">
 			<File
 				RelativePath=".\include\xlibc\ansidecl.h">

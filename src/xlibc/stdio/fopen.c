@@ -1,11 +1,13 @@
 
 #include <stdio.h>                          // FILE structure, _open(..) _O_BINARY _O_CREAT ..
-#include <stdlib.h>                         // malloc(..)
-
+#include <malloc.h>                         // malloc(..)
 #include <string.h>                         // memset(..)
 
 unsigned int __stdio_parse_mode(const char * mode);
 
+// Still has some bugs to work out - I used 'CreateFile(..)' instead of _open
+// as I needed to use the flag "OPEN_ALWAYS" for when you use 'a' or 'a+' etc
+// as the mode.
 FILE *fopen(char *szFile, const char *mode) 
 {
 	unsigned int f=0;	/* O_RDONLY, O_WRONLY or O_RDWR */
@@ -13,10 +15,24 @@ FILE *fopen(char *szFile, const char *mode)
 	FILE *tmp;
 
 	f = __stdio_parse_mode(mode);
-	//f = _O_RDWR|_O_BINARY|_O_CREAT|_O_TRUNC;
-	  
-	if((fd = _open( szFile, f, 0 ))<0)
-		return 0;
+
+	//if((fd = _open( szFile, f, 0 ))<0)
+	//	return 0;
+
+	fd = (int)CreateFile(	szFile,
+							//GENERIC_READ|GENERIC_WRITE, 
+							f,
+							0,
+							NULL,
+							OPEN_ALWAYS,
+							FILE_FLAG_RANDOM_ACCESS,
+							NULL
+						);
+
+	if( fd < 0 ) return 0;
+
+	// Always start at the end of the file
+	_lseek(fd , 0, SEEK_END);
 
 	tmp = (FILE*)malloc(sizeof(FILE));
 	memset(tmp, 0x0, sizeof(FILE));
@@ -31,18 +47,31 @@ unsigned int __stdio_parse_mode(const char * mode)
 {
 	unsigned int f = 0;
 
+	/*
+	"r"  - Open a file for reading. 
+	"w"  - Create an empty file for writing. 
+	"a"  - Append to a file.
+	"r+" - Open a file for reading and writing. 
+	"w+" - Create an empty file for reading and writing.
+	"a+" - Open a file for reading and appending
+	"t"  - text mode
+	"b"  - binary mode
+	*/
+
 	if( mode[0] == 'r' )
-		f |= _O_RDONLY;
+		f |= GENERIC_READ;
 
 	if( mode[0] == 'w' )
-		f |= _O_WRONLY | _O_CREAT;
+		f |= GENERIC_WRITE;
 
 	if( mode[0] == 'a' )
-		f |= _O_APPEND | _O_RDWR | _O_CREAT;
+		f |= GENERIC_READ|GENERIC_WRITE;
 
 
+	// We can add further checkign later on to check the second
+	// character.
 	if( mode[1] == '+' )
-		f |= _O_RDWR;
+		f |= GENERIC_READ|GENERIC_WRITE;
 
 	return f;
 

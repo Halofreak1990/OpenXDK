@@ -20,7 +20,6 @@ size_t strlen( const char *string )
 {
 	char*	pString = (char*) string;
 	int		Length=0;
-	char	a;
 
 	while(true){
 		if( *pString++ == 0x00 ){

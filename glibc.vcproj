@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="glibc"
+	ProjectGUID="{78190587-635D-4845-9872-EE158DF57954}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -27,8 +28,8 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="2"
-				AdditionalIncludeDirectories="include\glibc,include"
-				PreprocessorDefinitions="NDEBUG,_LIB,_LIBC,__STD_C"
+				AdditionalIncludeDirectories="include;include\glibc"
+				PreprocessorDefinitions="_XBOX,NDEBUG,_WINDOWS"
 				IgnoreStandardIncludePath="TRUE"
 				RuntimeLibrary="4"
 				DisableLanguageExtensions="TRUE"
@@ -93,9 +94,6 @@
 			</File>
 			<File
 				RelativePath=".\src\glibc\div.c">
-			</File>
-			<File
-				RelativePath=".\src\glibc\fileio.c">
 			</File>
 			<File
 				RelativePath=".\src\glibc\gnu-stabs.h">
@@ -260,15 +258,6 @@
 			<Filter
 				Name="stdio"
 				Filter="">
-				<File
-					RelativePath=".\src\glibc\stdio\conio.c">
-				</File>
-				<File
-					RelativePath=".\src\glibc\stdio\file_io.c">
-				</File>
-				<File
-					RelativePath=".\src\glibc\stdio\snprintf.c">
-				</File>
 			</Filter>
 			<Filter
 				Name="math"
@@ -491,9 +480,6 @@
 			</File>
 			<File
 				RelativePath=".\include\glibc\stddef.h">
-			</File>
-			<File
-				RelativePath=".\include\glibc\stdio.h">
 			</File>
 			<File
 				RelativePath=".\include\glibc\stdlib.h">

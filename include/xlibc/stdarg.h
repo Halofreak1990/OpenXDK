@@ -9,7 +9,7 @@
 // * note : This LIBC is TOTALLY free - do what you like with it!!
 // *
 // ******************************************************************
-
+// a
 #ifndef		__OPENXDK_STDARG__
 #define		__OPENXDK_STDARG__
 

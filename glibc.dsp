@@ -216,18 +216,6 @@ SOURCE=.\src\glibc\string\wordcopy.c
 # Begin Group "stdio"
 
 # PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\glibc\stdio\conio.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\glibc\stdio\file_io.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\glibc\stdio\snprintf.c
-# End Source File
 # End Group
 # Begin Group "math"
 
@@ -483,10 +471,6 @@ SOURCE=.\src\glibc\div.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\glibc\fileio.c
-# End Source File
-# Begin Source File
-
 SOURCE=".\src\glibc\gnu-stabs.h"
 # End Source File
 # Begin Source File
@@ -656,10 +640,6 @@ SOURCE=.\include\glibc\stdarg.h
 # Begin Source File
 
 SOURCE=.\include\glibc\stddef.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\glibc\stdio.h
 # End Source File
 # Begin Source File
 

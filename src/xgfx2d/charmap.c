@@ -23,6 +23,8 @@
 #include <xgfx2d/blit.h>
 #include <xgfx2d/blitters.h>
 #include <xgfx2d/drawprim.h>
+
+#include	<stdarg.h>
 	
 	PCharMap	g_pCharMap;		// current character map
 
@@ -428,6 +430,8 @@ void charmap_print( char *pStr )
 	}
 }
 
+
+extern int vsnprintf( char *buffer, unsigned int count, const char *format, va_list ap );
 
 // ******************************************************************
 // * charmap_print

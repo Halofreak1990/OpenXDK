@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define true 1
 
 #define		FLOAT_BIAS		127
 #define		E_MAX			127
@@ -77,7 +78,7 @@ int AddHex( char* pDest, int index, int count, int value, char* pTable )
 int AddInt( char* pDest, int index, int count, int value, int zerolimit )
 {
 	int		modulo = 1000000000;
-	int		n,d;
+	int		n;
 	int				leading0=0;
 
 	if( value<0 ){
@@ -229,6 +230,9 @@ int AddString( char* pDest, int index, int count, char* pSrc )
 	}
 }
 
+
+
+
 // ********************************************************
 //
 // Name:		vsnprintf
@@ -242,7 +246,6 @@ int vsnprintf( char *buffer, unsigned int count, const char *format, va_list ap 
 	char*	pDest = buffer;
 	const char*	pSrc = format;
 	char	c;
-	float	f;
 
 	while(true)
 	{
@@ -253,6 +256,15 @@ int vsnprintf( char *buffer, unsigned int count, const char *format, va_list ap 
 
 		switch(c)
 		{
+			
+			case '\n':	
+						pDest[index++]=0x0a;	break;    	// add newline
+			case '\r':	
+						pDest[index++]=0x0d;	break;    	// add carrage return
+			case '\t':	
+						pDest[index++]=0x09;	break;		// add tab
+			
+			/*
 			case '\\':	c = *pSrc++;
 						switch( c ){
 							case 'n':		pDest[index++]=0x0d;	break;		// add newline 
@@ -260,6 +272,8 @@ int vsnprintf( char *buffer, unsigned int count, const char *format, va_list ap 
 							default:		pDest[index++]=c;
 						};
 						break;
+						*/
+						
 
 			case '%':	c = *pSrc++;
 						switch( c ){
@@ -285,6 +299,10 @@ int vsnprintf( char *buffer, unsigned int count, const char *format, va_list ap 
 }
 
 
+int xxvsnprintf( char *buffer, unsigned int count, const char *format, va_list ap )
+{
+	return vsnprintf( buffer, count, format, ap );
+};
 
 
 // ********************************************************

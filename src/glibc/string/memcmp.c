@@ -42,7 +42,9 @@ Cambridge, MA 02139, USA.  */
 
 #else	/* Not in the GNU C library.  */
 
-#include <sys/types.h>
+//#include <sys/types.h>
+#include <bits/types.h>
+
 
 /* Type to use for aligned memory operations.
    This should normally be the biggest type supported by a single load

@@ -17,7 +17,7 @@ extern "C" {
 # endif
 
 #include	<openxdk.h>
-#include	<stdarg.h>
+
 
 // ******************************************************************
 // Low level input/output functions
@@ -63,7 +63,7 @@ int _close( int handle );
 int _lseek( int handle, u32 offset, int base );
 
 //int printf(const char *format, ...);
-int vsnprintf( char *buffer, unsigned int count, const char *format, va_list ap );
+//int vsnprintf( char *buffer, unsigned int count, const char *format, va_list ap );
 int sprintf(char*, const char *format, ...);
 int snprintf (char *str, size_t size, const char *format, ...);
 

@@ -2,7 +2,7 @@
 
 
 #include <stdio.h>                          // FILE structure
-#include <stdlib.h>                         // free(..)
+#include <malloc.h>                         // free(..)
 
 int fclose(FILE *stream) 
 {
