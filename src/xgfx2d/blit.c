@@ -12,9 +12,6 @@
 
 #include "xgfx2d/blit.h"
 
-
-//my old stuff (pretty good though) :
-
 //**********************************************************************************
 //THE MIGHTY BLIT FUNCTION
 //Takes a blitter as a parameter, then calls it for every line
