@@ -55,7 +55,7 @@ extern	u32	g_nInk;
 extern	u32	g_nPaper;
 extern	u8	*pFont;								// point to the system Font by default. You can change it to your own
 
-
+extern	int	_fltused;
 // **************************************************************
 //
 //	User Functions
