@@ -75,6 +75,7 @@ void charmap_render_character( s32 x, s32 y )
 	// Workout character address inside FONT texture page
 	c -= 32;
 	if( c<0 ) return;
+	if( c>128 ) return;								// error
 
 	index = (c/32)*15*256;							// get ROW
 	index += (c%32)*8;								// column
@@ -84,14 +85,15 @@ void charmap_render_character( s32 x, s32 y )
 	DataMod=256-8;									// texture page is 256 bytes wide (32 characters per page)
 	ScrMod = (pCharMap->pixwidth-8);
 
-
 	// Character is ALWAYS solid.
 	for(i2=0;i2<15;i2++)
 	{
 		for(i=0;i<8;i++)
 		{
-			if( pData[index++]==0 ){
+			if( pData[index++]==0 )
+			{
 				pScreen[baseindex++]=nPaper;
+				//pScreen[baseindex++]=0; //xffffff;
 			}
 			else{
 				pScreen[baseindex++]=nInk;
@@ -534,6 +536,8 @@ void charmap_home( void )
 	g_pCharMap->curx = g_pCharMap->wx1;
 	g_pCharMap->cury = g_pCharMap->wy1;
 }
+
+
 
 
 
