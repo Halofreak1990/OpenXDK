@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\lib"
-			IntermediateDirectory=".\lib"
+			OutputDirectory=".\lib\xgfx2d"
+			IntermediateDirectory=".\lib\xgfx2d"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -31,9 +31,9 @@
 				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
 				PrecompiledHeaderFile=".\lib/xgfx2d.pch"
-				AssemblerListingLocation=".\lib/"
-				ObjectFile=".\lib/"
-				ProgramDataBaseFileName=".\lib/"
+				AssemblerListingLocation=".\lib\xgfx2d/"
+				ObjectFile=".\lib\xgfx2d/"
+				ProgramDataBaseFileName=".\lib\xgfx2d/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>

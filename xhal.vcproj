@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\lib"
-			IntermediateDirectory=".\lib"
+			OutputDirectory=".\lib\xhal"
+			IntermediateDirectory=".\lib\xhal"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -30,9 +30,9 @@
 				RuntimeLibrary="4"
 				EnableFunctionLevelLinking="TRUE"
 				PrecompiledHeaderFile=".\lib/xhal.pch"
-				AssemblerListingLocation=".\lib/"
-				ObjectFile=".\lib/"
-				ProgramDataBaseFileName=".\lib/"
+				AssemblerListingLocation=".\lib\xhal/"
+				ObjectFile=".\lib\xhal/"
+				ProgramDataBaseFileName=".\lib\xhal/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>

@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\lib"
-			IntermediateDirectory=".\lib"
+			OutputDirectory=".\lib\xboxkrnl"
+			IntermediateDirectory=".\lib\xboxkrnl"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
@@ -32,9 +32,9 @@
 				EnableFunctionLevelLinking="TRUE"
 				DisableLanguageExtensions="TRUE"
 				PrecompiledHeaderFile=".\lib/xboxkrnl.pch"
-				AssemblerListingLocation=".\lib/"
-				ObjectFile=".\lib/"
-				ProgramDataBaseFileName=".\lib/"
+				AssemblerListingLocation=".\lib\xboxkrnl/"
+				ObjectFile=".\lib\xboxkrnl/"
+				ProgramDataBaseFileName=".\lib\xboxkrnl/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
