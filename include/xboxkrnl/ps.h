@@ -33,7 +33,12 @@ XBSYSAPI EXPORTNUM(255) NTSTATUS NTAPI PsCreateSystemThreadEx
 
 XBSYSAPI VOID *PsQueryStatistics;
 XBSYSAPI VOID *PsSetCreateThreadNotifyRoutine;
-XBSYSAPI VOID *PsTerminateSystemThread;
+
+// ******************************************************************
+// * PsTerminateSystemThread
+// ******************************************************************
+XBSYSAPI EXPORTNUM(258) VOID NTAPI PsTerminateSystemThread(IN NTSTATUS ExitStatus);
+
 XBSYSAPI VOID *PsThreadObjectType;
 
 #endif
