@@ -56,12 +56,66 @@ NTSYSAPI VOID *HalIsResetOrShutdownPending;
 NTSYSAPI VOID *HalInitiateShutdown;
 NTSYSAPI VOID *HalEnableSecureTrayEject;
 NTSYSAPI VOID *HalWriteSMCScratchRegister;
-NTSYSAPI VOID *READ_PORT_BUFFER_UCHAR;
-NTSYSAPI VOID *READ_PORT_BUFFER_USHORT;
-NTSYSAPI VOID *READ_PORT_BUFFER_ULONG;
-NTSYSAPI VOID *WRITE_PORT_BUFFER_UCHAR;
-NTSYSAPI VOID *WRITE_PORT_BUFFER_USHORT;
-NTSYSAPI VOID *WRITE_PORT_BUFFER_ULONG;
+
+// ******************************************************************
+// * READ_PORT_BUFFER_UCHAR
+// ******************************************************************
+NTSYSAPI EXPORTNUM(329) VOID NTAPI READ_PORT_BUFFER_UCHAR
+(
+    IN PUCHAR Port,
+    IN PUCHAR Buffer,
+    IN ULONG  Count
+);
+
+// ******************************************************************
+// * READ_PORT_BUFFER_USHORT
+// ******************************************************************
+NTSYSAPI EXPORTNUM(330) VOID NTAPI READ_PORT_BUFFER_USHORT
+(
+    IN PUSHORT Port,
+    IN PUSHORT Buffer,
+    IN ULONG   Count
+);
+
+// ******************************************************************
+// * READ_PORT_BUFFER_ULONG
+// ******************************************************************
+NTSYSAPI EXPORTNUM(331) VOID NTAPI READ_PORT_BUFFER_ULONG
+(
+    IN PULONG Port,
+    IN PULONG Buffer,
+    IN ULONG  Count
+);
+
+// ******************************************************************
+// * WRITE_PORT_BUFFER_UCHAR
+// ******************************************************************
+NTSYSAPI EXPORTNUM(332) VOID NTAPI WRITE_PORT_BUFFER_UCHAR
+(
+    IN PUCHAR Port,
+    IN PUCHAR Buffer,
+    IN ULONG  Count
+);
+
+// ******************************************************************
+// * WRITE_PORT_BUFFER_USHORT
+// ******************************************************************
+NTSYSAPI EXPORTNUM(333) VOID NTAPI WRITE_PORT_BUFFER_USHORT
+(
+    IN PUSHORT Port,
+    IN PUSHORT Buffer,
+    IN ULONG   Count
+);
+
+// ******************************************************************
+// * WRITE_PORT_BUFFER_ULONG
+// ******************************************************************
+NTSYSAPI EXPORTNUM(334) VOID NTAPI WRITE_PORT_BUFFER_ULONG
+(
+    IN PULONG Port,
+    IN PULONG Buffer,
+    IN ULONG  Count
+);
 
 #endif
 

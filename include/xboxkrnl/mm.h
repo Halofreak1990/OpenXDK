@@ -65,7 +65,16 @@ NTSYSAPI EXPORTNUM(173) PHYSICAL_ADDRESS NTAPI MmGetPhysicalAddress
 NTSYSAPI VOID *MmIsAddressValid;
 NTSYSAPI VOID *MmLockUnlockBufferPages;
 NTSYSAPI VOID *MmLockUnlockPhysicalPage;
-NTSYSAPI VOID *MmMapIoSpace;
+
+// ******************************************************************
+// * MmMapIoSpace
+// ******************************************************************
+NTSYSAPI EXPORTNUM(177) PVOID NTAPI MmMapIoSpace
+(
+    IN PHYSICAL_ADDRESS PhysicalAddress,
+    IN ULONG            NumberOfBytes,
+    IN ULONG            Protect
+);
 
 // ******************************************************************
 // * MmPersistContiguousMemory

@@ -44,15 +44,12 @@ NTSYSAPI VOID *HalRequestSoftwareInterrupt = 0;
 // ******************************************************************
 // * 0x0031 - HalReturnToFirmware
 // ******************************************************************
-// *
-// * Reboots the xbox in various ways
-// *
-// ******************************************************************
 NTSYSAPI EXPORTNUM(49) VOID DECLSPEC_NORETURN HalReturnToFirmware
 (
 	RETURN_FIRMWARE Routine
 )
 {
+
 }
 
 NTSYSAPI VOID *HalWriteSMBusValue = 0;
@@ -61,9 +58,81 @@ NTSYSAPI VOID *HalIsResetOrShutdownPending = 0;
 NTSYSAPI VOID *HalInitiateShutdown = 0;
 NTSYSAPI VOID *HalEnableSecureTrayEject = 0;
 NTSYSAPI VOID *HalWriteSMCScratchRegister = 0;
-NTSYSAPI VOID *READ_PORT_BUFFER_UCHAR = 0;
-NTSYSAPI VOID *READ_PORT_BUFFER_USHORT = 0;
-NTSYSAPI VOID *READ_PORT_BUFFER_ULONG = 0;
-NTSYSAPI VOID *WRITE_PORT_BUFFER_UCHAR = 0;
-NTSYSAPI VOID *WRITE_PORT_BUFFER_USHORT = 0;
-NTSYSAPI VOID *WRITE_PORT_BUFFER_ULONG = 0;
+
+// ******************************************************************
+// * READ_PORT_BUFFER_UCHAR
+// ******************************************************************
+NTSYSAPI EXPORTNUM(329) VOID NTAPI READ_PORT_BUFFER_UCHAR
+(
+    IN PUCHAR Port,
+    IN PUCHAR Buffer,
+    IN ULONG  Count
+)
+{
+    return;
+}
+
+// ******************************************************************
+// * READ_PORT_BUFFER_USHORT
+// ******************************************************************
+NTSYSAPI EXPORTNUM(330) VOID NTAPI READ_PORT_BUFFER_USHORT
+(
+    IN PUSHORT Port,
+    IN PUSHORT Buffer,
+    IN ULONG   Count
+)
+{
+    return;
+}
+
+// ******************************************************************
+// * READ_PORT_BUFFER_ULONG
+// ******************************************************************
+NTSYSAPI EXPORTNUM(331) VOID NTAPI READ_PORT_BUFFER_ULONG
+(
+    IN PULONG Port,
+    IN PULONG Buffer,
+    IN ULONG  Count
+)
+{
+    return;
+}
+
+// ******************************************************************
+// * WRITE_PORT_BUFFER_UCHAR
+// ******************************************************************
+NTSYSAPI EXPORTNUM(332) VOID NTAPI WRITE_PORT_BUFFER_UCHAR
+(
+    IN PUCHAR Port,
+    IN PUCHAR Buffer,
+    IN ULONG  Count
+)
+{
+    return;
+}
+
+// ******************************************************************
+// * WRITE_PORT_BUFFER_USHORT
+// ******************************************************************
+NTSYSAPI EXPORTNUM(333) VOID NTAPI WRITE_PORT_BUFFER_USHORT
+(
+    IN PUSHORT Port,
+    IN PUSHORT Buffer,
+    IN ULONG   Count
+)
+{
+    return;
+}
+
+// ******************************************************************
+// * WRITE_PORT_BUFFER_ULONG
+// ******************************************************************
+NTSYSAPI EXPORTNUM(334) VOID NTAPI WRITE_PORT_BUFFER_ULONG
+(
+    IN PULONG Port,
+    IN PULONG Buffer,
+    IN ULONG  Count
+)
+{
+    return;
+}

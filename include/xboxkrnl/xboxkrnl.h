@@ -73,6 +73,7 @@ typedef CHAR               *PCHAR;
 typedef CHAR               *PCSZ;
 typedef BYTE               *PBYTE;
 typedef BOOLEAN            *PBOOLEAN;
+typedef UCHAR              *PUCHAR;
 typedef USHORT             *PUSHORT;
 typedef ULONG              *PULONG;
 typedef ACCESS_MASK        *PACCESS_MASK;
@@ -86,6 +87,21 @@ typedef HANDLE             *PHANDLE;
 // * NTSTATUS
 // ******************************************************************
 typedef long                NTSTATUS;
+
+// ******************************************************************
+// * PAGE Masks
+// ******************************************************************
+#define PAGE_NOACCESS          0x01     
+#define PAGE_READONLY          0x02     
+#define PAGE_READWRITE         0x04     
+#define PAGE_WRITECOPY         0x08     
+#define PAGE_EXECUTE           0x10     
+#define PAGE_EXECUTE_READ      0x20     
+#define PAGE_EXECUTE_READWRITE 0x40     
+#define PAGE_EXECUTE_WRITECOPY 0x80     
+#define PAGE_GUARD             0x100     
+#define PAGE_NOCACHE           0x200     
+#define PAGE_WRITECOMBINE      0x400     
 
 // ******************************************************************
 // * calling conventions
