@@ -15,10 +15,29 @@
 NTSYSAPI VOID *NtAllocateVirtualMemory;
 NTSYSAPI VOID *NtCancelTimer;
 NTSYSAPI VOID *NtClearEvent;
-NTSYSAPI VOID *NtClose;
+
+NTSYSAPI EXPORTNUM(187) ULONG NTAPI NtClose
+(
+	IN	void**		 FileHandle
+);
+
+//NTSYSAPI VOID *NtClose;
 NTSYSAPI VOID *NtCreateDirectoryObject;
 NTSYSAPI VOID *NtCreateEvent;
-NTSYSAPI VOID *NtCreateFile;
+
+NTSYSAPI EXPORTNUM(190) ULONG NTAPI NtCreateFile
+(
+	IN	void**		 FileHandle, 
+	IN	unsigned long DesiredAccess, 
+	IN	PVOID	ObjectAttributes, 
+	IN	PVOID	IoStatusBlock, 
+	IN	PVOID	AllocationSize, 
+	IN	ULONG	FileAttributes, 
+	IN	ULONG	ShareAccess, 
+	IN	ULONG	CreateDisposition, 
+	IN	ULONG	CreateOptions 
+);
+//NTSYSAPI VOID *NtCreateFile;
 NTSYSAPI VOID *NtCreateIoCompletion;
 NTSYSAPI VOID *NtCreateMutant;
 NTSYSAPI VOID *NtCreateSemaphore;
@@ -47,7 +66,20 @@ NTSYSAPI VOID *NtQuerySymbolicLinkObject;
 NTSYSAPI VOID *NtQueryTimer;
 NTSYSAPI VOID *NtQueryVirtualMemory;
 NTSYSAPI VOID *NtQueryVolumeInformationFile;
-NTSYSAPI VOID *NtReadFile;
+
+
+NTSYSAPI EXPORTNUM(219) ULONG NTAPI NtReadFile
+(
+	IN	PVOID	Handle,
+	IN	PVOID	Event,
+	IN	PVOID	CALLBACK,
+	IN	PVOID	Context,
+	IN	PVOID	IoStatusBlock,
+	IN	PVOID	Buffer,
+	IN	ULONG	nNumberOfBytesToRead,
+	IN	PVOID	Offset
+);
+//NTSYSAPI VOID *NtReadFile;
 NTSYSAPI VOID *NtReadFileScatter;
 NTSYSAPI VOID *NtReleaseMutant;
 NTSYSAPI VOID *NtReleaseSemaphore;
@@ -61,7 +93,14 @@ NTSYSAPI VOID *NtSetTimerEx;
 NTSYSAPI VOID *NtSignalAndWaitForSingleObjectEx;
 NTSYSAPI VOID *NtSuspendThread;
 NTSYSAPI VOID *NtUserIoApcDispatcher;
-NTSYSAPI VOID *NtWaitForSingleObject;
+
+NTSYSAPI EXPORTNUM(233) ULONG NTAPI NtWaitForSingleObject
+(	
+	IN	PVOID	Handle,
+	IN	PVOID	Alert,
+	IN	PVOID	Timeout
+);
+//NTSYSAPI VOID *NtWaitForSingleObject;
 NTSYSAPI VOID *NtWaitForSingleObjectEx;
 NTSYSAPI VOID *NtWaitForMultipleObjectsEx;
 NTSYSAPI VOID *NtWriteFile;

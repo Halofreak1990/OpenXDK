@@ -33,6 +33,8 @@ extern "C"
 // ******************************************************************
 // * Basic types
 // ******************************************************************
+typedef char                CHAR;
+typedef char*               PCHAR;
 typedef void                VOID;
 typedef void               *PVOID;
 typedef unsigned char       BYTE;

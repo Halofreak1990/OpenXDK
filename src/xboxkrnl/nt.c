@@ -15,10 +15,51 @@
 NTSYSAPI VOID *NtAllocateVirtualMemory = 0;
 NTSYSAPI VOID *NtCancelTimer = 0;
 NTSYSAPI VOID *NtClearEvent = 0;
-NTSYSAPI VOID *NtClose = 0;
+
+// ******************************************************************
+// * NtClose
+// ******************************************************************
+// *
+// * Close file with handle
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(187) ULONG NTAPI NtClose
+(
+	IN	void**		 FileHandle
+)
+{
+    return 0;
+}
+
+//NTSYSAPI VOID *NtClose = 0;
 NTSYSAPI VOID *NtCreateDirectoryObject = 0;
 NTSYSAPI VOID *NtCreateEvent = 0;
-NTSYSAPI VOID *NtCreateFile = 0;
+
+// ******************************************************************
+// * NtCreateFile
+// ******************************************************************
+// *
+// * This is "like" the standard NT  Create File
+// * Its parammaters 
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(190) ULONG NTAPI NtCreateFile
+(
+	IN	void**		 FileHandle, 
+	IN	unsigned long DesiredAccess, 
+	IN	PVOID	ObjectAttributes, 
+	IN	PVOID	IoStatusBlock, 
+	IN	PVOID	AllocationSize, 
+	IN	ULONG	FileAttributes, 
+	IN	ULONG	ShareAccess, 
+	IN	ULONG	CreateDisposition, 
+	IN	ULONG	CreateOptions 
+)
+{
+    return 0;
+}
+
+//NTSYSAPI VOID *NtCreateFile = 0;
 NTSYSAPI VOID *NtCreateIoCompletion = 0;
 NTSYSAPI VOID *NtCreateMutant = 0;
 NTSYSAPI VOID *NtCreateSemaphore = 0;
@@ -47,7 +88,31 @@ NTSYSAPI VOID *NtQuerySymbolicLinkObject = 0;
 NTSYSAPI VOID *NtQueryTimer = 0;
 NTSYSAPI VOID *NtQueryVirtualMemory = 0;
 NTSYSAPI VOID *NtQueryVolumeInformationFile = 0;
-NTSYSAPI VOID *NtReadFile = 0;
+
+
+
+// ******************************************************************
+// * NtReadFile
+// ******************************************************************
+// *
+// * Read from an open file
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(219) ULONG NTAPI NtReadFile
+(	
+	IN	PVOID	Handle,
+	IN	PVOID	Event,
+	IN	PVOID	CALLBACK,
+	IN	PVOID	Context,
+	IN	PVOID	IoStatusBlock,
+	IN	PVOID	Buffer,
+	IN	ULONG	nNumberOfBytesToRead,
+	IN	PVOID	Offset
+)
+{
+    return 0;
+}
+//NTSYSAPI VOID *NtReadFile = 0;
 NTSYSAPI VOID *NtReadFileScatter = 0;
 NTSYSAPI VOID *NtReleaseMutant = 0;
 NTSYSAPI VOID *NtReleaseSemaphore = 0;
@@ -61,7 +126,25 @@ NTSYSAPI VOID *NtSetTimerEx = 0;
 NTSYSAPI VOID *NtSignalAndWaitForSingleObjectEx = 0;
 NTSYSAPI VOID *NtSuspendThread = 0;
 NTSYSAPI VOID *NtUserIoApcDispatcher = 0;
-NTSYSAPI VOID *NtWaitForSingleObject = 0;
+
+// ******************************************************************
+// * NtWaitForSingleObject
+// ******************************************************************
+// *
+// * 
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(233) ULONG NTAPI NtWaitForSingleObject
+(	
+	IN	PVOID	Handle,
+	IN	PVOID	Alert,
+	IN	PVOID	Timeout
+)
+{
+    return 0;
+}
+
+//NTSYSAPI VOID *NtWaitForSingleObject = 0;
 NTSYSAPI VOID *NtWaitForSingleObjectEx = 0;
 NTSYSAPI VOID *NtWaitForMultipleObjectsEx = 0;
 NTSYSAPI VOID *NtWriteFile = 0;

@@ -64,6 +64,7 @@ extern	u8	*pFont;								// point to the system Font by default. You can change 
 extern	u32	pScreenBuffer[];					// Our screen (software emulated for LOW res just now)
 extern	u32	FrontBuffer;						// Current screen address (visible)
 extern	u32	BackBuffer;							// Current back buffer
+extern	u32	g_nFontFlags;
 
 extern	int	_fltused;
 // **************************************************************
@@ -124,6 +125,7 @@ void	SetReg( int port, int reg, int data );
 #define	YHAL_200SCREEN		(2)				// Center 200 screen inside a 240 one
 
 #define	FONT_SOLID			(1)				// render font with SOLID background (with paper colour)
+#define	FONT_WRAP			(2)				// Wrap PRINT's when they go off the screen
 
 /*
 	xxxxADDR defines the base port number used to access VGA component xxxx,

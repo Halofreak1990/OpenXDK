@@ -626,9 +626,19 @@ void OutChar(int x, int y, char c )
 void Print( int x, int y, char* pText )
 {
 #ifndef	_PCEMU
+	int		StartX=x;
+
 	while( *pText != 0x00 ){
 		OutChar(x,y,*pText++ );
 		x+=8;
+		if((g_nFontFlags&FONT_WRAP)!=0 )
+		{
+			if( x>(int)(g_ScreenWidth-15) ){
+				x = StartX;
+				y+=15;
+			}
+		}
+
 	}
 #endif
 }

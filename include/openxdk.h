@@ -40,6 +40,8 @@ typedef signed char    sint08;
 typedef signed short   sint16;
 typedef signed long    sint32;
 
+typedef	void*			PVOID;
+
 // ******************************************************************
 // * Humor Bigboy with some of his favorite typedefs  :)
 // ******************************************************************
@@ -75,6 +77,7 @@ typedef	signed int			s32;
 // * XHal
 // ******************************************************************
 #include	"xhal/xboxVGA.h"
+#include	"xhal/xfile.h"
 
 // ******************************************************************
 // * XVGA

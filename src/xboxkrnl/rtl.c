@@ -12,19 +12,74 @@
 #define _XBOXKRNL_INTERNAL_
 #include "xboxkrnl/xboxkrnl.h"
 
+
+
 NTSYSAPI VOID *RtlAnsiStringToUnicodeString = 0;
-NTSYSAPI VOID *RtlAppendStringToString = 0;
+
+// ******************************************************************
+// * RtlAppendStringToString
+// ******************************************************************
+// *
+// * Append string 2 to string 1, returns index?
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(261) ULONG NTAPI RtlAppendStringToString
+(
+  IN PCHAR			String1,
+  IN PCHAR			String2
+)
+{
+	return 0;
+}
+
+//NTSYSAPI VOID *RtlAppendStringToString = 0;
 NTSYSAPI VOID *RtlAppendUnicodeStringToString = 0;
 NTSYSAPI VOID *RtlAppendUnicodeToString = 0;
 NTSYSAPI VOID *RtlAssert = 0;
 NTSYSAPI VOID *RtlCaptureContext = 0;
 NTSYSAPI VOID *RtlCaptureStackBackTrace = 0;
 NTSYSAPI VOID *RtlCharToInteger = 0;
-NTSYSAPI VOID *RtlCompareMemory = 0;
+
+
+// ******************************************************************
+// * RtlCompareMemory
+// ******************************************************************
+// *
+// * Takes 2 strings, and the length required... 
+// * returns the actual length that matches
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(289) ULONG CDECL RtlCompareMemory
+(
+  IN PCHAR			String1,
+  IN PCHAR			String2,
+  IN ULONG			length
+)
+{
+	return 0;
+}
+//NTSYSAPI VOID *RtlCompareMemory = 0;
 NTSYSAPI VOID *RtlCompareMemoryUlong = 0;
 NTSYSAPI VOID *RtlCompareString = 0;
 NTSYSAPI VOID *RtlCompareUnicodeString = 0;
-NTSYSAPI VOID *RtlCopyString = 0;
+
+
+// ******************************************************************
+// * RtlCopyString
+// ******************************************************************
+// *
+// * Copy string1 into string2  (like libc function strcpy)
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(272) VOID NTAPI RtlCopyString
+(
+  IN PVOID			String1,
+  IN PVOID			String2
+)
+{
+	return;
+}
+//NTSYSAPI VOID *RtlCopyString = 0;
 NTSYSAPI VOID *RtlCopyUnicodeString = 0;
 NTSYSAPI VOID *RtlCreateUnicodeString = 0;
 NTSYSAPI VOID *RtlDowncaseUnicodeChar = 0;
@@ -41,7 +96,17 @@ NTSYSAPI VOID *RtlFillMemoryUlong = 0;
 NTSYSAPI VOID *RtlFreeAnsiString = 0;
 NTSYSAPI VOID *RtlFreeUnicodeString = 0;
 NTSYSAPI VOID *RtlGetCallersAddress = 0;
-NTSYSAPI VOID *RtlInitAnsiString = 0;
+
+
+NTSYSAPI EXPORTNUM(289) VOID NTAPI RtlInitAnsiString 
+(
+  IN PVOID			 *OutputString,
+  IN PCHAR			FileName
+)
+{
+	return;
+}
+//NTSYSAPI VOID *RtlInitAnsiString = 0;
 NTSYSAPI VOID *RtlInitUnicodeString = 0;
 NTSYSAPI VOID *RtlInitializeCriticalSection = 0;
 NTSYSAPI VOID *RtlIntegerToChar = 0;
@@ -53,7 +118,16 @@ NTSYSAPI VOID *RtlMapGenericMask = 0;
 NTSYSAPI VOID *RtlMoveMemory = 0;
 NTSYSAPI VOID *RtlMultiByteToUnicodeN = 0;
 NTSYSAPI VOID *RtlMultiByteToUnicodeSize = 0;
-NTSYSAPI VOID *RtlNtStatusToDosError = 0;
+
+
+NTSYSAPI EXPORTNUM(301) ULONG NTAPI RtlNtStatusToDosError
+(
+	IN ULONG	Status
+)
+{
+    return 0;
+}
+//NTSYSAPI VOID *RtlNtStatusToDosError = 0;
 NTSYSAPI VOID *RtlRaiseException = 0;
 NTSYSAPI VOID *RtlRaiseStatus = 0;
 NTSYSAPI VOID *RtlTimeFieldsToTime = 0;
