@@ -109,7 +109,7 @@ void NVSetBPP( int mode )
 // Out:			none
 //
 //********************************************************
-int	XdkSetVideoMode( u32 dwResolution, u32 dwPixelFormat )
+int	NVSetVideoMode( u32 dwResolution, u32 dwPixelFormat )
 {
 	PVOID	vOldFramebuffer;
 	u8		*vNewFramebuffer;

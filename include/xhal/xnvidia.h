@@ -81,7 +81,7 @@ extern "C" {
 // ******************************************************************
 void    NVSetScreenAddress(void);
 void    NVSetBPP(int mode);
-int     XdkSetVideoMode(u32 dwResolution, u32 dwPixelFormat );
+int     NVSetVideoMode(u32 dwResolution, u32 dwPixelFormat );
 
 #ifdef	__cplusplus
 };

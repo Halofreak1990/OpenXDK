@@ -1,5 +1,5 @@
 # Microsoft Developer Studio Project File - Name="xlibc" - Package Owner=<4>
-# Microsoft Developer Studio Generated Build File, Format Version 60000
+# Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
@@ -151,6 +151,10 @@ SOURCE=.\src\xlibc\math\floor.c
 # Begin Source File
 
 SOURCE=.\src\xlibc\math\fmod.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xlibc\math\ftol.c
 # End Source File
 # Begin Source File
 

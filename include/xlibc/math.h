@@ -70,6 +70,8 @@ float floorf(float);
 float fmodf(float, float);
 float fabsf(float);
 
+float ftol(float);			// Should this be in stdlib?
+
 #ifdef	__cplusplus
 };
 #endif
