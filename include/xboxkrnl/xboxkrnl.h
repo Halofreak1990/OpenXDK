@@ -108,6 +108,7 @@ typedef long                NTSTATUS;
 // ******************************************************************
 #define NTAPI               __stdcall
 #define CDECL               __cdecl
+#define INLINE              __inline
 #define DECLSPEC_NORETURN   __declspec( noreturn )
 
 // ******************************************************************
@@ -271,6 +272,102 @@ typedef enum _RETURN_FIRMWARE
     ReturnFirmwareAll           = 0x5
 }
 RETURN_FIRMWARE, *LPRETURN_FIRMWARE;
+
+// ******************************************************************
+// * READ_REGISTER_UCHAR
+// ******************************************************************
+// *
+// * Use this to access I/O mapped memory. Just a good standard.
+// *
+// ******************************************************************
+INLINE static UCHAR READ_REGISTER_UCHAR(PUCHAR Address)
+{
+    return *(volatile UCHAR *)Address;
+}
+
+// ******************************************************************
+// * READ_REGISTER_USHORT
+// ******************************************************************
+// *
+// * Use this to access I/O mapped memory. Just a good standard.
+// *
+// ******************************************************************
+INLINE static USHORT READ_REGISTER_USHORT(PUSHORT Address)
+{
+    return *(volatile USHORT *)Address;
+}
+
+// ******************************************************************
+// * READ_REGISTER_ULONG
+// ******************************************************************
+// *
+// * Use this to access I/O mapped memory. Just a good standard.
+// *
+// ******************************************************************
+INLINE static ULONG READ_REGISTER_ULONG(PULONG Address)
+{
+    return *(volatile ULONG *)Address;
+}
+
+// ******************************************************************
+// * WRITE_REGISTER_UCHAR
+// ******************************************************************
+// *
+// * Use this to access I/O mapped memory (without this, writing a
+// * value and then reading it back can produce an incorrect result
+// * because the write may not be completed yet.)
+// *
+// ******************************************************************
+static VOID WRITE_REGISTER_UCHAR(PVOID Address, UCHAR Value)
+{
+    __asm
+    {
+        mov edx, Address
+        mov ah, Value
+        mov [edx], ah
+        lock or Address, edx
+    };
+}
+
+// ******************************************************************
+// * WRITE_REGISTER_USHORT
+// ******************************************************************
+// *
+// * Use this to access I/O mapped memory (without this, writing a
+// * value and then reading it back can produce an incorrect result
+// * because the write may not be completed yet.)
+// *
+// ******************************************************************
+static VOID WRITE_REGISTER_USHORT(PVOID Address, USHORT Value)
+{
+    __asm
+    {
+        mov edx, Address
+        mov ax, Value
+        mov [edx], ax
+        lock or Address, edx
+    };
+}
+
+// ******************************************************************
+// * WRITE_REGISTER_ULONG
+// ******************************************************************
+// *
+// * Use this to access I/O mapped memory (without this, writing a
+// * value and then reading it back can produce an incorrect result
+// * because the write may not be completed yet.)
+// *
+// ******************************************************************
+static VOID WRITE_REGISTER_ULONG(PVOID Address, ULONG Value)
+{
+    __asm
+    {
+        mov edx, Address
+        mov eax, Value
+        mov [edx], eax
+        lock or Address, edx
+    };
+}
 
 // ******************************************************************
 // * Debug
