@@ -454,7 +454,7 @@ int	ReadFile(	HANDLE	hFile,					// file handle
 	{
 		Status = NtWaitForSingleObject(
 			(void*) hFile,
-			(void*) FALSE,
+			        FALSE,
 			(void*) NULL);
 	}
 

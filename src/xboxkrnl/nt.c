@@ -33,12 +33,6 @@ NTSYSAPI VOID *NtCreateEvent = 0;
 // ******************************************************************
 // * NtCreateFile
 // ******************************************************************
-// *
-// * Causes a new file or directory to be created, or opens and
-// * existing file, device, directory, or volume, giving the caller
-// * a handle for the file object.
-// *
-// ******************************************************************
 NTSYSAPI EXPORTNUM(190) NTSTATUS NTAPI NtCreateFile
 (
 	OUT PHANDLE  FileHandle, 
@@ -79,10 +73,6 @@ NTSYSAPI VOID *NtQueryFullAttributesFile = 0;
 // ******************************************************************
 // * NtQueryInformationFile
 // ******************************************************************
-// *
-// * Return various kinds of information about a given file object.
-// *
-// ******************************************************************
 NTSYSAPI EXPORTNUM(211) NTSTATUS NTAPI NtQueryInformationFile
 (	
 	IN  HANDLE FileHandle,          // TODO: improve parameter accuracy
@@ -105,10 +95,6 @@ NTSYSAPI VOID *NtQueryVolumeInformationFile = 0;
 
 // ******************************************************************
 // * NtReadFile
-// ******************************************************************
-// *
-// * Read data from an opened file.
-// *
 // ******************************************************************
 NTSYSAPI EXPORTNUM(219) NTSTATUS NTAPI NtReadFile
 (
@@ -135,22 +121,18 @@ NTSYSAPI VOID *NtSetEvent = 0;
 // ******************************************************************
 // * NtSetInformationFile
 // ******************************************************************
-// *
-// * 
-// *
-// ******************************************************************
-NTSYSAPI EXPORTNUM(226) ULONG NTAPI NtSetInformationFile
+NTSYSAPI EXPORTNUM(226) NTSTATUS NTAPI NtSetInformationFile
 (	
-	IN	PVOID	FileHandle,
-	IN	PVOID	IO_Info,
-	IN	PVOID	FileInfo,
+	IN  HANDLE  FileHandle,            // TODO: correct paramters
+	OUT	PVOID	IoStatusBlock,
+	IN	PVOID	FileInformation,
 	IN	ULONG	Length,
-	IN	ULONG	FileInfoClass
+	IN	ULONG	FileInformationClass
 )
 {
     return 0;
 }
-//NTSYSAPI VOID *NtSetInformationFile = 0;
+
 NTSYSAPI VOID *NtSetIoCompletion = 0;
 NTSYSAPI VOID *NtSetSystemTime = 0;
 NTSYSAPI VOID *NtSetTimerEx = 0;
@@ -161,38 +143,29 @@ NTSYSAPI VOID *NtUserIoApcDispatcher = 0;
 // ******************************************************************
 // * NtWaitForSingleObject
 // ******************************************************************
-// *
-// * 
-// *
-// ******************************************************************
-NTSYSAPI EXPORTNUM(233) ULONG NTAPI NtWaitForSingleObject
+NTSYSAPI EXPORTNUM(233) NTSTATUS NTAPI NtWaitForSingleObject
 (	
-	IN	PVOID	Handle,
-	IN	PVOID	Alert,
+	IN  HANDLE  Handle,            // TODO: correct paramters
+	IN	BOOLEAN	Alertable,
 	IN	PVOID	Timeout
 )
 {
     return 0;
 }
 
-//NTSYSAPI VOID *NtWaitForSingleObject = 0;
 NTSYSAPI VOID *NtWaitForSingleObjectEx = 0;
 NTSYSAPI VOID *NtWaitForMultipleObjectsEx = 0;
 
 // ******************************************************************
 // * NtWriteFile
 // ******************************************************************
-// *
-// * Write data to an opened file.
-// *
-// ******************************************************************
-NTSYSAPI EXPORTNUM(236) ULONG NTAPI NtWriteFile
+NTSYSAPI EXPORTNUM(236) NTSTATUS NTAPI NtWriteFile
 (	
 	IN  HANDLE  FileHandle,            // TODO: correct paramters
 	IN	PVOID	Event,
 	IN	PVOID	ApcRoutine,
 	IN	PVOID	ApcContext,
-	IN	PVOID	IoStatusBlock,
+	OUT	PVOID	IoStatusBlock,
 	IN	PVOID	Buffer,
 	IN	ULONG	Length,
 	IN	PVOID	ByteOffset

@@ -124,16 +124,22 @@ NTSYSAPI VOID *NtRemoveIoCompletion;
 NTSYSAPI VOID *NtResumeThread;
 NTSYSAPI VOID *NtSetEvent;
 
-
-NTSYSAPI EXPORTNUM(226) ULONG NTAPI NtSetInformationFile
+// ******************************************************************
+// * NtSetInformationFile
+// ******************************************************************
+// *
+// * Changes various kinds of information about a given file object.
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(226) NTSTATUS NTAPI NtSetInformationFile
 (	
-	IN  HANDLE   FileHandle,            // TODO: correct paramters
-	IN	PVOID	IO_Info,
-	IN	PVOID	FileInfo,
+	IN  HANDLE  FileHandle,            // TODO: correct paramters
+	OUT	PVOID	IoStatusBlock,
+	IN	PVOID	FileInformation,
 	IN	ULONG	Length,
-	IN	ULONG	FileInfoClass
+	IN	ULONG	FileInformationClass
 );
-//NTSYSAPI VOID *NtSetInformationFile;
+
 NTSYSAPI VOID *NtSetIoCompletion;
 NTSYSAPI VOID *NtSetSystemTime;
 NTSYSAPI VOID *NtSetTimerEx;
@@ -141,13 +147,22 @@ NTSYSAPI VOID *NtSignalAndWaitForSingleObjectEx;
 NTSYSAPI VOID *NtSuspendThread;
 NTSYSAPI VOID *NtUserIoApcDispatcher;
 
-NTSYSAPI EXPORTNUM(233) ULONG NTAPI NtWaitForSingleObject
+// ******************************************************************
+// * NtWaitForSingleObject
+// ******************************************************************
+// *
+// * Put the current thread into a wait state until the given 
+// * dispatcher object is set to a signaled state or (optionally) 
+// * until the wait times out.
+// *
+// ******************************************************************
+NTSYSAPI EXPORTNUM(233) NTSTATUS NTAPI NtWaitForSingleObject
 (	
-	IN  HANDLE   FileHandle,            // TODO: correct paramters
-	IN	PVOID	Alert,
+	IN  HANDLE  Handle,            // TODO: correct paramters
+	IN	BOOLEAN	Alertable,
 	IN	PVOID	Timeout
 );
-//NTSYSAPI VOID *NtWaitForSingleObject;
+
 NTSYSAPI VOID *NtWaitForSingleObjectEx;
 NTSYSAPI VOID *NtWaitForMultipleObjectsEx;
 
@@ -158,13 +173,13 @@ NTSYSAPI VOID *NtWaitForMultipleObjectsEx;
 // * Write data to an opened file.
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(236) ULONG NTAPI NtWriteFile
+NTSYSAPI EXPORTNUM(236) NTSTATUS NTAPI NtWriteFile
 (	
 	IN  HANDLE  FileHandle,            // TODO: correct paramters
 	IN	PVOID	Event,
 	IN	PVOID	ApcRoutine,
 	IN	PVOID	ApcContext,
-	IN	PVOID	IoStatusBlock,
+	OUT	PVOID	IoStatusBlock,
 	IN	PVOID	Buffer,
 	IN	ULONG	Length,
 	IN	PVOID	ByteOffset
