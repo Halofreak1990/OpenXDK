@@ -17,18 +17,19 @@
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			CharacterSet="2"
+			WholeProgramOptimization="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/QIfist"
+				GlobalOptimizations="FALSE"
 				InlineFunctionExpansion="1"
 				OptimizeForProcessor="2"
 				AdditionalIncludeDirectories="include,include\xlibc"
 				PreprocessorDefinitions="NDEBUG,_LIB,_XBOX"
 				IgnoreStandardIncludePath="TRUE"
 				StringPooling="TRUE"
-				ExceptionHandling="TRUE"
-				RuntimeLibrary="4"
+				ExceptionHandling="FALSE"
 				BufferSecurityCheck="FALSE"
 				EnableFunctionLevelLinking="TRUE"
 				PrecompiledHeaderFile=".\lib/xhal.pch"
@@ -44,7 +45,8 @@
 				Name="VCLibrarianTool"
 				OutputFile=".\lib\xhal.lib"
 				SuppressStartupBanner="TRUE"
-				IgnoreAllDefaultLibraries="TRUE"/>
+				IgnoreAllDefaultLibraries="TRUE"
+				IgnoreDefaultLibraryNames=""/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool

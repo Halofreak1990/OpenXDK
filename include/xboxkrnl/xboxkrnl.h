@@ -181,6 +181,16 @@ typedef struct _STRING
 STRING, ANSI_STRING, *PSTRING, *PANSI_STRING;
 
 // ******************************************************************
+// * LIST_ENTRY
+// ******************************************************************
+typedef struct _LIST_ENTRY
+{
+    struct _LIST_ENTRY *Flink;
+    struct _LIST_ENTRY *Blink;
+}
+LIST_ENTRY, *PLIST_ENTRY;
+
+// ******************************************************************
 // * OBJECT_ATTRIBUTES
 // ******************************************************************
 typedef struct _OBJECT_ATTRIBUTES

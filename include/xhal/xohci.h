@@ -79,6 +79,13 @@ xohci_ed;
 // ******************************************************************
 // * struct : td (Transfer Descriptor)
 // ******************************************************************
+// *
+// * Since XBox controllers are not isochronous, we do not need
+// * to support that transfer type. therefore, we also do not need
+// * to align this structure to 32 bytes, as general transfer desc
+// * only require 16 byte alignment
+// *
+// ******************************************************************
 #pragma pack(16)
 typedef struct _xohci_td
 {
@@ -149,11 +156,11 @@ xohci_td;
 #pragma pack(1)
 typedef struct _xohci_hcca
 {
-    uint32 int_table[32];
-    uint16 frame_number;
-    uint16 pad1;
-    uint32 done_head;
-    uint08 reserved[116];
+    uint32 int_table[32];           // (RO) HccaInterruptTable
+    uint16 frame_number;            // (WO) HccaFrameNumber
+    uint16 pad1;                    // (WO) HccaPad1
+    uint32 done_head;               // (WO) HccaDoneHead
+    uint08 reserved[116];           // (RW) Reserved for use by Host Controller
     // less than 256 bytes..why?
 }
 xohci_hcca;
@@ -179,7 +186,7 @@ typedef struct _xohci_regs
     uint32 hc_int_enable;
     uint32 hc_int_disable;
 
-    struct _xohci_hcca *hc_hcca;
+    uint32 hc_hcca;
     uint32 hc_period_cur;
     uint32 hc_control_head;
     uint32 hc_control_cur;
@@ -203,50 +210,50 @@ xohci_regs;
 // ******************************************************************
 // * global pointer to OHCI Host Controller Operational Registers
 // ******************************************************************
-xohci_regs *g_ohci_regs;
+xohci_regs *g_xohci_regs;
 
 // ******************************************************************
 // * hc_control register masks
 // ******************************************************************
-#define OHCI_CTRL_CBSR	(3 << 0)	// control/bulk service ratio
-#define OHCI_CTRL_PLE	(1 << 2)	// periodic list enable
-#define OHCI_CTRL_IE	(1 << 3)	// isochronous enable
-#define OHCI_CTRL_CLE	(1 << 4)	// control list enable
-#define OHCI_CTRL_BLE	(1 << 5)	// bulk list enable
-#define OHCI_CTRL_HCFS	(3 << 6)	// host controller functional state
-#define OHCI_CTRL_IR	(1 << 8)	// interrupt routing
-#define OHCI_CTRL_RWC	(1 << 9)	// remote wakeup connected
-#define OHCI_CTRL_RWE	(1 << 10)	// remote wakeup enable
+#define XOHCI_CTRL_CBSR	(3 << 0)	// control/bulk service ratio
+#define XOHCI_CTRL_PLE	(1 << 2)	// periodic list enable
+#define XOHCI_CTRL_IE	(1 << 3)	// isochronous enable
+#define XOHCI_CTRL_CLE	(1 << 4)	// control list enable
+#define XOHCI_CTRL_BLE	(1 << 5)	// bulk list enable
+#define XOHCI_CTRL_HCFS	(3 << 6)	// host controller functional state
+#define XOHCI_CTRL_IR	(1 << 8)	// interrupt routing
+#define XOHCI_CTRL_RWC	(1 << 9)	// remote wakeup connected
+#define XOHCI_CTRL_RWE	(1 << 10)	// remote wakeup enable
 
 // ******************************************************************
 // * pre-shifted values for HC_CONTROL_FUNCTIONAL_STATE
 // ******************************************************************
-#define OHCI_USB_RESET       (0 << 6)
-#define OHCI_USB_RESUME      (1 << 6)
-#define OHCI_USB_OPERATIONAL (2 << 6)
-#define OHCI_USB_SUSPEND     (3 << 6)
+#define XOHCI_USB_RESET       (0 << 6)
+#define XOHCI_USB_RESUME      (1 << 6)
+#define XOHCI_USB_OPERATIONAL (2 << 6)
+#define XOHCI_USB_SUSPEND     (3 << 6)
 
 // ******************************************************************
 // * hc_cmdstatus register masks
 // ******************************************************************
-#define OHCI_HCR	(1 << 0)	// host controller reset
-#define OHCI_CLF  	(1 << 1)	// control list filled
-#define OHCI_BLF  	(1 << 2)	// bulk list filled
-#define OHCI_OCR  	(1 << 3)	// ownership change request
-#define OHCI_SOC  	(3 << 16)	// scheduling overrun count
+#define XOHCI_HCR	(1 << 0)	// host controller reset
+#define XOHCI_CLF  	(1 << 1)	// control list filled
+#define XOHCI_BLF  	(1 << 2)	// bulk list filled
+#define XOHCI_OCR  	(1 << 3)	// ownership change request
+#define XOHCI_SOC  	(3 << 16)	// scheduling overrun count
 
 // ******************************************************************
 // * interrupt register masks (status/enable/disable regs)
 // ******************************************************************
-#define OHCI_INTR_SO	(1 << 0)	// scheduling overrun
-#define OHCI_INTR_WDH	(1 << 1)	// writeback of done_head
-#define OHCI_INTR_SF	(1 << 2)	// start frame
-#define OHCI_INTR_RD	(1 << 3)	// resume detect
-#define OHCI_INTR_UE	(1 << 4)	// unrecoverable error
-#define OHCI_INTR_FNO	(1 << 5)	// frame number overflow
-#define OHCI_INTR_RHSC	(1 << 6)	// root hub status change
-#define OHCI_INTR_OC	(1 << 30)	// ownership change
-#define OHCI_INTR_MIE	(1 << 31)	// master interrupt enable
+#define XOHCI_INTR_SO	(1 << 0)	// scheduling overrun
+#define XOHCI_INTR_WDH	(1 << 1)	// writeback of done_head
+#define XOHCI_INTR_SF	(1 << 2)	// start frame
+#define XOHCI_INTR_RD	(1 << 3)	// resume detect
+#define XOHCI_INTR_UE	(1 << 4)	// unrecoverable error
+#define XOHCI_INTR_FNO	(1 << 5)	// frame number overflow
+#define XOHCI_INTR_RHSC	(1 << 6)	// root hub status change
+#define XOHCI_INTR_OC	(1 << 30)	// ownership change
+#define XOHCI_INTR_MIE	(1 << 31)	// master interrupt enable
 
 // ******************************************************************
 // * struct : xohci
@@ -258,6 +265,7 @@ xohci_regs *g_ohci_regs;
 typedef struct _xohci
 {
     xohci_hcca *m_hcca;
+    uint32      m_hcca_dma;
     uint32      m_hc_control;
     uint32      m_disabled;
 }

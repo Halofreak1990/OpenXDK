@@ -41,7 +41,7 @@ void xohci_pci_init()
         {
             PHYSICAL_ADDRESS io_phys = (PHYSICAL_ADDRESS)(config_info.u.type0.BaseAddresses[0] & 0xFFFFF000);
 
-            g_ohci_regs = MmMapIoSpace(io_phys, 0x16, PAGE_READWRITE | PAGE_NOCACHE);
+            g_xohci_regs = MmMapIoSpace(io_phys, 0x16, PAGE_READWRITE | PAGE_NOCACHE);
         }
     }
 
