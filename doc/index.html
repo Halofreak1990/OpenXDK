@@ -21,8 +21,9 @@ the root of your XBOX's C drive.</li>
 nForce MCP-D chip at the hardware/driver level, please get involved!</li>
 </ul>
 <p>
-For more information, click on one of the following
-topics:
+To download OpenXDK, pay a visit to the <a href="http://openxdk.sourceforge.net">OpenXDK SourceForge</a> page.
+<p>
+For more information, click on one of the following topics:
 <ul>
 <li><a href="xbox.html">Stuff you should know about the XBOX</a></li>
 <li><a href="overview.html">Overview of OpenXDK</a></li>
@@ -36,7 +37,30 @@ topics:
 <li><a href="links.html">Useful Links</a></li>
 </ul>
 <p>
-All feedback, suggestions, corrections and offers of assistance welcome. 
+<h2>Latest News</h2>
+<table>
+<tr><td>
+<b>7th October 2004 - Release 0.04.1</b>
+<p>Well, I inadvertantly checked in some of the automake/autoconf files that contained some
+hardcoded paths to my local workspace.  Sorry!  Please update to the latest build.
+<p>I also have added a binary package that contains just the cygwin-precompiled OpenXDK
+libraries and header files.  Unzip it into <code>/usr/local</code> and you should be 
+able to compile your own programs.
+<p>Lastly, I added the ability to launch XBE files using either <code>XLaunchXBE()</code> or 
+<code>execve()</code>) APIs.  This gets us much closer to being able to write a dashboard
+of some sort.  What is still outstanding is how to get a list of files.  I am investigating
+using the POSIX opendir/readdir/etc API to do so (I might also provide an API that 
+looks more like the Microsoft <code>FindFirstFile</code>... we'll see!).
+</td></tr>
+</table>
+<br>
+<table>
+<tr><td>
+<b>4th October 2004 - Release 0.04</b>
+<p>The Cygwin compilable OpenXDK gets released to the public.
+</td></tr>
+</table>
+<p>All feedback, suggestions, corrections and offers of assistance welcome. 
 <p>
 <code>craig (at) openxdk (dot) org</code>.
 <br>
