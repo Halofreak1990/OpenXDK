@@ -113,15 +113,19 @@ void xohci_init()
             // reset clears this, so we have to write it again
             WRITE_REGISTER_ULONG(&g_ohci_regs->hc_hcca, (ULONG)g_xohci.m_hcca);
 
-            // enable all interrupts except SOF detect
-            {
-                ULONG mask = OHCI_INTR_SO | OHCI_INTR_WDH | OHCI_INTR_UE | OHCI_INTR_MIE;
+            // hc_periodic_start = 90% of FrameInterval field of fminterval
+            WRITE_REGISTER_ULONG(&g_ohci_regs->hc_periodic_start, (fminterval*9)/10);
 
-                WRITE_REGISTER_ULONG(&g_ohci_regs->hc_int_enable, mask);
-                WRITE_REGISTER_ULONG(&g_ohci_regs->hc_int_status, mask);
-            }
+            // make sure fminterval is set correctly (from usb_ohci.c linux 2.4.19)
+            fminterval |= ((((fminterval - 210) * 6) / 7) << 16);
+            WRITE_REGISTER_ULONG(&g_ohci_regs->hc_fm_interval, fminterval);
 
-            // set hc_control to have "all queues on" & set OHCI_USB_OPERATIONAL
+            // this is not really necessary, because this value is probably already correct?
+            WRITE_REGISTER_ULONG(&g_ohci_regs->hc_ls_threshold, 0x628);
+
+            // ******************************************************************
+            // * set hc_control to have "all queues on", set OHCI_USB_OPERATIONAL
+            // ******************************************************************
             {
                 ULONG hc_control = (OHCI_CTRL_CBSR & 0x3) | OHCI_CTRL_PLE | OHCI_CTRL_IE | OHCI_USB_OPERATIONAL;
 
@@ -132,15 +136,15 @@ void xohci_init()
                 g_xohci.m_disabled = 0;
             }
 
-            // hc_periodic_start = 90% of FrameInterval field of fminterval
-            WRITE_REGISTER_ULONG(&g_ohci_regs->hc_periodic_start, (fminterval*9)/10);
+            // ******************************************************************
+            // * enable all interrupts except SOF detect
+            // ******************************************************************
+            {
+                ULONG mask = OHCI_INTR_SO | OHCI_INTR_WDH | OHCI_INTR_UE | OHCI_INTR_MIE;
 
-            // make sure fminterval is set correctly (from usb_ohci.c linux 2.4.19)
-            fminterval |= ((((fminterval - 210) * 6) / 7) << 16);
-            WRITE_REGISTER_ULONG(&g_ohci_regs->hc_fm_interval, fminterval);
-
-            // this is not really necessary, because this value is probably already correct
-            WRITE_REGISTER_ULONG(&g_ohci_regs->hc_ls_threshold, 0x628);
+                WRITE_REGISTER_ULONG(&g_ohci_regs->hc_int_enable, mask);
+                WRITE_REGISTER_ULONG(&g_ohci_regs->hc_int_status, mask);
+            }
         }
     }
 

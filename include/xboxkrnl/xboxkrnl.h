@@ -355,6 +355,60 @@ typedef VOID (NTAPI *PKSTART_ROUTINE)
 );
 
 // ******************************************************************
+// * NT_TIB
+// ******************************************************************
+typedef struct _NT_TIB
+{
+    struct _EXCEPTION_REGISTRATION_RECORD  *ExceptionList;          // 0x00
+    PVOID                                   StackBase;              // 0x04
+    PVOID                                   StackLimit;             // 0x08
+    PVOID                                   SubSystemTib;           // 0x0C
+    union
+    {
+        PVOID FiberData;                                            // 0x10 for TIB
+        ULONG Version;                                              // 0x10 for TEB (?)
+    }
+    u_a;
+    PVOID                                   ArbitraryUserPointer;   // 0x14
+    struct _NT_TIB                         *Self;                   // 0x18
+}
+NT_TIB, *PNT_TIB;
+
+// ******************************************************************
+// * KPCRB
+// ******************************************************************
+// *
+// * NOTE: INCOMPLETE!!
+// *
+// ******************************************************************
+typedef struct _KPRCB
+{
+    struct _KTHREAD* CurrentThread;                                 // 0x00, KPCR : 0x28
+    struct _KTHREAD* NextThread;                                    // 0x04, KPCR : 0x2C
+    struct _KTHREAD* IdleThread;                                    // 0x08, KPCR : 0x30
+
+    // NOTE: There are many other fields!
+}
+KPRCB, *PKPRCB;
+
+// ******************************************************************
+// * KPCR
+// ******************************************************************
+// *
+// * NOTE: KPCR is the structure which exists at the FS: segment.
+// *
+// ******************************************************************
+typedef struct _KPCR
+{
+    struct _NT_TIB  NtTib;                                          // 0x00
+    struct _KPCR   *SelfPcr;                                        // 0x1C
+    PKPRCB          Prcb;                                           // 0x20
+    UCHAR           Irql;                                           // 0x24
+    KPRCB           PrcbData;                                       // 0x28
+}
+KPCR, *PKPCR;
+
+// ******************************************************************
 // * READ_REGISTER_UCHAR
 // ******************************************************************
 // *
