@@ -84,13 +84,31 @@ XBSYSAPI EXPORTNUM(322) XBOX_HARDWARE_INFO XboxHardwareInfo;
 
 XBSYSAPI VOID *XboxHDKey;
 XBSYSAPI VOID *XboxKrnlVersion;
-XBSYSAPI VOID *XboxSignatureKey;
+
+// ******************************************************************
+// * XboxSignatureKey
+// ******************************************************************
+XBSYSAPI EXPORTNUM(325) BYTE XboxSignatureKey[16];
+
 XBSYSAPI VOID *XeImageFileName;
 XBSYSAPI VOID *XeLoadSection;
 XBSYSAPI VOID *XeUnloadSection;
-XBSYSAPI VOID *XcSHAInit;
-XBSYSAPI VOID *XcSHAUpdate;
-XBSYSAPI VOID *XcSHAFinal;
+
+// ******************************************************************
+// * XcSHAInit
+// ******************************************************************
+XBSYSAPI EXPORTNUM(335) VOID NTAPI XcSHAInit(UCHAR *pbSHAContext);
+
+// ******************************************************************
+// * XcSHAUpdate
+// ******************************************************************
+XBSYSAPI EXPORTNUM(336) VOID NTAPI XcSHAUpdate(UCHAR *pbSHAContext, UCHAR *pbInput, ULONG dwInputLength);
+
+// ******************************************************************
+// * XcSHAFinal
+// ******************************************************************
+XBSYSAPI EXPORTNUM(337) VOID NTAPI XcSHAFinal(UCHAR *pbSHAContext, UCHAR *pbDigest);
+
 XBSYSAPI VOID *XcRC4Key;
 XBSYSAPI VOID *XcRC4Crypt;
 XBSYSAPI VOID *XcHMAC;
