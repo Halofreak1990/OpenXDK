@@ -244,3 +244,39 @@ int	NVSetVideoMode( u32 dwResolution, u32 dwPixelFormat )
 	return TRUE;
 }
  
+
+
+
+
+//********************************************************
+//
+// Name:		NVSetClippingRectangle
+// Function:   	
+//
+//********************************************************
+VOID NVSetClippingRectangle(u32 x1,u32 y1,u32 x2,u32 y2)
+{
+    PNV_CLIP	Clip = NVPTR_CLIP;
+    int			Height = y2 - y1 + 1;
+    int			Width  = x2 - x1 + 1;
+
+	NV_WAIT_FIFO(Clip, 2);
+    Clip->TopLeft = (y1 << 16) | (x1 & 0xffff);
+    Clip->WidthHeight = (Height << 16) | Width;
+}
+
+
+//**************************************************************
+//
+// Name:		NVSetFlickerFilter
+// Function:   	Set flicker fixer to various settings
+//				0 = off, and from 1 to 5.(we use 1 as default)
+//
+//**************************************************************
+int NVSetFlickerFilter(DWORD dwLevel)
+{
+	if (dwLevel > 5) return -1;
+	
+	AvSendTVEncoderOption((PVOID)NV_REGBASE, AV_OPTION_SET_FLICKER_FILTER, (ULONG)dwLevel, NULL);
+	return 0;
+}

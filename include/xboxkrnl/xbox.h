@@ -17,7 +17,17 @@
 // ******************************************************************
 NTSYSAPI EXPORTNUM(1) PVOID NTAPI AvGetSavedDataAddress();
 
-NTSYSAPI VOID *AvSendTVEncoderOption;
+
+// ******************************************************************
+// * AvSendTVEncoderOption
+// ******************************************************************
+NTSYSAPI EXPORTNUM(2) VOID NTAPI AvSendTVEncoderOption
+(
+	IN	PVOID	RegisterBase, 
+	IN	ULONG	Option, 
+	IN	ULONG	Param, 
+	OUT	ULONG	*Result
+);
 
 // ******************************************************************
 // * AvSetDisplayMode

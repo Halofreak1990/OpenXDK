@@ -156,6 +156,7 @@ void vga_init_mode( int Mode )
 		g_ScreenWidth = 640;
 		g_ScreenHeight= 480;
 		g_nBPP=4;
+		NVSetFlickerFilter(1);				// Set flicker fixer to a sharper image
 		return;
 	}
 
@@ -215,6 +216,8 @@ void vga_init_mode( int Mode )
 	while(i>=0){
 		pScr [i--]=0;
 	}
+
+	NVSetFlickerFilter(1);				// Set flicker fixer to a sharper image
 
 
 
