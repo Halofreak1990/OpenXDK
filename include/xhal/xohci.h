@@ -31,7 +31,7 @@ void xohci_init();
 // * struct : ed (Endpoint Descriptor)
 // ******************************************************************
 #pragma pack(16)
-struct ed
+typedef struct _xohci_ed
 {
     // ******************************************************************
     // * DWord 0
@@ -68,7 +68,28 @@ struct ed
     // ******************************************************************
     uint32  m_reserved3       : 4;
     uint32  m_next_ed         : 28;
-};
+}
+xohci_ed;
+#pragma pack()
+
+// ******************************************************************
+// * struct : xohci_hcca (Host Controller Communications Area)
+// ******************************************************************
+// *
+// * Note: This must be 256-byte aligned
+// *
+// ******************************************************************
+#pragma pack(1)
+typedef struct _xohci_hcca
+{
+    uint32 int_table[32];
+    uint16 frame_number;
+    uint16 pad1;
+    uint32 done_head;
+    uint08 reserved[116];
+    uint08 the_rest[4];     // (to complete the "256" byte sized structure)
+}
+xohci_hcca;
 #pragma pack()
 
 #if defined(__cplusplus)

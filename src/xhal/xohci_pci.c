@@ -19,8 +19,6 @@ void xohci_pci_init()
 {
     PCI_COMMON_CONFIG config_info;
 
-    char buffer[1024];
-
     // ******************************************************************
     // * retrieve g_ohci_regs
     // ******************************************************************
@@ -44,39 +42,6 @@ void xohci_pci_init()
             PHYSICAL_ADDRESS io_phys = (PHYSICAL_ADDRESS)(config_info.u.type0.BaseAddresses[0] & 0xFFFFF000);
 
             g_ohci_regs = MmMapIoSpace(io_phys, 0x16, PAGE_READWRITE | PAGE_NOCACHE);
-        }
-    }
-
-    // ******************************************************************
-    // * verify revision
-    // ******************************************************************
-    {
-        // revision is BCD representation of the lowest 8 bits
-        uint32 revision = READ_REGISTER_ULONG(&g_ohci_regs->hc_revision) & 0xFF;
-
-        if(revision != 0x10)
-            HalReturnToFirmware(ReturnFirmwareReboot);  // TODO: Fatal Error
-    }
-
-    // ******************************************************************
-    // * update debug status
-    // ******************************************************************
-    {
-        sprintf(buffer, "OpenXDK : g_ohci_regs : 0x%.08X", g_ohci_regs);
-
-        vga_clear();
-
-        vga_print(20, 50, buffer);
-
-        vga_vsync();
-
-        vga_flip();
-
-        {
-            int v;
-
-            for(v=0;v<50*3;v++)
-                vga_vsync();
         }
     }
 
