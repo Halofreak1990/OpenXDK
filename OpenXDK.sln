@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xhal", "xhal.vcproj", "{26F
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xlibc", "xlibc.vcproj", "{99217C81-B8D9-45E9-87BA-B860D438BF7A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xvga", "xvga.vcproj", "{13B9D337-EE49-4741-AA12-D0460435ED7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Release
@@ -20,6 +22,8 @@ Global
 		{26F7CE7B-0FF2-41AD-B627-8C99003D3210}.Release.Build.0 = Release|Win32
 		{99217C81-B8D9-45E9-87BA-B860D438BF7A}.Release.ActiveCfg = Release|Win32
 		{99217C81-B8D9-45E9-87BA-B860D438BF7A}.Release.Build.0 = Release|Win32
+		{13B9D337-EE49-4741-AA12-D0460435ED7C}.Release.ActiveCfg = Release|Win32
+		{13B9D337-EE49-4741-AA12-D0460435ED7C}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

@@ -34,7 +34,7 @@
 				AssemblerListingLocation=".\lib/"
 				ObjectFile=".\lib/"
 				ProgramDataBaseFileName=".\lib/"
-				WarningLevel="3"
+				WarningLevel="2"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="3"
 				CompileAs="0"

@@ -39,7 +39,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386"
+				AdditionalOptions="/MACHINE:I386 /subsystem:native"
 				AdditionalDependencies="odbc32.lib odbccp32.lib"
 				OutputFile=".\lib/xboxkrnl.exe"
 				LinkIncremental="1"
