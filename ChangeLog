@@ -1,5 +1,11 @@
 Current
 - Modified a bunch of files to support MinGW and Linux compilation
+- Now has working knowledge of what directory it was launched out of.  This 
+  means that relative paths such as "./blah.txt" will now be picked up from
+  the XBE's launched directory, instead of C:\
+- Added the XMountDrive() API
+- Added XFindFirstFile(), XFindNextFile(), XCloseFile() APIs
+- Added support for POSIX dirent (opendir(), readdir(), closedir()) APIs
 
 
 0.05

@@ -58,6 +58,17 @@
 #define	FILE_CURRENT                            0x00000001
 #define	FILE_END                                0x00000002
 
+typedef struct _XBOX_FIND_DATA 
+{
+  unsigned int dwFileAttributes;
+  long long  ftCreationTime;
+  long long  ftLastAccessTime;
+  long long  ftLastWriteTime;
+  unsigned int nFileSize;
+  char cFileName[0x100];
+} XBOX_FIND_DATA, *PXBOX_FIND_DATA;
+
+
 int XConvertDOSFilenameToXBOX(
 	char *dosFilename, 
 	char *xboxFilename);
@@ -107,5 +118,21 @@ int XDeleteFile(
 	
 int XDeleteDirectory(
 	char *directoryName);
+
+int XMountDrive(
+	char driveLetter, 
+	char *directoryName);
+
+unsigned int XFindFirstFile(
+	char *directoryName,
+	char *mask,
+	PXBOX_FIND_DATA findFileData);
+
+int XFindNextFile(
+	unsigned int handle,
+	PXBOX_FIND_DATA findFileData);
+
+int XFindClose(
+	unsigned int handle);
 
 #endif

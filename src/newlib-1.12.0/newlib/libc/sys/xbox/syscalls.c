@@ -1,6 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <memory.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/dirent.h>
 #include <errno.h>
 
 #include <hal/xbox.h>
@@ -397,3 +401,94 @@ int NTAPI LocalFree(int address)
 void ASSERT(int blah)
 {
 }
+
+/*
+ * Implementation of the standard functions in direct.h
+ *
+ * opendir(), readdir(), closedir() and rewinddir().
+ *
+ * 06/17/2000 by Mike Haaland <mhaaland@hypertech.com>
+ */
+
+/** open the current directory and return a structure
+ *	to be used in subsequent readdir() and closedir()
+ *	calls. 
+ *
+ *	returns NULL if one error. 
+ */
+DIR * opendir(const char *dirname)
+{
+	DIR *dir;
+
+	dir = malloc(sizeof(struct _DIR));
+	if (!dir)
+		return NULL;
+
+	/* Stash the directory name */
+	strcpy(dir->pathName, dirname);
+
+	/* set the handle to invalid and set the firstTime flag */
+	dir->handle	  = INVALID_HANDLE_VALUE;
+	dir->firstTime = TRUE;
+	return dir;
+}
+
+/** Close the current directory - return 0 if success */
+int closedir(DIR *dirp)
+{
+	/* reset ourselves to the first file in the directory
+	 *
+	 * We just close the current handle and reset for the
+	 * next readdir call
+	 */
+	int result = 1;
+	
+	if (dirp->handle != INVALID_HANDLE_VALUE)
+	{
+		result = XFindClose(dirp->handle);
+		dirp->handle = INVALID_HANDLE_VALUE;
+	}
+	free(dirp);
+	
+	return (result == 0) ? 1 : 0;
+}
+
+/** get the next entry in the directory */
+struct dirent * readdir(DIR *dirp)
+{
+	XBOX_FIND_DATA findData;
+
+	if (TRUE == dirp->firstTime)
+	{
+		/** Get the first entry in the directory */
+		dirp->handle = XFindFirstFile(dirp->pathName, "*", &findData);
+		dirp->firstTime = FALSE;
+		if (INVALID_HANDLE_VALUE == dirp->handle)
+		{
+			return NULL;
+		}
+	}
+	else
+	{
+		int result = XFindNextFile(dirp->handle, &findData);
+		if (result == ERROR_NO_MORE_FILES)
+		{
+			return NULL;
+		}
+	}
+	/* we have a valid FIND_FILE_DATA, copy the filename */
+	memset(&dirp->d,'\0', sizeof(struct dirent));
+
+	strcpy(dirp->d.d_name, findData.cFileName);
+	dirp->d.d_namlen = strlen(dirp->d.d_name);	
+
+	return &dirp->d;
+}
+
+/** reopen the current directory */
+void rewinddir(DIR *dirp)
+{
+	 closedir(dirp);
+	 dirp->firstTime = TRUE;
+}
+

@@ -94,6 +94,7 @@ typedef ULONG PHYSICAL_ADDRESS, *PPHYSICAL_ADDRESS;
 // CreateOption values for NtCreateFile()
 // FILE_NON_DIRECTORY_FILE | FILE_SYNCHRONOUS_IO_NONALERT is what CreateFile
 // uses for most things when translating to NtCreateFile.
+#define FILE_LIST_DIRECTORY                     0x00000001
 #define FILE_DIRECTORY_FILE                     0x00000001
 #define FILE_WRITE_THROUGH                      0x00000002
 #define FILE_SEQUENTIAL_ONLY                    0x00000004
@@ -480,7 +481,7 @@ typedef struct _FILE_DIRECTORY_INFORMATION
 	LARGE_INTEGER   AllocationSize;
 	ULONG           FileAttributes;
 	ULONG           FileNameLength;
-	CHAR            FileName[1];        // Offset: 0x40
+	CHAR            FileName[0x100];        // Offset: 0x40
 } FILE_DIRECTORY_INFORMATION, *PFILE_DIRECTORY_INFORMATION;
 
 // ******************************************************************

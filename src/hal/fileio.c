@@ -1,6 +1,9 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <hal/fileio.h>
 #include <xboxkrnl/xboxkrnl.h>
+#include <openxdk/debug.h>
 
 // #define DEBUG 
 
@@ -8,10 +11,10 @@
 	#include <openxdk/debug.h>
 #endif
 
-char currentDrive = 'C';
+char currentDrive = 'D';
 char *partitions[] = 
 {
-	"\\Device\\Cdrom0\\",
+	"\\??\\D:\\",
 	"\\Device\\Harddisk0\\Partition1\\",
 	"\\Device\\Harddisk0\\Partition2\\",
 	"\\Device\\Harddisk0\\Partition3\\",
@@ -21,20 +24,36 @@ char *partitions[] =
 	"\\Device\\Harddisk0\\Partition7\\",
 };
 
-char *getPartitionString(char c)
+int getPartitionIndex(char c)
 {
 	switch(c)
 	{
-	case 'c': case 'C': return partitions[2];
-	case 'd': case 'D': return partitions[0];
-	case 'e': case 'E': return partitions[1];
-	case 'f': case 'F': return partitions[6];
-	case 'g': case 'G': return partitions[7];
-	case 'x': case 'X': return partitions[3];
-	case 'y': case 'Y': return partitions[4];
-	case 'z': case 'Z': return partitions[5];
-	default:            return NULL;
+	case 'c': case 'C': return 2;
+	case 'd': case 'D': return 0;
+	case 'e': case 'E': return 1;
+	case 'f': case 'F': return 6;
+	case 'g': case 'G': return 7;
+	case 'x': case 'X': return 3;
+	case 'y': case 'Y': return 4;
+	case 'z': case 'Z': return 5;
+	default:            return -1;
 	}
+}
+
+char *getPartitionString(char c)
+{
+	int i = getPartitionIndex(c);
+	if (i == -1)
+		return NULL;
+	else
+		return partitions[i];
+}
+
+void setPartitionString(char c, char *string)
+{
+	int i = getPartitionIndex(c);
+	if (i != -1)
+		partitions[i] = string;
 }
 
 /**
@@ -645,4 +664,168 @@ int XDeleteDirectory(char *directoryName)
 		NtClose((HANDLE)handle);
 		return STATUS_SUCCESS;
 	}
+}
+
+int XMountDrive(char driveLetter, char *directoryName)
+{
+#ifdef DEBUG
+	debugPrint("XMountDrive driveLetter=%c directoryName=%s\n", driveLetter, directoryName);
+#endif
+
+	ANSI_STRING drive, device; 
+
+	char driveBuffer[10];
+	sprintf(driveBuffer, "\\??\\%c:", driveLetter);
+	
+	char *deviceBuffer;
+
+	// we allocate some memory here that never gets deallocated.  Hopefully
+	// that won't be a problem because it only small and shouldn't happen often
+	deviceBuffer = (char *)malloc(200);
+	int rc = XConvertDOSFilenameToXBOX(directoryName, deviceBuffer);
+	if (rc != STATUS_SUCCESS)
+		return rc;
+
+	// we need to make sure it has a trailing slash
+	int len = strlen(deviceBuffer);
+	if (deviceBuffer[len-1] != '\\')
+	{
+		deviceBuffer[len] = '\\';
+		deviceBuffer[len+1] = 0;
+	}
+
+	RtlInitAnsiString(&drive, driveBuffer); 
+	RtlInitAnsiString(&device, deviceBuffer); 
+
+	IoDeleteSymbolicLink(&drive); 
+
+	NTSTATUS status = IoCreateSymbolicLink(&drive, &device); 
+	if (!NT_SUCCESS(status))
+		return RtlNtStatusToDosError(status);
+	else
+	{
+		setPartitionString(driveLetter, deviceBuffer); 
+		return STATUS_SUCCESS;
+	}
+}
+
+unsigned int XFindFirstFile(
+	char *directoryName,
+	char *mask,
+	PXBOX_FIND_DATA findFileData)
+{
+#ifdef DEBUG
+	debugPrint("XFindFirstFile directoryName=%s mask=%s\n", directoryName, mask);
+#endif
+
+	IO_STATUS_BLOCK IoStatusBlock;
+	FILE_DIRECTORY_INFORMATION FileInformation;
+	HANDLE handle = NULL;
+	ANSI_STRING FileMask;
+	ANSI_STRING FileName;
+	FILE_INFORMATION_CLASS FileInformationClass = FileDirectoryInformation;
+	OBJECT_ATTRIBUTES Attributes;
+
+	if (!strcmp(directoryName, "."))
+		directoryName = getPartitionString(currentDrive);
+		
+	char *directoryBuffer = (char *)malloc(200);
+	int rc = XConvertDOSFilenameToXBOX(directoryName, directoryBuffer);
+	if (rc != STATUS_SUCCESS)
+		return INVALID_HANDLE_VALUE;
+
+	RtlInitAnsiString(&FileMask, mask);
+	RtlInitAnsiString(&FileName, directoryBuffer);
+	Attributes.RootDirectory = NULL;
+	Attributes.ObjectName = &FileName;
+	Attributes.Attributes = OBJ_CASE_INSENSITIVE;
+	
+	NTSTATUS status = NtCreateFile(
+		&handle, 
+		FILE_LIST_DIRECTORY,
+		&Attributes, 
+		&IoStatusBlock,
+		NULL, 
+		FILE_ATTRIBUTE_NORMAL,
+		FILE_SHARE_READ, 
+		FILE_OPEN, 
+		FILE_DIRECTORY_FILE);
+	if (!NT_SUCCESS(status))
+		return INVALID_HANDLE_VALUE;
+
+	// and now actually do the looping over each file...
+	memset(&FileInformation, 0, sizeof(FILE_DIRECTORY_INFORMATION));
+	status = NtQueryDirectoryFile(
+		handle, 
+		NULL, 
+		NULL, 
+		NULL,
+		&IoStatusBlock, 
+		&FileInformation, 
+		sizeof(FILE_DIRECTORY_INFORMATION),
+		FileInformationClass, 
+		&FileMask, 
+		true);
+	if (!NT_SUCCESS(status))
+		return INVALID_HANDLE_VALUE;
+		
+	findFileData->dwFileAttributes = FileInformation.FileAttributes;
+	findFileData->ftCreationTime = FileInformation.CreationTime.QuadPart;
+	findFileData->ftLastAccessTime = FileInformation.LastAccessTime.QuadPart;
+	findFileData->ftLastWriteTime = FileInformation.LastWriteTime.QuadPart;
+	findFileData->nFileSize = FileInformation.AllocationSize.QuadPart;
+	strcpy(findFileData->cFileName, FileInformation.FileName);
+
+	return (unsigned int)handle;
+}
+
+int XFindNextFile(
+	unsigned int handle,
+	PXBOX_FIND_DATA findFileData)
+{
+#ifdef DEBUG
+	debugPrint("XFindNextFile handle=%d\n", handle);
+#endif
+
+	IO_STATUS_BLOCK IoStatusBlock;
+	FILE_DIRECTORY_INFORMATION FileInformation;
+	ANSI_STRING FileMask;
+	ANSI_STRING FileName;
+	FILE_INFORMATION_CLASS FileInformationClass = FileDirectoryInformation;
+	OBJECT_ATTRIBUTES Attributes;
+
+	// and now actually do the looping over each file...
+	memset(&FileInformation, 0, sizeof(FILE_DIRECTORY_INFORMATION));
+	NTSTATUS status = NtQueryDirectoryFile(
+		(HANDLE)handle, 
+		NULL, 
+		NULL, 
+		NULL,
+		&IoStatusBlock, 
+		&FileInformation, 
+		sizeof(FILE_DIRECTORY_INFORMATION),
+		FileInformationClass, 
+		&FileMask, 
+		false);
+	if (!NT_SUCCESS(status))
+		return ERROR_NO_MORE_FILES;
+		
+	findFileData->dwFileAttributes = FileInformation.FileAttributes;
+	findFileData->ftCreationTime = FileInformation.CreationTime.QuadPart;
+	findFileData->ftLastAccessTime = FileInformation.LastAccessTime.QuadPart;
+	findFileData->ftLastWriteTime = FileInformation.LastWriteTime.QuadPart;
+	findFileData->nFileSize = FileInformation.AllocationSize.QuadPart;
+	strcpy(findFileData->cFileName, FileInformation.FileName);
+
+	return STATUS_SUCCESS;
+}
+
+int XFindClose(
+	unsigned int handle)
+{
+#ifdef DEBUG
+	debugPrint("XFindClose handle=%d\n", handle);
+#endif
+
+	return XCloseHandle(handle);
 }
