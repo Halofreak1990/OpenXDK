@@ -64,7 +64,6 @@ int vsnprintf( char *buffer, unsigned int count, const char *format, va_list ap 
 int sprintf(char*, const char *format, ...);
 int snprintf (char *str, size_t size, const char *format, ...);
 
-
 # ifdef __cplusplus
 }
 # endif

@@ -36,7 +36,7 @@ typedef	signed int			s32;
 
 
 #ifndef	NULL
-#define	NULL		0x00;
+#define	NULL		0x00
 #endif
 
 #ifndef	true
