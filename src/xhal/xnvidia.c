@@ -147,8 +147,8 @@ int	NVSetVideoMode( u32 dwResolution, u32 dwPixelFormat )
 	switch(dwPixelFormat)
 	{
 	case _16BITCOLOUR:		pix = PIXEL_16BITS_555;
-							Pitch *= 2;
-							TotalSize *= 2;
+							Pitch *= 4;				// till we can change screen mode... it HAS to stay a 32 bit pitch
+							TotalSize *= 4;
 							break;
 
 	case _32BITCOLOUR:		pix = PIXEL_32BITS;

@@ -143,7 +143,21 @@ typedef struct
 #define VGAMEM_MTEXT 0xB000
 
 
+Register Mode320x200[];
+
+//
+// These functions are needed for xvga.c
+//
+void outportb( int port, unsigned char data );
+void readyVgaRegs(void);
+void outReg(Register r);
+void vga_set_reg( int port, int reg, int data );
+void vga_set_color( int reg, int R, int G, int B );
+
+
 #ifdef	__cplusplus
 }
 #endif
 #endif	//__XVGA_DEF_H__
+
+

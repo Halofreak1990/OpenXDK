@@ -1,5 +1,5 @@
 # Microsoft Developer Studio Project File - Name="xhal" - Package Owner=<4>
-# Microsoft Developer Studio Generated Build File, Format Version 60000
+# Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
@@ -68,6 +68,10 @@ SOURCE=.\src\xhal\xsysfont.c
 # Begin Source File
 
 SOURCE=.\src\xhal\xvga.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\xhal\xvga_sys.c
 # End Source File
 # End Group
 # Begin Group "Header Files"

@@ -390,6 +390,13 @@ HANDLE CreateFile
 // ******************************************************************
 // *
 // * Read data from a data file or device
+// * 
+// * in:		hFile = file handle
+// *			lpBuffer = Destination buffer for file data
+// *			nNumberOfBytesToRead = read "n" bytes
+// *			lpNumberOfBytesRead  = pointer to a u32 for bytes read.
+// *			lpOverlapped         = NULL unless overlap needed
+// * out:       true or false based of errors
 // *
 // ******************************************************************
 int ReadFile
@@ -473,6 +480,9 @@ int ReadFile
 // *
 // * Close an open handle.  This is a simple wrapper around NtClose.
 // *
+// * in:		Handle to open file
+// * out:       true or false if file closed.
+// *
 // ******************************************************************
 int CloseHandle(HANDLE Handle)
 {
@@ -493,17 +503,18 @@ int CloseHandle(HANDLE Handle)
 
 
 
-// ****************************************************************************
-//
-//  Name:           GetFileSizeEx
-//  Function:       Get the size of an "open" file
-//
-//  In:             hfile       = handle to open file
-//                  lpFileSize  = pointer to LARGE_INTEGER to store size
-//  Out:            int         = true for okay
-//                              = false for error
-//
-// ****************************************************************************
+// ******************************************************************
+// * GetFileSizeEx
+// ******************************************************************
+// *
+// * Get the size of an "open" file
+// *
+// * In:             hfile       = handle to open file
+// *                 lpFileSize  = pointer to LARGE_INTEGER to store size
+// * Out:            int         = true for okay
+// *                             = false for error
+// *
+// ******************************************************************
 int GetFileSizeEx(  HANDLE hFile, PLARGE_INTEGER lpFileSize)
 {
     NTSTATUS            Status;
@@ -531,16 +542,16 @@ int GetFileSizeEx(  HANDLE hFile, PLARGE_INTEGER lpFileSize)
 
 
 
-// ****************************************************************************
-//
-// Name:        SetFilePointerEx
-// Function:    Move file pointer around
-//
-// NOTE:        Until I do some 64bit functions, OR we get to use __int64
-//              we are restricted to 32bit long files. (4 gig?)
-//
-//
-// ****************************************************************************
+// ******************************************************************
+// * SetFilePointerEx
+// ******************************************************************
+// *
+// * Move file pointer around
+// *
+// * NOTE:        Until I do some 64bit functions, OR we get to use __int64
+// *              we are restricted to 32bit long files. (4 gig?)
+// *
+// ******************************************************************
 int SetFilePointerEx(   HANDLE hFile,
                         LARGE_INTEGER liDistanceToMove,
                         PLARGE_INTEGER lpNewFilePointer,
@@ -614,7 +625,20 @@ ErrorWin32:
 
 
 
-// Write data to a data file or device
+// ******************************************************************
+// * WriteFile
+// ******************************************************************
+// *
+// * Write data to a data file or device
+// *
+// * in:		hFile = file handle
+// *			lpBuffer = Source buffer for file data
+// *			nNumberOfBytesToWrite= write "n" bytes
+// *			lpNumberOfBytesWritten = pointer to a u32 for bytes written
+// *			lpOverlapped = NULL unless overlap needed
+// * out:       true or false based of errors
+// *
+// ******************************************************************
 int WriteFile(  HANDLE          hFile, 
                 PVOID           lpBuffer,
                 u32             nNumberOfBytesToWrite,
@@ -691,6 +715,13 @@ int WriteFile(  HANDLE          hFile,
 
 
 /*
+// ******************************************************************
+// * AddU64
+// ******************************************************************
+// *
+// * U64 support - will move to math later
+// *
+// ******************************************************************
 LARGE_INTEGER   AddU64( PLARGE_INTEGER  A,PLARGE_INTEGER  B )
 {
     u32 t,carry;

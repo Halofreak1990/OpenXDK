@@ -1,7 +1,7 @@
 // ************************************************************************************
 //
 //
-//								 xboxVGA.c
+//								  xvga.c
 //                       First Version by Bigboy
 //
 //
@@ -10,7 +10,8 @@
 //  --------		--				-------
 //	1.0				Bigboy			First attempt at screen access and control
 //									Much of this is based on VGA libs, and xbox Linux
-//
+//  1.1             Bigboy          Added 640x480x32 mode.
+//  1.2             Bigboy          Moved internal functions to xvga_sys.c
 //
 // ************************************************************************************
 
@@ -19,176 +20,25 @@
 #include "xhal/xvga_def.h"
 #include "xhal/xnvidia.h"
 
-u32	pScreenBuffer[320*240];			// Our screen (software emulated for LOW res just now)
-u32	FrontBuffer=0;					// Current screen address (visible)
-u32	BackBuffer=0;						// Current back buffer
 
-u32	_FrontBuffer=0;					// Current screen address (visible)
-u32	_BackBuffer=0;						// Current back buffer
-u32	_Framebuffer;
+	u32	pScreenBuffer[320*240];			// Our screen (software emulated for LOW res just now)
+	u32	FrontBuffer=0;					// Current screen address (visible)
+	u32	BackBuffer=0;					// Current back buffer
 
+	u32	_FrontBuffer=0;					// Current screen address (visible)
+	u32	_BackBuffer=0;					// Current back buffer
+	u32	_Framebuffer;
 
-int	_fltused;
-//
-// 
-//
-u32	g_nFlags=0;						// System flags
-u32	g_nScreenRes=0;					// Current Screen RES
+	u32	g_nFlags=0;						// System flags
+	u32	g_nScreenRes=0;					// Current Screen RES
 
-u32	g_ScreenWidth = 320;			// Current Screen Width
-u32	g_ScreenHeight = 240;			// Current Screen Height
-u32	g_nBPP=4;						// number of bytes per pixel
+	u32	g_ScreenWidth = 320;			// Current Screen Width
+	u32	g_ScreenHeight = 240;			// Current Screen Height
+	u32	g_nBPP=4;						// number of bytes per pixel
 
-u32	g_nFontFlags=0;
-u32	g_nInk = 0xffffff;
-u32	g_nPaper=0x000000;
-
-
-// These will get binned soon
-Register Mode320x240[] =
-	{
-	{ 0x3c2, 0x0, 0xe3},
-	{ 0x3d4, 0x0, 0x5f},
-	{ 0x3d4, 0x1, 0x4f},
-	{ 0x3d4, 0x2, 0x50},
-	{ 0x3d4, 0x3, 0x82},
-	{ 0x3d4, 0x4, 0x54},
-	{ 0x3d4, 0x5, 0x80},
-	{ 0x3d4, 0x6, 0xd},
-	{ 0x3d4, 0x7, 0x3e},
-	{ 0x3d4, 0x8, 0x0},
-	{ 0x3d4, 0x9, 0x41},
-	{ 0x3d4, 0x10, 0xea},
-	{ 0x3d4, 0x11, 0xac},
-	{ 0x3d4, 0x12, 0xdf},
-	{ 0x3d4, 0x13, 0x28},
-	{ 0x3d4, 0x14, 0x0},
-	{ 0x3d4, 0x15, 0xe7},
-	{ 0x3d4, 0x16, 0x6},
-	{ 0x3d4, 0x17, 0xe3},
-	{ 0x3c4, 0x1, 0x1},
-	{ 0x3c4, 0x4, 0x6},
-	{ 0x3ce, 0x5, 0x40},
-	{ 0x3ce, 0x6, 0x5},
-	{ 0x3c0, 0x10, 0x41},
-	{ 0x3c0, 0x13, 0x0},
-	{ -1,-1,-1 },
-	};
-
-Register Mode320x200[] =
-{
-//	{ 0x3d4, 0x0, 0x53},
-//	{ 0x3c2, 0x0, 0x63},
-//	{ 0x3d4, 0x0, 0x5f},
-//	{ 0x3d4, 0x1, 0x4f},
-//	{ 0x3d4, 0x2, 0x50},
-//	{ 0x3d4, 0x3, 0x82},
-//	{ 0x3d4, 0x4, 0x54},
-//	{ 0x3d4, 0x5, 0x80},
-//	{ 0x3d4, 0x6, 0xbf},
-//	{ 0x3d4, 0x7, 0x1f},
-	{ 0x3d4, 0x8, 0x00},
-	{ 0x3d4, 0x9, 0x41},		// make 640x240 or 640x200 mode
-//	{ 0x3d4, 0x9, 0x42},		// 160 high?
-//	{ 0x3d4, 0x9, 0x43},		// 128 high?
-//	{ 0x3d4, 0x10, 0x9c},
-//	{ 0x3d4, 0x11, 0x8e},
-//	{ 0x3d4, 0x12, 0x8f},
-//	{ 0x3d4, 0x13, 0x28},
-//	{ 0x3d4, 0x14, 0x00},
-//	{ 0x3d4, 0x15, 0x96},
-//	{ 0x3d4, 0x16, 0xb9},
-//	{ 0x3d4, 0x17, 0xe3},
-	{ 0x3c4, 0x1, 0x8},
-	{ -1,-1,-1 },
-};
-
-Register Mode320x2002[] =
-{
-	{ 0x3c2, 0x0, 0x63},
-	{ 0x3d4, 0x0, 0x5f},
-	{ 0x3d4, 0x1, 0x4f},
-	{ 0x3d4, 0x2, 0x50},
-	{ 0x3d4, 0x3, 0x82},
-	{ 0x3d4, 0x4, 0x54},
-	{ 0x3d4, 0x5, 0x80},
-	{ 0x3d4, 0x6, 0xbf},
-	{ 0x3d4, 0x7, 0x1f},
-	{ 0x3d4, 0x8, 0x00},
-	{ 0x3d4, 0x9, 0x41},
-	{ 0x3d4, 0x10, 0x9c},
-	{ 0x3d4, 0x11, 0x8e},
-	{ 0x3d4, 0x12, 0x8f},
-	{ 0x3d4, 0x13, 0x28},
-	{ 0x3d4, 0x14, 0x00},
-	{ 0x3d4, 0x15, 0x96},
-	{ 0x3d4, 0x16, 0xb9},
-	{ 0x3d4, 0x17, 0xe3},
-	{ -1,-1,-1 },
-};
-
-
-// **************************************************************************
-//
-// VGA output
-//
-// **************************************************************************
-void outportb( int port, unsigned char data )
-{
-		*((volatile unsigned char*)(XBV_BASE|port)) = data;
-}
-unsigned char inportb( int port )
-{
-		return *((volatile unsigned char*)(XBV_BASE|port));
-}
-
-// **************************************************************************
-//
-// get VGA registers ready...
-//
-// **************************************************************************
-void readyVgaRegs(void)
-{
-	u8 v;
-	outportb(0x3d4,0x11);
-    v = inportb(0x3d5) & 0x7f;
-	outportb(0x3d4,0x11);
-	outportb(0x3d5,(u8)v);
-}
-
-
-// **************************************************************************
-//
-// output 1 regset from the "tweak" dataset
-//
-// **************************************************************************
-void outReg(Register r)
-{
-	switch (r.port)
-		{
-		// First handle special cases:
-
-		case ATTRCON_ADDR:
-			inportb(STATUS_ADDR);  		// reset read/write flip-flop 
-			outportb(ATTRCON_ADDR, (u8) (r.index | 0x20));
-										// ensure VGA output is enabled 
-			outportb(ATTRCON_ADDR, r.value);
-			break;
-
-		case MISC_ADDR:
-		case VGAENABLE_ADDR:
-			outportb(r.port, r.value);	//	directly to the port 
-			break;
-
-		case SEQ_ADDR:
-		case GRACON_ADDR:
-		case CRTC_ADDR:
-		default:						// This is the default method: 
-			outportb(r.port, r.index);	//	index to port			   
-			outportb(r.port+1, r.value);//	value to port+1 		   
-			break;
-	}
-}
+	u32	g_nFontFlags=0;
+	u32	g_nInk = 0xffffff;
+	u32	g_nPaper=0x000000;
 
 
 
@@ -272,7 +122,7 @@ ScreenInfo vga_get_screen_info( void )
 	}
 	else{
 		Scr.ScreenAddress = _BackBuffer;	//_Framebuffer;	//(BackBuffer&0x0fffffff);
-		Scr.lpitch = 640*4;
+		Scr.lpitch = 640*4;//g_nBPP;
 		return Scr;
 	}
 }
@@ -290,8 +140,8 @@ ScreenInfo vga_get_screen_info( void )
 void vga_init_mode( int Mode )
 {
 #ifndef	_PCEMU
-	int	i=0;
-//	u8*	pScr;
+	int		i=0;
+	u32*	pScr;
 
 	switch( (Mode&RES_MASK) )
 	{
@@ -311,11 +161,9 @@ void vga_init_mode( int Mode )
 	switch( (Mode&COLOUR_MASK) )
 	{
 		case	_32BITCOLOUR:	g_nBPP = 4; break;
-		case	_8BITCOLOUR:	g_nBPP = 2; break;
-		case	_16BITCOLOUR:	g_nBPP = 1; break;
+		case	_16BITCOLOUR:	g_nBPP = 2; break;
+		case	_8BITCOLOUR:	g_nBPP = 1; break;
 	}
-	NVSetBPP(Mode&COLOUR_MASK);
-
 
 	if( g_ScreenHeight <=240 ){
 		readyVgaRegs();
@@ -340,32 +188,16 @@ void vga_init_mode( int Mode )
 	else{
 		NVSetVideoMode( Mode&RES_MASK, Mode&COLOUR_MASK );
 		
-/*		
-	  AvSetDisplayMode(
-			(PVOID)NV_REGBASE,
-			0,
-			(ULONG)0,		//640,	//RESOLUTION_640,	//res,
-			(ULONG)0,		//PIXEL_32BITS,	//pix,
-			(ULONG)(640*4),			//Pitch,
-			XBOX_SCREENRAM&0xfffffff
-		);
-
-		_FrontBuffer=XBOX_SCREENRAM+ 0x40;
-		_BackBuffer=_FrontBuffer;
-
-		FrontBuffer = XBOX_SCREENRAM&0xfffffff;											// Set current visible screen
-		BackBuffer = FrontBuffer;
-*/
 	}
 
+	NVSetBPP(Mode&COLOUR_MASK);			// Set the correct bits per pixel
 	
 	// Clear both buffers
-//	i = g_ScreenWidth*g_ScreenHeight*g_nBPP*2;
-//	pScr = (u8*)FrontBuffer;
-//	while(i>=0){
-//		pScr [i]=0;
-//		i--;
-//	}
+	i = (g_ScreenWidth*g_ScreenHeight*g_nBPP*2)/4;
+	pScr = (u32*)_FrontBuffer;
+	while(i>=0){
+		pScr [i--]=0;
+	}
 
 
 
@@ -449,51 +281,6 @@ void vga_vsync( void )
     
 }
 
-// **************************************************************************
-//
-//	Name:		SetReg
-//	Function:	Set a VGA register
-//
-//	In:			port	=	VGA port to set
-//				reg		=	register to set
-//				data	=	data to set
-//	Out:		none
-//
-// **************************************************************************
-void vga_set_reg( int port, int reg, int data )
-{
-	if( port == 0x3c0){	
-		*((volatile unsigned char*)(XBV_ATTR_REG_INDEX)) = reg|0x20;
-		*((volatile unsigned char*)(XBV_ATTR_REG_DATA)) = reg;
-	}else if(port == 0x3c2) {
-		*((volatile unsigned char*)(XBV_ATTR_REG_INDEX2)) = data;
-	}else if(port == 0x3c3) {
-		*((volatile unsigned char*)(XBV_ATTR_REG_INDEX3)) = data;
-	}else{
-		*((volatile unsigned char*)(XBV_BASE|port)) = reg;
-		*((volatile unsigned char*)((XBV_BASE|port)+1)) = data;
-	}
-}
-
-
-// **************************************************************************
-//
-//	Name:		SetColour
-//	Function:	Set the VGA palette registers
-//
-//	In:			Register number (palette index)
-//				R,G,B = colour to set
-//	Out:		none
-//
-// **************************************************************************
-void vga_set_color( int reg, int R, int G, int B )
-{
-	*((volatile unsigned char*)(XBV_COLOUR_REG)) = reg;
-	*((volatile unsigned char*)(XBV_COLOUR_DATA)) = R;
-	*((volatile unsigned char*)(XBV_COLOUR_DATA)) = G;
-	*((volatile unsigned char*)(XBV_COLOUR_DATA)) = B;
-
-}
 
 
 //********************************************************
@@ -509,59 +296,104 @@ void vga_set_color( int reg, int R, int G, int B )
 //********************************************************
 void OutChar(int x, int y, char c )
 {
-	int		i,i2,index;
+	int		i,i2,index,baseindex;
 	u8*		pData;
+	u8*		pS;
 	int		ScrMod, DataMod;
 	int		cx;
 	ScreenInfo	ScrStruct = vga_get_screen_info();
-	u32*	pScreen = (u32*)ScrStruct.ScreenAddress;
+
+
 
 	if( x>(int)g_ScreenWidth ) return;		// clip x>max
 	if( y>(int)g_ScreenHeight ) return;		// clip y>max
 	if( (x+8)<0 ) return;			// clip x<0
 	if( (y+15)<0 ) return;			// clip y>0
 
+	pS = (u8*) ScrStruct.ScreenAddress;
 
-	x = (y*g_ScreenWidth)+x;
+	baseindex = (y*ScrStruct.lpitch)+(x*g_nBPP);
 
+
+	// Workout character address inside FONT 
 	c -= 32;
 	if(c==0) return;				// dont print spaces!
 	index = (c/32)*15*256;			// get ROW
 	index += (c%32)*8;
 	pData = &SystemFont[index];
 
+	x = 0;
 	index=0;
 	DataMod=256-8;
 	ScrMod = (g_ScreenWidth-8);
 	cx=8;
 
 
-	if((g_nFontFlags&FONT_SOLID)==0 ){
-		for(i2=0;i2<15;i2++){
-			for(i=0;i<cx;i++){
-				if( pData[index++]==0 ){
-					x++;
+	if( g_nBPP==4 )
+	{
+		u32*	pScreen = (u32*) &(pS[baseindex]);
+
+		if((g_nFontFlags&FONT_SOLID)==0 ){
+			for(i2=0;i2<15;i2++){
+				for(i=0;i<cx;i++){
+					if( pData[index++]==0 ){
+						x++;
+					}
+					else{
+						pScreen[x++]=g_nInk;
+					}
 				}
-				else{
-					pScreen[x++]=g_nInk;
-				}
+				x+=ScrMod;
+				index+=DataMod;
 			}
-			x+=ScrMod;
-			index+=DataMod;
+		}
+		else{
+			for(i2=0;i2<15;i2++){
+				for(i=0;i<cx;i++){
+					if( pData[index++]==0 ){
+						pScreen[x++]=g_nPaper;
+					}
+					else{
+						pScreen[x++]=g_nInk;
+					}
+				}
+				x+=ScrMod;
+				index+=DataMod;
+			}
 		}
 	}
-	else{
-		for(i2=0;i2<15;i2++){
-			for(i=0;i<cx;i++){
-				if( pData[index++]==0 ){
-					pScreen[x++]=g_nPaper;
+	else //if( g_nBPP == 2 )
+	{
+		u16*	pScreen16 = (u16*) &(pS[baseindex]);
+
+		ScrMod=(ScrMod*2)+8;
+		if((g_nFontFlags&FONT_SOLID)==0 ){
+			for(i2=0;i2<15;i2++){
+				for(i=0;i<cx;i++){
+					if( pData[index++]==0 ){
+						x++;
+					}
+					else{
+						pScreen16[x++]=g_nInk;
+					}
 				}
-				else{
-					pScreen[x++]=g_nInk;
-				}
+				x+=ScrMod;
+				index+=DataMod;
 			}
-			x+=ScrMod;
-			index+=DataMod;
+		}
+		else{
+			for(i2=0;i2<15;i2++){
+				for(i=0;i<cx;i++){
+					if( pData[index++]==0 ){
+						pScreen16[x++]=g_nPaper;
+					}
+					else{
+						pScreen16[x++]=g_nInk;
+					}
+				}
+				x+=ScrMod;
+				index+=DataMod;
+			}
 		}
 	}
 }
