@@ -15,15 +15,10 @@
 #include <string.h>
 
 
-char	HexTable1[]="0123456789abcdef";
-char	HexTable2[]="0123456789ABCDEF";
-
-
-#define FLOAT_BIAS 127
-#define E_MAX 127
-#define E_MIN -126
-
-#define FRACTION_MASK 0x7fffff
+#define		FLOAT_BIAS		127
+#define		E_MAX			127
+#define		E_MIN			-126
+#define		FRACTION_MASK	0x7fffff
 
 // floating point structure
 typedef struct{
@@ -31,9 +26,11 @@ typedef struct{
     unsigned int exponent : 8;
     unsigned int sign : 1;
 } floatstruct;
-#define	Card32		int
 
 
+
+	char	HexTable1[]="0123456789abcdef";
+	char	HexTable2[]="0123456789ABCDEF";
 
 
 
@@ -118,7 +115,7 @@ int  floatConversion(float numberf, int detail, int *pInteger, int *pFraction)
 {
 
     int		f,E,i;
-    Card32 fraction;
+    int		fraction;
 
     E=((floatstruct *)&numberf)->exponent;
     E-=FLOAT_BIAS;							// add bias onto exponent
@@ -274,9 +271,7 @@ int vsnprintf( char *buffer, unsigned int count, char *format, va_list ap )
 										break;
 							case 'X':	index = AddHex( pDest, index, count, va_arg(ap, int), &HexTable2[0] );
 										break;
-							case 'f':	//f = (float)va_arg(ap, double );
-										//index = AddHex( pDest, index, count, *((int*)(&f)), &HexTable1[0] );
-										index = AddFloat( pDest, index, count, (float)va_arg(ap, double ) );
+							case 'f':	index = AddFloat( pDest, index, count, (float)va_arg(ap, double ) );
 										break;
 
 						}
