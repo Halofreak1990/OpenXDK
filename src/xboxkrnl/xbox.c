@@ -15,31 +15,19 @@
 // ******************************************************************
 // * AvGetSavedDataAddress
 // ******************************************************************
-NTSYSAPI EXPORTNUM(1) PVOID NTAPI AvGetSavedDataAddress
-(
-	IN VOID
-)
+NTSYSAPI EXPORTNUM(1) PVOID NTAPI AvGetSavedDataAddress()
 {
     return NULL;
 }
 
 NTSYSAPI VOID *AvSendTVEncoderOption = 0;
 
-
-
-//unsigned long __stdcall AvSetDisplayMode(void* RegisterBase, 
-//										 unsigned long Step, 
-//										 unsigned long Mode, 
-//										 unsigned long Format, 
-//										 unsigned long Pitch, 
-//										 unsigned long FrameBuffer);
-
 // ******************************************************************
-// * AvSetSavedDataAddress
+// * AvSetDisplayMode
 // ******************************************************************
 NTSYSAPI EXPORTNUM(4) ULONG NTAPI AvSetDisplayMode
 (
-	IN PVOID	Address,
+	IN PVOID	RegisterBase,
 	IN ULONG	Step,
 	IN ULONG	Mode,
 	IN ULONG	Format,
@@ -49,8 +37,6 @@ NTSYSAPI EXPORTNUM(4) ULONG NTAPI AvSetDisplayMode
 {
 	return 0;
 }
-//NTSYSAPI VOID *AvSetDisplayMode = 0;
-
 
 // ******************************************************************
 // * AvGetSavedDataAddress
@@ -66,7 +52,7 @@ NTSYSAPI EXPORTNUM(4) VOID NTAPI AvSetSavedDataAddress
 {
 	return;
 }
-//NTSYSAPI VOID *AvSetSavedDataAddress = 0;
+
 NTSYSAPI VOID *FscGetCacheSize = 0;
 NTSYSAPI VOID *FscInvalidateIdleBlocks = 0;
 NTSYSAPI VOID *FscSetCacheSize = 0;

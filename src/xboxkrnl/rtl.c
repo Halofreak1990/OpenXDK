@@ -12,27 +12,20 @@
 #define _XBOXKRNL_INTERNAL_
 #include "xboxkrnl/xboxkrnl.h"
 
-
-
 NTSYSAPI VOID *RtlAnsiStringToUnicodeString = 0;
 
 // ******************************************************************
 // * RtlAppendStringToString
 // ******************************************************************
-// *
-// * Append string 2 to string 1, returns index?
-// *
-// ******************************************************************
 NTSYSAPI EXPORTNUM(261) ULONG NTAPI RtlAppendStringToString
 (
-  IN PCHAR			String1,
-  IN PCHAR			String2
+  IN PVOID			Destination,
+  IN PVOID			Source
 )
 {
 	return 0;
 }
 
-//NTSYSAPI VOID *RtlAppendStringToString = 0;
 NTSYSAPI VOID *RtlAppendUnicodeStringToString = 0;
 NTSYSAPI VOID *RtlAppendUnicodeToString = 0;
 NTSYSAPI VOID *RtlAssert = 0;
@@ -44,25 +37,19 @@ NTSYSAPI VOID *RtlCharToInteger = 0;
 // ******************************************************************
 // * RtlCompareMemory
 // ******************************************************************
-// *
-// * Takes 2 strings, and the length required... 
-// * returns the actual length that matches
-// *
-// ******************************************************************
-NTSYSAPI EXPORTNUM(289) ULONG CDECL RtlCompareMemory
+NTSYSAPI EXPORTNUM(268) SIZE_T CDECL RtlCompareMemory
 (
-  IN PCHAR			String1,
-  IN PCHAR			String2,
-  IN ULONG			length
+  IN CONST VOID *Source1,
+  IN CONST VOID *Source2,
+  IN SIZE_T      Length
 )
 {
 	return 0;
 }
-//NTSYSAPI VOID *RtlCompareMemory = 0;
+
 NTSYSAPI VOID *RtlCompareMemoryUlong = 0;
 NTSYSAPI VOID *RtlCompareString = 0;
 NTSYSAPI VOID *RtlCompareUnicodeString = 0;
-
 
 // ******************************************************************
 // * RtlCopyString

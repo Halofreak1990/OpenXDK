@@ -35,7 +35,12 @@ NTSYSAPI VOID *HalDiskSerialNumber;
 NTSYSAPI VOID *HalEnableSystemInterrupt;
 NTSYSAPI VOID *HalGetInterruptVector;
 NTSYSAPI VOID *HalReadSMBusValue;
+
+// ******************************************************************
+// * 0x002E - HalReadWritePCISpace
+// ******************************************************************
 NTSYSAPI VOID *HalReadWritePCISpace;
+
 NTSYSAPI VOID *HalRegisterShutdownNotification;
 NTSYSAPI VOID *HalRequestSoftwareInterrupt;
 

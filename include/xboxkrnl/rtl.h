@@ -18,15 +18,15 @@ NTSYSAPI VOID *RtlAnsiStringToUnicodeString;
 // * RtlAppendStringToString
 // ******************************************************************
 // *
-// * Append string 2 to string 1, returns index?
+// * String concatination (Destination.Source)
 // *
 // ******************************************************************
 NTSYSAPI EXPORTNUM(261) ULONG NTAPI RtlAppendStringToString
 (
-  IN PVOID			String1,
-  IN PVOID			String2
+  IN PVOID			Destination,
+  IN PVOID			Source
 );
-//NTSYSAPI VOID *RtlAppendStringToString;
+
 NTSYSAPI VOID *RtlAppendUnicodeStringToString;
 NTSYSAPI VOID *RtlAppendUnicodeToString;
 NTSYSAPI VOID *RtlAssert;
@@ -38,17 +38,16 @@ NTSYSAPI VOID *RtlCharToInteger;
 // * RtlCompareMemory
 // ******************************************************************
 // *
-// * Takes 2 strings, and the length required... 
-// * returns the actual length that matches
+// * Compare block of memory, return number of equivalent bytes.
 // *
 // ******************************************************************
-NTSYSAPI EXPORTNUM(289) ULONG CDECL RtlCompareMemory
+NTSYSAPI EXPORTNUM(268) SIZE_T CDECL RtlCompareMemory
 (
-  IN PCHAR			String1,
-  IN PCHAR			String2,
-  IN ULONG			length
+  IN CONST VOID *Source1,
+  IN CONST VOID *Source2,
+  IN SIZE_T      Length
 );
-//NTSYSAPI VOID *RtlCompareMemory;
+
 NTSYSAPI VOID *RtlCompareMemoryUlong;
 NTSYSAPI VOID *RtlCompareString;
 NTSYSAPI VOID *RtlCompareUnicodeString;
