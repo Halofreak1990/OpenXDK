@@ -12,7 +12,6 @@
 #define _XBOXKRNL_INTERNAL_
 #include "xboxkrnl/xboxkrnl.h"
 
-<<<<<<< xbox.c
 NTSYSAPI VOID *AvGetSavedDataAddress = 0;
 NTSYSAPI VOID *AvSendTVEncoderOption = 0;
 NTSYSAPI VOID *AvSetDisplayMode = 0;
