@@ -40,7 +40,7 @@ XBSYSAPI EXPORTNUM(66) NTSTATUS NTAPI IoCreateFile
 // ******************************************************************
 // * IoCreateSymbolicLink
 // ******************************************************************
-XBSYSAPI EXPORTNUM(67) NTSTATUS IoCreateSymbolicLink
+XBSYSAPI EXPORTNUM(67) NTSTATUS NTAPI IoCreateSymbolicLink
 (
     IN PSTRING SymbolicLinkName,
     IN PSTRING DeviceName
@@ -51,7 +51,7 @@ XBSYSAPI VOID *IoDeleteDevice;
 // ******************************************************************
 // * IoDeleteSymbolicLink
 // ******************************************************************
-XBSYSAPI EXPORTNUM(69) NTSTATUS IoDeleteSymbolicLink
+XBSYSAPI EXPORTNUM(69) NTSTATUS NTAPI IoDeleteSymbolicLink
 (
     IN PSTRING SymbolicLinkName
 );
