@@ -45,7 +45,7 @@ char *getPartitionString(char c)
  *   \\.\D:\foo\bar.txt                ==> d:\foo\bar.txt
  *   \??\c:\foo\bar.txt                ==> c:\foo\bar.txt
  */
-int convertDOSFilenameToXBOX(char *dosFilename, char *xboxFilename)
+int XConvertDOSFilenameToXBOX(char *dosFilename, char *xboxFilename)
 {
 	// path contains the qualified pathname from the root
 	// directory without the leading slash.  eg. "foo\bar.txt"
@@ -127,7 +127,7 @@ int XCreateFile(
 	
 	// Fix the given filename and convert into an ANSI_STRING
 	char tmp[200];
-	int rc = convertDOSFilenameToXBOX(filename, tmp);
+	int rc = XConvertDOSFilenameToXBOX(filename, tmp);
 	if (rc != STATUS_SUCCESS)
 		return rc;
 	RtlInitAnsiString(&xboxFilename, tmp);
@@ -397,7 +397,7 @@ int XRenameFile(
 	int                     handle;
 
 	char tmp[200];
-	int rc = convertDOSFilenameToXBOX(oldFilename, tmp);
+	int rc = XConvertDOSFilenameToXBOX(oldFilename, tmp);
 	if (rc != STATUS_SUCCESS)
 		return rc;
 	RtlInitAnsiString(&xboxFilename, tmp);
@@ -423,7 +423,7 @@ int XRenameFile(
 		return RtlNtStatusToDosError(status);
 
 	// Set up the rename information
-	rc = convertDOSFilenameToXBOX(newFilename, tmp);
+	rc = XConvertDOSFilenameToXBOX(newFilename, tmp);
 	if (rc != STATUS_SUCCESS)
 		return rc;
 	RtlInitAnsiString(&renameInfo.FileName, tmp);
@@ -459,7 +459,7 @@ int XCreateDirectory(char *directoryName)
 	int               handle;
 
 	char tmp[200];
-	int rc = convertDOSFilenameToXBOX(directoryName, tmp);
+	int rc = XConvertDOSFilenameToXBOX(directoryName, tmp);
 	if (rc != STATUS_SUCCESS)
 		return rc;
 	RtlInitAnsiString(&xboxFilename, tmp);
@@ -499,7 +499,7 @@ int XDeleteFile(char *fileName)
 	int                          handle;
 
 	char tmp[200];
-	int rc = convertDOSFilenameToXBOX(fileName, tmp);
+	int rc = XConvertDOSFilenameToXBOX(fileName, tmp);
 	if (rc != STATUS_SUCCESS)
 		return rc;
 	RtlInitAnsiString(&xboxFilename, tmp);
@@ -552,7 +552,7 @@ int XDeleteDirectory(char *directoryName)
 	int                          handle;
 
 	char tmp[200];
-	int rc = convertDOSFilenameToXBOX(directoryName, tmp);
+	int rc = XConvertDOSFilenameToXBOX(directoryName, tmp);
 	if (rc != STATUS_SUCCESS)
 		return rc;
 	RtlInitAnsiString(&xboxFilename, tmp);

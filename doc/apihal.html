@@ -7,9 +7,21 @@ The hal API is made up of several subsystems that each operate independantly of 
 <h2>General XBOX Functionality</h2>
 <table>
 <tr><td nowrap width="280"><b>Function</b></td><td><b>Description</b></td></th>
-<tr><td><code>XReboot()</code></td><td>Reboots the XBOX.  Note that this reboot takes the XBOX right back to the very start of its boot cycle.  You have some level of control over this.  Check out the <code>xboxkrnl</code> library's call to <code>HalReturnToFirmware</code> function.</td></tr>
 
-<tr><td><code>XSleep(<br>
+<tr><td><code>void XReboot()</code></td><td>Reboots the XBOX.  Note that this reboot takes the XBOX right back to the very start of its boot cycle.  You have some level of control over this.  Check out the <code>xboxkrnl</code> library's call to <code>HalReturnToFirmware</code> function.</td></tr>
+
+<tr><td><code>void XLaunchXBE(<br>
+&nbsp;&nbsp;char *xbePath<br>
+)</code></td>
+<td>Launches an XBE (replacing the currently running XBE).  If the launch is successful, this method will <b>not</b> return.  If there is an error, it returns and you will have to decide what to do.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>xbePath</td><td>Fully qualified dos path of the XBE.  Example:  <code>c:/foo/bar.xbe</code></td></tr>
+</table>
+</td></tr>
+
+<tr><td><code>void XSleep(<br>
 &nbsp;&nbsp;int milliseconds<br>
 )</code></td>
 <td>Sleeps for the specific number of milliseconds.  At the moment, it is in a tight loop, so it is not very thread friendly.  One of these days, I will get around to calling a proper <code>xboxkrnl</code> API (once I figure out which one it is)
@@ -20,7 +32,7 @@ The hal API is made up of several subsystems that each operate independantly of 
 </table>
 </td></tr>
 
-<tr><td><code>XGetTickCount()</code></td><td>Returns the current kernel tick count (which is the number of milliseconds since the XBOX was turned on).</td></tr>
+<tr><td><code>int XGetTickCount()</code></td><td>Returns the current kernel tick count (which is the number of milliseconds since the XBOX was turned on).</td></tr>
 </table>
 
 <h2>File Access</h2>
@@ -28,6 +40,19 @@ All of the file access APIs return a status code that you should compare against
 <p>
 <table>
 <tr><td nowrap width="280"><b>Function</b></td><td><b>Description</b></td></th>
+
+<tr><td><code>int XConvertDOSFilenameToXBOX(<br>
+&nbsp;&nbsp;char *dosFilename,<br>
+&nbsp;&nbsp;char *xboxFilename<br>
+)</code></td>
+<td>Converts a dos-style filename (<code>c:/foo/bar.txt</code>) into an XBOX-style path (<code>\Device\Harddisk0\Partition2\foo\bar.txt</code>).
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>dosFilename</td><td>The dos filename.  Examples are <code>c:\foo\bar.txt, .\foo\bar.txt, \foo\bar.txt</code></td></tr>
+<tr><td>xboxFilename</td><td>The converted XBOX filename</td></tr>
+</table>
+</td></tr>
 
 <tr><td><code>int XCreateFile(<br>
 &nbsp;&nbsp;int *handle, <br>
@@ -255,7 +280,7 @@ typedef struct
 <p>
 <table>
 <tr><td nowrap width="280"><b>Function</b></td><td><b>Description</b></td></th>
-<tr><td><code>XInitInput(<br>
+<tr><td><code>void XInitInput(<br>
 &nbsp;&nbsp;XUSBControl *xcontrol<br>
 )</code></td>
 <td>Initialises the XBOX controller USB subsystem.  This function <b>must</b> be called before calling any of the other controller functions.
@@ -266,7 +291,7 @@ typedef struct
 </table>
 </td></tr>
 
-<tr><td><code>XGetPadInput(<br>
+<tr><td><code>void XGetPadInput(<br>
 &nbsp;&nbsp;XPadState *padState,<br>
 &nbsp;&nbsp;XUSBControl *xcontrol,<br>
 &nbsp;&nbsp;int padNumber<br>
@@ -281,7 +306,7 @@ typedef struct
 </table>
 </td></tr>
 
-<tr><td><code>XSetPadInput(<br>
+<tr><td><code>void XSetPadInput(<br>
 &nbsp;&nbsp;XPadState *padState,<br>
 &nbsp;&nbsp;XUSBControl *xcontrol,<br>
 &nbsp;&nbsp;int padNumber<br>
@@ -296,7 +321,7 @@ typedef struct
 </table>
 </td></tr>
 
-<tr><td><code>XReleaseInput(<br>
+<tr><td><code>void XReleaseInput(<br>
 &nbsp;&nbsp;XUSBControl *xcontrol<br>
 )</code></td>
 <td>Shuts down the XBOX controller subsystem.  If you call this, you will need to call <code>XInitInput</code> again before you can interact with the controllers.

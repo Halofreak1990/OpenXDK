@@ -58,6 +58,10 @@
 #define	FILE_CURRENT                            0x00000001
 #define	FILE_END                                0x00000002
 
+int XConvertDOSFilenameToXBOX(
+	char *dosFilename, 
+	char *xboxFilename);
+	
 int XCreateFile(
 	int *handle,
 	char *filename,

@@ -5,4 +5,6 @@ void XReboot();
 int XGetTickCount();
 void XSleep(int milliseconds);
 
+void XLaunchXBE(char *xbePath);
+
 #endif
