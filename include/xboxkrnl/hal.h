@@ -37,24 +37,28 @@ NTSYSAPI VOID *HalGetInterruptVector;
 NTSYSAPI VOID *HalReadSMBusValue;
 
 // ******************************************************************
-// * 0x002E - HalReadWritePCISpace
+// * HalReadWritePCISpace
 // ******************************************************************
-//
-// TODO: work on this for usb
-//
-NTSYSAPI VOID *HalReadWritePCISpace;
+NTSYSAPI EXPORTNUM(46) VOID NTAPI HalReadWritePCISpace
+(
+  IN ULONG   BusNumber,
+  IN ULONG   SlotNumber,
+  IN PVOID   Buffer,
+  IN ULONG   Length,
+  IN BOOLEAN WritePCISpace
+);
 
 NTSYSAPI VOID *HalRegisterShutdownNotification;
 NTSYSAPI VOID *HalRequestSoftwareInterrupt;
 
 // ******************************************************************
-// * 0x0031 - HalReturnToFirmware
+// * HalReturnToFirmware
 // ******************************************************************
 // *
 // * Reboot / Shutdown / Etc
 // *
 // ******************************************************************
-NTSYSAPI DECLSPEC_NORETURN VOID HalReturnToFirmware
+NTSYSAPI EXPORTNUM(49) VOID DECLSPEC_NORETURN HalReturnToFirmware
 (
 	RETURN_FIRMWARE Routine
 );

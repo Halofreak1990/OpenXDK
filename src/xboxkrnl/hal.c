@@ -21,7 +21,22 @@ NTSYSAPI VOID *HalDiskSerialNumber = 0;
 NTSYSAPI VOID *HalEnableSystemInterrupt = 0;
 NTSYSAPI VOID *HalGetInterruptVector = 0;
 NTSYSAPI VOID *HalReadSMBusValue = 0;
-NTSYSAPI VOID *HalReadWritePCISpace = 0;
+
+// ******************************************************************
+// * HalReadWritePCISpace
+// ******************************************************************
+NTSYSAPI EXPORTNUM(46) VOID NTAPI HalReadWritePCISpace
+(
+  IN ULONG   BusNumber,
+  IN ULONG   SlotNumber,
+  IN PVOID   Buffer,
+  IN ULONG   Length,
+  IN BOOLEAN WritePCISpace
+)
+{
+    return;
+}
+
 NTSYSAPI VOID *HalRegisterShutdownNotification = 0;
 NTSYSAPI VOID *HalRequestSoftwareInterrupt = 0;
 
@@ -32,7 +47,7 @@ NTSYSAPI VOID *HalRequestSoftwareInterrupt = 0;
 // * Reboots the xbox in various ways
 // *
 // ******************************************************************
-NTSYSAPI DECLSPEC_NORETURN VOID HalReturnToFirmware
+NTSYSAPI EXPORTNUM(49) VOID DECLSPEC_NORETURN HalReturnToFirmware
 (
 	RETURN_FIRMWARE Routine
 )
