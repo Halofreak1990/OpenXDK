@@ -5,7 +5,7 @@ INCLUDES = -I../../include
 
 noinst_PROGRAMS = xboxkrnl
 xboxkrnl_SOURCES = $(SRCS)
-xboxkrnl_LDADD = xboxkrnl.exe.def
+xboxkrnl_LDADD = $(PWD)/$(srcdir)/xboxkrnl.exe.def
 
 SRCS = dbg.c ex.c hal.c io.c kernel.c mm.c nt.c ob.c ps.c rtl.c xbox.c
 

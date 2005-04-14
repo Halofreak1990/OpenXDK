@@ -62,7 +62,7 @@ diff -u -r Archive/newlib-1.12.0/newlib/configure.host src/newlib-1.12.0/newlib/
  	;;
 +  i[34567]86-*-xbox)
 +	sys_dir=xbox
-+	newlib_cflags="${newlib_cflags} -D_COMPILING_NEWLIB -mno-cygwin"
++	newlib_cflags="${newlib_cflags} -D_COMPILING_NEWLIB -mno-cygwin -DMALLOC_PROVIDED"
 +	;;
    i[34567]86-pc-linux-*)
  	sys_dir=linux
@@ -106,7 +106,7 @@ diff -u -r Archive/newlib-1.12.0/newlib/libc/stdlib/mallocr.c src/newlib-1.12.0/
 +
 +#endif  /* WIN32 */
  
- 
+ 
  
 @@ -3015,6 +3023,7 @@
    INTERNAL_SIZE_T  newsize;   /* its size */
@@ -116,3 +116,17 @@ diff -u -r Archive/newlib-1.12.0/newlib/libc/stdlib/mallocr.c src/newlib-1.12.0/
    long      remainder_size;   /* its size */
  
    /* If need less alignment than we give anyway, just relay to malloc */
+diff -u -r Archive/newlib-1.12.0/libgloss/libnosys/Makefile.in src/newlib-1.12.0/libgloss/libnosys/Makefile.in
+--- Archive/newlib-1.12.0/libgloss/libnosys/Makefile.in	2005-04-02 02:00:40.688197834 +1000
++++ src/newlib-1.12.0/libgloss/libnosys/Makefile.in	2005-04-02 01:59:57.698485427 +1000
+@@ -129,8 +129,8 @@
+ .PHONY: install info install-info clean-info
+ install:
+ 	@for outputs in ${OUTPUTS}; do\
+-	 mkdir -p $(tooldir)/lib${MULTISUBDIR}; \
+-	 $(INSTALL_PROGRAM) $${outputs} $(tooldir)/lib${MULTISUBDIR}; \
++	 mkdir -p $(DESTDIR)$(tooldir)/lib${MULTISUBDIR}; \
++	 $(INSTALL_PROGRAM) $${outputs} $(DESTDIR)$(tooldir)/lib${MULTISUBDIR}; \
+ 	done
+ 
+ info:

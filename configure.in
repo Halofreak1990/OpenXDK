@@ -1,5 +1,5 @@
 AC_INIT(Makefile.am)
-AM_INIT_AUTOMAKE(OpenXDK,0.5)
+AM_INIT_AUTOMAKE(OpenXDK,0.6)
 
 AM_MAINTAINER_MODE
 
@@ -69,6 +69,7 @@ prefix:     $prefix
 
 AC_OUTPUT(
 	Makefile
+	include/Makefile
 	src/Makefile
 	src/cxbe/Makefile
 	src/hal/Makefile

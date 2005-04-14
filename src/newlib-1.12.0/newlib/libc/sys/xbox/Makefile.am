@@ -2,7 +2,7 @@
 
 AUTOMAKE_OPTIONS = cygnus
 
-INCLUDES = $(NEWLIB_CFLAGS) $(CROSS_CFLAGS) $(TARGET_CFLAGS) -I$(prefix)/include
+INCLUDES = $(NEWLIB_CFLAGS) $(CROSS_CFLAGS) $(TARGET_CFLAGS) -I$(top_buildir)$(top_srcdir)/include
 
 noinst_LIBRARIES = lib.a
 
