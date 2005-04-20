@@ -54,15 +54,17 @@ shell, execute the following commands:
 cd /usr/home/openxdk
 ./autogen.sh
 ./configure --prefix=/usr/local/openxdk
-make
+make all install
 </pre>
 
 <b>Linux</b>
 <pre>
 cd /usr/home/openxdk
+export WANT_AUTOCONF=2.5
+export WANT_AUTOMAKE=1.6
 ./autogen.sh
 ./configure --prefix=/usr/local/openxdk --host=i386-mingw32
-make
+make all install
 </pre>
  
 To check that the installation worked correctly (in both cases), run <code>ls -las /usr/local/openxdk/lib</code>, and you should see something like (file sizes will vary between releases):
