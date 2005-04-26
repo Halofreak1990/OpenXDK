@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <malloc.h>
+#include <memory.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -301,6 +301,15 @@ int read(int fd, char *ptr, int len)
 		return amountRead;
 }
 
+// sbrk is not implemented because we are using the WIN32
+// routines defined in newlib/libc/stdlib/mallocr.c
+// Specifically, check out the VirtualAlloc/VirtualFree
+// functions at the end of this file
+//char *sbrk(int incr)
+//{
+//	return (char *)0;
+//}
+
 int stat(const char *filename, struct stat *st)
 {
 	int fd = open((char *)filename, O_RDONLY);
@@ -483,126 +492,3 @@ void rewinddir(DIR *dirp)
 	 dirp->firstTime = TRUE;
 }
 
-
-#ifndef _PTR
-#define _PTR void *
-#endif
-
-_PTR _malloc_r(struct _reent *r, size_t sz)
-{
-	return malloc(sz);
-}
-
-void _free_r(struct _reent *r, _PTR x)
-{
-	free(x);
-}
-
-_PTR _realloc_r(struct _reent *r, _PTR x, size_t sz)
-{
-	return realloc(x, sz);
-}
-
-_PTR _calloc_r(struct _reent *r, size_t a, size_t b)
-{
-	return calloc(a, b);
-}
-
-/* a retail Xbox has 64 MB of RAM */
-#define RAMSIZE (64 * 1024*1024)
-#define RAMSIZE_USE (RAMSIZE - 4096*1024)
-
-/* position of protected mode kernel */
-#define PM_KERNEL_DEST 0x100000
-
-/* Lowest allowable address of the kernel (at or above 1 meg) */
-#define MIN_KERNEL PM_KERNEL_DEST
-
-/* Highest allowable address */
-#define MAX_KERNEL (RAMSIZE_USE-1)
-
-_PTR malloc(size_t bytes)
-{
-	void *virt_addr;
-	virt_addr = MmAllocateContiguousMemoryEx(bytes, MIN_KERNEL, MAX_KERNEL, 0, PAGE_READWRITE);
-	return virt_addr;
-}
-
-void free(_PTR mem)
-{
-	MmFreeContiguousMemory(mem);
-}
-
-_PTR realloc(_PTR oldmem, size_t bytes)
-{
-	if (oldmem == NULL)
-		return malloc(bytes);
-		
-	void *newmem = malloc(bytes);
-	if (newmem == NULL)
-		return NULL;
-		
-	MEMORY_BASIC_INFORMATION info;
-	return (_PTR)NtQueryVirtualMemory((HANDLE)oldmem, &info);
-	size_t oldSize = info.RegionSize;
-
-	if (oldSize < bytes)
-		memcpy(newmem, oldmem, oldSize);
-	else
-		memcpy(newmem, oldmem, bytes);
-	
-	free(oldmem);
-	return newmem;
-}
-
-_PTR calloc(size_t n, size_t elem_size)
-{
-	void *mem;
-	size_t sz = n * elem_size;
-	mem = malloc(sz);
-	if (mem != NULL)
-		memset(mem, 0, sz);
-	return mem;
-}
-
-void cfree(_PTR mem)
-{
-	free(mem);
-}
-
-_PTR memalign(size_t alignment, size_t n)
-{
-	// yikes... what should I do here?
-}
-
-struct mallinfo mallinfo()
-{
-	// yikes... what should I do here?
-	struct mallinfo blah;
-	return blah;
-}
-
-void malloc_stats()
-{
-}
-
-int mallopt(int param_number, int value)
-{
-	// ignored
-}
-
-size_t malloc_usable_size(_PTR mem)
-{
-	// yikes... what should I do here?
-	return 0;
-}
-
-_PTR pvalloc(size_t bytes)
-{
-	// yikes... what should I do here?
-	return NULL;
-}
-
-int malloc_trim(size_t pad)
-{
-}
