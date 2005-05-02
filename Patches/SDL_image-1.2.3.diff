@@ -1,0 +1,37 @@
+diff -r -u orig/SDL_image-1.2.3/IMG_png.c xbox/SDL_image-1.2.3/IMG_png.c
+--- orig/SDL_image-1.2.3/IMG_png.c	2001-12-15 00:02:16.000000000 +1100
++++ xbox/SDL_image-1.2.3/IMG_png.c	2004-11-21 12:13:09.000000000 +1100
+@@ -138,10 +138,10 @@
+ 	 * the normal method of doing things with libpng).  REQUIRED unless you
+ 	 * set up your own error handlers in png_create_read_struct() earlier.
+ 	 */
+-	if ( setjmp(png_ptr->jmpbuf) ) {
+-		IMG_SetError("Error reading the PNG file.");
+-		goto done;
+-	}
++// 	if ( setjmp(png_ptr->jmpbuf) ) {
++// 		IMG_SetError("Error reading the PNG file.");
++// 		goto done;
++// 	}
+ 
+ 	/* Set up the input control */
+ 	png_set_read_fn(png_ptr, src, png_read_data);
+Only in xbox/SDL_image-1.2.3: Makefile
+Only in xbox/SDL_image-1.2.3: Makefile.xbox
+Only in xbox/SDL_image-1.2.3: config.cache
+Only in xbox/SDL_image-1.2.3: config.log
+Only in xbox/SDL_image-1.2.3: config.status
+Only in xbox/SDL_image-1.2.3: libSDL_image.a
+Only in xbox/SDL_image-1.2.3: libtool
+diff -r -u orig/SDL_image-1.2.3/showimage.c xbox/SDL_image-1.2.3/showimage.c
+--- orig/SDL_image-1.2.3/showimage.c	2001-12-15 00:03:49.000000000 +1100
++++ xbox/SDL_image-1.2.3/showimage.c	2004-11-12 10:07:32.000000000 +1100
+@@ -76,7 +76,7 @@
+     }
+ }
+ 
+-int main(int argc, char *argv[])
++int XBoxStartup(int argc, char *argv[])
+ {
+ 	Uint32 flags;
+ 	SDL_Surface *screen, *image;
