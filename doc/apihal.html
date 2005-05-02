@@ -418,6 +418,91 @@ typedef struct
 </td></tr>
 </table>
 
+<h2>Video</h2>
+<table>
+<tr><td nowrap width="280"><b>Function</b></td><td><b>Description</b></td></th>
+
+<tr><td><code>DWORD XVideoGetEncoderSettings();</code></td><td>Returns the current video encoder settings.</td></tr>
+
+<tr><td><code>unsigned char* XVideoGetFB()</code></td><td>Returns a pointer to the XBOX's raw video buffer.</td></tr>
+
+<tr><td><code>VIDEO_MODE XVideoGetMode()</code></td>
+<td>Returns a structure that represents the current video mode.  
+The elements of the structure are described below:
+<p>
+<code>
+typedef struct _VIDEO_MODE<br>
+{<br>
+&nbsp;&nbsp;int		width;<br>
+&nbsp;&nbsp;int		height;<br>
+&nbsp;&nbsp;int		bpp;<br>
+&nbsp;&nbsp;int		refresh;<br>
+} VIDEO_MODE;<br>
+</code>
+</td></tr>
+
+<tr><td><code>void XVideoSetFlickerFilter(<br>
+&nbsp;&nbsp;int level<br>
+);</code></td>
+<td>Sets the level of flicker filter to an appropriate level.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>level</td><td>The level of flicker filter to apply (should be between X and X)</td></tr>
+</table>
+</td></tr>
+
+<tr><td><code>BOOL XVideoSetMode(<br>
+&nbsp;&nbsp;int width, <br>
+&nbsp;&nbsp;int height, <br>
+&nbsp;&nbsp;int bpp, <br>
+&nbsp;&nbsp;int refresh<br>
+);</code></td>
+<td>Requests that the video mode be set to the requested mode.  This function
+does some validation to ensure that the requested parameters are valid.  Typical
+invocations might be:
+<p>
+<code>
+XVideoSetMode(640, 480, 24, 50);    /* for PAL  */<br>
+XVideoSetMode(640, 480, 24, 60);    /* for NTSC */<br>
+XVideoSetMode(720, 480, 24, 50);    /* for PAL  */<br>
+XVideoSetMode(720, 480, 24, 60);    /* for NTSC */<br>
+</code>
+<p>
+Returns a boolean indicating whether the mode was able to be changed.
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>width</td><td>The desired screen width</td></tr>
+<tr><td>height</td><td>The desired screen height</td></tr>
+<tr><td>bpp</td><td>The desired screen bits per pixel</td></tr>
+<tr><td>refresh</td><td>The desired refresh rate in Hz</td></tr>
+</table>
+</td></tr>
+
+<tr><td><code>void XVideoSetSoftenFilter(<br>
+&nbsp;&nbsp;BOOL enable<br>
+);</code></td>
+<td>Sets the soften filter
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>enable</td><td>Whether the soften filter should be enabled or not</td></tr>
+</table>
+</td></tr>
+
+<tr><td><code>void XVideoSetVideoEnable(<br>
+&nbsp;&nbsp;BOOL enable<br>
+);</code></td>
+<td>Enables the video subsystem
+<p>
+<table>
+<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+<tr><td>enable</td><td>Whether the video should be enabled</td></tr>
+</table>
+</td></tr>
+</table>
+
 <h2>Audio</h2>
 The audio support is functional, but experimental.  When using the audio subsystem
 the first thing you need to do is initialise by calling <code>XAudioInit()</code>.  This
@@ -477,6 +562,7 @@ may help.
 </table>
 </td></tr>
 </table>
+
 
 <br>
 <hr>
