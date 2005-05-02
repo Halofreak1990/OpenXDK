@@ -1,0 +1,53 @@
+#
+ALL = \
+      base/ftsystem.c \
+      base/ftinit.c \
+      base/ftdebug.c \
+      base/ftbase.c \
+      base/ftglyph.c \
+      base/ftbbox.c \
+      base/ftmm.c \
+      base/ftpfr.c \
+      base/ftbdf.c \
+      base/ftwinfnt.c \
+      autohint/autohint.c \
+      cache/ftcache.c \
+      sfnt/sfnt.c \
+      cff/cff.c \
+      pfr/pfr.c \
+      bdf/bdf.c \
+      pcf/pcf.c \
+      psnames/psnames.c \
+      psaux/psaux.c \
+      truetype/truetype.c \
+      type1/type1.c \
+      winfonts/winfnt.c \
+      raster/raster.c \
+      smooth/smooth.c \
+      smooth/ftgrays.c
+      
+CC = i386-pc-xbox-gcc
+AR = i386-pc-xbox-ar
+DEFS =
+
+TARGET = libfreetype2.a
+
+OPTFLAGS=-O2 -fomit-frame-pointer -std=gnu99 -ffreestanding -nostdlib -fno-builtin -fno-exceptions -mno-cygwin -march=i386
+CFLAGS=$(DEFS) -I. -I./gzip/ -I$(PREFIX)/include -I$(PREFIX)/i386-pc-xbox/include -I../include -I../include/freetype $(OPTFLAGS)
+
+SRCS = $(ALL)
+
+OBJS = $(SRCS:.c=.o)
+
+all: $(TARGET) 
+
+clean:
+	rm -f $(OBJS) $(TARGET)
+	
+$(TARGET) : $(OBJS)
+	$(AR) rcs $(TARGET) $(OBJS)
+
+install: $(TARGET)
+	cp $(TARGET) $(PREFIX)/lib
+	cp -r ../include $(PREFIX)/include
+

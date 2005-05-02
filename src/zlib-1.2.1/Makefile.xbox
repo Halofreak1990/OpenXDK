@@ -1,0 +1,41 @@
+#
+ALL = \
+adler32.c \
+compress.c \
+crc32.c \
+deflate.c \
+gzio.c \
+infback.c \
+inffast.c \
+inflate.c \
+inftrees.c \
+inflate.c \
+trees.c \
+uncompr.c \
+zutil.c
+
+
+CC = i386-pc-xbox-gcc
+AR = i386-pc-xbox-ar
+
+TARGET = libz.a
+
+OPTFLAGS=-O2 -fomit-frame-pointer -std=gnu99 -ffreestanding -nostdlib -fno-builtin -fno-exceptions -mno-cygwin -march=i386
+CFLAGS=-DENABLE_XBOX -I. -I$(PREFIX)/i386-pc-xbox/include -I$(PREFIX)/include $(OPTFLAGS) -I../
+
+SRCS = $(ALL)
+
+OBJS = $(SRCS:.c=.o)
+
+all: $(TARGET) 
+
+clean:
+	rm -f $(OBJS) $(TARGET)
+
+$(TARGET) : $(OBJS)
+	$(AR) rcs $(TARGET) $(OBJS)
+
+install: $(TARGET)
+	cp $(TARGET) $(PREFIX)/lib
+	cp zlib.h zconf.h $(PREFIX)/include
+

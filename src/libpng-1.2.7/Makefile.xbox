@@ -1,0 +1,45 @@
+#
+ALL = \
+	png.c \
+	pngerror.c \
+	pnggccrd.c \
+	pngget.c \
+	pngmem.c \
+	pngpread.c \
+	pngread.c \
+	pngrio.c \
+	pngrtran.c \
+	pngrutil.c \
+	pngset.c \
+	pngtest.c \
+	pngtrans.c \
+	pngvcrd.c \
+	pngwio.c \
+	pngwrite.c \
+	pngwtran.c \
+	pngwutil.c
+
+CC = i386-pc-xbox-gcc
+AR = i386-pc-xbox-ar
+
+TARGET = libpng.a
+
+OPTFLAGS=-O2 -fomit-frame-pointer -std=gnu99 -ffreestanding -nostdlib -fno-builtin -fno-exceptions -mno-cygwin -march=i386
+CFLAGS=-DPNG_SETJMP_NOT_SUPPORTED -DENABLE_XBOX -I. -I$(PREFIX)/i386-pc-xbox/include -I$(PREFIX)/include $(OPTFLAGS) -I../../zlib/zlib-1.2.1/
+
+SRCS = $(ALL)
+
+OBJS = $(SRCS:.c=.o)
+
+all: $(TARGET) 
+
+clean:
+	rm -f $(OBJS) $(TARGET)
+
+$(TARGET) : $(OBJS)
+	$(AR) rcs $(TARGET) $(OBJS)
+
+install: $(TARGET)
+	cp $(TARGET) $(PREFIX)/lib
+	cp png.h pngconf.h $(PREFIX)/include
+
