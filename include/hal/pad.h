@@ -1,55 +1,62 @@
-#ifndef HAL_PAD_H
-#define HAL_PAD_H
+#ifndef _PAD_H
+#define _PAD_H
 
-#include <usb/ohci.h>
-
-// values for the pad (note that they can be OR'd together
-#define DPAD_UP       1
-#define DPAD_DOWN     2
-#define DPAD_LEFT     4
-#define DPAD_RIGHT    8
-
-// About this - at the moment it just contains the offset to the ohci memory 
-// location (e.g. 0xfed00000...but we will also use this to keep track of
-// alocated memory - how many gamepads are plugged in...usb dev drivers etc.
-typedef struct 
+struct xpad_data
 {
-	ohci_t my_ohci;
-} XUSBControl;
-
-/******************************************************************************/
-/*                                                                            */
-/* stXPAD - Gamepad Data Structure                                            */
-/* This structure will be filled in by our USB Gamepad - its the data that    */
-/* is returned to us when we request a gamepad in on the usb bus.             */
-/*                                                                            */
-/******************************************************************************/
-#pragma pack(1)  // We use this, so our data is packed nice and tight!..no space.
-typedef struct
-{
-	char reserved1;
-	unsigned char structsize;
-	
-	char pad; /* 1 up 2 down 4 left 8 right + bitwise OR combos */
-	char reserved2; 
-	unsigned char keys[6]; /* A B X Y Black White */
-	
-	unsigned char trig_left;
-	unsigned char trig_right;
+	unsigned char hPresent;
+	int timestamp;
 	short stick_left_x;
 	short stick_left_y;
 	short stick_right_x;
 	short stick_right_y;
+	short trig_left;
+	short trig_right;
+	char pad; /* 1 up 2 down 4 left 8 right */
+	char state; /* 1 start 2 back 4 stick_left 8 stick_right */
+	unsigned char keys[6]; /* A B X Y Black White */
+	
+};
 
-	char padding[0x40];
-} XPadState;
-#pragma pack()
+#define XPAD_DPAD_UP           0x01
+#define XPAD_DPAD_DOWN         0x02
+#define XPAD_DPAD_LEFT         0x04
+#define XPAD_DPAD_RIGHT        0x08
+#define XPAD_START             0x10
+#define XPAD_BACK              0x20
+#define XPAD_LEFT_THUMB        0x40
+#define XPAD_RIGHT_THUMB       0x80
 
-int XInitInput(XUSBControl *xcontrol);
-int XGetPadCount(XUSBControl *xcontrol);
-int XGetPadInput(XPadState *padState, XUSBControl *xcontrol, int padNumber);
-int XSetPadInput(XPadState *padState, XUSBControl *xcontrol, int padNumber);
-int XReleaseInput(XUSBControl *xcontrol);
+#define XPAD_A                0
+#define XPAD_B                1
+#define XPAD_X                2
+#define XPAD_Y                3
+#define XPAD_BLACK            4
+#define XPAD_WHITE            5
+#define XPAD_LEFT_TRIGGER     6
+#define XPAD_RIGHT_TRIGGER    7
+
+typedef struct _XPAD_BUTTONS
+{
+	unsigned short	usDigitalButtons;
+	unsigned char	ucAnalogButtons[8];
+} XPAD_BUTTONS;
+
+typedef struct _XPAD_INPUT
+{
+	unsigned char	hPresent;
+	
+	short			sLThumbX;
+	short			sLThumbY;
+	short			sRThumbX;
+	short			sRThumbY;
+
+	XPAD_BUTTONS	CurrentButtons;
+	XPAD_BUTTONS	LastButtons;
+	XPAD_BUTTONS	PressedButtons;
+
+} XPAD_INPUT;
+
+extern XPAD_INPUT g_Pads[4];
+extern XPAD_INPUT g_DefaultPad;
 
 #endif
-

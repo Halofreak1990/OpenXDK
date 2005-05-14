@@ -29,12 +29,15 @@ static char rcsid =
 
 #include <stdio.h>
 #include <memory.h>
+#include <malloc.h>
 
 #include "SDL_error.h"
 #include "SDL_joystick.h"
 #include "SDL_sysjoystick.h"
 #include "SDL_joystick_c.h"
-#include <hal/pad.h>
+
+#include <xboxkrnl/types.h>
+#include <hal/input.h>
 
 #define MAX_PADS     1
 #define NUM_AXES     4
@@ -42,15 +45,14 @@ static char rcsid =
 #define NUM_BALLS    0
 #define NUM_BUTTONS 12
 
-#define LEFT_X_AXIS   0
-#define LEFT_Y_AXIS   1
-#define RIGHT_X_AXIS  2
-#define RIGHT_Y_AXIS  3
 
-#define PRESS_THRESHOLD 0x10
+/* The private structure used to keep track of a joystick */
+struct joystick_hwdata
+{
+	XPAD_INPUT* pPad;
+	int prevHat;
+};
 
-XUSBControl xcontrol;
-XPadState previousStates[MAX_PADS];
 /* Function to scan the system for joysticks.
  * This function should set SDL_numjoysticks to the number of available
  * joysticks.  Joystick 0 should be the system default joystick.
@@ -58,13 +60,11 @@ XPadState previousStates[MAX_PADS];
  */
 int SDL_SYS_JoystickInit(void)
 {
-	int i;
-	XInitInput(&xcontrol);
-	for (i = 0; i < MAX_PADS; i++)
-	{
-		memset(&previousStates[i], 0, sizeof(XPadState));
-	}
-	return XGetPadCount(&xcontrol);
+	XInput_Init();
+
+	SDL_numjoysticks = 4;
+
+	return(SDL_numjoysticks);
 }
 
 /* Function to get the device-dependent name of a joystick */
@@ -87,6 +87,14 @@ const char *SDL_SYS_JoystickName(int index)
  */
 int SDL_SYS_JoystickOpen(SDL_Joystick *joystick)
 {
+	if(g_Pads[joystick->index].hPresent == 0)
+		return -1;
+
+	joystick->hwdata = (struct joystick_hwdata *) malloc(sizeof(*joystick->hwdata));
+
+	joystick->hwdata->pPad = &g_Pads[joystick->index];
+	joystick->hwdata->prevHat = 0;
+
 	// LeftStickX, LeftStickY, RightStickX, RightStickY
 	joystick->naxes = NUM_AXES;
 	// None
@@ -96,7 +104,6 @@ int SDL_SYS_JoystickOpen(SDL_Joystick *joystick)
 	// Pad
 	joystick->nhats = NUM_HATS;
 	
-	memset(&previousStates[joystick->index], 0, sizeof(XPadState));
 	return(0);
 }
 
@@ -107,95 +114,169 @@ int SDL_SYS_JoystickOpen(SDL_Joystick *joystick)
  */
 void SDL_SYS_JoystickUpdate(SDL_Joystick *joystick)
 {
-	XPadState *previous = &previousStates[joystick->index];
-	
-	XPadState pad;
-	int xx = times(NULL);
-	XGetPadInput(&pad, &xcontrol, joystick->index);
-	
-//	if (pad.stick_left_x != previous->stick_left_x)
-//		SDL_PrivateJoystickAxis(joystick, LEFT_X_AXIS, pad.stick_left_x);
-//	if (pad.stick_left_y != previous->stick_left_y)
-//		SDL_PrivateJoystickAxis(joystick, LEFT_Y_AXIS, pad.stick_left_y);
-//	if (pad.stick_right_x != previous->stick_right_x)
-//		SDL_PrivateJoystickAxis(joystick, RIGHT_X_AXIS, pad.stick_right_x);
-//	if (pad.stick_right_y != previous->stick_right_y)
-//		SDL_PrivateJoystickAxis(joystick, RIGHT_Y_AXIS, pad.stick_right_y);
+	int b = 0, hat = 0, hatchanged = 0;
+	Sint16 nX = 0, nY = 0;
+	Sint16 nXR = 0, nYR = 0;
 
-	int i;
-	for (i = 0; i < 6; i++)
-	{
-		pad.keys[i] = (pad.keys[i] > PRESS_THRESHOLD ? 1 : 0);
-		if (pad.keys[i] != previous->keys[i])
+    if( joystick->hwdata->pPad->hPresent )
+    {	
+		if (joystick->hwdata->pPad->CurrentButtons.usDigitalButtons & XPAD_START)
 		{
-			if (pad.keys[i] == 1)
-			{
-				SDL_PrivateJoystickButton(joystick, i, SDL_PRESSED);
-			}
-			else
-			{
-				SDL_PrivateJoystickButton(joystick, i, SDL_RELEASED);
-			}
-		}
-	}
-	pad.trig_left = (pad.trig_left > PRESS_THRESHOLD ? 1 : 0);
-	if (pad.trig_left != previous->trig_left)
-	{
-		if (pad.trig_left == 1)
-		{
-			SDL_PrivateJoystickButton(joystick, 6, SDL_PRESSED);
+			if (!joystick->buttons[8])
+				SDL_PrivateJoystickButton(joystick, (Uint8)8, SDL_PRESSED);
 		}
 		else
 		{
-			SDL_PrivateJoystickButton(joystick, 6, SDL_RELEASED);
+			if (joystick->buttons[8])
+				SDL_PrivateJoystickButton(joystick, (Uint8)8, SDL_RELEASED);
 		}
-	}
 
-	pad.trig_right = (pad.trig_right > PRESS_THRESHOLD ? 1 : 0);
-	if (pad.trig_right != previous->trig_right)
-	{
-		if (pad.trig_right == 1)
+		if (joystick->hwdata->pPad->CurrentButtons.usDigitalButtons & XPAD_BACK)
 		{
-			SDL_PrivateJoystickButton(joystick, 7, SDL_PRESSED);
+			if (!joystick->buttons[9])
+				SDL_PrivateJoystickButton(joystick, (Uint8)9, SDL_PRESSED);
 		}
 		else
 		{
-			SDL_PrivateJoystickButton(joystick, 7, SDL_RELEASED);
+			if (joystick->buttons[9])
+				SDL_PrivateJoystickButton(joystick, (Uint8)9, SDL_RELEASED);
 		}
+
+		if (joystick->hwdata->pPad->CurrentButtons.usDigitalButtons & XPAD_LEFT_THUMB)
+		{
+			if (!joystick->buttons[10])
+				SDL_PrivateJoystickButton(joystick, (Uint8)10, SDL_PRESSED);
+		}
+		else
+		{
+			if (joystick->buttons[10])
+				SDL_PrivateJoystickButton(joystick, (Uint8)10, SDL_RELEASED);
+		}
+
+		if (joystick->hwdata->pPad->CurrentButtons.usDigitalButtons & XPAD_RIGHT_THUMB)
+		{
+			if (!joystick->buttons[11])
+				SDL_PrivateJoystickButton(joystick, (Uint8)11, SDL_PRESSED);
+		}
+		else
+		{
+			if (joystick->buttons[11])
+				SDL_PrivateJoystickButton(joystick, (Uint8)11, SDL_RELEASED);
+		}
+
+			
+
+        // Get the analog buttons that have been pressed or released since
+        // the last call.
+        for( b=0; b<8; b++ )
+        {
+            // Turn the 8-bit polled value into a boolean value
+            BOOL bPressed = ( joystick->hwdata->pPad->CurrentButtons.ucAnalogButtons[b] );
+
+			if ( bPressed  ) {
+				if ( !joystick->buttons[b] ) {
+					SDL_PrivateJoystickButton(joystick, (Uint8)b, SDL_PRESSED);
+				}
+			} else {
+				if ( joystick->buttons[b] ) {
+					SDL_PrivateJoystickButton(joystick, (Uint8)b, SDL_RELEASED);
+				}
+			}
+
+
+        }
 	}
+	// do the HATS baby
 
-	// 8 - start button
-	// 9 - back button
-	// 10 - left stick press
-	// 11 - right stick press
+	hat = SDL_HAT_CENTERED;
+	if (joystick->hwdata->pPad->CurrentButtons.usDigitalButtons & XPAD_DPAD_DOWN)
+		hat|=SDL_HAT_DOWN;
+	if (joystick->hwdata->pPad->CurrentButtons.usDigitalButtons & XPAD_DPAD_UP)
+		hat|=SDL_HAT_UP;
+	if (joystick->hwdata->pPad->CurrentButtons.usDigitalButtons & XPAD_DPAD_LEFT)
+		hat|=SDL_HAT_LEFT;
+	if (joystick->hwdata->pPad->CurrentButtons.usDigitalButtons & XPAD_DPAD_RIGHT)
+		hat|=SDL_HAT_RIGHT;
 
-	int hat = SDL_HAT_CENTERED;
-	if (pad.pad & DPAD_DOWN)
-		hat |= SDL_HAT_DOWN;
-	if (pad.pad & DPAD_UP)
-		hat |= SDL_HAT_UP;
-	if (pad.pad & DPAD_LEFT)
-		hat |= SDL_HAT_LEFT;
-	if (pad.pad & DPAD_RIGHT)
-		hat |= SDL_HAT_RIGHT;
-	pad.pad = hat;
+	hatchanged = hat ^ joystick->hwdata->prevHat;
 
-	if (pad.pad != previous->pad)
+	if(hatchanged)
+		SDL_PrivateJoystickHat(joystick, 0, hat);
+
+	joystick->hwdata->prevHat = hat;
+	
+	// Axis - LStick
+
+	if ((joystick->hwdata->pPad->sLThumbX <= -10000) || 
+		(joystick->hwdata->pPad->sLThumbX >= 10000))
 	{
-		SDL_PrivateJoystickHat(joystick, 0, pad.pad);
+		if (joystick->hwdata->pPad->sLThumbX < 0)
+			joystick->hwdata->pPad->sLThumbX++;
+		nX = ((Sint16)joystick->hwdata->pPad->sLThumbX);
 	}
+	else
+		nX = 0;
 
-	memcpy(previous, &pad, sizeof(pad));
+	if ( nX != joystick->axes[0] ) 
+		SDL_PrivateJoystickAxis(joystick, (Uint8)0, (Sint16)nX);
+
+	
+	if ((joystick->hwdata->pPad->sLThumbY <= -10000) || 
+		(joystick->hwdata->pPad->sLThumbY >= 10000))
+	{
+		if (joystick->hwdata->pPad->sLThumbY < 0)
+			joystick->hwdata->pPad->sLThumbY++;
+		nY = -((Sint16)(joystick->hwdata->pPad->sLThumbY));
+	}
+	else
+		nY = 0;
+
+	if ( nY != joystick->axes[1] )
+		SDL_PrivateJoystickAxis(joystick, (Uint8)1, (Sint16)nY); 
+
+
+	// Axis - RStick
+
+	if ((joystick->hwdata->pPad->sRThumbX <= -10000) || 
+		(joystick->hwdata->pPad->sRThumbX >= 10000))
+	{
+		if (joystick->hwdata->pPad->sRThumbX < 0)
+			joystick->hwdata->pPad->sRThumbX++;
+		nXR = ((Sint16)joystick->hwdata->pPad->sRThumbX);
+	}
+	else
+		nXR = 0;
+
+	if ( nXR != joystick->axes[2] ) 
+		SDL_PrivateJoystickAxis(joystick, (Uint8)2, (Sint16)nXR);
+
+	
+	if ((joystick->hwdata->pPad->sRThumbY <= -10000) || 
+		(joystick->hwdata->pPad->sRThumbY >= 10000))
+	{
+		if (joystick->hwdata->pPad->sRThumbY < 0)
+			joystick->hwdata->pPad->sRThumbY++;
+		nYR = -((Sint16)joystick->hwdata->pPad->sRThumbY);
+	}
+	else
+		nYR = 0;
+
+	if ( nYR != joystick->axes[3] )
+		SDL_PrivateJoystickAxis(joystick, (Uint8)3, (Sint16)nYR); 
 }
 
 /* Function to close a joystick after use */
 void SDL_SYS_JoystickClose(SDL_Joystick *joystick)
 {
+	if (joystick->hwdata != NULL) {
+		/* free system specific hardware data */
+		free(joystick->hwdata);
+	}
 	return;
 }
 
 /* Function to perform any system-specific joystick related cleanup */
 void SDL_SYS_JoystickQuit(void)
 {
-	XReleaseInput(&xcontrol);
+	XInput_Quit();
 }
