@@ -35,5 +35,5 @@ $(TARGET) : $(OBJS)
 
 install: $(TARGET)
 	cp $(TARGET) $(PREFIX)/lib
-	cp SDL_Mixer.h $(PREFIX)/include
+	cp SDL_mixer.h $(PREFIX)/include
 
