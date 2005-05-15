@@ -1,3 +1,16 @@
+0.07
+- The xecuter issue has been resolved.  OpenXDK should now execute using this
+  and any other BIOS/dashboards.
+- The USB input layer has been completely reimplemented and now should support
+  1.0 - 1.6 XBOXs. 
+- New library support:  freetype (ttf fonts), jpeg, libpng, zlib
+- SDL support:  SDL_ttf, SDL_image, SDL_mixer (in progress)
+- Keyboard, mouse, usb, and controller support
+- debugPrint now contains scrolling
+- Multiple video modes (640x480, 720x480, PAL/NTSC)
+- Flicker filter and soften functionality
+- Numerous little bug fixes
+
 0.06
 - Migrated to be fully automake/autoconf compliant
 - Included CXBE source in OpenXDK tree to provide better support for Linux users
