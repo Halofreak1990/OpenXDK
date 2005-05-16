@@ -282,7 +282,7 @@ int XReadFile(
 		numberOfBytesToRead,
 		NULL);
 	
-	if (status == STATUS_SUCCESS)
+	if (status == STATUS_PENDING)
 		status = NtWaitForSingleObject((void*)handle, FALSE, (void*)NULL);
 	
 	if (!NT_SUCCESS(status))
