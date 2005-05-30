@@ -1,5 +1,44 @@
 #
-ALL = \
+TIMIDITY = \
+	timidity/common.c		\
+	timidity/controls.c		\
+	timidity/filter.c		\
+	timidity/instrum.c		\
+	timidity/mix.c			\
+	timidity/output.c		\
+	timidity/playmidi.c		\
+	timidity/readmidi.c		\
+	timidity/resample.c		\
+	timidity/sdl_a.c			\
+	timidity/sdl_c.c			\
+	timidity/tables.c		\
+	timidity/timidity.c
+	
+MIKMOD = \
+	mikmod/drv_nos.c		\
+	mikmod/drv_sdl.c		\
+	mikmod/load_it.c		\
+	mikmod/load_mod.c		\
+	mikmod/load_s3m.c		\
+	mikmod/load_xm.c		\
+	mikmod/mdreg.c			\
+	mikmod/mdriver.c		\
+	mikmod/mloader.c		\
+	mikmod/mlreg.c			\
+	mikmod/mlutil.c		\
+	mikmod/mmalloc.c		\
+	mikmod/mmerror.c		\
+	mikmod/mmio.c			\
+	mikmod/mplayer.c		\
+	mikmod/munitrk.c		\
+	mikmod/mwav.c			\
+	mikmod/npertab.c		\
+	mikmod/sloader.c		\
+	mikmod/virtch.c		\
+	mikmod/virtch2.c		\
+	mikmod/virtch_common.c
+	
+MIXER = \
 	load_aiff.c		\
 	load_voc.c		\
 	load_ogg.c		\
@@ -11,15 +50,16 @@ ALL = \
 	effect_position.c	\
 	effect_stereoreverse.c	\
 	effects_internal.c	
+	
+ALL = $(MIXER)
 
 CC = i386-pc-xbox-gcc
 AR = i386-pc-xbox-ar
-DEFS =-DENABLE_XBOX -DDISABLE_CDROM 
-
+DEFS =-DENABLE_XBOX -DDISABLE_CDROM -DWAV_MUSIC
 TARGET = libSDL_Mixer.a
 
 OPTFLAGS=-O2 -fomit-frame-pointer -std=gnu99 -ffreestanding -nostdlib -fno-builtin -fno-exceptions -mno-cygwin -march=i386
-CFLAGS=$(DEFS) -Iinclude -I$(PREFIX)/include $(OPTFLAGS) -I../../sdl/SDL-1.2.7/include
+CFLAGS=$(DEFS) -Iinclude -I$(PREFIX)/include $(OPTFLAGS) -I../../sdl/SDL-1.2.7/include -I. -I./mikmod -I./timidity
 
 SRCS = $(ALL)
 

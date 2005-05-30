@@ -137,14 +137,14 @@ void XBOX_CloseAudio(_THIS)
 }
 
 #define SUPPORTED_FORMAT   AUDIO_S16
-#define SUPPORTED_FREQ         44100
+#define SUPPORTED_FREQ         48000
 #define SUPPORTED_CHANNELS         2
-#define SUPPORTED_SAMPLES       1024
+#define SUPPORTED_SAMPLES        256
 
 int XBOX_OpenAudio(_THIS, SDL_AudioSpec *spec)
 {
 	int i;
-	
+
 	if (spec->format != SUPPORTED_FORMAT ||
 	    spec->freq != SUPPORTED_FREQ ||
 	    spec->freq != SUPPORTED_FREQ)
@@ -175,6 +175,7 @@ int XBOX_OpenAudio(_THIS, SDL_AudioSpec *spec)
 
 	/* Create the sound buffers */
 	int bufferSize = SUPPORTED_SAMPLES * SUPPORTED_CHANNELS * ((SUPPORTED_FORMAT&0xFF)/8);
+
 	for (i = 0; i < NUM_FRAGMENTS; ++i) 
 	{
 		memset(&this->hidden->fragments[i], 0, sizeof(this->hidden->fragments[i]));
