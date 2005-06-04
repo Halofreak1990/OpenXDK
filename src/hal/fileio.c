@@ -285,14 +285,13 @@ int XReadFile(
 	if (status == STATUS_PENDING)
 		status = NtWaitForSingleObject((void*)handle, FALSE, (void*)NULL);
 	
-	if (!NT_SUCCESS(status))
-		return RtlNtStatusToDosError(status);
-	else
-	{
-		if (numberOfBytesRead)
-			*numberOfBytesRead = (unsigned int)ioStatusBlock.Information;
-		return STATUS_SUCCESS;
-	}
+    if (NT_SUCCESS(status)) {
+        if (numberOfBytesRead)
+            *numberOfBytesRead = (unsigned int)ioStatusBlock.Information;
+        return TRUE;
+    }
+
+    return FALSE;
 }
 
 int XWriteFile(
@@ -324,15 +323,14 @@ int XWriteFile(
 	if (status == STATUS_PENDING)
 		status = NtWaitForSingleObject((void*)handle, FALSE, NULL);
 	
-	if (!NT_SUCCESS(status))
-		return RtlNtStatusToDosError(status);
-	else
-	{
-		if (numberOfBytesWritten)
-			*numberOfBytesWritten = (unsigned int)ioStatusBlock.Information;
+    if (NT_SUCCESS(status)) {
+        if (numberOfBytesWritten){
+            *numberOfBytesWritten = (unsigned int)ioStatusBlock.Information;
+        }
+        return TRUE;
+    }
 
-		return STATUS_SUCCESS;
-	}
+    return FALSE;
 }
 
 int XCloseHandle(int handle)
@@ -343,10 +341,11 @@ int XCloseHandle(int handle)
 	debugPrint("XCloseHandle handle=%08x\n", handle);
 #endif
 
-	if (!NT_SUCCESS(status))
-		return RtlNtStatusToDosError(status);
-	else
-		return STATUS_SUCCESS;	
+    if (NT_SUCCESS(status)) {
+        return TRUE;
+    }
+
+    return FALSE;
 }
 
 int XGetFileSize(int handle, unsigned int *filesize)
@@ -369,14 +368,13 @@ int XGetFileSize(int handle, unsigned int *filesize)
 		sizeof(openInfo), 
 		FileNetworkOpenInformation);
 		
-	if (!NT_SUCCESS(status))
-		return RtlNtStatusToDosError(status);
-	else
-	{
+    if (NT_SUCCESS(status)) {
 		if (filesize)
 			*filesize = (unsigned int)openInfo.EndOfFile.u.LowPart;
-		return STATUS_SUCCESS;
-	}	
+        return TRUE;
+    }
+
+    return FALSE;
 }
 
 int XSetFilePointer(
@@ -430,14 +428,14 @@ int XSetFilePointer(
 	
 	// Set the new position
 	status = NtSetInformationFile((void*)handle, &ioStatusBlock, &positionInfo, sizeof(positionInfo), FilePositionInformation);
-	if (!NT_SUCCESS(status))
-		return RtlNtStatusToDosError(status);
-	else
-	{
+
+    if (NT_SUCCESS(status)) {
 		if (newFilePointer)
 			*newFilePointer = targetPointer.u.LowPart;
-		return STATUS_SUCCESS;
-	}		
+        return TRUE;
+    }
+
+	return FALSE;
 }
 
 int XRenameFile(

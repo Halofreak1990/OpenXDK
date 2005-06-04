@@ -51,15 +51,17 @@ MIXER = \
 	effect_stereoreverse.c	\
 	effects_internal.c	
 	
-ALL = $(MIXER)
+ALL = $(MIXER) $(MIKMOD)
 
 CC = i386-pc-xbox-gcc
 AR = i386-pc-xbox-ar
-DEFS =-DENABLE_XBOX -DDISABLE_CDROM -DWAV_MUSIC
+DEFS =-DENABLE_XBOX -DDISABLE_CDROM -DWAV_MUSIC -DMOD_MUSIC
 TARGET = libSDL_Mixer.a
 
+NEWLIB_INCLUDES = -I$../../newlib/newlib-1.12.0/i386-pc-xbox/newlib/targ-include -I../../newlib/newlib-1.12.0/newlib/libc/include
+
 OPTFLAGS=-O2 -fomit-frame-pointer -std=gnu99 -ffreestanding -nostdlib -fno-builtin -fno-exceptions -mno-cygwin -march=i386
-CFLAGS=$(DEFS) -Iinclude -I$(PREFIX)/include $(OPTFLAGS) -I../../sdl/SDL-1.2.7/include -I. -I./mikmod -I./timidity
+CFLAGS=$(DEFS) -I$(PREFIX)/include $(NEWLIB_INCLUDES) $(OPTFLAGS) -I../../sdl/SDL-1.2.7/include -I. -I./mikmod -I./timidity
 
 SRCS = $(ALL)
 

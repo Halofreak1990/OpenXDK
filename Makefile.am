@@ -239,12 +239,12 @@ build/SDL_mixer/SDL_mixer-1.2.5/Makefile.xbox: directories-stamp
 		cp -a $(top_srcdir)/src/SDL_mixer-1.2.5/* build/SDL_mixer/SDL_mixer-1.2.5/
 
 SDL_mixer-stamp: directories-stamp build/SDL_mixer/SDL_mixer-1.2.5/Makefile.xbox
-	PATH="$(PWD)/build/bin:$(PATH)" PREFIX=$(prefix) $(MAKE) -C build/SDL_mixer/SDL_mixer-1.2.5 -f Makefile.xbox all
+	PATH="$(PWD)/build/bin:$(PATH)" $(MAKE) -C build/SDL_mixer/SDL_mixer-1.2.5 -f Makefile.xbox PREFIX=$(prefix) all
 	touch $@
 
 SDL_mixer-install: SDL_mixer-stamp
 	mkdir -p $(prefix)/lib
-	PATH="$(PWD)/build/bin:$(PATH)" PREFIX=$(prefix) $(MAKE) -C build/SDL_mixer/SDL_mixer-1.2.5 -f Makefile.xbox install
+	PATH="$(PWD)/build/bin:$(PATH)" $(MAKE) -C build/SDL_mixer/SDL_mixer-1.2.5 -f Makefile.xbox PREFIX=$(prefix) install
 
 #######################
 #

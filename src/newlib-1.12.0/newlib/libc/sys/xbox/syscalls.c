@@ -225,11 +225,8 @@ int lseek(int fd, int offset, int base)
 		case SEEK_END: flags = FILE_END; break;
 	}
 
-	errno = XSetFilePointer(fd, offset, &newPosition, flags);
-	if (errno != STATUS_SUCCESS)
-		return -1;
-	else
-		return newPosition;
+	XSetFilePointer(fd, offset, &newPosition, flags);
+	return newPosition;
 }
 
 int open(char *filename, int flags)
@@ -294,11 +291,9 @@ int open(char *filename, int flags)
 int read(int fd, char *ptr, int len)
 {
 	unsigned int amountRead;
-	errno = XReadFile(fd, ptr, len, &amountRead);
-	if (errno != STATUS_SUCCESS)
-		return -1;
-	else
-		return amountRead;
+
+	XReadFile(fd, ptr, len, &amountRead);
+	return amountRead;
 }
 
 // sbrk is not implemented because we are using the WIN32
@@ -356,11 +351,9 @@ int wait(int *status)
 int write(int fd, char *ptr, int len)
 {
 	unsigned int amountWritten;
-	errno = XWriteFile(fd, ptr, len, &amountWritten);
-	if (errno != STATUS_SUCCESS)
-		return -1;
-	else
-		return amountWritten;
+
+	XWriteFile(fd, ptr, len, &amountWritten);
+	return amountWritten;
 }
 
 void _exit()

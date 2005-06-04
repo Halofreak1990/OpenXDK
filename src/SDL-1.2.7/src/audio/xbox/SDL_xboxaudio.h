@@ -34,7 +34,7 @@ static char rcsid =
 /* Hidden "this" pointer for the video functions */
 #define _THIS	SDL_AudioDevice *this
 
-#define NUM_FRAGMENTS	16			/* -- Don't lower this! */
+#define NUM_FRAGMENTS	2			/* -- Don't lower this! */
 
 typedef struct
 {
