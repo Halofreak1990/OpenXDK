@@ -12,8 +12,7 @@ application using the MS compilers and link in the GCC-compiled OpenXDK librarie
 <li>It now contains a complete libc replacement (thanks to newlib.) This means that 99% of the normal stdio, 
 memory, sprintf, et al routines are available.</li>
 <li>Multimedia support is provided using the Simple DirectMedia Layer (SDL) and supports video, audio, joysticks and 
-event handling. Video is currently limited to 640x480 or smaller. Only one joystick/pad is supported (but that 
-is expected to be fixed soon.)</li>
+event handling.</li>
 <li>To demonstrate the capabilities of the current OpenXDK framework, the SDL port of Doom (without sound or 
 networking) is able to be compiled and executed. You will need to find a DOOM1.WAD (shareware) and put it in 
 the root of your XBOX's C drive.</li>
@@ -39,6 +38,33 @@ For more information, click on one of the following topics:
 </ul>
 <p>
 <h2>Latest News</h2>
+<table>
+<tr><td>
+<b>18th May 2005 - Release 0.07</b>
+<p>OpenXDK 0.07 has just been released!  There are a number of key improvements in this release:
+<ul>
+<li>The xecuter issue has been resolved.  OpenXDK should now execute using this and any other BIOS/dashboards.</li>
+<li>The USB input layer has been completely reimplemented and now should support 1.0 - 1.6 XBOXs. </li>
+<li>New library support:  freetype (ttf fonts), jpeg, libpng, zlib</li>
+<li>SDL support:  SDL_ttf, SDL_image, SDL_mixer (in progress)</li>
+<li>Keyboard, mouse, usb, and controller support</li>
+<li>debugPrint now contains scrolling</li>
+<li>Multiple video modes (640x480, 720x480, PAL/NTSC)</li>
+<li>Flicker filter and soften functionality</li>
+<li>Numerous little bug fixes</li>
+</ul>
+<p>While many people contributed to this release, in particular, I would like single out Carcharius for his work on the controller/usb implementation and 
+for resolving the xecuter problem, and also d0wnlab for his ttf and image work.  Thanks very much guys!!
+<p>With this functionality, though, a dashboard is very feasible.  I have had various reports of this version of OpenXDK being able to compile wolf3d, quake, 
+tetris, several emulators (NES, sega master), and a handful of other miscellaneous apps.
+<p>Still to come...
+<ul>
+<li>Networking (yes, I know it has been a long time coming)</li>
+<li>C++ support</li>
+</ul>
+</td></tr>
+</table>
+<br>
 <table>
 <tr><td>
 <b>16th December 2004 - Release 0.06</b>
