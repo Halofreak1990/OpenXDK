@@ -7,6 +7,9 @@
 #include <stdio.h>
 #include <openxdk/debug.h>
 
+#define PAGE_SIZE 0x1000
+
+
 void XReboot()
 {
 	HalReturnToFirmware(ReturnFirmwareReboot);
@@ -36,6 +39,14 @@ void XLaunchXBE(char *xbePath)
 	if (stat(xbePath, &statbuf) < 0)
 		return;	
 	
+    if (LaunchDataPage == NULL)
+        LaunchDataPage = MmAllocateContiguousMemory(PAGE_SIZE);
+
+    if (LaunchDataPage == NULL)
+		return;
+
+    MmPersistContiguousMemory(LaunchDataPage, PAGE_SIZE, TRUE);
+
 	memset((void*)LaunchDataPage, 0, 0x1000);
 	
 	LaunchDataPage->Header.dwLaunchDataType = 0xFFFFFFFF;
