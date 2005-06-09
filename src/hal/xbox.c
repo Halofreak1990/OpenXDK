@@ -7,8 +7,6 @@
 #include <stdio.h>
 #include <openxdk/debug.h>
 
-#define PAGE_SIZE 0x1000
-
 
 void XReboot()
 {
@@ -40,12 +38,12 @@ void XLaunchXBE(char *xbePath)
 		return;	
 	
     if (LaunchDataPage == NULL)
-        LaunchDataPage = MmAllocateContiguousMemory(PAGE_SIZE);
+        LaunchDataPage = MmAllocateContiguousMemory(0x1000);
 
     if (LaunchDataPage == NULL)
 		return;
 
-    MmPersistContiguousMemory(LaunchDataPage, PAGE_SIZE, TRUE);
+    MmPersistContiguousMemory(LaunchDataPage, 0x1000, TRUE);
 
 	memset((void*)LaunchDataPage, 0, 0x1000);
 	
