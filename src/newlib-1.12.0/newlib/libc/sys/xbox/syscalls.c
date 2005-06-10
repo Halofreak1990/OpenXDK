@@ -164,7 +164,7 @@ int fstat(int fd, struct stat *st)
 		st->st_atime = XBOXFileTimeToUnixTime(networkInfo.LastAccessTime, NULL);
 		st->st_mtime = XBOXFileTimeToUnixTime(networkInfo.LastWriteTime, NULL);
 		st->st_ctime = XBOXFileTimeToUnixTime(networkInfo.ChangeTime, NULL);
-
+		
 		// stdin, stdout and stderr are all character devices
 		if (fd == 0 || fd == 1 || fd == 2)
 			st->st_mode = S_IFCHR;
@@ -314,8 +314,17 @@ int stat(const char *filename, struct stat *st)
 		close(fd);
 		return rc;
 	}
+	else if (errno == ERROR_ACCESS_DENIED && st)
+	{
+		// TODO: use a different BIOS call so we can get proper date/time info
+		// for the directory? -- th0mas, June 9th, 2005
+		memset(st, 0, sizeof(struct stat));
+		st->st_mode = S_IFDIR;
+	} 
 	else
+	{
 		return -1;
+	}
 }
 
 clock_t times(struct tms *buf)
