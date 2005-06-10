@@ -507,7 +507,13 @@ Xbe::Xbe(class Exe *x_Exe, const char *x_szTitle, bool x_bRetail)
 
             // title name
             memset(m_Certificate.wszTitleName, 0, 40);
-            mbstowcs(m_Certificate.wszTitleName, x_szTitle, 40);
+            //mbstowcs(m_Certificate.wszTitleName, x_szTitle, 40);
+	    const char *p = x_szTitle;
+	    char *q = (char *) m_Certificate.wszTitleName;
+	    while (*p != 0x00) {
+	       *q++ = *p++;
+	       *q++ = 0x00;
+	    }
 
             // zero out alternate ids
             {
