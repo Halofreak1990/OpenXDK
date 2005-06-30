@@ -131,8 +131,15 @@ Xbe::Xbe(const char *x_szFilename)
 
         setlocale( LC_ALL, "English" );
 
-        wcstombs(m_szAsciiTitle, m_Certificate.wszTitleName, 40);
-
+        //wcstombs(m_szAsciiTitle, m_Certificate.wszTitleName, 40);
+	char *c = m_szAsciiTitle;
+	char *d = (char *) m_Certificate.wszTitleName;
+	while (*d) {
+	   *c++ = *d++;
+	   *d++;
+	}
+	
+	
         printf("OK\n");
 
         printf("Xbe::Xbe: Title identified as %s\n", m_szAsciiTitle);
@@ -522,7 +529,8 @@ Xbe::Xbe(class Exe *x_Exe, const char *x_szTitle, bool x_bRetail)
             }
 
             // for now we'll just allow any media you could want
-            m_Certificate.dwAllowedMedia = XBEIMAGE_MEDIA_TYPE_HARD_DISK | XBEIMAGE_MEDIA_TYPE_DVD_CD | XBEIMAGE_MEDIA_TYPE_MEDIA_BOARD;
+            m_Certificate.dwAllowedMedia = XBEIMAGE_MEDIA_TYPE_HARD_DISK | XBEIMAGE_MEDIA_TYPE_DVD_CD | XBEIMAGE_MEDIA_TYPE_MEDIA_BOARD 
+	                                   | XBEIMAGE_MEDIA_TYPE_NONSECURE_HARD_DISK | XBEIMAGE_MEDIA_TYPE_NONSECURE_MODE;
 
             // TODO: allow configuration
             m_Certificate.dwGameRegion = XBEIMAGE_GAME_REGION_MANUFACTURING | XBEIMAGE_GAME_REGION_NA | XBEIMAGE_GAME_REGION_JAPAN | XBEIMAGE_GAME_REGION_RESTOFWORLD;
@@ -559,7 +567,15 @@ Xbe::Xbe(class Exe *x_Exe, const char *x_szTitle, bool x_bRetail)
 
         // generate ascii title from certificate title name
         setlocale( LC_ALL, "English" );
-        wcstombs(m_szAsciiTitle, m_Certificate.wszTitleName, 40);
+        ///wcstombs(m_szAsciiTitle, m_Certificate.wszTitleName, 40);
+	char *c = m_szAsciiTitle;
+	char *d = (char *) m_Certificate.wszTitleName;
+	while (*d) {
+	   *c++ = *d++;
+	   *d++;
+	}
+
+	
 
         // write section headers / section names
         {
@@ -1081,13 +1097,20 @@ void Xbe::DumpInformation(FILE *x_file)
 
     setlocale( LC_ALL, "English" );
 
-    const wchar_t *wszFilename = (const wchar_t *)GetAddr(m_Header.dwDebugUnicodeFilenameAddr);
+    char *wszFilename = (char *)GetAddr(m_Header.dwDebugUnicodeFilenameAddr);
 
-    if(wszFilename != NULL)
-        wcstombs(AsciiFilename, wszFilename, 40);
-    else
+    if(wszFilename != NULL) {
+        //wcstombs(AsciiFilename, wszFilename, 40);
+	char *c = wszFilename;
+	char *d = AsciiFilename;
+	while (*c) {
+	   *d++ = *c++;
+	   c++;
+	}
+    } else {
         AsciiFilename[0] = '\0';
-
+    }
+    
     fprintf(x_file, "Entry Point                      : 0x%.08X (Retail: 0x%.08X, Debug: 0x%.08X)\n", m_Header.dwEntryAddr, m_Header.dwEntryAddr ^ XOR_EP_RETAIL, m_Header.dwEntryAddr ^ XOR_EP_DEBUG);
     fprintf(x_file, "TLS Address                      : 0x%.08X\n", m_Header.dwTLSAddr);
     fprintf(x_file, "(PE) Stack Commit                : 0x%.08X\n", m_Header.dwPeStackCommit);

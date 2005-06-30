@@ -125,7 +125,7 @@ class Xbe : public Error
             uint32  dwSize;                               // 0x0000 - size of certificate
             uint32  dwTimeDate;                           // 0x0004 - timedate stamp
             uint32  dwTitleId;                            // 0x0008 - title id
-            wchar_t wszTitleName[40];                     // 0x000C - title name (unicode)
+            uint16  wszTitleName[40];                     // 0x000C - title name (unicode)
             uint32  dwAlternateTitleId[0x10];             // 0x005C - alternate title ids
             uint32  dwAllowedMedia;                       // 0x009C - allowed media types
             uint32  dwGameRegion;                         // 0x00A0 - game region
