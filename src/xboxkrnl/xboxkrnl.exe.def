@@ -46,7 +46,7 @@ EXPORTS
     HalDiskSerialNumber                           @  42 NONAME
     HalEnableSystemInterrupt                      @  43 NONAME
     HalGetInterruptVector                         @  44 NONAME
-    HalReadSMBusValue@24                          @  45 NONAME
+    HalReadSMBusValue@16                          @  45 NONAME
     HalReadWritePCISpace@24                       @  46 NONAME
     HalRegisterShutdownNotification               @  47 NONAME
     HalRequestSoftwareInterrupt                   @  48 NONAME

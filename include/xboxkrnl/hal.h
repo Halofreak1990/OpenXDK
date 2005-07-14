@@ -28,12 +28,10 @@ XBSYSAPI VOID *HalGetInterruptVector;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(45) VOID NTAPI HalReadSMBusValue
 (
-    ULONG   BusNumber,
-    ULONG   SlotNumber,
-    ULONG   RegisterNumber,
-    PVOID   Buffer,
-    ULONG   Length,
-    BOOLEAN WritePCISpace
+    UCHAR   Address,
+    UCHAR   Command,
+    BOOLEAN WordFlag,
+    PCHAR   Value
 );
 
 // ******************************************************************
