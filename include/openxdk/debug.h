@@ -7,6 +7,10 @@
 
 #include <stdarg.h>
 
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
 #define WHITE   0x00FFFFFF
 #define BLACK   0x00000000
 #define RED     0x00FF0000
@@ -23,5 +27,9 @@ void debugPrintBinary( int num );
 void debugPrintHex(char *buffer, int length);
 void debugClearScreen( void );
 void advanceScreen( void );
+
+#if defined(__cplusplus)
+}
+#endif
 
 #endif
