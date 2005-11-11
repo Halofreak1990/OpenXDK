@@ -131,7 +131,7 @@ XBSYSAPI VOID *XcCryptService;
 XBSYSAPI VOID *XcUpdateCrypto;
 XBSYSAPI VOID *XboxLANKey;
 XBSYSAPI VOID *XboxAlternateSignatureKeys;
-XBSYSAPI VOID *XePublicKeyData;
+XBSYSAPI EXPORTNUM(355) BYTE XePublicKeyData[276];
 XBSYSAPI VOID *IdexChannelObject;
 
 #endif

@@ -141,6 +141,7 @@ XBSYSAPI EXPORTNUM(337) VOID NTAPI XcSHAFinal(UCHAR *pbSHAContext, UCHAR *pbDige
     return;
 }
 
+
 XBSYSAPI VOID *XcRC4Key = 0;
 XBSYSAPI VOID *XcRC4Crypt = 0;
 XBSYSAPI VOID *XcHMAC = 0;
@@ -157,5 +158,11 @@ XBSYSAPI VOID *XcCryptService = 0;
 XBSYSAPI VOID *XcUpdateCrypto = 0;
 XBSYSAPI VOID *XboxLANKey = 0;
 XBSYSAPI VOID *XboxAlternateSignatureKeys = 0;
-XBSYSAPI VOID *XePublicKeyData = 0;
+
+// ******************************************************************
+// * XePublicKeyData
+// ******************************************************************
+
+XBSYSAPI EXPORTNUM(355) BYTE XePublicKeyData[276];
+
 XBSYSAPI VOID *IdexChannelObject = 0;
