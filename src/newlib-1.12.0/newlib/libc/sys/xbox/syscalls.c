@@ -6,6 +6,8 @@
 #include <sys/stat.h>
 #include <sys/dirent.h>
 #include <errno.h>
+#include <sys/time.h>
+#include <time.h>
 
 #include <hal/xbox.h>
 #include <hal/fileio.h>
@@ -325,6 +327,31 @@ int stat(const char *filename, struct stat *st)
 	{
 		return -1;
 	}
+}
+
+time_t time(time_t *t)
+{
+	time_t retval;
+	LARGE_INTEGER now;
+	KeQuerySystemTime(&now);
+	if (now.QuadPart == (long long) - 1) {
+		return -1;
+	}
+	retval = XBOXFileTimeToUnixTime(now, NULL);
+	if (t) { *t = retval; }
+	return retval;
+}
+
+int gettimeofday(struct timeval *tv, struct timezone *tz)
+{
+	LARGE_INTEGER now;
+	KeQuerySystemTime(&now);
+	if (now.QuadPart == (long long) - 1) {
+		return -1;
+	}
+	tv->tv_sec = XBOXFileTimeToUnixTime(now, &tv->tv_usec);
+	tv->tv_usec /= 10;
+	return 0;
 }
 
 clock_t times(struct tms *buf)

@@ -10,7 +10,7 @@ EXPORTS
     DbgBreakPointWithStatus                       @   6 NONAME
     DbgLoadImageSymbols                           @   7 NONAME
     DbgPrint                                      @   8 NONAME
-    HalReadSMCTrayState                           @   9 NONAME
+    HalReadSMCTrayState@8                         @   9 NONAME
     DbgPrompt                                     @  10 NONAME
     DbgUnLoadImageSymbols                         @  11 NONAME
     ExAcquireReadWriteLockExclusive               @  12 NONAME

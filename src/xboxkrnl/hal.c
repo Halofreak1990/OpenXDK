@@ -12,7 +12,18 @@
 #define _XBOXKRNL_INTERNAL_
 #include "xboxkrnl/xboxkrnl.h"
 
-XBSYSAPI VOID *HalReadSMCTrayState = 0;
+// ******************************************************************
+// * HalReadSMCTrayState
+// ******************************************************************
+XBSYSAPI EXPORTNUM(9) VOID  NTAPI HalReadSMCTrayState
+(
+    DWORD *state,
+    DWORD *count
+)
+{
+    return;
+}
+
 XBSYSAPI VOID *HalClearSoftwareInterrupt = 0;
 XBSYSAPI VOID *HalDisableSystemInterrupt = 0;
 XBSYSAPI VOID *HalDiskCachePartitionCount = 0;

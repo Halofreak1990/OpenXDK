@@ -236,6 +236,7 @@ SDL_mixer: SDL_mixer-stamp
 
 build/SDL_mixer/SDL_mixer-1.2.5/Makefile.xbox: directories-stamp
 	gunzip -cd $(top_srcdir)/Archive/SDL_mixer-1.2.5.tar.gz | (cd build/SDL_mixer; tar -x) && \
+		(cd build/SDL_mixer ;patch -p1) < $(top_srcdir)/Patches/SDL_mixer-1.2.5.diff && \
 		cp -a $(top_srcdir)/src/SDL_mixer-1.2.5/* build/SDL_mixer/SDL_mixer-1.2.5/
 
 SDL_mixer-stamp: directories-stamp build/SDL_mixer/SDL_mixer-1.2.5/Makefile.xbox

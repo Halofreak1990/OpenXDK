@@ -7,6 +7,7 @@
 
 /* General input functions */
 void XInput_Init(void);
+void XInput_Init_Polling(void);
 void XInput_Quit(void);
 void XInput_GetEvents(void);
 

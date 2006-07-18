@@ -12,6 +12,7 @@ XMOUSE_INPUT	g_Mouse;
 
 /* Has input been inited already? */
 BOOL bInputOK = FALSE;
+BOOL bInputPolling = FALSE;
 
 /* Stores time and XPAD state */
 extern struct xpad_data XPAD_current[4];
@@ -53,8 +54,11 @@ void XInput_Init(void)
 {
 	int i;
 
-	if(bInputOK)
+	if(bInputOK) {
 		return;
+	}
+	bInputOK = TRUE;
+	bInputPolling = FALSE;
 
 	// Zero our pad structures
 	for(i=0; i<4; i++)
@@ -89,7 +93,30 @@ void XInput_Init(void)
 	// Get the current state of our devices
 	XInput_GetEvents();
 
+}
+
+void XInput_Init_Polling(void)
+{
+	int i;
+
+	if(bInputOK) {
+		return;
+	}
 	bInputOK = TRUE;
+	bInputPolling = TRUE;
+	
+	// Zero our pad structures
+	for(i=0; i<4; i++)
+		memset(&g_Pads[i], 0x00, sizeof(XPAD_INPUT));
+
+	// Zero the mouse data
+	memset(&g_Mouse, 0x00, sizeof(XMOUSE_INPUT));
+
+	// Startup the cromwell usb code
+	BootStartUSB();
+
+	// Get the current state of our devices
+	XInput_GetEvents();
 }
 
 void XInput_Quit(void)
@@ -116,6 +143,9 @@ void XInput_GetEvents(void)
 {
 	int pad, button;
 	int iLThumbX, iLThumbY, iRThumbX, iRThumbY;
+	if (bInputPolling) {
+		XUSBInterrupt();
+	}
 
 	for(pad=0; pad<4; pad++)
 	{

@@ -23,7 +23,6 @@ typedef int boolean;
 typedef unsigned char BYTE;
 typedef unsigned short WORD, WCHAR, *PWSTR;
 typedef unsigned int DWORD, *PDWORD, *LPDWORD;
-typedef int bool;
 
 typedef unsigned int SIZE_T, *PSIZE_T;
 
