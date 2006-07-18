@@ -40,7 +40,14 @@ VIDEO_MODE_SETTING vidModes[] =
 
 	{ 0x04010103, 640, 480, 60, VIDEO_REGION_NTSCJ, VIDEO_ADAPTER_NORMAL }, // 640x480 NTSCJ 60
 	{ 0x04020204, 720, 480, 60, VIDEO_REGION_NTSCJ, VIDEO_ADAPTER_NORMAL }, // 720x480 NTSCJ 60
+	
+	{ 0x88070701, 640, 480, 60, VIDEO_REGION_NTSCM, VIDEO_ADAPTER_HDTVCABLE }, // 640x480p NTSCM 60
+        { 0x88080801, 720, 480, 60, VIDEO_REGION_NTSCM, VIDEO_ADAPTER_HDTVCABLE }, // 720x480p NTSCM 60
+	
+        { 0x88070701, 640, 480, 60, VIDEO_REGION_NTSCJ, VIDEO_ADAPTER_HDTVCABLE }, // 640x480p NTSCJ 60
+	{ 0x88080801, 720, 480, 60, VIDEO_REGION_NTSCJ, VIDEO_ADAPTER_HDTVCABLE }, // 720x480p NTSCJ 60
 };
+
 int iVidModes = sizeof(vidModes) / sizeof(VIDEO_MODE_SETTING);
 
 
@@ -98,7 +105,7 @@ BOOL XVideoSetMode(int width, int height, int bpp, int refresh)
 	DWORD dwAdapter		= dwEnc & 0x000000FF;
 	DWORD dwStandard	= dwEnc & 0x0000FF00;
 
-	if(bpp != 16 || bpp != 32)
+	if(bpp != 16 && bpp != 32)
 		bpp = 32;
 
 	if(refresh > 0)
@@ -115,7 +122,7 @@ BOOL XVideoSetMode(int width, int height, int bpp, int refresh)
 	{
 		pVidMode = &vidModes[i];
 
-		if( (pVidMode->dwFlags > 0) && ((pVidMode->dwFlags & 0x000000FF) != dwAdapter ))
+		if((pVidMode->dwFlags & 0x000000FF) != dwAdapter)
 			continue;
 
 		if(pVidMode->dwStandard != dwStandard)

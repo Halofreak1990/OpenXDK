@@ -19,6 +19,7 @@
 // Defines for video adapter packs
 #define VIDEO_ADAPTER_NORMAL		0x00000000
 #define VIDEO_ADAPTER_RGBSCART		0x00000003
+#define VIDEO_ADAPTER_HDTVCABLE         0x00000004
 
 // Defines for video encoder options
 #define VIDEO_ENC_GET_SETTINGS		6

@@ -1,0 +1,14 @@
+diff -ru SDL_mixer/SDL_mixer-1.2.5/mikmod/mikmod.h SDL_mixer-xbox/SDL_mixer-1.2.5/mikmod/mikmod.h
+--- SDL_mixer/SDL_mixer-1.2.5/mikmod/mikmod.h	2001-12-19 17:11:40.000000000 +0000
++++ SDL_mixer-xbox/SDL_mixer-1.2.5/mikmod/mikmod.h	2005-11-27 16:00:49.000000000 +0000
+@@ -71,8 +71,10 @@
+ #ifdef WIN32
+ #define WIN32_LEAN_AND_MEAN
+ #include <windows.h>
++#ifndef ENABLE_XBOX
+ #include <io.h>
+ #endif
++#endif
+ 
+ #if defined(__OS2__)||defined(__EMX__)
+ #define INCL_DOSSEMAPHORES
