@@ -17,6 +17,9 @@ extern "C" {
 #define GREEN   0x0000FF00
 #define BLUE    0x000000FF
 
+#define WHITE_16BPP   0xFFFF
+#define BLACK_16BPP  0x0000
+
 /**
  * Prints a message to whatever debug facilities might
  * be available.

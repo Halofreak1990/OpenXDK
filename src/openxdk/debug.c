@@ -16,6 +16,7 @@
 
 int SCREEN_WIDTH	= 640;
 int SCREEN_HEIGHT	= 480;
+int SCREEN_BPP = 32;
 
 int nextRow = MARGIN;
 int nextCol = MARGIN; 
@@ -159,11 +160,12 @@ static unsigned char systemFont[] =
 
 void drawChar(unsigned char c, int x, int y, int fgColour, int bgColour)
 {
-	int *videoBuffer = (int *)XVideoGetFB();
-	videoBuffer += y*SCREEN_WIDTH+x;
+	char *videoBuffer = XVideoGetFB();
+	videoBuffer += (y * SCREEN_WIDTH + x) * (SCREEN_BPP >> 3);
 
 	unsigned char mask;
 	unsigned char *font = systemFont + (c * FONT_WIDTH);
+	int colourToDraw;
 
 	for (int h = 0; h < FONT_HEIGHT; h++)
 	{
@@ -172,19 +174,27 @@ void drawChar(unsigned char c, int x, int y, int fgColour, int bgColour)
 		{
 			if ((*font) & mask)
 			{
-				// draw pixel
-				*videoBuffer++ = fgColour;
+				colourToDraw = fgColour;
 			}
 			else
 			{
-				// draw background colour
-				*videoBuffer++ = bgColour;
+				colourToDraw = bgColour;
 			}
-			
+			switch (SCREEN_BPP)
+			{
+				case 32:
+					*((int*)videoBuffer) = colourToDraw;
+					videoBuffer += sizeof(int);
+					break;
+				case 16:
+					*((short*)videoBuffer) = colourToDraw & 0xFFFF;
+					videoBuffer += sizeof(short);
+					break;
+			}
 			mask >>= 1;
 		}
 		
-		videoBuffer += (SCREEN_WIDTH-FONT_WIDTH);
+		videoBuffer += (SCREEN_WIDTH-FONT_WIDTH)  * (SCREEN_BPP >> 3);
 		font++;
 	}
 }
@@ -257,6 +267,18 @@ void debugPrint(char *format, ...)
 	VIDEO_MODE vm = XVideoGetMode();
 	SCREEN_WIDTH = vm.width;
 	SCREEN_HEIGHT = vm.height;
+	SCREEN_BPP = vm.bpp;
+	int fgColour;
+	int bgColour;
+	switch (SCREEN_BPP) {
+	case 32:
+		fgColour = WHITE;
+		bgColour = BLACK;
+		break;
+	case 16:
+		fgColour = WHITE_16BPP;
+		bgColour = BLACK_16BPP;
+	}
 
 	unsigned char *s = buffer;
 	while (*s)
@@ -271,7 +293,7 @@ void debugPrint(char *format, ...)
 		}
 		else
 		{
-			drawChar( *s, nextCol, nextRow, WHITE, BLACK );
+			drawChar( *s, nextCol, nextRow, fgColour, bgColour );
 
 			nextCol += FONT_WIDTH+1;
 			if( nextCol > (SCREEN_WIDTH-MARGINS))
@@ -287,24 +309,24 @@ void debugPrint(char *format, ...)
 
 void advanceScreen( void )
 {
-	int screenSize  = (SCREEN_WIDTH*SCREEN_HEIGHT)-(SCREEN_WIDTH*MARGINS);
-	int lineSize    = (SCREEN_WIDTH*(FONT_HEIGHT+1));
+	int pixelSize = SCREEN_BPP >> 3;
+	int screenSize  = SCREEN_WIDTH * (SCREEN_HEIGHT - MARGINS)  * pixelSize;
+	int lineSize    = SCREEN_WIDTH * (FONT_HEIGHT + 1) * pixelSize;
 	
-	int* thisScreen = (int*)XVideoGetFB() + (SCREEN_WIDTH*MARGIN);
-    int* prevScreen = thisScreen+lineSize;
+	char* thisScreen = XVideoGetFB() + (SCREEN_WIDTH * MARGIN)  * pixelSize;
+	char* prevScreen = thisScreen+lineSize;
     	
-    while( screenSize-- )
-    	*thisScreen++ = *prevScreen++;
-    
+	memmove(thisScreen, prevScreen, screenSize);
+
 	nextRow -= (FONT_HEIGHT+1);
 	nextCol  = MARGIN; 
 }
 
 void debugClearScreen( void )
 {
-	int* videoBuffer = (int*)XVideoGetFB();
+	char* videoBuffer = XVideoGetFB();
 
-	memset( videoBuffer, 0, sizeof(int)*(SCREEN_WIDTH*SCREEN_HEIGHT) );
+	memset( videoBuffer, 0, (SCREEN_BPP >> 3) * (SCREEN_WIDTH * SCREEN_HEIGHT) );
 	nextRow = MARGIN;
 	nextCol = MARGIN; 
 }
