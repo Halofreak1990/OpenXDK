@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <openxdk/debug.h>
 
+#define KernelMode 0
 
 void XReboot()
 {
@@ -20,8 +21,9 @@ int XGetTickCount()
 
 void XSleep(int milliseconds)
 {
-	int target = XGetTickCount()+milliseconds;
-	while(XGetTickCount() < target);
+	LARGE_INTEGER interval;
+        interval.QuadPart = (long long) milliseconds * -10000;
+        KeDelayExecutionThread(KernelMode, FALSE, &interval);
 }
 
 /**
