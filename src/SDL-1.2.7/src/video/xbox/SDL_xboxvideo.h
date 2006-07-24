@@ -35,12 +35,12 @@ static char rcsid =
 /* Hidden "this" pointer for the video functions */
 #define _THIS	SDL_VideoDevice *this
 
-
 /* Private display data */
 
 struct SDL_PrivateVideoData {
-    int w, h;
-    void *buffer;
+	#define NUM_MODELISTS 2 /* 16 and 32 bits-per-pixel */
+	#define SDL_NUMMODES 2
+	SDL_Rect *SDL_modelist[NUM_MODELISTS][SDL_NUMMODES+1];
 };
 
 #endif /* _SDL_xboxvideo_h */

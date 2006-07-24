@@ -45,7 +45,7 @@ EXPORTS
     HalDiskModelNumber                            @  41 NONAME
     HalDiskSerialNumber                           @  42 NONAME
     HalEnableSystemInterrupt                      @  43 NONAME
-    HalGetInterruptVector                         @  44 NONAME
+    HalGetInterruptVector@8                       @  44 NONAME
     HalReadSMBusValue@16                          @  45 NONAME
     HalReadWritePCISpace@24                       @  46 NONAME
     HalRegisterShutdownNotification               @  47 NONAME
@@ -99,9 +99,9 @@ EXPORTS
     KeBugCheck                                    @  95 NONAME
     KeBugCheckEx                                  @  96 NONAME
     KeCancelTimer                                 @  97 NONAME
-    KeConnectInterrupt                            @  98 NONAME
+    KeConnectInterrupt@4                          @  98 NONAME
     KeDelayExecutionThread@12                     @  99 NONAME
-    KeDisconnectInterrupt                         @ 100 NONAME
+    KeDisconnectInterrupt@4                       @ 100 NONAME
     KeEnterCriticalRegion                         @ 101 NONAME
     MmGlobalData                                  @ 102 NONAME
     KeGetCurrentIrql                              @ 103 NONAME
@@ -110,7 +110,7 @@ EXPORTS
     KeInitializeDeviceQueue                       @ 106 NONAME
     KeInitializeDpc@12                            @ 107 NONAME
     KeInitializeEvent                             @ 108 NONAME
-    KeInitializeInterrupt                         @ 109 NONAME
+    KeInitializeInterrupt@28                      @ 109 NONAME
     KeInitializeMutant                            @ 110 NONAME
     KeInitializeQueue                             @ 111 NONAME
     KeInitializeSemaphore                         @ 112 NONAME

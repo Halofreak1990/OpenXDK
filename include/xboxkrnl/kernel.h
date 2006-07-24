@@ -20,7 +20,14 @@ XBSYSAPI VOID *KeBoostPriorityThread;
 XBSYSAPI VOID *KeBugCheck;
 XBSYSAPI VOID *KeBugCheckEx;
 XBSYSAPI VOID *KeCancelTimer;
-XBSYSAPI VOID *KeConnectInterrupt;
+
+// ******************************************************************
+// * KeConnectInterrupt
+// ******************************************************************
+XBSYSAPI EXPORTNUM(98) NTSTATUS NTAPI KeConnectInterrupt
+(
+    IN PKINTERRUPT  InterruptObject
+);
 
 // ******************************************************************
 // * KeDelayExecutionThread
@@ -32,7 +39,14 @@ XBSYSAPI EXPORTNUM(99) NTSTATUS NTAPI KeDelayExecutionThread
     IN PLARGE_INTEGER   Interval
 );
 
-XBSYSAPI VOID *KeDisconnectInterrupt;
+// ******************************************************************
+// * KeDisconnectInterrupt
+// ******************************************************************
+XBSYSAPI EXPORTNUM(100) VOID NTAPI KeDisconnectInterrupt
+(
+    IN PKINTERRUPT  InterruptObject
+);
+
 XBSYSAPI VOID *KeEnterCriticalRegion;
 XBSYSAPI VOID *KeGetCurrentIrql;
 
@@ -55,7 +69,22 @@ XBSYSAPI EXPORTNUM(107) VOID NTAPI KeInitializeDpc
 );
 
 XBSYSAPI VOID *KeInitializeEvent;
-XBSYSAPI VOID *KeInitializeInterrupt;
+
+// ******************************************************************
+// * KeInitializeInterrupt
+// ******************************************************************
+
+XBSYSAPI EXPORTNUM(109) VOID NTAPI KeInitializeInterrupt
+(
+    OUT PKINTERRUPT Interrupt,
+    IN PKSERVICE_ROUTINE ServiceRoutine,
+    IN PVOID ServiceContext,
+    IN ULONG Vector,
+    IN KIRQL Irql,
+    IN KINTERRUPT_MODE InterruptMode,
+    IN BOOLEAN ShareVector
+);
+
 XBSYSAPI VOID *KeInitializeMutant;
 XBSYSAPI VOID *KeInitializeQueue;
 XBSYSAPI VOID *KeInitializeSemaphore;

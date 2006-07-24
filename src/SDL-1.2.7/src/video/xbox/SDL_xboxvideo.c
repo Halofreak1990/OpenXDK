@@ -148,54 +148,106 @@ VideoBootStrap XBOX_bootstrap = {
 	XBOX_Available, XBOX_CreateDevice
 };
 
-
 int XBOX_VideoInit(_THIS, SDL_PixelFormat *vformat)
 {
-	XVideoSetMode(640, 480, 32, 0);
-	/* Determine the screen depth (use default 8-bit depth) */
-	/* we change this during the SDL_SetVideoMode implementation... */
+	if (! XVideoSetMode(640, 480, 32, 0)) { return -1; }
 	vformat->BitsPerPixel = 32;
 	vformat->BytesPerPixel = 4;
-
+	vformat->Rmask = 0x00FF0000;
+	vformat->Rshift = 8;
+	vformat->Rloss = 0;
+	vformat->Gmask = 0x0000FF00;
+	vformat->Gshift = 16;
+	vformat->Gloss = 0;
+	vformat->Bmask = 0x000000FF;
+	vformat->Bshift = 24;
+	vformat->Bloss = 0;
+	vformat->Amask = 0x00000000;
+	vformat->Ashift = 0;
+	vformat->Aloss = 0;
+	
+	/* Setup mode list. Modes for each depth should be sorted largest to smallest */
+	/* 16bit */
+	this->hidden->SDL_modelist[0][0] = malloc(sizeof(SDL_Rect));
+	this->hidden->SDL_modelist[0][0]->x = this->hidden->SDL_modelist[0][0]->y = 0;
+	this->hidden->SDL_modelist[0][0]->w = 720;
+	this->hidden->SDL_modelist[0][0]->h = 480;
+	
+	this->hidden->SDL_modelist[0][1] = malloc(sizeof(SDL_Rect));
+	this->hidden->SDL_modelist[0][1]->x = this->hidden->SDL_modelist[0][1]->y = 0;
+	this->hidden->SDL_modelist[0][1]->w = 640;
+	this->hidden->SDL_modelist[0][1]->h = 480;
+	
+	this->hidden->SDL_modelist[0][2] = NULL;
+	/* 32bit */
+	this->hidden->SDL_modelist[1][0] = malloc(sizeof(SDL_Rect));
+	this->hidden->SDL_modelist[1][0]->x = this->hidden->SDL_modelist[0][0]->y = 0;
+	this->hidden->SDL_modelist[1][0]->w = 720;
+	this->hidden->SDL_modelist[1][0]->h = 480;
+	
+	this->hidden->SDL_modelist[1][1] = malloc(sizeof(SDL_Rect));
+	this->hidden->SDL_modelist[1][1]->x = this->hidden->SDL_modelist[0][1]->y = 0;
+	this->hidden->SDL_modelist[1][1]->w = 640;
+	this->hidden->SDL_modelist[1][1]->h = 480;
+	
+	this->hidden->SDL_modelist[1][2] = NULL;
+	
 	/* We're done! */
 	return(0);
 }
 
+/*
+ * Return a pointer to an array of available screen dimensions for the
+ * given format, sorted largest to smallest.  Returns NULL if there are
+ * no dimensions available for a particular format, or (SDL_Rect **)-1
+ * if any dimension is okay for the given format.
+ */
 SDL_Rect **XBOX_ListModes(_THIS, SDL_PixelFormat *format, Uint32 flags)
 {
-   	 return (SDL_Rect **) -1;
+	if (format->BitsPerPixel == 32) { return(this->hidden->SDL_modelist[1]); }
+	if (format->BitsPerPixel == 16) { return(this->hidden->SDL_modelist[0]); }
+	return NULL;
 }
 
 SDL_Surface *XBOX_SetVideoMode(_THIS, SDL_Surface *current, int width, int height, int bpp, Uint32 flags)
 {
-	if ( this->hidden->buffer ) {
-		free( this->hidden->buffer );
-	}
+	Uint32 Rmask, Gmask, Bmask;
 
-	this->hidden->buffer = malloc(width * height * (bpp / 8));
-	if ( ! this->hidden->buffer ) {
-		SDL_SetError("Couldn't allocate buffer for requested mode");
+	if (! XVideoSetMode(width, height, bpp, 0)) {
+		SDL_SetError("Error setting video mode");
 		return(NULL);
 	}
 
 /* 	printf("Setting mode %dx%d\n", width, height); */
-
-	memset(this->hidden->buffer, 0, width * height * (bpp / 8));
+	
+	switch (bpp) {
+		case 16:
+			Rmask = 0xF800;
+			Gmask = 0x07E0;
+			Bmask = 0x001F;
+			break;
+		case 32:
+			Rmask = 0x00FF0000;
+			Gmask = 0x0000FF00;
+			Bmask = 0x000000FF;
+			break;
+		default:
+			SDL_SetError("Invalid bpp\n");
+			return(NULL);
+	}
 
 	/* Allocate the new pixel format for the screen */
-	if ( ! SDL_ReallocFormat(current, bpp, 0, 0, 0, 0) ) {
-		free(this->hidden->buffer);
-		this->hidden->buffer = NULL;
+	if ( ! SDL_ReallocFormat(current, bpp, Rmask, Gmask, Bmask, 0) ) {
 		SDL_SetError("Couldn't allocate new pixel format for requested mode");
 		return(NULL);
 	}
 
 	/* Set up the new mode framebuffer */
-	current->flags = flags & SDL_FULLSCREEN;
-	this->hidden->w = current->w = width;
-	this->hidden->h = current->h = height;
+	current->flags = SDL_FULLSCREEN | SDL_HWSURFACE;
+	current->w = width;
+	current->h = height;
 	current->pitch = current->w * (bpp / 8);
-	current->pixels = this->hidden->buffer;
+	current->pixels = XVideoGetFB();
 
 	/* We're done */
 	return(current);
@@ -224,57 +276,7 @@ static void XBOX_UnlockHWSurface(_THIS, SDL_Surface *surface)
 
 static void XBOX_UpdateRects(_THIS, int numrects, SDL_Rect *rects)
 {
-	// note that this whole function assumes that the physical screen 
-	// is in 640x400 mode.  The logical screen is centered in the physical 
-	// screen... one of these days I will change this to use the video cards 
-	// graphic modes properly! 
-	int i, j, k; 
-	int xinc, yinc, destinc; 
-	
-	unsigned char *src = NULL, *dest = NULL;
-	
-	int SCREEN_WIDTH = 640;       
-	int SCREEN_HEIGHT = 480;   
-	int SCREEN_PIXELWIDTH = 4;
-	           
-	// center the screen 
-	unsigned char* VIDEO_BUFFER_ADDR = (unsigned char*)XVideoGetFB() + (((SCREEN_HEIGHT - this->screen->h)/2) * (SCREEN_WIDTH * SCREEN_PIXELWIDTH)) + (((SCREEN_WIDTH - this->screen->w)/2) * SCREEN_PIXELWIDTH);        
-	
-	// These are the values for the incoming image
-	xinc = this->screen->format->BytesPerPixel ; 
-	yinc = this->screen->pitch ; 
-	          
-	for (i = 0; i < numrects; ++ i) 
-	{ 
-		int x = rects[i].x; 
-		int y = rects[i].y; 
-		int w = rects[i].w; 
-		int h = rects[i].h; 
-		src = this->screen->pixels + y*yinc + x*xinc; 
-		dest = (unsigned char*)VIDEO_BUFFER_ADDR; 
-		destinc = SCREEN_WIDTH * SCREEN_PIXELWIDTH; 
-		      
-		unsigned char *ptrsrc, *ptrdst; 
-		for (j = h; j > 0; --j, src += yinc, dest += destinc) 
-		{ 
-			ptrsrc = src; 
-			ptrdst = dest; 
-			for (k = w; k > 0; --k) 
-			{ 
-				unsigned char r, g, b;
-				if (this->screen->format->BytesPerPixel == 1)
-					SDL_GetRGB(*ptrsrc, this->screen->format, &r, &g, &b); 
-				else if (this->screen->format->BytesPerPixel == 2)
-					SDL_GetRGB(*(unsigned short *)ptrsrc, this->screen->format, &r, &g, &b); 
-				else 
-					SDL_GetRGB(*(unsigned int *)ptrsrc, this->screen->format, &r, &g, &b); 
-				*ptrdst++ = b; 
-				*ptrdst++ = g;
-				*ptrdst++ = r;
-				*ptrdst++ = 0; ptrsrc += xinc;
-			} 
-		} 
-	}
+	return;
 }
 
 int XBOX_SetColors(_THIS, int firstcolor, int ncolors, SDL_Color *colors)
@@ -288,9 +290,18 @@ int XBOX_SetColors(_THIS, int firstcolor, int ncolors, SDL_Color *colors)
 */
 void XBOX_VideoQuit(_THIS)
 {
-	if (this->screen->pixels != NULL)
-	{
-		free(this->screen->pixels);
+	int i, j;
+	/* Free mode lists */
+	for (j = 0; j < NUM_MODELISTS; j++) {
+		for (i = 0; i < SDL_NUMMODES; i++) {
+			if (this->hidden->SDL_modelist[j][i] != NULL) {
+				free(this->hidden->SDL_modelist[j][i]);
+				this->hidden->SDL_modelist[j][i]=NULL;
+			}
+		}
+	}
+	if (this->screen && (this->screen->flags & SDL_HWSURFACE)) {
+		/* Direct screen access, no memory buffer */
 		this->screen->pixels = NULL;
 	}
 }

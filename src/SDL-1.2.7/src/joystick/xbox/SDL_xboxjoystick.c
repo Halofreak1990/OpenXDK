@@ -39,8 +39,6 @@ static char rcsid =
 #include <xboxkrnl/types.h>
 #include <hal/input.h>
 
-#define XINPUT_POLLING
-
 #define MAX_PADS     1
 #define NUM_AXES     4
 #define NUM_HATS     1
@@ -62,11 +60,7 @@ struct joystick_hwdata
  */
 int SDL_SYS_JoystickInit(void)
 {
-	#ifdef XINPUT_POLLING
-	XInput_Init_Polling();
-	#else
 	XInput_Init();
-	#endif
 
 	SDL_numjoysticks = 4;
 

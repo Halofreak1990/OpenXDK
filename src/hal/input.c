@@ -1,9 +1,9 @@
 #include <openxdk/openxdk.h>
-#include <hal/io.h>
 #include <hal/input.h>
 #include <memory.h>
 
 #define XPAD_ANALOG_BUTTON_INTF 0x30
+#define USB_IRQ 1
 
 XPAD_INPUT		g_Pads[4];
 XPAD_INPUT		g_DefaultPad;
@@ -11,8 +11,9 @@ XPAD_INPUT		g_DefaultPad;
 XMOUSE_INPUT	g_Mouse;
 
 /* Has input been inited already? */
-BOOL bInputOK = FALSE;
-BOOL bInputPolling = FALSE;
+static BOOL bInputOK = FALSE;
+static BOOL bInputPolling = FALSE;
+static KINTERRUPT InterruptObject;
 
 /* Stores time and XPAD state */
 extern struct xpad_data XPAD_current[4];
@@ -27,36 +28,22 @@ void BootStopUSB(void);
 
 int GetKeyboardStroke(XKEYBOARD_STROKE *pStroke);
 
-// the IDT consists of 256 of these guys. They
-// hold the information that tells the CPU where
-// to jump to when an interrupt occurs
-typedef struct 
-{
-	unsigned short lowOffset;
-	unsigned short selector;
-	unsigned short type;
-	unsigned short highOffset;
-} idtDescriptor;
-
-// fetches the current address of the IDT table
-// so that we can hook the audio interrupt later
-unsigned long getIDTAddress();
-
-// declare our asm interrupt handler (see usbInterrupt.s)
-extern void IntHandler1(void);
-
-void XUSBInterrupt(void)
+static BOOLEAN __stdcall ISR(PKINTERRUPT Interrupt, PVOID ServiceContext)
 {
 	USBGetEvents();
+	return TRUE;
 }
 
 void XInput_Init(void)
 {
 	int i;
-
+	ULONG tmp;
+	KIRQL irql;
+	ULONG vector;
 	if(bInputOK) {
 		return;
 	}
+
 	bInputOK = TRUE;
 	bInputPolling = FALSE;
 
@@ -66,33 +53,24 @@ void XInput_Init(void)
 
 	// Zero the mouse data
 	memset(&g_Mouse, 0x00, sizeof(XMOUSE_INPUT));
-
-	// Hook the usb interrupt
-	{
-		// now we need to hook our interrupt handler.
-		idtDescriptor *idt = (idtDescriptor *)getIDTAddress();
-		unsigned short selector;
-		asm volatile("movw %%cs,%0" :"=g"(selector));
-
-		// our interrupt handler is a pointer to our asm routine
-		unsigned int interruptRoutine = (unsigned int)IntHandler1;
-		// found this interrupt number through trial and error.  ick!
-		int intNum = 0x31;
-		idt[intNum].selector   = selector;
-		idt[intNum].type       = 0x8e00; 
-		idt[intNum].lowOffset  = (unsigned short)interruptRoutine;
-		idt[intNum].highOffset = (unsigned short)(((unsigned int)interruptRoutine)>>16);
-
-		// and lastly, lets enable the interrupt on the PIC
-		IoOutputByte(0x21,(IoInputByte(0x21) & 0xFD));
-	}
-
+	
 	// Startup the cromwell usb code
 	BootStartUSB();
-
+	
 	// Get the current state of our devices
 	XInput_GetEvents();
+	
+	vector = HalGetInterruptVector(USB_IRQ, &irql);
+	
+	KeInitializeInterrupt(&InterruptObject,
+				&ISR,
+				NULL,
+				vector,
+				irql,
+				LevelSensitive,
+				FALSE);
 
+	KeConnectInterrupt(&InterruptObject);
 }
 
 void XInput_Init_Polling(void)
@@ -135,6 +113,10 @@ void XInput_Quit(void)
 
 	// Zero the mouse data
 	memset(&g_Mouse, 0x00, sizeof(XMOUSE_INPUT));
+	
+	if (!bInputPolling) {
+		KeDisconnectInterrupt(&InterruptObject);
+	}
 
 	bInputOK = FALSE;
 }
@@ -144,7 +126,7 @@ void XInput_GetEvents(void)
 	int pad, button;
 	int iLThumbX, iLThumbY, iRThumbX, iRThumbY;
 	if (bInputPolling) {
-		XUSBInterrupt();
+		USBGetEvents();
 	}
 
 	for(pad=0; pad<4; pad++)

@@ -17,8 +17,8 @@
 // ******************************************************************
 XBSYSAPI EXPORTNUM(9) VOID  NTAPI HalReadSMCTrayState
 (
-    DWORD *state,
-    DWORD *count
+    OUT DWORD *state,
+    OUT DWORD *count
 )
 {
     return;
@@ -30,12 +30,23 @@ XBSYSAPI VOID *HalDiskCachePartitionCount = 0;
 XBSYSAPI VOID *HalDiskModelNumber = 0;
 XBSYSAPI VOID *HalDiskSerialNumber = 0;
 XBSYSAPI VOID *HalEnableSystemInterrupt = 0;
-XBSYSAPI VOID *HalGetInterruptVector = 0;
+
+// ******************************************************************
+// * HalGetInterruptVector
+// ******************************************************************
+XBSYSAPI EXPORTNUM(44) ULONG  NTAPI HalGetInterruptVector
+(
+    IN ULONG InterruptLevel,
+    OUT PKIRQL Irql
+)
+{
+    return 0;
+}
 
 // ******************************************************************
 // * HalReadSMBusValue
 // ******************************************************************
-XBSYSAPI EXPORTNUM(45) VOID NTAPI HalReadSMBusValue
+XBSYSAPI EXPORTNUM(45) ULONG NTAPI HalReadSMBusValue
 (
     UCHAR   Address,
     UCHAR   Command,
@@ -43,7 +54,7 @@ XBSYSAPI EXPORTNUM(45) VOID NTAPI HalReadSMBusValue
     PCHAR   Value
 )
 {
-    return;
+    return 0;
 }
 
 // ******************************************************************

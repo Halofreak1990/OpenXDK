@@ -62,7 +62,7 @@ void XBOX_InitOSKeymap(_THIS)
 {
 	int i;
 
-	XInput_Init_Polling();
+	XInput_Init();
 	XSleep(200);
 
 	lastMouseX = 0;

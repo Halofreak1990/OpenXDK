@@ -29,12 +29,20 @@ XBSYSAPI VOID *HalDiskCachePartitionCount;
 XBSYSAPI VOID *HalDiskModelNumber;
 XBSYSAPI VOID *HalDiskSerialNumber;
 XBSYSAPI VOID *HalEnableSystemInterrupt;
-XBSYSAPI VOID *HalGetInterruptVector;
+
+// ******************************************************************
+// * HalGetInterruptVector
+// ******************************************************************
+XBSYSAPI EXPORTNUM(44) ULONG  NTAPI HalGetInterruptVector
+(
+    IN ULONG InterruptLevel,
+    OUT PKIRQL Irql
+);
 
 // ******************************************************************
 // * HalReadSMBusValue
 // ******************************************************************
-XBSYSAPI EXPORTNUM(45) VOID NTAPI HalReadSMBusValue
+XBSYSAPI EXPORTNUM(45) ULONG NTAPI HalReadSMBusValue
 (
     UCHAR   Address,
     UCHAR   Command,

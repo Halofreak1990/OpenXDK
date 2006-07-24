@@ -1,8 +1,6 @@
 #include <memory.h>
-#include <xboxkrnl/xboxkrnl.h>
 #include <hal/audio.h>
-#include <hal/io.h>
-#include <openxdk/debug.h>
+#include <openxdk/openxdk.h>
 
 // The foundation for this file came from the Cromwell audio driver by 
 // Andy (see his comments below).
@@ -24,33 +22,41 @@
 //  separate from the PCM Out, although that descriptor can share audio
 //  buffers with PCM out successfully.
 
+#define AUDIO_IRQ 6
+
+static KINTERRUPT InterruptObject;
+
 // global reference to the ac97 device
 AC97_DEVICE ac97Device;
 
-// the IDT consists of 256 of these guys. They
-// hold the information that tells the CPU where
-// to jump to when an interrupt occurs
-typedef struct 
+// although we have to explicitly clear the S/PDIF interrupt sources, in fact
+// the way we are set up PCM and S/PDIF are in lockstep and we only listen for
+// PCM actions, since S/PDIF is always spooling through the same buffer.
+static BOOLEAN __stdcall ISR(PKINTERRUPT Interrupt, PVOID ServiceContext)
 {
-	unsigned short lowOffset;
-	unsigned short selector;
-	unsigned short type;
-	unsigned short highOffset;
-} idtDescriptor;
+	volatile AC97_DEVICE *pac97device = &ac97Device;
+	if (pac97device)
+	{
+		volatile unsigned char *pb = (unsigned char *)pac97device->mmio;
 
-// fetches the current address of the IDT table
-// so that we can hook the audio interrupt later
-unsigned long getIDTAddress()
-{
-	unsigned char idtr[6];
-	unsigned long idt;
-	__asm__ volatile ("sidt %0": "=m" (idtr));
-	idt = *((unsigned long *)&idtr[2]);
-	return idt;
+		// was the interrupt triggered because we were out of data?
+		if (pb[0x116]&8) 
+		{
+			if (pac97device->callback)
+				(pac97device->callback)((void *)pac97device, pac97device->callbackData);
+		}
+	
+		// was the interrupt triggered because of FIFO error
+		if (pb[0x116]&0x10) 
+		{
+			// Fifo underrun - what should I do here?
+		}
+
+		pb[0x116] = 0xFF; // clear all int sources
+		pb[0x176] = 0XFF; // clear all int sources
+	}
+	return TRUE;
 }
-
-// declare our asm interrupt handler (see audioInterrupt.s)
-extern void IntHandler6(void);
 
 void XDumpAudioStatus()
 {
@@ -73,7 +79,9 @@ void XDumpAudioStatus()
 void XAudioInit(int sampleSizeInBits, int numChannels, XAudioCallback callback, void *data)
 {
 	volatile AC97_DEVICE * pac97device = &ac97Device;
-	
+	KIRQL irql;
+	ULONG vector;
+
 	pac97device->mmio = (unsigned int *)0xfec00000;
 	pac97device->nextDescriptorMod31 = 0;
 	pac97device->callback = callback;
@@ -105,24 +113,19 @@ void XAudioInit(int sampleSizeInBits, int numChannels, XAudioCallback callback, 
 
 	// default to being silent...
 	XAudioPause(pac97device);
+	
+	// Register our ISR
+	vector = HalGetInterruptVector(AUDIO_IRQ, &irql);
 
-	// now we need to hook our interrupt handler.  We do this even
-	// if the user hasn't registered a callback.
-	idtDescriptor *idt = (idtDescriptor *)getIDTAddress();
-	unsigned short selector;
-	asm volatile("movw %%cs,%0" :"=g"(selector));
+	KeInitializeInterrupt(&InterruptObject,
+				&ISR,
+				NULL,
+				vector,
+				irql,
+				LevelSensitive,
+				FALSE);
 	
-	// our interrupt handler is a pointer to our asm routine
-	unsigned int interruptRoutine = (unsigned int)IntHandler6;
-	// found this interrupt number through trial and error.  ick!
-	int intNum = 0x36;
-	idt[intNum].selector   = selector;
-	idt[intNum].type       = 0x8e00; 
-	idt[intNum].lowOffset  = (unsigned short)interruptRoutine;
-	idt[intNum].highOffset = (unsigned short)(((unsigned int)interruptRoutine)>>16);
-	
-	// and lastly, lets enable the interrupt on the PIC
-	IoOutputByte(0x21,(IoInputByte(0x21) & 0xBF));
+	KeConnectInterrupt(&InterruptObject);
 }
 
 // tell the chip it is OK to play...
@@ -169,32 +172,4 @@ void XAudioProvideSamples(unsigned char *buffer, unsigned short bufferLength, in
 
 	// increment to the next buffer descriptor (rolling around to 0 once you get to 31)
 	pac97device->nextDescriptorMod31 = (pac97device->nextDescriptorMod31 +1 ) & 0x1f;
-}
-
-// although we have to explicitly clear the S/PDIF interrupt sources, in fact
-// the way we are set up PCM and S/PDIF are in lockstep and we only listen for
-// PCM actions, since S/PDIF is always spooling through the same buffer.
-void XAudioInterrupt()
-{
-	volatile AC97_DEVICE *pac97device = &ac97Device;
-	if (pac97device)
-	{
-		volatile unsigned char *pb = (unsigned char *)pac97device->mmio;
-
-		// was the interrupt triggered because we were out of data?
-		if (pb[0x116]&8) 
-		{
-			if (pac97device->callback)
-				(pac97device->callback)((void *)pac97device, pac97device->callbackData);
-		}
-	
-		// was the interrupt triggered because of FIFO error
-		if (pb[0x116]&0x10) 
-		{
-			// Fifo underrun - what should I do here?
-		}
-
-		pb[0x116] = 0xFF; // clear all int sources
-		pb[0x176] = 0XFF; // clear all int sources
-	}
 }
