@@ -83,13 +83,29 @@ XBSYSAPI VOID *KiUnlockDispatcherDatabase = 0;
 // * LaunchDataPage (actually a pointer)
 // ******************************************************************
 XBSYSAPI PLAUNCH_DATA_PAGE LaunchDataPage = {0};
-//XBSYSAPI EXPORTNUM(164) volatile DWORD LaunchDataPage;
 
+// ******************************************************************
+// * PhyGetLinkState
+// ******************************************************************
+XBSYSAPI EXPORTNUM(252) ULONG NTAPI PhyGetLinkState
+(
+	IN ULONG	Mode
+)
+{
+	return 0;
+}
 
-
-
-XBSYSAPI VOID *PhyGetLinkState = 0;
-XBSYSAPI VOID *PhyInitialize = 0;
+// ******************************************************************
+// * PhyInitialize
+// ******************************************************************
+XBSYSAPI EXPORTNUM(253) ULONG NTAPI PhyInitialize
+(
+	IN ULONG	Parameter1,
+	IN ULONG	Parameter2
+)
+{
+	return 0;
+}
 
 // ******************************************************************
 // * XboxEEPROMKey

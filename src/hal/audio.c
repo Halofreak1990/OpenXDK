@@ -7,7 +7,7 @@
 
 // Andy@warmcat.com 2003-03-10:
 //
-// Xbox PC audio is an AC97 comptible audio controller in the MCPX chip
+// Xbox PC audio is an AC97 compatible audio controller in the MCPX chip
 // http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/24467.pdf
 // unlike standard AC97 all the regs appear as MMIO from 0xfec00000
 // +0 - +7f = Mixer/Codec regs  <-- Wolfson Micro chip
@@ -25,38 +25,59 @@
 #define AUDIO_IRQ 6
 
 static KINTERRUPT InterruptObject;
+static KDPC DPCObject;
 
 // global reference to the ac97 device
 AC97_DEVICE ac97Device;
 
-// although we have to explicitly clear the S/PDIF interrupt sources, in fact
+
+static void __stdcall DPC(PKDPC Dpc, 
+					PVOID DeferredContext, 
+					PVOID SystemArgument1, 
+					PVOID SystemArgument2)
+{
+	//DPCs avoid crashes inside non reentrant user callbacks called by nested ISRs.
+	//CAUTION : if you use fpu in DPC you have to save & restore yourself fpu state!!!
+	//(fpu=floating point unit, i.e the coprocessor executing floating point opcodes)
+
+	volatile AC97_DEVICE *pac97device;
+
+	pac97device = &ac97Device;
+	if (pac97device)
+			if (pac97device->callback)
+				(pac97device->callback)((void *)pac97device, pac97device->callbackData);
+
+	return;
+		}
+	
+// Although we have to explicitly clear the S/PDIF interrupt sources, in fact
 // the way we are set up PCM and S/PDIF are in lockstep and we only listen for
 // PCM actions, since S/PDIF is always spooling through the same buffer.
 static BOOLEAN __stdcall ISR(PKINTERRUPT Interrupt, PVOID ServiceContext)
 {
-	volatile AC97_DEVICE *pac97device = &ac97Device;
-	if (pac97device)
-	{
-		volatile unsigned char *pb = (unsigned char *)pac97device->mmio;
+	// Was the interrupt triggered because we were out of data?
+	if ((*((char *)0xFEC00116))&8)
+		KeInsertQueueDpc(&DPCObject,NULL,NULL); //calls user callback soon
 
-		// was the interrupt triggered because we were out of data?
-		if (pb[0x116]&8) 
-		{
-			if (pac97device->callback)
-				(pac97device->callback)((void *)pac97device, pac97device->callbackData);
-		}
-	
-		// was the interrupt triggered because of FIFO error
-		if (pb[0x116]&0x10) 
+	//KeInsertQueueDpc queues Dpc and returns TRUE if Dpc not already queued.
+	//Dpc will be queued only once. So only one Dpc is fired after ISRs cease fire.
+	//DPCs avoid crashes inside non reentrant user callbacks called by nested ISRs.
+	//CAUTION : if you use fpu in DPC you have to save & restore yourself fpu state!!!
+	//(fpu=floating point unit, i.e the coprocessor executing floating point opcodes)
+
+	// Was the interrupt triggered because of FIFO error?
+	if ((*((char *)0xFEC00116))&0x10)
 		{
 			// Fifo underrun - what should I do here?
+		// In case of heavy processing, insert a DPC
 		}
 
-		pb[0x116] = 0xFF; // clear all int sources
-		pb[0x176] = 0XFF; // clear all int sources
-	}
+	*((char *)0xFEC00116)=0xFF; // clear all int sources
+	*((char *)0xFEC00176)=0xFF; // clear all int sources
+
 	return TRUE;
 }
+
 
 void XDumpAudioStatus()
 {
@@ -75,7 +96,7 @@ void XDumpAudioStatus()
 //
 // note that I currently ignore sampleSizeInBits and numChannels.  They
 // are provided to cope with future enhancements. Currently supported samples
-// are 16 bit, 2 channels (stereo)
+// are 16 bits, 2 channels (stereo)
 void XAudioInit(int sampleSizeInBits, int numChannels, XAudioCallback callback, void *data)
 {
 	volatile AC97_DEVICE * pac97device = &ac97Device;
@@ -116,6 +137,8 @@ void XAudioInit(int sampleSizeInBits, int numChannels, XAudioCallback callback, 
 	
 	// Register our ISR
 	vector = HalGetInterruptVector(AUDIO_IRQ, &irql);
+
+	KeInitializeDpc(&DPCObject,&DPC,NULL);
 
 	KeInitializeInterrupt(&InterruptObject,
 				&ISR,

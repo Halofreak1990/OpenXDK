@@ -17,9 +17,12 @@
 #define VIDEO_BPP_32				0x00000012
 
 // Defines for video adapter packs
-#define VIDEO_ADAPTER_NORMAL		0x00000000
+#define VIDEO_ADAPTER_COMPOSITE			0x00000000
+#define VIDEO_ADAPTER_RCA			0x00000001
+#define VIDEO_ADAPTER_SVIDEO			0x00000002
 #define VIDEO_ADAPTER_RGBSCART		0x00000003
-#define VIDEO_ADAPTER_HDTVCABLE         0x00000004
+#define VIDEO_ADAPTER_HDTV	         	0x00000004
+#define VIDEO_ADAPTER_VGA_SOG         		0x00000005
 
 // Defines for video encoder options
 #define VIDEO_ENC_GET_SETTINGS		6

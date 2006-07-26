@@ -103,7 +103,17 @@ XBSYSAPI VOID *KeInsertDeviceQueue;
 XBSYSAPI VOID *KeInsertHeadQueue;
 XBSYSAPI VOID *KeInsertQueue;
 XBSYSAPI VOID *KeInsertQueueApc;
-XBSYSAPI VOID *KeInsertQueueDpc;
+
+// ******************************************************************
+// * KeInsertQueueDpc
+// ******************************************************************
+XBSYSAPI EXPORTNUM(119) BOOLEAN NTAPI KeInsertQueueDpc
+(
+    IN PKDPC        Dpc,
+    IN PVOID        SystemArgument1,
+    IN PVOID        SystemArgument2
+);
+
 XBSYSAPI VOID *KeInterruptTime;
 XBSYSAPI VOID *KeIsExecutingDpc;
 XBSYSAPI VOID *KeLeaveCriticalRegion;
@@ -176,7 +186,15 @@ XBSYSAPI EXPORTNUM(149) BOOLEAN NTAPI KeSetTimer
 );
 
 XBSYSAPI VOID *KeSetTimerEx;
-XBSYSAPI VOID *KeStallExecutionProcessor;
+
+// ******************************************************************
+// * KeStallExecutionProcessor
+// ******************************************************************
+XBSYSAPI EXPORTNUM(151) VOID NTAPI KeStallExecutionProcessor
+(
+    IN ULONG          Microseconds
+);
+
 XBSYSAPI VOID *KeSuspendThread;
 XBSYSAPI VOID *KeSynchronizeExecution;
 XBSYSAPI VOID *KeSystemTime;

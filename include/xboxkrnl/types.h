@@ -78,7 +78,8 @@ typedef ULONG PHYSICAL_ADDRESS, *PPHYSICAL_ADDRESS;
 #endif
 
 #define STATUS_SUCCESS   0x00000000
-#define STATUS_ALERTED                   ((DWORD   )0x00000101)
+#define STATUS_ALERTED                   ((DWORD   )0x00000101L)
+#define STATUS_INVALID_PARAMETER         ((DWORD   )0xC000000DL)
 #define STATUS_USER_APC                  ((DWORD   )0x000000C0L)
 // The SCSI input buffer was too large (not necessarily an error!)
 #define STATUS_DATA_OVERRUN              ((DWORD   )0xC000003CL)
@@ -316,12 +317,6 @@ typedef struct _KTIMER
 KTIMER, *PKTIMER;
 
 // ******************************************************************
-// * PKDEFERRED_ROUTINE
-// ******************************************************************
-struct _KDPC;
-typedef VOID (*PKDEFERRED_ROUTINE) (struct _KDPC *Dpc, PVOID DeferredContext, PVOID SystemArgument1, PVOID SystemArgument2);
-
-// ******************************************************************
 // * KDPC (Deferred Procedure Call (DPC) Object)
 // ******************************************************************
 typedef struct _KDPC
@@ -330,12 +325,21 @@ typedef struct _KDPC
 	UCHAR               Number;             // 0x02
 	UCHAR               Importance;         // 0x03
 	LIST_ENTRY          DpcListEntry;       // 0x04
-	PKDEFERRED_ROUTINE  DeferredRoutine;    // 0x0C
-	PVOID               DeferredContext;
-	PVOID               SystemArgument1;
-	PVOID               SystemArgument2;
+	PVOID               DeferredRoutine;    //0x08
+	PVOID               DeferredContext;	//0x0C
+	PVOID               SystemArgument1;	//0x10
+	PVOID               SystemArgument2;	//0x14
+	PVOID               DpcData;		//0x18
 }
 KDPC, *PKDPC;
+
+// ******************************************************************
+// * PKDEFERRED_ROUTINE
+// ******************************************************************
+typedef VOID __stdcall (*PKDEFERRED_ROUTINE) (PKDPC Dpc, 
+						PVOID DeferredContext, 
+						PVOID SystemArgument1,
+						PVOID SystemArgument2);
 
 // ******************************************************************
 // * KINTERRUPT

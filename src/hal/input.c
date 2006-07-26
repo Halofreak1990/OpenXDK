@@ -1,5 +1,6 @@
 #include <openxdk/openxdk.h>
 #include <hal/input.h>
+#include <hal/io.h>
 #include <memory.h>
 
 #define XPAD_ANALOG_BUTTON_INTF 0x30
@@ -14,6 +15,7 @@ XMOUSE_INPUT	g_Mouse;
 static BOOL bInputOK = FALSE;
 static BOOL bInputPolling = FALSE;
 static KINTERRUPT InterruptObject;
+static KDPC DPCObject;
 
 /* Stores time and XPAD state */
 extern struct xpad_data XPAD_current[4];
@@ -28,9 +30,25 @@ void BootStopUSB(void);
 
 int GetKeyboardStroke(XKEYBOARD_STROKE *pStroke);
 
+static void __stdcall DPC(PKDPC Dpc, 
+					PVOID DeferredContext, 
+					PVOID SystemArgument1, 
+					PVOID SystemArgument2)
+{
+	//DPCs allow to use non reentrant procedures (called sequentially, FOR SURE).
+	//CAUTION : if you use fpu in DPC you have to save & restore yourself fpu state!!!
+	//(fpu=floating point unit, i.e the coprocessor executing floating point opcodes)
+
+	USBGetEvents();
+	return;
+}
+
+void handle_irqs(int);
+
 static BOOLEAN __stdcall ISR(PKINTERRUPT Interrupt, PVOID ServiceContext)
 {
-	USBGetEvents();
+	KeInsertQueueDpc(&DPCObject,NULL,NULL); //calls USBGetEvents() very soon
+	*((DWORD*)0xFED00014)=0x80000000;
 	return TRUE;
 }
 
@@ -61,6 +79,8 @@ void XInput_Init(void)
 	XInput_GetEvents();
 	
 	vector = HalGetInterruptVector(USB_IRQ, &irql);
+	
+	KeInitializeDpc(&DPCObject,&DPC,NULL);
 	
 	KeInitializeInterrupt(&InterruptObject,
 				&ISR,

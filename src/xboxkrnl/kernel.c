@@ -129,7 +129,20 @@ XBSYSAPI VOID *KeInsertDeviceQueue = 0;
 XBSYSAPI VOID *KeInsertHeadQueue = 0;
 XBSYSAPI VOID *KeInsertQueue = 0;
 XBSYSAPI VOID *KeInsertQueueApc = 0;
-XBSYSAPI VOID *KeInsertQueueDpc = 0;
+
+// ******************************************************************
+// * KeInsertQueueDpc
+// ******************************************************************
+XBSYSAPI EXPORTNUM(119) BOOLEAN NTAPI KeInsertQueueDpc
+(
+    IN PKDPC        Dpc,
+    IN PVOID        SystemArgument1,
+    IN PVOID        SystemArgument2
+)
+{
+    return TRUE;
+}
+
 XBSYSAPI VOID *KeInterruptTime = 0;
 XBSYSAPI VOID *KeIsExecutingDpc = 0;
 XBSYSAPI VOID *KeLeaveCriticalRegion = 0;
@@ -179,8 +192,6 @@ XBSYSAPI VOID *KeResumeThread = 0;
 XBSYSAPI VOID *KeRundownQueue = 0;
 XBSYSAPI VOID *KeSaveFloatingPointState = 0;
 
-
-//XBSYSAPI VOID *KeSetBasePriorityThread = 0;
 XBSYSAPI EXPORTNUM(143) BOOLEAN NTAPI KeSetBasePriorityThread
 (
     IN PKTHREAD  Thread,
@@ -190,15 +201,11 @@ XBSYSAPI EXPORTNUM(143) BOOLEAN NTAPI KeSetBasePriorityThread
 	return TRUE;
 }
 
-
 XBSYSAPI VOID *KeSetDisableBoostThread = 0;
 XBSYSAPI VOID *KeSetEvent = 0;
 XBSYSAPI VOID *KeSetEventBoostPriority = 0;
 XBSYSAPI VOID *KeSetPriorityProcess = 0;
 
-
-
-//XBSYSAPI VOID *KeSetPriorityThread = 0;
 XBSYSAPI EXPORTNUM(148) BOOLEAN NTAPI KeSetPriorityThread
 (
     IN PKTHREAD  Thread,
@@ -223,7 +230,18 @@ XBSYSAPI EXPORTNUM(149) BOOLEAN NTAPI KeSetTimer
 }
 
 XBSYSAPI VOID *KeSetTimerEx = 0;
-XBSYSAPI VOID *KeStallExecutionProcessor = 0;
+
+// ******************************************************************
+// * KeStallExecutionProcessor
+// ******************************************************************
+XBSYSAPI EXPORTNUM(151) VOID NTAPI KeStallExecutionProcessor
+(
+    IN ULONG          Microseconds
+)
+{
+    return;
+}
+
 XBSYSAPI VOID *KeSuspendThread = 0;
 XBSYSAPI VOID *KeSynchronizeExecution = 0;
 XBSYSAPI VOID *KeSystemTime = 0;

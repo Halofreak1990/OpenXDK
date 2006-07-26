@@ -120,7 +120,7 @@ EXPORTS
     KeInsertHeadQueue                             @ 116 NONAME
     KeInsertQueue                                 @ 117 NONAME
     KeInsertQueueApc                              @ 118 NONAME
-    KeInsertQueueDpc                              @ 119 NONAME
+    KeInsertQueueDpc@12                           @ 119 NONAME
     KeInterruptTime                               @ 120 NONAME
     KeIsExecutingDpc                              @ 121 NONAME
     KeLeaveCriticalRegion                         @ 122 NONAME
@@ -152,7 +152,7 @@ EXPORTS
     KeSetPriorityThread@8                         @ 148 NONAME
     KeSetTimer@16                                 @ 149 NONAME
     KeSetTimerEx                                  @ 150 NONAME
-    KeStallExecutionProcessor                     @ 151 NONAME
+    KeStallExecutionProcessor@4                   @ 151 NONAME
     KeSuspendThread                               @ 152 NONAME
     KeSynchronizeExecution                        @ 153 NONAME
     KeSystemTime                                  @ 154 NONAME
@@ -253,8 +253,8 @@ EXPORTS
     ObSymbolicLinkObjectType                      @ 249 NONAME
     ObfDereferenceObject                          @ 250 NONAME
     ObfReferenceObject                            @ 251 NONAME
-    PhyGetLinkState                               @ 252 NONAME
-    PhyInitialize                                 @ 253 NONAME
+    PhyGetLinkState@4                             @ 252 NONAME
+    PhyInitialize@8                               @ 253 NONAME
     PsCreateSystemThread@24                       @ 254 NONAME
     PsCreateSystemThreadEx@40                     @ 255 NONAME
     PsQueryStatistics                             @ 256 NONAME
