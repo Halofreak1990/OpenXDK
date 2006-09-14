@@ -111,10 +111,10 @@ XBSYSAPI VOID *XboxKrnlVersion;
 XBSYSAPI EXPORTNUM(325) BYTE XboxSignatureKey[16];
 
 // ******************************************************************
-// * XeImageFileName (actually a pointer)
+// * XeImageFileName
 // ******************************************************************
 
-XBSYSAPI EXPORTNUM(326) PANSI_STRING XeImageFileName;
+XBSYSAPI EXPORTNUM(326) ANSI_STRING XeImageFileName[1];
 
 XBSYSAPI VOID *XeLoadSection;
 XBSYSAPI VOID *XeUnloadSection;
