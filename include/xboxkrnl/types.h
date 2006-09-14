@@ -325,11 +325,10 @@ typedef struct _KDPC
 	UCHAR               Number;             // 0x02
 	UCHAR               Importance;         // 0x03
 	LIST_ENTRY          DpcListEntry;       // 0x04
-	PVOID               DeferredRoutine;    //0x08
-	PVOID               DeferredContext;	//0x0C
-	PVOID               SystemArgument1;	//0x10
-	PVOID               SystemArgument2;	//0x14
-	PVOID               DpcData;		//0x18
+	PVOID               DeferredRoutine;    // 0x0C
+	PVOID               DeferredContext;	// 0x10
+	PVOID               SystemArgument1;	// 0x14
+	PVOID               SystemArgument2;	// 0x18
 }
 KDPC, *PKDPC;
 
