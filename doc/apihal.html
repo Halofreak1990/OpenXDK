@@ -339,82 +339,48 @@ typedef struct _XBOX_FIND_DATA <br>
 </td></tr> 
 </table>
 
+	
+	XPAD_BUTTONS	LastButtons;
+	XPAD_BUTTONS	PressedButtons;
 
 <h2>Controllers</h2>
-<b>Currently only one pad is supported.</b>  Details of <code>XPadState</code> are as follows:
+After initializing the USB subsystem with <code>XInitInput()</code> the state of the connected controllers
+may be read from the <code>g_pads</code> global structure. This is an array of four <code>
+XPAD_INPUT</code> structures (one for each pad) where the XPAD_INPUT structure is as follows:<br>
 <pre>
-typedef struct
+typedef struct _XPAD_BUTTONS
 {
-&nbsp;&nbsp;char reserved1;
-&nbsp;&nbsp;unsigned char structsize;
+&nbsp;&nbsp;unsigned short usDigitalButtons; /* Up=1, Down=2, Left=4, Right=8, Start=16, Back=32, LThumb=64, RThumb=128 + bitwise OR combos
+&nbsp;&nbsp;unsigned char ucAnalogButtons[8]; /*A=0, B=1, X=2, Y=3, Black=4, White=5, Left Trigger = 6, Right Trigger = 7 */
+} XPAD_BUTTONS;
 
-&nbsp;&nbsp;char pad;       /* 1=up 2=down 4=left 8=right + bitwise OR combos */
-&nbsp;&nbsp;char reserved2;
-&nbsp;&nbsp;char keys[6];   /* A B X Y Black White */
+typedef struct _XPAD_INPUT
+{
+&nbsp;&nbsp;unsigned char hPresent; /* Is joypad connected? */
 
-&nbsp;&nbsp;unsigned char trig_left;
-&nbsp;&nbsp;unsigned char trig_right;
-&nbsp;&nbsp;short stick_left_x;
-&nbsp;&nbsp;short stick_left_y;
-&nbsp;&nbsp;short stick_right_x;
-&nbsp;&nbsp;short stick_right_y;
+&nbsp;&nbsp;short sLThumbX;
+&nbsp;&nbsp;short sLThumbY;
+&nbsp;&nbsp;short sRThumbX;
+&nbsp;&nbsp;short sRThumbY;
 
-&nbsp;&nbsp;char padding[0x40];
-} XPadState;
+&nbsp;&nbsp;XPAD_BUTTONS CurrentButtons;
+&nbsp;&nbsp;XPAD_BUTTONS LastButtons;
+&nbsp;&nbsp;XPAD_BUTTONS PressedButtons;
+} XPAD_INPUT;
 </pre>
 <p>
 <table>
 <tr><td nowrap width="280"><b>Function</b></td><td><b>Description</b></td></th>
-<tr><td><code>void XInitInput(<br>
-&nbsp;&nbsp;XUSBControl *xcontrol<br>
-)</code></td>
+<tr><td><code>void XInitInput()</code></td>
 <td>Initialises the XBOX controller USB subsystem.  This function <b>must</b> be called before calling any of the other controller functions.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>xcontrol</td><td>A pointer to a control structure that will be initialised.  This control structure will be used in subsequent calls.</td></tr>
-</table>
 </td></tr>
 
-<tr><td><code>void XGetPadInput(<br>
-&nbsp;&nbsp;XPadState *padState,<br>
-&nbsp;&nbsp;XUSBControl *xcontrol,<br>
-&nbsp;&nbsp;int padNumber<br>
-)</code></td>
-<td>Reads the current state of the XBOX controllers
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>padState</td><td>A pointer to a <code>XPadState</code> structure that will contain the current state</td></tr>
-<tr><td>xcontrol</td><td>The pointer to the control structure</td></tr>
-<tr><td>padNumber</td><td>Which pad number are you querying?</td></tr>
-</table>
+<tr><td><code>void XInput_GetEvents()</code></td>
+<td>Reads the current state of the XBOX controllers and updates the <code>g_pads</code> global structure
 </td></tr>
 
-<tr><td><code>void XSetPadInput(<br>
-&nbsp;&nbsp;XPadState *padState,<br>
-&nbsp;&nbsp;XUSBControl *xcontrol,<br>
-&nbsp;&nbsp;int padNumber<br>
-)</code></td>
-<td>Updates the current state of the XBOX controllers (sends a message). This function is a bit dodgy at the moment... use at your own risk!
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>padState</td><td>A pointer to a <code>XPadState</code> structure</td></tr>
-<tr><td>xcontrol</td><td>The pointer to the control structure</td></tr>
-<tr><td>padNumber</td><td>Which pad number are you updating?</td></tr>
-</table>
-</td></tr>
-
-<tr><td><code>void XReleaseInput(<br>
-&nbsp;&nbsp;XUSBControl *xcontrol<br>
-)</code></td>
+<tr><td><code>void XInput_Quit()</code></td>
 <td>Shuts down the XBOX controller subsystem.  If you call this, you will need to call <code>XInitInput</code> again before you can interact with the controllers.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>xcontrol</td><td>The pointer to the control structure</td></tr>
-</table>
 </td></tr>
 </table>
 
