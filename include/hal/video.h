@@ -53,5 +53,6 @@ void XVideoSetFlickerFilter(int level);
 BOOL XVideoSetMode(int width, int height, int bpp, int refresh);
 void XVideoSetSoftenFilter(BOOL enable);
 void XVideoSetVideoEnable(BOOL enable);
+BOOLEAN XVideoListModes(VIDEO_MODE *vm, int bpp, int refresh, void **p);
 
 #endif

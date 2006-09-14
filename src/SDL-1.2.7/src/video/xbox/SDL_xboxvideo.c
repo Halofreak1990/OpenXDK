@@ -57,6 +57,7 @@ static char rcsid =
 #include "SDL_xboxmouse_c.h"
 
 #include <hal/xbox.h>
+#include <hal/video.h>
 
 #define XBOXVID_DRIVER_NAME "xbox"
 
@@ -148,6 +149,17 @@ VideoBootStrap XBOX_bootstrap = {
 	XBOX_Available, XBOX_CreateDevice
 };
 
+static int VideoModeCompareSize(const void *p1, const void *p2)
+{
+	int diff;
+	const SDL_Rect *rect1 = p1;
+	const SDL_Rect *rect2 = p2;
+	diff =  rect1->w - rect2->w;
+	if (diff != 0) return diff;
+	diff = rect1->h - rect2->h;
+	return diff;
+}
+
 int XBOX_VideoInit(_THIS, SDL_PixelFormat *vformat)
 {
 	if (! XVideoSetMode(640, 480, 32, 0)) { return -1; }
@@ -166,32 +178,38 @@ int XBOX_VideoInit(_THIS, SDL_PixelFormat *vformat)
 	vformat->Ashift = 0;
 	vformat->Aloss = 0;
 	
-	/* Setup mode list. Modes for each depth should be sorted largest to smallest */
-	/* 16bit */
-	this->hidden->SDL_modelist[0][0] = malloc(sizeof(SDL_Rect));
-	this->hidden->SDL_modelist[0][0]->x = this->hidden->SDL_modelist[0][0]->y = 0;
-	this->hidden->SDL_modelist[0][0]->w = 720;
-	this->hidden->SDL_modelist[0][0]->h = 480;
+	/* Setup supported BPP */
+	this->hidden->SupportedBPP[0] = 16;
+	this->hidden->SupportedBPP[0] = 32;
 	
-	this->hidden->SDL_modelist[0][1] = malloc(sizeof(SDL_Rect));
-	this->hidden->SDL_modelist[0][1]->x = this->hidden->SDL_modelist[0][1]->y = 0;
-	this->hidden->SDL_modelist[0][1]->w = 640;
-	this->hidden->SDL_modelist[0][1]->h = 480;
-	
-	this->hidden->SDL_modelist[0][2] = NULL;
-	/* 32bit */
-	this->hidden->SDL_modelist[1][0] = malloc(sizeof(SDL_Rect));
-	this->hidden->SDL_modelist[1][0]->x = this->hidden->SDL_modelist[0][0]->y = 0;
-	this->hidden->SDL_modelist[1][0]->w = 720;
-	this->hidden->SDL_modelist[1][0]->h = 480;
-	
-	this->hidden->SDL_modelist[1][1] = malloc(sizeof(SDL_Rect));
-	this->hidden->SDL_modelist[1][1]->x = this->hidden->SDL_modelist[0][1]->y = 0;
-	this->hidden->SDL_modelist[1][1]->w = 640;
-	this->hidden->SDL_modelist[1][1]->h = 480;
-	
-	this->hidden->SDL_modelist[1][2] = NULL;
-	
+	/* Setup mode list */
+	int i, bpp, noOfModes;
+	void *p;
+	VIDEO_MODE vm;
+	for (i = 0; i < NUM_MODELISTS; i++) {
+		bpp = this->hidden->SupportedBPP[i];
+		p = NULL;
+		// How many modes?
+		noOfModes = 0;
+		while (XVideoListModes(&vm, bpp, 0, &p)) {
+			noOfModes++;
+		}
+		// Allocate space for the modelist and fill it in
+		this->hidden->SDL_modelist[i] = (SDL_Rect**)malloc(sizeof(SDL_Rect*) * (noOfModes + 1));
+		p = NULL;
+		noOfModes = 0;
+		while (XVideoListModes(&vm, bpp, 0, &p)) {
+			this->hidden->SDL_modelist[i][noOfModes] = malloc(sizeof(SDL_Rect));
+			this->hidden->SDL_modelist[i][noOfModes]->x = this->hidden->SDL_modelist[0][0]->y = 0;
+			this->hidden->SDL_modelist[i][noOfModes]->w = vm.width;
+			this->hidden->SDL_modelist[i][noOfModes]->h = vm.height;
+			noOfModes++;
+		}
+		// Sort list from largest to smallest
+		qsort(this->hidden->SDL_modelist[i], noOfModes, sizeof(SDL_Rect*), &VideoModeCompareSize);
+		// Terminating entry
+		this->hidden->SDL_modelist[i][noOfModes] = NULL;
+	}
 	/* We're done! */
 	return(0);
 }
@@ -204,9 +222,18 @@ int XBOX_VideoInit(_THIS, SDL_PixelFormat *vformat)
  */
 SDL_Rect **XBOX_ListModes(_THIS, SDL_PixelFormat *format, Uint32 flags)
 {
-	if (format->BitsPerPixel == 32) { return(this->hidden->SDL_modelist[1]); }
-	if (format->BitsPerPixel == 16) { return(this->hidden->SDL_modelist[0]); }
-	return NULL;
+	// Is BPP supported?
+	int i;
+	for (i = 0; i < NUM_MODELISTS; i ++) {
+		if (format->BitsPerPixel == this->hidden->SupportedBPP[i]) {
+			break;
+		}
+	}
+	if (i == NUM_MODELISTS) {
+		return NULL;
+	} else {
+		return this->hidden->SDL_modelist[i];
+	}
 }
 
 SDL_Surface *XBOX_SetVideoMode(_THIS, SDL_Surface *current, int width, int height, int bpp, Uint32 flags)
@@ -290,15 +317,16 @@ int XBOX_SetColors(_THIS, int firstcolor, int ncolors, SDL_Color *colors)
 */
 void XBOX_VideoQuit(_THIS)
 {
-	int i, j;
+	int i;
+	SDL_Rect **p;
 	/* Free mode lists */
-	for (j = 0; j < NUM_MODELISTS; j++) {
-		for (i = 0; i < SDL_NUMMODES; i++) {
-			if (this->hidden->SDL_modelist[j][i] != NULL) {
-				free(this->hidden->SDL_modelist[j][i]);
-				this->hidden->SDL_modelist[j][i]=NULL;
-			}
+	for (i = 0; i < NUM_MODELISTS; i++) {
+		p = this->hidden->SDL_modelist[i];
+		while (*p) {
+			free(*p++);
 		}
+		free(this->hidden->SDL_modelist[i]);
+		this->hidden->SDL_modelist[i] = NULL;
 	}
 	if (this->screen && (this->screen->flags & SDL_HWSURFACE)) {
 		/* Direct screen access, no memory buffer */

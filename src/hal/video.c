@@ -86,6 +86,65 @@ DWORD XVideoGetEncoderSettings(void)
 	return dwEncoderSettings;
 }
 
+BOOLEAN XVideoListModes(VIDEO_MODE *vm, int bpp, int refresh, void **p)
+{
+	int i;
+	int position = (int) *p;
+	if (position >= iVidModes) {
+		return FALSE;
+	}
+	DWORD dwEnc = XVideoGetEncoderSettings();
+	
+	DWORD dwAdapter = dwEnc & 0x000000FF;
+	DWORD dwStandard = dwEnc & 0x0000FF00;
+	
+	VIDEO_MODE_SETTING *pVidMode;
+	if (bpp == 0)
+	{
+		bpp = 32;
+	}
+	if (refresh == 0)
+	{
+		if(dwEnc & 0x00400000)
+		{
+			refresh = 60;
+		} else
+		{
+			refresh = 50;
+		}
+	}
+	for(; position < iVidModes; position++)
+	{
+		pVidMode = &vidModes[position];
+
+		if((pVidMode->dwFlags & 0x000000FF) != dwAdapter)
+			continue;
+
+		if(pVidMode->dwStandard != dwStandard)
+			continue;
+
+		if(pVidMode->refresh != refresh)
+			continue;
+
+		break;
+	}
+	
+	*p = (void *)(position + 1);
+	
+	if(position >= iVidModes) // No compatible mode found
+	{
+		return FALSE;
+	}
+	else
+	{
+		vm->width = pVidMode->width;
+		vm->height = pVidMode->height;
+		vm->bpp = bpp;
+		vm->refresh = refresh;
+		return TRUE;
+	}
+}
+
 unsigned char* XVideoGetFB(void)
 {
 	return _fb;
@@ -103,8 +162,8 @@ void XVideoInit(DWORD dwMode, int width, int height, int bpp)
 
 	XVideoSetVideoEnable(FALSE);
 
-    do
-    {
+	do
+	{
 		Step = AvSetDisplayMode((PVOID)VIDEO_BASE, Step, 
 			dwMode, dwFormat, width*(bpp/8), VIDEO_FRAMEBUFFER);
 	} while(Step);

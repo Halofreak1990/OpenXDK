@@ -1,6 +1,6 @@
-diff -u -r Archive/SDL-1.2.7/config.sub src/SDL-1.2.7/config.sub
---- Archive/SDL-1.2.7/config.sub	2004-02-19 04:21:55.000000000 +1100
-+++ src/SDL-1.2.7/config.sub	2004-12-08 10:54:47.102566400 +1100
+diff -ru Archive/SDL-1.2.7/config.sub src/SDL-1.2.7/config.sub
+--- Archive/SDL-1.2.7/config.sub	2004-02-18 17:21:55.000000000 +0000
++++ src/SDL-1.2.7/config.sub	2006-07-28 01:45:35.735006000 +0100
 @@ -232,6 +232,7 @@
  	| clipper \
  	| d10v | d30v | dlx | dsp16xx \
@@ -30,9 +30,9 @@ diff -u -r Archive/SDL-1.2.7/config.sub src/SDL-1.2.7/config.sub
  	-*mint | -mint[0-9]* | -*MiNT | -MiNT[0-9]*)
  		os=-mint
  		;;
-diff -u -r Archive/SDL-1.2.7/configure.in src/SDL-1.2.7/configure.in
---- Archive/SDL-1.2.7/configure.in	2004-02-23 07:31:48.000000000 +1100
-+++ src/SDL-1.2.7/configure.in	2004-12-14 16:42:34.631278400 +1100
+diff -ru Archive/SDL-1.2.7/configure.in src/SDL-1.2.7/configure.in
+--- Archive/SDL-1.2.7/configure.in	2004-02-22 21:31:47.000000000 +0000
++++ src/SDL-1.2.7/configure.in	2006-07-28 01:45:35.738006000 +0100
 @@ -2571,6 +2571,33 @@
  
          SYSTEM_LIBS="$SYSTEM_LIBS -ljpeg -ltiff -lpng -lz"
@@ -91,35 +91,29 @@ diff -u -r Archive/SDL-1.2.7/configure.in src/SDL-1.2.7/configure.in
  src/cdrom/Makefile
  src/cdrom/aix/Makefile
  src/cdrom/beos/Makefile
-diff -u -r Archive/SDL-1.2.7/src/audio/SDL_audio.c src/SDL-1.2.7/src/audio/SDL_audio.c
---- Archive/SDL-1.2.7/src/audio/SDL_audio.c	2004-02-19 03:21:58.000000000 +1100
-+++ src/SDL-1.2.7/src/audio/SDL_audio.c	2004-12-14 17:00:47.612908800 +1100
-@@ -105,6 +105,9 @@
- #ifdef DRENDERER_SUPPORT
- 	&DRENDERER_bootstrap,
- #endif
-+#ifdef ENABLE_XBOX
-+	&XBOX_AudioBootstrap,
-+#endif
- 	NULL
- };
- SDL_AudioDevice *current_audio = NULL;
-diff -u -r Archive/SDL-1.2.7/src/audio/SDL_sysaudio.h src/SDL-1.2.7/src/audio/SDL_sysaudio.h
---- Archive/SDL-1.2.7/src/audio/SDL_sysaudio.h	2004-02-19 03:21:58.000000000 +1100
-+++ src/SDL-1.2.7/src/audio/SDL_sysaudio.h	2004-12-14 17:01:55.280209600 +1100
-@@ -166,6 +166,9 @@
- #ifdef DRENDERER_SUPPORT
- extern AudioBootStrap DRENDERER_bootstrap;
- #endif
-+#ifdef ENABLE_XBOX
-+extern AudioBootStrap XBOX_AudioBootstrap;
-+#endif
- #ifdef MMEAUDIO_SUPPORT
- extern AudioBootStrap MMEAUDIO_bootstrap;
- #endif
-diff -u -r Archive/SDL-1.2.7/src/audio/Makefile.am src/SDL-1.2.7/src/audio/Makefile.am
---- Archive/SDL-1.2.7/src/audio/Makefile.am	2003-08-31 05:13:00.000000000 +1000
-+++ src/SDL-1.2.7/src/audio/Makefile.am	2004-12-08 10:54:47.172667200 +1100
+diff -ru Archive/SDL-1.2.7/include/SDL_syswm.h src/SDL-1.2.7/include/SDL_syswm.h
+--- Archive/SDL-1.2.7/include/SDL_syswm.h	2004-02-18 17:21:58.000000000 +0000
++++ src/SDL-1.2.7/include/SDL_syswm.h	2006-07-28 01:48:12.927109000 +0100
+@@ -110,6 +110,7 @@
+ 	GR_WINDOW_ID window ;	/* The display window */
+ } SDL_SysWMinfo;
+ 
++#ifndef ENABLE_XBOX
+ #elif defined(WIN32)
+ #define WIN32_LEAN_AND_MEAN
+ #include <windows.h>
+@@ -130,6 +131,8 @@
+ 	HGLRC hglrc;			/* The OpenGL context, if any */
+ } SDL_SysWMinfo;
+ 
++#endif // ENABLE_XBOX
++
+ #elif defined(__riscos__)
+ 
+ /* RISC OS custom event structure */
+diff -ru Archive/SDL-1.2.7/src/audio/Makefile.am src/SDL-1.2.7/src/audio/Makefile.am
+--- Archive/SDL-1.2.7/src/audio/Makefile.am	2003-08-30 20:13:00.000000000 +0100
++++ src/SDL-1.2.7/src/audio/Makefile.am	2006-07-28 01:45:35.740005000 +0100
 @@ -26,7 +26,8 @@
  	sun	\
  	ums	\
@@ -130,9 +124,35 @@ diff -u -r Archive/SDL-1.2.7/src/audio/Makefile.am src/SDL-1.2.7/src/audio/Makef
  
  DRIVERS = @AUDIO_DRIVERS@
  
-diff -u -r Archive/SDL-1.2.7/src/joystick/Makefile.am src/SDL-1.2.7/src/joystick/Makefile.am
---- Archive/SDL-1.2.7/src/joystick/Makefile.am	2003-08-31 05:13:05.000000000 +1000
-+++ src/SDL-1.2.7/src/joystick/Makefile.am	2004-12-08 10:54:47.192696000 +1100
+diff -ru Archive/SDL-1.2.7/src/audio/SDL_audio.c src/SDL-1.2.7/src/audio/SDL_audio.c
+--- Archive/SDL-1.2.7/src/audio/SDL_audio.c	2004-02-18 17:21:58.000000000 +0000
++++ src/SDL-1.2.7/src/audio/SDL_audio.c	2006-07-28 01:45:35.738006000 +0100
+@@ -105,6 +105,9 @@
+ #ifdef DRENDERER_SUPPORT
+ 	&DRENDERER_bootstrap,
+ #endif
++#ifdef ENABLE_XBOX
++	&XBOX_AudioBootstrap,
++#endif
+ 	NULL
+ };
+ SDL_AudioDevice *current_audio = NULL;
+diff -ru Archive/SDL-1.2.7/src/audio/SDL_sysaudio.h src/SDL-1.2.7/src/audio/SDL_sysaudio.h
+--- Archive/SDL-1.2.7/src/audio/SDL_sysaudio.h	2004-02-18 17:21:58.000000000 +0000
++++ src/SDL-1.2.7/src/audio/SDL_sysaudio.h	2006-07-28 01:45:35.739005000 +0100
+@@ -166,6 +166,9 @@
+ #ifdef DRENDERER_SUPPORT
+ extern AudioBootStrap DRENDERER_bootstrap;
+ #endif
++#ifdef ENABLE_XBOX
++extern AudioBootStrap XBOX_AudioBootstrap;
++#endif
+ #ifdef MMEAUDIO_SUPPORT
+ extern AudioBootStrap MMEAUDIO_bootstrap;
+ #endif
+diff -ru Archive/SDL-1.2.7/src/joystick/Makefile.am src/SDL-1.2.7/src/joystick/Makefile.am
+--- Archive/SDL-1.2.7/src/joystick/Makefile.am	2003-08-30 20:13:05.000000000 +0100
++++ src/SDL-1.2.7/src/joystick/Makefile.am	2006-07-28 01:45:35.740005000 +0100
 @@ -5,7 +5,7 @@
  
  # Define which subdirectories need to be built
@@ -142,9 +162,9 @@ diff -u -r Archive/SDL-1.2.7/src/joystick/Makefile.am src/SDL-1.2.7/src/joystick
  
  DRIVERS = @JOYSTICK_DRIVERS@
  
-diff -u -r Archive/SDL-1.2.7/src/thread/Makefile.am src/SDL-1.2.7/src/thread/Makefile.am
---- Archive/SDL-1.2.7/src/thread/Makefile.am	2004-02-19 04:22:02.000000000 +1100
-+++ src/SDL-1.2.7/src/thread/Makefile.am	2004-12-08 10:54:47.202710400 +1100
+diff -ru Archive/SDL-1.2.7/src/thread/Makefile.am src/SDL-1.2.7/src/thread/Makefile.am
+--- Archive/SDL-1.2.7/src/thread/Makefile.am	2004-02-18 17:22:02.000000000 +0000
++++ src/SDL-1.2.7/src/thread/Makefile.am	2006-07-28 01:45:35.741005000 +0100
 @@ -12,7 +12,8 @@
                 $(srcdir)/irix		\
                 $(srcdir)/linux		\
@@ -155,9 +175,9 @@ diff -u -r Archive/SDL-1.2.7/src/thread/Makefile.am src/SDL-1.2.7/src/thread/Mak
  
  # Older versions of Linux require an asm clone() implementation
  if USE_CLONE
-diff -u -r Archive/SDL-1.2.7/src/timer/Makefile.am src/SDL-1.2.7/src/timer/Makefile.am
---- Archive/SDL-1.2.7/src/timer/Makefile.am	2004-02-19 04:22:03.000000000 +1100
-+++ src/SDL-1.2.7/src/timer/Makefile.am	2004-12-08 10:54:47.222739200 +1100
+diff -ru Archive/SDL-1.2.7/src/timer/Makefile.am src/SDL-1.2.7/src/timer/Makefile.am
+--- Archive/SDL-1.2.7/src/timer/Makefile.am	2004-02-18 17:22:03.000000000 +0000
++++ src/SDL-1.2.7/src/timer/Makefile.am	2006-07-28 01:45:35.742005000 +0100
 @@ -11,7 +11,8 @@
                 $(srcdir)/macos \
                 $(srcdir)/mint \
@@ -168,35 +188,9 @@ diff -u -r Archive/SDL-1.2.7/src/timer/Makefile.am src/SDL-1.2.7/src/timer/Makef
  
  # Include the architecture-independent sources
  COMMON_SRCS = SDL_timer.c SDL_timer_c.h SDL_systimer.h
-diff -u -r Archive/SDL-1.2.7/src/video/SDL_sysvideo.h src/SDL-1.2.7/src/video/SDL_sysvideo.h
---- Archive/SDL-1.2.7/src/video/SDL_sysvideo.h	2004-02-19 03:22:04.000000000 +1100
-+++ src/SDL-1.2.7/src/video/SDL_sysvideo.h	2004-12-14 17:03:15.125020800 +1100
-@@ -414,6 +414,9 @@
- #ifdef ENABLE_RISCOS
- extern VideoBootStrap RISCOS_bootstrap;
- #endif
-+#ifdef ENABLE_XBOX
-+extern VideoBootStrap XBOX_bootstrap;
-+#endif
- /* This is the current video device */
- extern SDL_VideoDevice *current_video;
- 
-diff -u -r Archive/SDL-1.2.7/src/video/SDL_video.c src/SDL-1.2.7/src/video/SDL_video.c
---- Archive/SDL-1.2.7/src/video/SDL_video.c	2004-02-19 03:22:04.000000000 +1100
-+++ src/SDL-1.2.7/src/video/SDL_video.c	2004-12-14 17:02:49.518200000 +1100
-@@ -123,6 +123,9 @@
- #ifdef ENABLE_DUMMYVIDEO
- 	&DUMMY_bootstrap,
- #endif
-+#ifdef ENABLE_XBOX
-+	&XBOX_bootstrap,
-+#endif
- 	NULL
- };
- 
-diff -u -r Archive/SDL-1.2.7/src/video/Makefile.am src/SDL-1.2.7/src/video/Makefile.am
---- Archive/SDL-1.2.7/src/video/Makefile.am	2003-08-31 05:13:06.000000000 +1000
-+++ src/SDL-1.2.7/src/video/Makefile.am	2004-12-08 10:54:47.232753600 +1100
+diff -ru Archive/SDL-1.2.7/src/video/Makefile.am src/SDL-1.2.7/src/video/Makefile.am
+--- Archive/SDL-1.2.7/src/video/Makefile.am	2003-08-30 20:13:06.000000000 +0100
++++ src/SDL-1.2.7/src/video/Makefile.am	2006-07-28 01:45:35.746004000 +0100
 @@ -9,7 +9,8 @@
                 wincommon windib windx5 \
                 maccommon macdsp macrom riscos quartz \
@@ -206,4 +200,41 @@ diff -u -r Archive/SDL-1.2.7/src/video/Makefile.am src/SDL-1.2.7/src/video/Makef
 +               xbox
  
  DRIVERS = @VIDEO_DRIVERS@
+ 
+diff -ru Archive/SDL-1.2.7/src/video/SDL_sysvideo.h src/SDL-1.2.7/src/video/SDL_sysvideo.h
+--- Archive/SDL-1.2.7/src/video/SDL_sysvideo.h	2004-02-18 17:22:04.000000000 +0000
++++ src/SDL-1.2.7/src/video/SDL_sysvideo.h	2006-07-28 01:47:29.162762000 +0100
+@@ -38,7 +38,9 @@
+  */
+ 
+ /* OpenGL is pretty much available on all Windows systems */
+-#ifdef WIN32
++#ifdef ENABLE_XBOX
++#include <openxdk/openxdk.h>
++#elif define WIN32
+ #ifndef _WIN32_WCE
+ #define HAVE_OPENGL
+ #endif
+@@ -414,6 +416,9 @@
+ #ifdef ENABLE_RISCOS
+ extern VideoBootStrap RISCOS_bootstrap;
+ #endif
++#ifdef ENABLE_XBOX
++extern VideoBootStrap XBOX_bootstrap;
++#endif
+ /* This is the current video device */
+ extern SDL_VideoDevice *current_video;
+ 
+diff -ru Archive/SDL-1.2.7/src/video/SDL_video.c src/SDL-1.2.7/src/video/SDL_video.c
+--- Archive/SDL-1.2.7/src/video/SDL_video.c	2004-02-18 17:22:04.000000000 +0000
++++ src/SDL-1.2.7/src/video/SDL_video.c	2006-07-28 01:45:35.744005000 +0100
+@@ -123,6 +123,9 @@
+ #ifdef ENABLE_DUMMYVIDEO
+ 	&DUMMY_bootstrap,
+ #endif
++#ifdef ENABLE_XBOX
++	&XBOX_bootstrap,
++#endif
+ 	NULL
+ };
  
