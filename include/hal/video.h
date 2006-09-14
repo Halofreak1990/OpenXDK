@@ -53,6 +53,18 @@ void XVideoSetFlickerFilter(int level);
 BOOL XVideoSetMode(int width, int height, int bpp, int refresh);
 void XVideoSetSoftenFilter(BOOL enable);
 void XVideoSetVideoEnable(BOOL enable);
+
+/*
+Lists the video modes available at the given colour depth and refresh rate.
+On the first call the argument p must be a pointer to a void pointer
+initialized to NULL. This is used internally to maintain context between
+successive calls. If a matching video mode is found then XVideoListModes will
+return TRUE and the video mode details will be written to the VIDEO_MODE vm
+structure. If no matching video mode is found the function will return FALSE.
+Repeatedly calling the function allows all matching video modes to be read out.
+If a value of 0 is provided for the refresh rate the current refresh rate is used.
+If a value of 0 is provided for the bpp a default value of 32bpp is used.
+*/ 
 BOOLEAN XVideoListModes(VIDEO_MODE *vm, int bpp, int refresh, void **p);
 
 #endif
