@@ -11,7 +11,8 @@
 	#include <openxdk/debug.h>
 #endif
 
-char currentDrive = 'D';
+static char *currentDirString = NULL;
+
 char *partitions[] = 
 {
 	"\\??\\D:\\",
@@ -56,6 +57,25 @@ void setPartitionString(char c, char *string)
 		partitions[i] = string;
 }
 
+static char *getCurrentDirString()
+{
+	char *tmp;
+	if (currentDirString) {
+		return currentDirString;
+	}
+	currentDirString = malloc(XeImageFileName->Length + 1);
+	strcpy(currentDirString, XeImageFileName->Buffer);
+	// Remove XBE name, leaving the path
+	tmp = strrchr(currentDirString, '\\');
+	if (tmp) {
+		*(tmp + 1) = '\0';
+	} else {
+		free(currentDirString);
+		currentDirString = NULL;
+	}
+	return currentDirString;
+}
+
 /**
  * Converts a DOS-style path (eg. "c:/foo/bar.txt") to a XBOX-style
  * path (eg. "\Device\Harddisk0\Partition2\foo\bar.txt")
@@ -83,7 +103,7 @@ int XConvertDOSFilenameToXBOX(char *dosFilename, char *xboxFilename)
 	{
 		//   .\foo\bar.txt
 		path = dosFilename+2;
-		partition = getPartitionString(currentDrive);
+		partition = getCurrentDirString();
 	}
 	else if (dosFilename[0] == '\\' || dosFilename[0] == '/')
 	{
@@ -103,7 +123,7 @@ int XConvertDOSFilenameToXBOX(char *dosFilename, char *xboxFilename)
 		{
 			//   \foo\bar.txt
 			path = dosFilename+1;
-			partition = getPartitionString(currentDrive);
+			partition = getCurrentDirString();
 		}
 	}
 	else if (dosFilename[1] == ':')
@@ -116,7 +136,7 @@ int XConvertDOSFilenameToXBOX(char *dosFilename, char *xboxFilename)
 	{
 		//   foo\bar.txt
 		path = dosFilename;
-		partition = getPartitionString(currentDrive);
+		partition = getCurrentDirString();
 	}
 	
 	if (partition == NULL)
@@ -725,7 +745,7 @@ unsigned int XFindFirstFile(
 	OBJECT_ATTRIBUTES Attributes;
 
 	if (!strcmp(directoryName, "."))
-		directoryName = getPartitionString(currentDrive);
+		directoryName = getCurrentDirString();
 		
 	char *directoryBuffer = (char *)malloc(200);
 	int rc = XConvertDOSFilenameToXBOX(directoryName, directoryBuffer);
