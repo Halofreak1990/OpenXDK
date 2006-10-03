@@ -32,16 +32,50 @@ static char rcsid =
 #include "SDL_sysvideo.h"
 #include "SDL_mutex.h"
 
+/* This is the structure we use to keep track of video memory. Taken
+from SDL_fbvideo.h */
+typedef struct vidmem_bucket {
+	struct vidmem_bucket *prev;
+	int used;
+	int dirty;
+	char *base;
+	unsigned int size;
+	struct vidmem_bucket *next;
+} vidmem_bucket;
+
 /* Hidden "this" pointer for the video functions */
 #define _THIS	SDL_VideoDevice *this
 
 #define NUM_MODELISTS 2
 
 /* Private display data */
-
 struct SDL_PrivateVideoData {
+	/* Modelist */
 	int SupportedBPP[NUM_MODELISTS];
 	SDL_Rect **SDL_modelist[NUM_MODELISTS];
+	/* Information for double-buffering */
+	int was_flipped;
+	int flip_page;
+	int flip_offset[2];
+	Uint8 *flip_address[2];
+	/* Base pointers */
+	Uint8 *VideoBase;
+	Uint8 *FbBase;
+	/* Video memory */
+	int VideoMem;
+	int FifoFreeCount;
+	int FifoEmptyCount;
+	/* Memory for hardware surfaces */
+	vidmem_bucket surfaces;
+	int surfaces_memtotal;
+	int surfaces_memleft;
+	SDL_mutex *hw_lock;
 };
+
+#define surfaces		(this->hidden->surfaces)
+#define surfaces_memtotal	(this->hidden->surfaces_memtotal)
+#define surfaces_memleft	(this->hidden->surfaces_memleft)
+#define hw_lock			(this->hidden->hw_lock)
+#define was_flipped             (this->hidden->was_flipped)
 
 #endif /* _SDL_xboxvideo_h */

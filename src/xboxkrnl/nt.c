@@ -175,7 +175,19 @@ XBSYSAPI EXPORTNUM(202) NTSTATUS NTAPI NtOpenFile
 
 XBSYSAPI VOID *NtOpenSymbolicLinkObject = 0;
 XBSYSAPI VOID *NtProtectVirtualMemory = 0;
-XBSYSAPI VOID *NtPulseEvent = 0;
+
+// ******************************************************************
+// * NtPulseEvent
+// ******************************************************************
+XBSYSAPI EXPORTNUM(205) NTSTATUS NTAPI NtPulseEvent
+(
+    IN HANDLE                       EventHandle,
+    OUT PLONG                       PreviousState OPTIONAL
+)
+{
+    return STATUS_SUCCESS;
+}
+
 XBSYSAPI VOID *NtQueueApcThread = 0;
 
 // ******************************************************************

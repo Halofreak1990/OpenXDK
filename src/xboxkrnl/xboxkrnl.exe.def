@@ -206,7 +206,7 @@ EXPORTS
     NtOpenFile@24                                 @ 202 NONAME
     NtOpenSymbolicLinkObject                      @ 203 NONAME
     NtProtectVirtualMemory                        @ 204 NONAME
-    NtPulseEvent                                  @ 205 NONAME
+    NtPulseEvent@8                                @ 205 NONAME
     NtQueueApcThread                              @ 206 NONAME
     NtQueryDirectoryFile@40                       @ 207 NONAME
     NtQueryDirectoryObject                        @ 208 NONAME

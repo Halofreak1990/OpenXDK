@@ -11,6 +11,13 @@ BOOL			flickerSet		= FALSE;
 BOOL			softenFilter	= TRUE;
 BOOL			softenSet		= FALSE;
 
+static KINTERRUPT InterruptObject;
+static KDPC DPCObject;
+static HANDLE VBlankEvent;
+static BOOL IsrRegistered = FALSE;
+
+#define VBL_IRQ 3
+
 typedef struct _VIDEO_MODE_SETTING
 {
 	DWORD dwMode;
@@ -75,6 +82,69 @@ VIDEO_MODE_SETTING vidModes[] =
 
 int iVidModes = sizeof(vidModes) / sizeof(VIDEO_MODE_SETTING);
 
+static void __stdcall DPC(PKDPC Dpc,
+PVOID DeferredContext,
+PVOID SystemArgument1,
+PVOID SystemArgument2)
+{
+	/* Wake up waiting threads */
+	NtPulseEvent(VBlankEvent, NULL);
+	return;
+}
+
+static BOOLEAN __stdcall ISR(PKINTERRUPT Interrupt, PVOID ServiceContext)
+{
+	if (VIDEOREG(NV_PMC_INTR_EN_0))
+	{
+		/* Reset interrupt */
+		VIDEOREG(PCRTC_INTR)=PCRTC_INTR_VBLANK_RESET;
+		/* Call our Dpc */
+		KeInsertQueueDpc(&DPCObject,NULL,NULL);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+static void InstallVBLInterrupt(void)
+{
+	/* Disable all interrupts */
+	VIDEOREG(NV_PMC_INTR_EN_0)=NV_PMC_INTR_EN_0_INTA_DISABLED;
+	VIDEOREG(PCRTC_INTR_EN)=PCRTC_INTR_EN_VBLANK_DISABLED;
+	VIDEOREG(PCRTC_INTR)=PCRTC_INTR_VBLANK_RESET;
+	
+	/* Setup our ISR */
+	KIRQL irql;
+	ULONG vector;
+	unsigned char value[4];
+
+	vector = HalGetInterruptVector(VBL_IRQ, &irql);
+
+	NtCreateEvent(&VBlankEvent, NULL, NotificationEvent, FALSE);
+	
+	KeInitializeDpc(&DPCObject,&DPC,NULL);
+
+	KeInitializeInterrupt(&InterruptObject,
+	&ISR,
+	NULL,
+	vector,
+	irql,
+	LevelSensitive,
+	TRUE);
+
+	KeConnectInterrupt(&InterruptObject);
+	
+	/* Enable interrupts, but leave vblank interrupts disabled */
+	VIDEOREG(NV_PMC_INTR_EN_0)=NV_PMC_INTR_EN_0_INTA_HARDWARE;
+}
+
+static void UninstallVBLInterrupt(void)
+{
+	VIDEOREG(NV_PMC_INTR_EN_0)=NV_PMC_INTR_EN_0_INTA_DISABLED;
+	VIDEOREG(PCRTC_INTR_EN)=PCRTC_INTR_EN_VBLANK_DISABLED;
+	VIDEOREG(PCRTC_INTR)=PCRTC_INTR_VBLANK_RESET;
+	KeDisconnectInterrupt(&InterruptObject);
+	NtClose(VBlankEvent);
+}
 
 DWORD XVideoGetEncoderSettings(void)
 {
@@ -159,6 +229,7 @@ void XVideoInit(DWORD dwMode, int width, int height, int bpp)
 {
 	ULONG Step = 0;
 	DWORD dwFormat = (bpp == 32) ? VIDEO_BPP_32 : VIDEO_BPP_16;
+	int screenSize = width * height * (bpp/8);
 
 	XVideoSetVideoEnable(FALSE);
 
@@ -173,8 +244,8 @@ void XVideoInit(DWORD dwMode, int width, int height, int bpp)
 
 	XVideoSetVideoEnable(TRUE);
 
-	_fb = (unsigned char*)(0xF0000000+*(unsigned int*)0xFD600800);
-	memset(_fb, 0x00, width*height*(bpp/8));
+	_fb = (unsigned char*)(0xF0000000+VIDEOREG(PCRTC_START));
+	memset(_fb, 0x00, screenSize);
 }
 
 
@@ -228,6 +299,11 @@ BOOL XVideoSetMode(int width, int height, int bpp, int refresh)
 	}
 
 	XVideoInit(pVidMode->dwMode, pVidMode->width, pVidMode->height, bpp);
+	
+	if (! IsrRegistered) {
+		InstallVBLInterrupt();
+		IsrRegistered = TRUE;
+	}
 
 	vmCurrent.width = pVidMode->width;
 	vmCurrent.height = pVidMode->height;
@@ -264,4 +340,49 @@ void XVideoSetSoftenFilter(BOOL enable)
 		softenSet = TRUE;
 		softenFilter = enable;
 	}
+}
+
+#if 0
+void XVideoWaitForVBlank()
+{
+	unsigned int i;
+	volatile unsigned char* port = (unsigned char*)(VIDEO_BASE + PCIO_CRTC_STATUS);
+	while (*port & 0x08);
+	while (!(*port & 0x08));
+}
+#endif
+
+void XVideoWaitForVBlank()
+{
+	if (! IsrRegistered) {
+		InstallVBLInterrupt();
+		IsrRegistered = TRUE;
+	}
+	/* Enable vblank interrupt */
+	VIDEOREG(PCRTC_INTR)=PCRTC_INTR_VBLANK_RESET;
+	VIDEOREG(PCRTC_INTR_EN)=PCRTC_INTR_EN_VBLANK_ENABLED;
+	
+	/* Wait for vblank */
+	NtWaitForSingleObject(VBlankEvent, FALSE, NULL);
+	
+	/* Disable vblank interrupt */
+	VIDEOREG(PCRTC_INTR_EN)=PCRTC_INTR_EN_VBLANK_DISABLED;
+	VIDEOREG(PCRTC_INTR)=PCRTC_INTR_VBLANK_RESET;
+}
+
+void XVideoSetDisplayStart(unsigned int offset)
+{
+	VIDEOREG(PCRTC_START) = (unsigned int) (_fb - 0xF0000000 + offset);
+}
+
+unsigned char* XVideoGetVideoBase()
+{
+	return (unsigned char *)VIDEO_BASE;
+}
+
+int XVideoVideoMemorySize()
+{
+	// TODO Is this always the case?
+	// 4MB
+	return 1024 * 1024 * 4;
 }

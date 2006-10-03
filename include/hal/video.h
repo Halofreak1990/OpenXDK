@@ -4,8 +4,29 @@
 #include <xboxkrnl/types.h>
 
 // Defines for frame buffer
-#define VIDEO_BASE					0xFD000000
+#define VIDEO_BASE				0xFD000000
 #define VIDEO_FRAMEBUFFER			0x03c00000
+
+// Registers
+#define PCIO_CRTC_STATUS			0x006013DA
+
+#define PCRTC_START				0x00600800
+#define PCRTC_INTR				0x00600100
+#define PCRTC_INTR_VBLANK_RESET			0x00000001
+
+#define PCRTC_INTR_EN				0x00600140
+#define PCRTC_INTR_EN_VBLANK_DISABLED		0x00000000
+#define PCRTC_INTR_EN_VBLANK_ENABLED		0x00000001
+
+#define NV_PMC_INTR_EN_0 0x00000140
+#define NV_PMC_INTR_EN_0_INTA_DISABLED 0x00000000
+#define NV_PMC_INTR_EN_0_INTA_HARDWARE 0x00000001
+#define NV_PMC_INTR_EN_0_INTA_SOFTWARE 0x00000002
+
+// Hardware access macros
+#define VIDEOREG(x) (*(volatile unsigned int*)(VIDEO_BASE + (x)))
+#define VIDEOREG16(x) (*(volatile unsigned short*)(VIDEO_BASE + (x)))
+#define VIDEOREG8(x) (*(volatile unsigned char*)(VIDEO_BASE + (x)))
 
 // Defines for video regions
 #define VIDEO_REGION_NTSCM			0x00000100
@@ -66,5 +87,10 @@ If a value of 0 is provided for the refresh rate the current refresh rate is use
 If a value of 0 is provided for the bpp a default value of 32bpp is used.
 */ 
 BOOLEAN XVideoListModes(VIDEO_MODE *vm, int bpp, int refresh, void **p);
+
+void XVideoWaitForVBlank();
+void XVideoSetDisplayStart(unsigned int offset);
+unsigned char* XVideoGetVideoBase();
+int XVideoVideoMemorySize();
 
 #endif
