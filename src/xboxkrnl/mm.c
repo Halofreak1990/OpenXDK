@@ -52,7 +52,18 @@ XBSYSAPI EXPORTNUM(167) PVOID NTAPI MmAllocateSystemMemory
     return NULL;
 }
 
-XBSYSAPI VOID *MmClaimGpuInstanceMemory = 0;
+// ******************************************************************
+// * MmClaimGpuInstanceMemory
+// ******************************************************************
+XBSYSAPI EXPORTNUM(168) PVOID NTAPI MmClaimGpuInstanceMemory
+(
+    ULONG Mask,
+    IN PVOID pBaseAddr
+)
+{
+    return NULL;
+}
+
 XBSYSAPI VOID *MmCreateKernelStack = 0;
 XBSYSAPI VOID *MmDeleteKernelStack = 0;
 

@@ -255,3 +255,4 @@ XBSYSAPI EXPORTNUM(156) volatile DWORD KeTickCount = 0;
 XBSYSAPI VOID *KeTimeIncrement = 0;
 XBSYSAPI VOID *KeWaitForMultipleObjects = 0;
 XBSYSAPI VOID *KeWaitForSingleObject = 0;
+

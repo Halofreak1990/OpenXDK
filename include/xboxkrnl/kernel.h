@@ -207,7 +207,7 @@ XBSYSAPI EXPORTNUM(156) volatile DWORD KeTickCount;
 
 XBSYSAPI VOID *KeTimeIncrement;
 XBSYSAPI VOID *KeWaitForMultipleObjects;
-XBSYSAPI VOID *KeWaitForSingleObject;
+XBSYSAPI VOID *KeWaitForSingleObjects;
 
 #endif
 

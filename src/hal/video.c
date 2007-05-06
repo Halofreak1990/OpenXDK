@@ -4,11 +4,11 @@
 #include <memory.h>
 
 unsigned char*	_fb;
-DWORD			dwEncoderSettings = 0;
+DWORD			dwEncoderSettings 	= 0;
 VIDEO_MODE		vmCurrent;
-int				flickerLevel	= 5;
+int			flickerLevel		= 5;
 BOOL			flickerSet		= FALSE;
-BOOL			softenFilter	= TRUE;
+BOOL			softenFilter		= TRUE;
 BOOL			softenSet		= FALSE;
 
 static KINTERRUPT InterruptObject;
@@ -105,8 +105,10 @@ static BOOLEAN __stdcall ISR(PKINTERRUPT Interrupt, PVOID ServiceContext)
 	return FALSE;
 }
 
-static void InstallVBLInterrupt(void)
+static int InstallVBLInterrupt(void)
 {
+	int r;
+
 	/* Disable all interrupts */
 	VIDEOREG(NV_PMC_INTR_EN_0)=NV_PMC_INTR_EN_0_INTA_DISABLED;
 	VIDEOREG(PCRTC_INTR_EN)=PCRTC_INTR_EN_VBLANK_DISABLED;
@@ -131,10 +133,12 @@ static void InstallVBLInterrupt(void)
 	LevelSensitive,
 	TRUE);
 
-	KeConnectInterrupt(&InterruptObject);
+	r=KeConnectInterrupt(&InterruptObject);
 	
 	/* Enable interrupts, but leave vblank interrupts disabled */
 	VIDEOREG(NV_PMC_INTR_EN_0)=NV_PMC_INTR_EN_0_INTA_HARDWARE;
+
+	return r;
 }
 
 static void UninstallVBLInterrupt(void)
@@ -299,11 +303,12 @@ BOOL XVideoSetMode(int width, int height, int bpp, int refresh)
 	}
 
 	XVideoInit(pVidMode->dwMode, pVidMode->width, pVidMode->height, bpp);
-	
-	if (! IsrRegistered) {
-		InstallVBLInterrupt();
-		IsrRegistered = TRUE;
-	}
+
+//Will be registered at first XVideoWaitForVBlank() call anyway. No need to lock IRQ3 here.
+//	if (! IsrRegistered) {
+//		if (InstallVBLInterrupt())
+//			IsrRegistered = TRUE;
+//	}
 
 	vmCurrent.width = pVidMode->width;
 	vmCurrent.height = pVidMode->height;
@@ -342,22 +347,16 @@ void XVideoSetSoftenFilter(BOOL enable)
 	}
 }
 
-#if 0
-void XVideoWaitForVBlank()
-{
-	unsigned int i;
-	volatile unsigned char* port = (unsigned char*)(VIDEO_BASE + PCIO_CRTC_STATUS);
-	while (*port & 0x08);
-	while (!(*port & 0x08));
-}
-#endif
 
 void XVideoWaitForVBlank()
 {
 	if (! IsrRegistered) {
-		InstallVBLInterrupt();
-		IsrRegistered = TRUE;
+		if (InstallVBLInterrupt())
+			IsrRegistered = TRUE;
+		else
+			return; //Prevents deadlock in case user code hooks IRQ3 first
 	}
+
 	/* Enable vblank interrupt */
 	VIDEOREG(PCRTC_INTR)=PCRTC_INTR_VBLANK_RESET;
 	VIDEOREG(PCRTC_INTR_EN)=PCRTC_INTR_EN_VBLANK_ENABLED;

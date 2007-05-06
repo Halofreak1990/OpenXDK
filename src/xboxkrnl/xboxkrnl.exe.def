@@ -169,7 +169,7 @@ EXPORTS
     MmAllocateContiguousMemory@4                  @ 165 NONAME
     MmAllocateContiguousMemoryEx@20               @ 166 NONAME
     MmAllocateSystemMemory@8                      @ 167 NONAME
-    MmClaimGpuInstanceMemory                      @ 168 NONAME
+    MmClaimGpuInstanceMemory@8                    @ 168 NONAME
     MmCreateKernelStack                           @ 169 NONAME
     MmDeleteKernelStack                           @ 170 NONAME
     MmFreeContiguousMemory@4                      @ 171 NONAME
