@@ -37,7 +37,7 @@ XBSYSAPI EXPORTNUM(166) PVOID NTAPI MmAllocateContiguousMemoryEx
 	IN ULONG			ProtectionType
 )
 {
-    return NULL;
+	return NULL;
 }
 
 // ******************************************************************
@@ -45,14 +45,25 @@ XBSYSAPI EXPORTNUM(166) PVOID NTAPI MmAllocateContiguousMemoryEx
 // ******************************************************************
 XBSYSAPI EXPORTNUM(167) PVOID NTAPI MmAllocateSystemMemory
 (
-    ULONG NumberOfBytes,
-    ULONG Protect
+	ULONG NumberOfBytes,
+	ULONG Protect
 )
 {
-    return NULL;
+	return NULL;
 }
 
-XBSYSAPI VOID *MmClaimGpuInstanceMemory = 0;
+// ******************************************************************
+// * MmClaimGpuInstanceMemory;
+// ******************************************************************
+XBSYSAPI EXPORTNUM(168) PVOID NTAPI MmClaimGpuInstanceMemory
+(
+	   ULONG Mask,
+	IN PVOID pBaseAddr
+)
+{
+	return NULL;
+}
+
 XBSYSAPI VOID *MmCreateKernelStack = 0;
 XBSYSAPI VOID *MmDeleteKernelStack = 0;
 
@@ -64,7 +75,7 @@ XBSYSAPI EXPORTNUM(171) VOID NTAPI MmFreeContiguousMemory
 	IN PVOID BaseAddress
 )
 {
-    return;
+	return;
 }
 
 // ******************************************************************
@@ -72,11 +83,11 @@ XBSYSAPI EXPORTNUM(171) VOID NTAPI MmFreeContiguousMemory
 // ******************************************************************
 XBSYSAPI EXPORTNUM(172) NTSTATUS NTAPI MmFreeSystemMemory
 (
-    PVOID BaseAddress,
-    ULONG NumberOfBytes
+	PVOID BaseAddress,
+	ULONG NumberOfBytes
 )
 {
-    return STATUS_SUCCESS;
+	return STATUS_SUCCESS;
 }
 
 // ******************************************************************
@@ -84,24 +95,32 @@ XBSYSAPI EXPORTNUM(172) NTSTATUS NTAPI MmFreeSystemMemory
 // ******************************************************************
 XBSYSAPI EXPORTNUM(173) PHYSICAL_ADDRESS NTAPI MmGetPhysicalAddress
 (
-    IN PVOID   BaseAddress
+	IN PVOID   BaseAddress
 )
 {
+	return 0;
 }
 
-XBSYSAPI VOID *MmIsAddressValid = 0;
+// ******************************************************************
+// * MmIsAddressValid
+// ******************************************************************
+XBSYSAPI EXPORTNUM(174) BOOLEAN NTAPI MmIsAddressValid
+(
+	IN PVOID VirtualAddress
+)
+{
+	return TRUE;
+}
 
 XBSYSAPI EXPORTNUM(175) PHYSICAL_ADDRESS NTAPI MmLockUnlockBufferPages
 (
-    IN PHYSICAL_ADDRESS   BaseAddress,
+	IN PHYSICAL_ADDRESS BaseAddress,
 	IN ULONG            NumberOfBytes,
-    IN ULONG            Protect
+	IN ULONG            Protect
 )
 {
+	return 0;
 }
-
-
-
 
 XBSYSAPI VOID *MmLockUnlockPhysicalPage = 0;
 
@@ -131,7 +150,16 @@ XBSYSAPI EXPORTNUM(178) VOID NTAPI MmPersistContiguousMemory
     return;
 }
 
-XBSYSAPI VOID *MmQueryAddressProtect = 0;
+// ******************************************************************
+// * MmQueryAddressProtect
+// ******************************************************************
+XBSYSAPI EXPORTNUM(179) LONG NTAPI MmQueryAddressProtect
+(
+	IN	PVOID	Address
+)
+{
+	return 0;
+}
 
 // ******************************************************************
 // * MmQueryAllocationSize
@@ -168,4 +196,14 @@ XBSYSAPI EXPORTNUM(182) VOID NTAPI MmSetAddressProtect
     return;
 }
 
-XBSYSAPI VOID *MmUnmapIoSpace = 0;
+// ******************************************************************
+// * MmUnmapIoSpace
+// ******************************************************************
+XBSYSAPI EXPORTNUM(183) PVOID NTAPI MmUnmapIoSpace
+(
+	IN PVOID BaseAddress,
+	IN ULONG NumberOfBytes
+)
+{
+	return NULL;
+}

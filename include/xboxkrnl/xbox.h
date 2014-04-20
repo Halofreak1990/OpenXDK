@@ -33,7 +33,7 @@ XBSYSAPI EXPORTNUM(2) VOID NTAPI AvSendTVEncoderOption
 // ******************************************************************
 // * AvSetDisplayMode
 // ******************************************************************
-XBSYSAPI EXPORTNUM(4) ULONG NTAPI AvSetDisplayMode
+XBSYSAPI EXPORTNUM(3) ULONG NTAPI AvSetDisplayMode
 (
 	IN PVOID	RegisterBase,
 	IN ULONG	Step,
@@ -51,18 +51,42 @@ XBSYSAPI EXPORTNUM(4) VOID NTAPI AvSetSavedDataAddress
 	IN PVOID	Address
 );
 
-XBSYSAPI VOID *FscGetCacheSize;
-XBSYSAPI VOID *FscInvalidateIdleBlocks;
+XBSYSAPI EXPORTNUM(35) VOID *FscGetCacheSize;
+XBSYSAPI EXPORTNUM(36) VOID *FscInvalidateIdleBlocks;
 
 // ******************************************************************
 // * FscSetCacheSize
 // ******************************************************************
 XBSYSAPI EXPORTNUM(37) LONG NTAPI FscSetCacheSize(ULONG uCachePages);
 
-XBSYSAPI VOID *KdDebuggerEnabled;
-XBSYSAPI VOID *KdDebuggerNotPresent;
-XBSYSAPI VOID *KfRaiseIrql;
-XBSYSAPI VOID *KfLowerIrql;
+XBSYSAPI EXPORTNUM(88) VOID *KdDebuggerEnabled;
+XBSYSAPI EXPORTNUM(89) VOID *KdDebuggerNotPresent;
+
+// ******************************************************************
+// * KfRaiseIrql
+// ******************************************************************
+// *
+// * Raises IRQL to the specified value.
+// *
+// ******************************************************************
+XBSYSAPI EXPORTNUM(160) VOID NTAPI KfRaiseIrql
+(
+	IN KIRQL NewIrql,
+	OUT PKIRQL OldIrql
+);
+
+// ******************************************************************
+// * KfRaiseIrql
+// ******************************************************************
+// *
+// * Lowers IRQL.
+// *
+// ******************************************************************
+XBSYSAPI EXPORTNUM(161) VOID NTAPI KfLowerIrql
+(
+	IN KIRQL NewIrql
+);
+
 XBSYSAPI VOID *KiBugCheckData;
 XBSYSAPI VOID *KiUnlockDispatcherDatabase;
 
@@ -71,8 +95,22 @@ XBSYSAPI VOID *KiUnlockDispatcherDatabase;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(164) PLAUNCH_DATA_PAGE LaunchDataPage;
 
-XBSYSAPI VOID *PhyGetLinkState;
-XBSYSAPI VOID *PhyInitialize;
+// ******************************************************************
+// * PhyGetLinkState
+// ******************************************************************
+XBSYSAPI EXPORTNUM(252) ULONG NTAPI PhyGetLinkState
+(
+	IN ULONG	Mode
+);
+
+// ******************************************************************
+// * PhyInitialize
+// ******************************************************************
+XBSYSAPI EXPORTNUM(253) ULONG NTAPI PhyInitialize
+(
+	IN ULONG	Parameter1,
+	IN ULONG	Parameter2
+);
 
 // ******************************************************************
 // * XboxEEPROMKey
@@ -89,16 +127,36 @@ XBSYSAPI EXPORTNUM(322) XBOX_HARDWARE_INFO XboxHardwareInfo;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(323) UCHAR XboxHDKey[16];
 
-XBSYSAPI VOID *XboxKrnlVersion;
+// ******************************************************************
+// * XboxKrnlVersion
+// ******************************************************************
+XBSYSAPI EXPORTNUM(324) XBOX_KRNL_VERSION XboxKrnlVersion[1];
 
 // ******************************************************************
 // * XboxSignatureKey
 // ******************************************************************
 XBSYSAPI EXPORTNUM(325) BYTE XboxSignatureKey[16];
 
-XBSYSAPI VOID *XeImageFileName;
-XBSYSAPI VOID *XeLoadSection;
-XBSYSAPI VOID *XeUnloadSection;
+// ******************************************************************
+// * XeImageFileName
+// ******************************************************************
+XBSYSAPI EXPORTNUM(326) ANSI_STRING XeImageFileName[1];
+
+// ******************************************************************
+// * XeLoadSection
+// ******************************************************************
+XBSYSAPI EXPORTNUM(327) PVOID NTAPI XeLoadSection
+(
+	IN OUT	PXBE_SECTION section
+);
+
+// ******************************************************************
+// * XeUnloadSection
+// ******************************************************************
+XBSYSAPI EXPORTNUM(328) BOOLEAN NTAPI XeUnloadSection
+(
+	IN OUT	PXBE_SECTION section
+);
 
 // ******************************************************************
 // * XcSHAInit
@@ -131,9 +189,7 @@ XBSYSAPI VOID *XcCryptService;
 XBSYSAPI VOID *XcUpdateCrypto;
 XBSYSAPI VOID *XboxLANKey;
 XBSYSAPI VOID *XboxAlternateSignatureKeys;
-XBSYSAPI VOID *XePublicKeyData;
+XBSYSAPI EXPORTNUM(355) BYTE XePublicKeyData[276];
 XBSYSAPI VOID *IdexChannelObject;
 
 #endif
-
-

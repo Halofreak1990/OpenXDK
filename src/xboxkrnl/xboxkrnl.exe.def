@@ -6,17 +6,17 @@ EXPORTS
     AvSendTVEncoderOption@16                      @   2 NONAME
     AvSetDisplayMode@24                           @   3 NONAME
     AvSetSavedDataAddress@4                       @   4 NONAME
-    DbgBreakPoint                                 @   5 NONAME
+    DbgBreakPoint@0                               @   5 NONAME
     DbgBreakPointWithStatus                       @   6 NONAME
-    DbgLoadImageSymbols                           @   7 NONAME
+    DbgLoadImageSymbols@12                        @   7 NONAME
     DbgPrint                                      @   8 NONAME
     HalReadSMCTrayState                           @   9 NONAME
     DbgPrompt                                     @  10 NONAME
-    DbgUnLoadImageSymbols                         @  11 NONAME
+    DbgUnLoadImageSymbols@12                      @  11 NONAME
     ExAcquireReadWriteLockExclusive               @  12 NONAME
     ExAcquireReadWriteLockShared                  @  13 NONAME
     ExAllocatePool@4                              @  14 NONAME
-    ExAllocatePoolWithTag                         @  15 NONAME
+    ExAllocatePoolWithTag@8                       @  15 NONAME
     ExEventObjectType                             @  16 NONAME
     ExFreePool@4                                  @  17 NONAME
     ExInitializeReadWriteLock                     @  18 NONAME
@@ -26,8 +26,8 @@ EXPORTS
     ExMutantObjectType                            @  22 NONAME
     ExQueryPoolBlockSize                          @  23 NONAME
     ExQueryNonVolatileSetting@20                  @  24 NONAME
-    ExReadWriteRefurbInfo                         @  25 NONAME
-    ExRaiseException                              @  26 NONAME
+    ExReadWriteRefurbInfo@12                      @  25 NONAME
+    ExRaiseException@16                           @  26 NONAME
     ExRaiseStatus                                 @  27 NONAME
     ExReleaseReadWriteLock                        @  28 NONAME
     ExSaveNonVolatileSetting@16                   @  29 NONAME
@@ -60,7 +60,7 @@ EXPORTS
     InterlockedFlushSList                         @  56 NONAME
     InterlockedPopEntrySList                      @  57 NONAME
     InterlockedPushEntrySList                     @  58 NONAME
-    IoAllocateIrp                                 @  59 NONAME
+    IoAllocateIrp@4                               @  59 NONAME
     IoBuildAsynchronousFsdRequest                 @  60 NONAME
     IoBuildDeviceIoControlRequest                 @  61 NONAME
     IoBuildSynchronousFsdRequest                  @  62 NONAME
@@ -77,7 +77,7 @@ EXPORTS
     IoInitializeIrp                               @  73 NONAME
     IoInvalidDeviceRequest                        @  74 NONAME
     IoQueryFileInformation                        @  75 NONAME
-    IoQueryVolumeInformation                      @  76 NONAME
+    IoQueryVolumeInformation@32                   @  76 NONAME
     IoQueueThreadIrp                              @  77 NONAME
     IoRemoveShareAccess                           @  78 NONAME
     IoSetIoCompletion                             @  79 NONAME
@@ -85,24 +85,24 @@ EXPORTS
     IoStartNextPacket                             @  81 NONAME
     IoStartNextPacketByKey                        @  82 NONAME
     IoStartPacket                                 @  83 NONAME
-    IoSynchronousDeviceIoControlRequest           @  84 NONAME
-    IoSynchronousFsdRequest                       @  85 NONAME
+    IoSynchronousDeviceIoControlRequest@32        @  84 NONAME
+    IoSynchronousFsdRequest@20                    @  85 NONAME
     IofCallDriver                                 @  86 NONAME
     IofCompleteRequest                            @  87 NONAME
     KdDebuggerEnabled                             @  88 NONAME
     KdDebuggerNotPresent                          @  89 NONAME
     IoDismountVolume                              @  90 NONAME
-    IoDismountVolumeByName                        @  91 NONAME
+    IoDismountVolumeByName@4                      @  91 NONAME
     KeAlertResumeThread                           @  92 NONAME
     KeAlertThread                                 @  93 NONAME
     KeBoostPriorityThread                         @  94 NONAME
-    KeBugCheck                                    @  95 NONAME
-    KeBugCheckEx                                  @  96 NONAME
+    KeBugCheck@4                                  @  95 NONAME
+    KeBugCheckEx@20                               @  96 NONAME
     KeCancelTimer                                 @  97 NONAME
-    KeConnectInterrupt                            @  98 NONAME
+    KeConnectInterrupt@4                          @  98 NONAME
     KeDelayExecutionThread@12                     @  99 NONAME
-    KeDisconnectInterrupt                         @ 100 NONAME
-    KeEnterCriticalRegion                         @ 101 NONAME
+    KeDisconnectInterrupt@4                       @ 100 NONAME
+    KeEnterCriticalRegion@0                       @ 101 NONAME
     MmGlobalData                                  @ 102 NONAME
     KeGetCurrentIrql                              @ 103 NONAME
     KeGetCurrentThread@0                          @ 104 NONAME
@@ -110,7 +110,7 @@ EXPORTS
     KeInitializeDeviceQueue                       @ 106 NONAME
     KeInitializeDpc@12                            @ 107 NONAME
     KeInitializeEvent                             @ 108 NONAME
-    KeInitializeInterrupt                         @ 109 NONAME
+    KeInitializeInterrupt@28                      @ 109 NONAME
     KeInitializeMutant                            @ 110 NONAME
     KeInitializeQueue                             @ 111 NONAME
     KeInitializeSemaphore                         @ 112 NONAME
@@ -120,7 +120,7 @@ EXPORTS
     KeInsertHeadQueue                             @ 116 NONAME
     KeInsertQueue                                 @ 117 NONAME
     KeInsertQueueApc                              @ 118 NONAME
-    KeInsertQueueDpc                              @ 119 NONAME
+    KeInsertQueueDpc@12                           @ 119 NONAME
     KeInterruptTime                               @ 120 NONAME
     KeIsExecutingDpc                              @ 121 NONAME
     KeLeaveCriticalRegion                         @ 122 NONAME
@@ -130,7 +130,7 @@ EXPORTS
     KeQueryPerformanceCounter@0                   @ 126 NONAME
     KeQueryPerformanceFrequency@0                 @ 127 NONAME
     KeQuerySystemTime@4                           @ 128 NONAME
-    KeRaiseIrqlToDpcLevel                         @ 129 NONAME
+    KeRaiseIrqlToDpcLevel@0                       @ 129 NONAME
     KeRaiseIrqlToSynchLevel                       @ 130 NONAME
     KeReleaseMutant                               @ 131 NONAME
     KeReleaseSemaphore                            @ 132 NONAME
@@ -140,20 +140,20 @@ EXPORTS
     KeRemoveQueue                                 @ 136 NONAME
     KeRemoveQueueDpc                              @ 137 NONAME
     KeResetEvent                                  @ 138 NONAME
-    KeRestoreFloatingPointState                   @ 139 NONAME
-    KeResumeThread                                @ 140 NONAME
+    KeRestoreFloatingPointState@0                 @ 139 NONAME
+    KeResumeThread@4                              @ 140 NONAME
     KeRundownQueue                                @ 141 NONAME
-    KeSaveFloatingPointState                      @ 142 NONAME
+    KeSaveFloatingPointState@0                    @ 142 NONAME
     KeSetBasePriorityThread@8                     @ 143 NONAME
     KeSetDisableBoostThread                       @ 144 NONAME
     KeSetEvent                                    @ 145 NONAME
     KeSetEventBoostPriority                       @ 146 NONAME
     KeSetPriorityProcess                          @ 147 NONAME
     KeSetPriorityThread@8                         @ 148 NONAME
-    KeSetTimer@16                                 @ 149 NONAME
+    KeSetTimer@12                                 @ 149 NONAME
     KeSetTimerEx                                  @ 150 NONAME
-    KeStallExecutionProcessor                     @ 151 NONAME
-    KeSuspendThread                               @ 152 NONAME
+    KeStallExecutionProcessor@4                   @ 151 NONAME
+    KeSuspendThread@4                             @ 152 NONAME
     KeSynchronizeExecution                        @ 153 NONAME
     KeSystemTime                                  @ 154 NONAME
     KeTestAlertThread                             @ 155 NONAME
@@ -161,30 +161,30 @@ EXPORTS
     KeTimeIncrement                               @ 157 NONAME
     KeWaitForMultipleObjects                      @ 158 NONAME
     KeWaitForSingleObject                         @ 159 NONAME
-    KfRaiseIrql                                   @ 160 NONAME
-    KfLowerIrql                                   @ 161 NONAME
+    KfRaiseIrql@8                                 @ 160 NONAME
+    KfLowerIrql@4                                 @ 161 NONAME
     KiBugCheckData                                @ 162 NONAME
     KiUnlockDispatcherDatabase                    @ 163 NONAME
     LaunchDataPage                                @ 164 NONAME
     MmAllocateContiguousMemory@4                  @ 165 NONAME
     MmAllocateContiguousMemoryEx@20               @ 166 NONAME
     MmAllocateSystemMemory@8                      @ 167 NONAME
-    MmClaimGpuInstanceMemory                      @ 168 NONAME
+    MmClaimGpuInstanceMemory@8                    @ 168 NONAME
     MmCreateKernelStack                           @ 169 NONAME
     MmDeleteKernelStack                           @ 170 NONAME
     MmFreeContiguousMemory@4                      @ 171 NONAME
     MmFreeSystemMemory@8                          @ 172 NONAME
     MmGetPhysicalAddress@4                        @ 173 NONAME
-    MmIsAddressValid                              @ 174 NONAME
+    MmIsAddressValid@4                            @ 174 NONAME
     MmLockUnlockBufferPages@12                    @ 175 NONAME
     MmLockUnlockPhysicalPage                      @ 176 NONAME
     MmMapIoSpace@12                               @ 177 NONAME
     MmPersistContiguousMemory@12                  @ 178 NONAME
-    MmQueryAddressProtect                         @ 179 NONAME
+    MmQueryAddressProtect@4                       @ 179 NONAME
     MmQueryAllocationSize@4                       @ 180 NONAME
     MmQueryStatistics@4                           @ 181 NONAME
     MmSetAddressProtect@12                        @ 182 NONAME
-    MmUnmapIoSpace                                @ 183 NONAME
+    MmUnmapIoSpace@8                              @ 183 NONAME
     NtAllocateVirtualMemory@20                    @ 184 NONAME
     NtCancelTimer                                 @ 185 NONAME
     NtClearEvent@4                                @ 186 NONAME
@@ -196,8 +196,8 @@ EXPORTS
     NtCreateMutant@12                             @ 192 NONAME
     NtCreateSemaphore@16                          @ 193 NONAME
     NtCreateTimer                                 @ 194 NONAME
-    NtDeleteFile                                  @ 195 NONAME
-    NtDeviceIoControlFile                         @ 196 NONAME
+    NtDeleteFile@4                                @ 195 NONAME
+    NtDeviceIoControlFile@40                      @ 196 NONAME
     NtDuplicateObject@12                          @ 197 NONAME
     NtFlushBuffersFile@8                          @ 198 NONAME
     NtFreeVirtualMemory@12                        @ 199 NONAME
@@ -206,7 +206,7 @@ EXPORTS
     NtOpenFile@24                                 @ 202 NONAME
     NtOpenSymbolicLinkObject                      @ 203 NONAME
     NtProtectVirtualMemory                        @ 204 NONAME
-    NtPulseEvent                                  @ 205 NONAME
+    NtPulseEvent@8                                @ 205 NONAME
     NtQueueApcThread                              @ 206 NONAME
     NtQueryDirectoryFile@40                       @ 207 NONAME
     NtQueryDirectoryObject                        @ 208 NONAME
@@ -216,7 +216,7 @@ EXPORTS
     NtQueryIoCompletion                           @ 212 NONAME
     NtQueryMutant                                 @ 213 NONAME
     NtQuerySemaphore                              @ 214 NONAME
-    NtQuerySymbolicLinkObject                     @ 215 NONAME
+    NtQuerySymbolicLinkObject@12                  @ 215 NONAME
     NtQueryTimer                                  @ 216 NONAME
     NtQueryVirtualMemory@8                        @ 217 NONAME
     NtQueryVolumeInformationFile@20               @ 218 NONAME
@@ -238,7 +238,7 @@ EXPORTS
     NtWaitForSingleObjectEx@16                    @ 234 NONAME
     NtWaitForMultipleObjectsEx@24                 @ 235 NONAME
     NtWriteFile@32                                @ 236 NONAME
-    NtWriteFileGather                             @ 237 NONAME
+    NtWriteFileGather@20                          @ 237 NONAME
     NtYieldExecution@0                            @ 238 NONAME
     ObCreateObject                                @ 239 NONAME
     ObDirectoryObjectType                         @ 240 NONAME
@@ -251,10 +251,10 @@ EXPORTS
     ObReferenceObjectByName                       @ 247 NONAME
     ObReferenceObjectByPointer                    @ 248 NONAME
     ObSymbolicLinkObjectType                      @ 249 NONAME
-    ObfDereferenceObject                          @ 250 NONAME
-    ObfReferenceObject                            @ 251 NONAME
-    PhyGetLinkState                               @ 252 NONAME
-    PhyInitialize                                 @ 253 NONAME
+    ObfDereferenceObject@4                        @ 250 NONAME
+    ObfReferenceObject@4                          @ 251 NONAME
+    PhyGetLinkState@4                             @ 252 NONAME
+    PhyInitialize@8                               @ 253 NONAME
     PsCreateSystemThread@24                       @ 254 NONAME
     PsCreateSystemThreadEx@40                     @ 255 NONAME
     PsQueryStatistics                             @ 256 NONAME
@@ -328,8 +328,8 @@ EXPORTS
     XboxKrnlVersion                               @ 324 NONAME
     XboxSignatureKey                              @ 325 NONAME
     XeImageFileName                               @ 326 NONAME
-    XeLoadSection                                 @ 327 NONAME
-    XeUnloadSection                               @ 328 NONAME
+    XeLoadSection@4                               @ 327 NONAME
+    XeUnloadSection@4                             @ 328 NONAME
     READ_PORT_BUFFER_UCHAR@12                     @ 329 NONAME
     READ_PORT_BUFFER_USHORT@12                    @ 330 NONAME
     READ_PORT_BUFFER_ULONG@12                     @ 331 NONAME
@@ -353,7 +353,7 @@ EXPORTS
     XcBlockCryptCBC                               @ 349 NONAME
     XcCryptService                                @ 350 NONAME
     XcUpdateCrypto                                @ 351 NONAME
-    RtlRip                                        @ 352 NONAME
+    RtlRip@12                                     @ 352 NONAME
     XboxLANKey                                    @ 353 NONAME
     XboxAlternateSignatureKeys                    @ 354 NONAME
     XePublicKeyData                               @ 355 NONAME

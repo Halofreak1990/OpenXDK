@@ -23,10 +23,21 @@ XBSYSAPI EXPORTNUM(14) PVOID NTAPI ExAllocatePool
 	IN ULONG NumberOfBytes
 )
 {
-    return NULL;
+	return NULL;
 }
 
-XBSYSAPI VOID *ExAllocatePoolWithTag = 0;
+// ******************************************************************
+// * ExAllocatePoolWithTag
+// ******************************************************************
+XBSYSAPI EXPORTNUM(15) PVOID NTAPI ExAllocatePoolWithTag
+(
+	IN SIZE_T NumberOfBytes,
+	IN ULONG Tag
+)
+{
+	return NULL;
+}
+
 XBSYSAPI VOID *ExEventObjectType = 0;
 
 // ******************************************************************
@@ -63,11 +74,36 @@ XBSYSAPI EXPORTNUM(24) NTSTATUS NTAPI ExQueryNonVolatileSetting
 	OUT PSIZE_T             ResultLength OPTIONAL
 )
 {
-    return 0;
+	return 0;
 }
 
-XBSYSAPI VOID *ExReadWriteRefurbInfo = 0;
-XBSYSAPI VOID *ExRaiseException = 0;
+// ******************************************************************
+// * ExReadWriteRefurbInfo
+// ******************************************************************
+XBSYSAPI EXPORTNUM(25) NTSTATUS NTAPI ExReadWriteRefurbInfo
+(
+	OUT	XBOX_REFURB_INFO*	RefurbInfo,
+	IN	ULONG			ValueLength,
+	IN	BOOLEAN			DoWrite
+)
+{
+	return STATUS_SUCCESS;
+}
+
+// ******************************************************************
+// * ExRaiseException
+// ******************************************************************
+XBSYSAPI EXPORTNUM(26) VOID NTAPI ExRaiseException
+(
+	IN DWORD	dwExceptionCode,
+	IN DWORD	dwExceptionFlags,
+	IN DWORD	nNumberOfArguments,
+	IN CONST ULONG	*lpArguments
+)
+{
+	return;
+}
+
 XBSYSAPI VOID *ExRaiseStatus = 0;
 XBSYSAPI VOID *ExReleaseReadWriteLock = 0;
 
@@ -82,7 +118,7 @@ XBSYSAPI EXPORTNUM(29) NTSTATUS NTAPI ExSaveNonVolatileSetting
     IN  SIZE_T              ValueLength
 )
 {
-    return 0;
+	return 0;
 }
 
 XBSYSAPI VOID *ExSemaphoreObjectType = 0;

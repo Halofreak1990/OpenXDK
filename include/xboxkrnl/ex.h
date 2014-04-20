@@ -14,8 +14,8 @@
 
 #include "xboxkrnl.h"
 
-XBSYSAPI VOID *ExAcquireReadWriteLockExclusive;
-XBSYSAPI VOID *ExAcquireReadWriteLockShared;
+XBSYSAPI EXPORTNUM(12) VOID *ExAcquireReadWriteLockExclusive;
+XBSYSAPI EXPORTNUM(13) VOID *ExAcquireReadWriteLockShared;
 
 // ******************************************************************
 // * ExAllocatePool
@@ -29,7 +29,20 @@ XBSYSAPI EXPORTNUM(14) PVOID NTAPI ExAllocatePool
 	IN ULONG NumberOfBytes
 );
 
-XBSYSAPI VOID *ExAllocatePoolWithTag;
+// ******************************************************************
+// * ExAllocatePoolWithTag
+// ******************************************************************
+// *
+// * Allocates memory from the memory pool.  The Tag parameter is a 
+// * 4-letter character constant to which to associate the allocation
+// *
+// ******************************************************************
+XBSYSAPI EXPORTNUM(15) PVOID NTAPI ExAllocatePoolWithTag
+(
+	IN SIZE_T NumberOfBytes,
+	IN ULONG Tag
+);
+
 XBSYSAPI VOID *ExEventObjectType;
 
 // ******************************************************************
@@ -41,7 +54,7 @@ XBSYSAPI VOID *ExEventObjectType;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(17) PVOID NTAPI ExFreePool
 (
-    IN PVOID P
+	IN PVOID P
 );
 
 XBSYSAPI VOID *ExInitializeReadWriteLock;
@@ -56,43 +69,60 @@ XBSYSAPI VOID *ExQueryPoolBlockSize;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(24) NTSTATUS NTAPI ExQueryNonVolatileSetting
 (
-	IN  DWORD               ValueIndex,
-	OUT DWORD              *Type,
-	OUT PUCHAR              Value,
-	IN  SIZE_T              ValueLength,
-	OUT PSIZE_T             ResultLength OPTIONAL
+	IN  ULONG	ValueIndex,
+	OUT PULONG	Type,
+	OUT PVOID	Value,
+	IN  ULONG	ValueLength,
+	OUT PULONG	ResultLength OPTIONAL
 );
 
-XBSYSAPI VOID *ExReadWriteRefurbInfo;
-XBSYSAPI VOID *ExRaiseException;
-XBSYSAPI VOID *ExRaiseStatus;
-XBSYSAPI VOID *ExReleaseReadWriteLock;
+// ******************************************************************
+// * ExReadWriteRefurbInfo
+// ******************************************************************
+XBSYSAPI EXPORTNUM(25) NTSTATUS NTAPI ExReadWriteRefurbInfo
+(
+	OUT	XBOX_REFURB_INFO*	RefurbInfo,
+	IN	ULONG			ValueLength,
+	IN	BOOLEAN			DoWrite
+);
+
+// ******************************************************************
+// * ExRaiseException
+// ******************************************************************
+XBSYSAPI EXPORTNUM(26) VOID NTAPI ExRaiseException
+(
+	IN DWORD	dwExceptionCode,
+	IN DWORD	dwExceptionFlags,
+	IN DWORD	nNumberOfArguments,
+	IN CONST ULONG	*lpArguments
+);
+
+XBSYSAPI EXPORTNUM(27) VOID *ExRaiseStatus;
+XBSYSAPI EXPORTNUM(28) VOID *ExReleaseReadWriteLock;
 
 // ******************************************************************
 // * ExSaveNonVolatileSetting
 // ******************************************************************
 XBSYSAPI EXPORTNUM(29) NTSTATUS NTAPI ExSaveNonVolatileSetting
 (
-    IN  DWORD               ValueIndex,
-    OUT DWORD              *Type,
-    IN  PUCHAR              Value,
-    IN  SIZE_T              ValueLength
+	IN	ULONG	ValueIndex,
+	IN	PULONG	Type OPTIONAL,
+	IN	PVOID	Value,
+	IN	ULONG	ValueLength
 );
 
-XBSYSAPI VOID *ExSemaphoreObjectType;
-XBSYSAPI VOID *ExTimerObjectType;
-XBSYSAPI VOID *ExfInterlockedInsertHeadList;
-XBSYSAPI VOID *ExfInterlockedInsertTailList;
-XBSYSAPI VOID *ExfInterlockedRemoveHeadList;
-XBSYSAPI VOID *InterlockedCompareExchange;
-XBSYSAPI VOID *InterlockedDecrement;
-XBSYSAPI VOID *InterlockedIncrement;
-XBSYSAPI VOID *InterlockedExchange;
-XBSYSAPI VOID *InterlockedExchangeAdd;
-XBSYSAPI VOID *InterlockedFlushSList;
-XBSYSAPI VOID *InterlockedPopEntrySList;
-XBSYSAPI VOID *InterlockedPushEntrySList;
+XBSYSAPI EXPORTNUM(30) VOID *ExSemaphoreObjectType;
+XBSYSAPI EXPORTNUM(31) VOID *ExTimerObjectType;
+XBSYSAPI EXPORTNUM(32) VOID *ExfInterlockedInsertHeadList;
+XBSYSAPI EXPORTNUM(33) VOID *ExfInterlockedInsertTailList;
+XBSYSAPI EXPORTNUM(34) VOID *ExfInterlockedRemoveHeadList;
+XBSYSAPI EXPORTNUM(51) VOID *InterlockedCompareExchange;
+XBSYSAPI EXPORTNUM(52) VOID *InterlockedDecrement;
+XBSYSAPI EXPORTNUM(53) VOID *InterlockedIncrement;
+XBSYSAPI EXPORTNUM(54) VOID *InterlockedExchange;
+XBSYSAPI EXPORTNUM(55) VOID *InterlockedExchangeAdd;
+XBSYSAPI EXPORTNUM(56) VOID *InterlockedFlushSList;
+XBSYSAPI EXPORTNUM(57) VOID *InterlockedPopEntrySList;
+XBSYSAPI EXPORTNUM(58) VOID *InterlockedPushEntrySList;
 
 #endif
-
-

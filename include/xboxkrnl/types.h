@@ -23,7 +23,6 @@ typedef int boolean;
 typedef unsigned char BYTE;
 typedef unsigned short WORD, WCHAR, *PWSTR;
 typedef unsigned int DWORD, *PDWORD, *LPDWORD;
-typedef int bool;
 
 typedef unsigned int SIZE_T, *PSIZE_T;
 
@@ -66,6 +65,7 @@ typedef ULONG PHYSICAL_ADDRESS, *PPHYSICAL_ADDRESS;
 #define OBJ_OPENLINK         256L
 #define OBJ_VALID_ATTRIBUTES 498L
 
+#define PAGE_READONLY 0x2
 #define PAGE_READWRITE 0x4
 #define PAGE_EXECUTE_READWRITE 0x40
 
@@ -74,6 +74,7 @@ typedef ULONG PHYSICAL_ADDRESS, *PPHYSICAL_ADDRESS;
 #define STATUS_NO_MEMORY 0xc0000017
 #define MEM_RESERVE 0x00002000
 #define MEM_COMMIT 0x00001000
+#define MEM_DECOMMIT 0x00004000
 
 #define ObDosDevices                    ((HANDLE) 0xFFFFFFFD)
 #endif
@@ -137,6 +138,50 @@ typedef ULONG PHYSICAL_ADDRESS, *PPHYSICAL_ADDRESS;
 #define FILE_OVERWRITTEN                        0x00000003
 #define FILE_EXISTS                             0x00000004
 #define FILE_DOES_NOT_EXIST                     0x00000005
+
+// Kernel object type (unsure about the structure...)
+typedef struct _OBJECT_TYPE
+{
+	// Same prototype as ExAllocatePoolWithTag, because that's the usual one
+	PVOID (*AllocationFunction) (SIZE_T NumberOfBytes, ULONG Tag);
+
+	// Same prototype as ExFreePool, because that's the usual one
+	VOID (*FreeFunction) (PVOID P);
+
+	// The prototypes of these are unknown
+	void *CloseFunction;
+	void *DeleteFunction;
+	void *ParseFunction;
+
+	// Unknown DWORD...  Size of this object type maybe?
+	void *DefaultObjectMaybe;
+
+	// 4 letter tag for this object type
+	CHAR Tag[4];
+} OBJECT_TYPE, *POBJECT_TYPE;
+
+// *_OBJECT and related structures (mostly opaque since I'm lazy)
+typedef struct _DRIVER_OBJECT {
+    CSHORT Type;
+    CSHORT Size;
+    struct _DEVICE_OBJECT *DeviceObject;
+	// ...
+} DRIVER_OBJECT, *PDRIVER_OBJECT;
+
+typedef struct _DEVICE_OBJECT {
+    CSHORT Type;
+    USHORT Size;
+    LONG ReferenceCount;
+    PDRIVER_OBJECT DriverObject;
+	// ...
+} DEVICE_OBJECT, *PDEVICE_OBJECT;
+
+typedef struct _FILE_OBJECT {
+    CSHORT Type;
+    CSHORT Size;
+    PDEVICE_OBJECT DeviceObject;
+	// ...
+} FILE_OBJECT, *PFILE_OBJECT;
 
 // ******************************************************************
 // * STRING
@@ -339,6 +384,48 @@ typedef struct _KDPC
 KDPC, *PKDPC;
 
 // ******************************************************************
+// * KINTERRUPT
+// ******************************************************************
+// *
+// * NOTE: INCOMPLETE!!
+// *
+// ******************************************************************
+typedef struct _KINTERRUPT
+{
+	UCHAR             UnknownA[0x0C];
+	UCHAR             KIRQL;
+	UCHAR             PaddingA[0x03];
+	UCHAR             UnknownB[0x08];
+	UCHAR             ISR[0x58];
+}
+KINTERRUPT, *PKINTERRUPT;
+
+// ******************************************************************
+// * PKSERVICE_ROUTINE
+// ******************************************************************
+typedef BOOLEAN (*PKSERVICE_ROUTINE) (PKINTERRUPT Interrupt, PVOID ServiceContext);
+
+// ******************************************************************
+// * PIO_APC_ROUTINE
+// ******************************************************************
+typedef VOID (*PIO_APC_ROUTINE) (PVOID ApcContext,PIO_STATUS_BLOCK IoStatusBlock,ULONG Reserved);
+
+// ******************************************************************
+// * KIRQL
+// ******************************************************************
+typedef UCHAR KIRQL, *PKIRQL;
+
+// ******************************************************************
+// * KINTERRUPT_MODE
+// ******************************************************************
+typedef enum _KINTERRUPT_MODE
+{
+	LevelSensitive,
+	Latched,
+}
+KINTERRUPT_MODE;
+
+// ******************************************************************
 // * KTHREAD
 // ******************************************************************
 // *
@@ -379,7 +466,6 @@ typedef enum _EVENT_TYPE
 	SynchronizationEvent
 }
 EVENT_TYPE;
-
 
 // ******************************************************************
 // * FSINFOCLASS
@@ -526,6 +612,14 @@ typedef struct _FILE_FS_SIZE_INFORMATION
 } FILE_FS_SIZE_INFORMATION, *PFILE_FS_SIZE_INFORMATION;
 
 // ******************************************************************
+// * FILE_SEGMENT_ELEMENT
+// ******************************************************************
+typedef union _FILE_SEGMENT_ELEMENT {
+	PVOID Buffer;
+	ULONGLONG Alignment;
+} FILE_SEGMENT_ELEMENT, *PFILE_SEGMENT_ELEMENT;
+
+// ******************************************************************
 // * MEMORY_BASIC_INFORMATION
 // ******************************************************************
 typedef struct _MEMORY_BASIC_INFORMATION
@@ -571,10 +665,10 @@ typedef VOID (*PKSTART_ROUTINE) (PVOID StartContext1, PVOID StartContext2);
 // ******************************************************************
 typedef struct _RTL_CRITICAL_SECTION
 {
-	DWORD               Unknown[4];        // 0x00
-	LONG                LockCount;         // 0x10
-	LONG                RecursionCount;    // 0x14
-	ULONG               OwningThread;      // 0x18
+	DISPATCHER_HEADER	Header;			// 0x00
+	LONG                LockCount;		// 0x10
+	LONG                RecursionCount;	// 0x14
+	PKTHREAD            OwningThread;	// 0x18
 }
 RTL_CRITICAL_SECTION, *PRTL_CRITICAL_SECTION;
 
@@ -618,6 +712,55 @@ typedef struct _LAUNCH_DATA_PAGE
 LAUNCH_DATA_PAGE, *PLAUNCH_DATA_PAGE;
 
 // ******************************************************************
+// * XBE_SECTION
+// ******************************************************************
+typedef struct _XBE_SECTION
+{
+    // 000 Flags
+    ULONG Flags;
+    // 004 Virtual address (where this section loads in RAM)
+    PVOID VirtualAddress;
+    // 008 Virtual size (size of section in RAM; after FileSize it's 00'd)
+    ULONG VirtualSize;
+    // 00C File address (where in the file from which this section comes)
+    ULONG FileAddress;
+    // 010 File size (size of the section in the XBE file)
+    ULONG FileSize;
+    // 014 Pointer to section name
+    PCSZ SectionName;
+    // 018 Section reference count - when >= 1, section is loaded
+    LONG SectionReferenceCount;
+    // 01C Pointer to head shared page reference count
+    WORD *HeadReferenceCount;
+    // 020 Pointer to tail shared page reference count
+    WORD *TailReferenceCount;
+    // 024 SHA hash.  Hash DWORD containing FileSize, then hash section.
+    DWORD ShaHash[5];
+    // 038
+ } XBE_SECTION, *PXBE_SECTION;
+
+// ******************************************************************
+// * XBOX_KRNL_VERSION
+// ******************************************************************
+typedef struct _XBOX_KRNL_VERSION
+{
+	WORD VersionMajor;
+	WORD VersionMinor;
+	WORD Build;
+	WORD Qfe;
+} XBOX_KRNL_VERSION;
+
+// ******************************************************************
+// * XBOX_REFURB_INFO
+// ******************************************************************
+typedef struct _XBOX_REFURB_INFO
+{
+	ULONG			Signature;
+	ULONG			PowerCycleCount;
+	LARGE_INTEGER	FirstBootTime;
+} XBOX_REFURB_INFO;
+
+// ******************************************************************
 // * XBOX_HARDWARE_INFO
 // ******************************************************************
 typedef struct _XBOX_HARDWARE_INFO
@@ -627,8 +770,7 @@ typedef struct _XBOX_HARDWARE_INFO
 	UCHAR Unknown2;
 	UCHAR Unknown3;
 	UCHAR Unknown4;
-}
-XBOX_HARDWARE_INFO;
+} XBOX_HARDWARE_INFO;
 
 // ******************************************************************
 // * NT_TIB
@@ -693,7 +835,7 @@ KPRCB, *PKPRCB;
 typedef struct _KPCR
 {
     struct _NT_TIB  NtTib;                                          // 0x00
-    struct _KPCR   *SelfPcr;                                        // 0x1C
+    struct _KPCR   *SelfPtr;                                        // 0x1C
     struct _KPRCB  *Prcb;                                           // 0x20
     UCHAR           Irql;                                           // 0x24
     struct _KPRCB   PrcbData;                                       // 0x28

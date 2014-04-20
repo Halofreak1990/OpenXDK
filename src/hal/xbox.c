@@ -19,8 +19,14 @@ int XGetTickCount()
 
 void XSleep(int milliseconds)
 {
-	int target = XGetTickCount()+milliseconds;
-	while(XGetTickCount() < target);
+	LARGE_INTEGER li;
+
+	li.QuadPart = (LONGLONG)milliseconds * -10000;
+
+	// Where possible, Alertable should be set to FALSE and WaitMode should be set to kernelMode,
+	// in order to reduce driver complexity. The principal exception to this is when the wait is a long term wait.
+	KeDelayExecutionThread((KPROCESSOR_MODE)0, false, &li); // it doesn't seem to get KernelMode from the added MODE enum
+								// in xboxkrnl/types.h so we just use 0 (it's the same value)
 }
 
 /**
