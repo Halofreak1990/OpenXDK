@@ -1,0 +1,29 @@
+#
+ALL = \
+	SDL_ttf.c 
+	
+CC = i386-pc-xbox-gcc
+AR = i386-pc-xbox-ar
+DEFS =-DENABLE_XBOX
+
+TARGET = libSDL_ttf.a
+
+OPTFLAGS=-O2 -fomit-frame-pointer -std=gnu99 -ffreestanding -nostdlib -fno-builtin -fno-exceptions -mno-cygwin -march=i386
+CFLAGS=$(DEFS) -I. -I$(PREFIX)/include -I$(PREFIX)/i386-pc-xbox/include $(OPTFLAGS) -I../../sdl/SDL-1.2.7/include -I../../freetype/freetype-2.1.9/include
+
+SRCS = $(ALL)
+
+OBJS = $(SRCS:.c=.o)
+
+all: $(TARGET) 
+
+clean:
+	rm -f $(OBJS) $(TARGET)
+
+$(TARGET) : $(OBJS)
+	$(AR) rcs $(TARGET) $(OBJS)
+
+install: $(TARGET)
+	cp $(TARGET) $(PREFIX)/lib
+	cp SDL_ttf.h $(PREFIX)/include
+

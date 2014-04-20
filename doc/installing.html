@@ -1,0 +1,94 @@
+<html>
+<link rel="STYLESHEET" href="style.css" Type="text/css"/>
+
+<h1>Installing OpenXDK</h1>
+OK... I assume you have decided that the OpenXDK is something you want to install.  Now, the OpenXDK provides a set of
+libraries that you can use to develop your application.  Once you have the OpenXDK libraries installed, you can then write your application.  This
+page describes the steps required to install the OpenXDK libraries... if you have already done that, there is separate documentation on <a href="developing.html">developing applications</a>.
+<p>
+You can install the OpenXDK libraries in three ways (in order of preference):
+<ol>
+<li>Download the binary pre-compiled version from sourceforge as a ZIP file (Win32 users only - sorry!).  This is a convenient
+time saving option.</li>
+<li>Download the packaged source code as a compressed TAR file.  This is appropriate for both Win32 and Linux users and requires that you 
+compile the OpenXDK libraries.</li>
+<li>Use CVS to download the latest and greatest version.  While I do try to make sure that only working code gets
+checked in, you might sometimes get code that doesn't work if you use this method.</li>
+</ol>
+<p>
+Note that my development environment is Windows 2000 using the Cygwin development kit.  It worked with MingW on Windows some time ago, but I haven't tested it recently.
+I have been endeavouring to give better support for Linux users, also.
+<h3>Cygwin</h3>
+You will need a pretty recent version of Cygwin.  I don't recall specifically which bits I installed, but I am do know that you will need at least the following packages:
+<ul>
+<li>gcc</li>
+<li>binutils</li>
+<li>automake</li>
+<li>autoconf</li>
+</ul>
+<h3>Linux</h3>
+You will need to download and install a Linux-to-Win32 cross compiler.  The one that I have personally tested is the <code>i386-mingw32</code> 
+cross compiler.  I installed the RPMs from <a href="http://bitwalk.hp.infoseek.co.jp/download.html">here</a> and everything just worked fine.
+
+<h2>Binary Pre-Compiled Version</h2>
+<p>
+This is the easiest of the three options (as long as you are a Win32 user).  Just download the latest binary file from <a href="http://sourceforge.net/project/showfiles.php?group_id=56780&package_id=52140">Source Forge</a>.  
+It will usually be called something like <code>OpenXDK_0_05_bin.zip</code> (depending on the version).  Decide what directory you want the libraries installed in (I personally install it into <code>/usr/local/openxdk</code>, but you can 
+put it wherever you want), and unzip it into that directory.  That's it!
+You will need to make note of the directory you install it in so that you can set the PATHs correctly when you are developing your own applications.
+<p>
+Note that the ZIP file already contains the leading <code>openxdk</code> directory, so if you want the binaries to be installed into <code>/usr/local/openxdk</code>, you need
+to unzip it into <code>/usr/local</code>.
+<h2>Packaged Source</h2>
+<p>
+Download the latest source file from <a href="http://sourceforge.net/project/showfiles.php?group_id=56780&package_id=52140">Source Forge</a>.  
+It will usually be called something like <code>OpenXDK_0_05_src.tgz</code> (depending on the version).  Decide what directory you want the source to be installed in.  I 
+normally use <code>/home/craig/openxdk</code>, but you can put it wherever you like.  
+<p>
+You then need to decide where you want the OpenXDK libraries to be installed.  I personally put them into <code>/usr/local/openxdk</code>, but you can put them wherever suits.  
+The following instructions assume that you untarred the source into <code>/usr/home/openxdk</code> and you want to install into <code>/usr/local/openxdk</code>.  From a BASH 
+shell, execute the following commands:
+<p>
+<b>Cygwin</b>
+<pre>
+cd /usr/home/openxdk
+./autogen.sh
+./configure --prefix=/usr/local/openxdk
+make all install
+</pre>
+
+<b>Linux</b>
+<pre>
+cd /usr/home/openxdk
+export WANT_AUTOCONF=2.5
+export WANT_AUTOMAKE=1.6
+./autogen.sh
+./configure --prefix=/usr/local/openxdk --host=i386-mingw32
+make all install
+</pre>
+ 
+To check that the installation worked correctly (in both cases), run <code>ls -las /usr/local/openxdk/lib</code>, and you should see something like (file sizes will vary between releases):
+<pre>
+bash-2.05b$ ls -las /usr/local/openxdk/lib
+total 720
+   4 drwxrwxrwx+   2 edwardsc None         4096 Sep  8 08:16 .
+   0 drwxrwxrwx+   6 edwardsc None            0 Sep  8 08:15 ..
+ 255 -rw-rw-rw-    1 edwardsc None       261086 Sep  8 08:16 libSDL.a
+  63 -rw-rw-rw-    1 edwardsc None        64490 Sep  8 08:15 libhal.a
+  32 -rw-rw-rw-    1 edwardsc None        32200 Sep  8 08:15 libopenxdk.a
+ 100 -rw-rw-rw-    1 edwardsc None       102348 Sep  8 08:16 libusb.a
+ 266 -rw-rw-rw-    1 edwardsc None       271764 Sep  8 08:02 libxboxkrnl.a
+</pre>
+<p>
+<h2>CVS HEAD</h2>
+<p>
+This procedure is almost the same as the Packaged Source installation, except that you are using the latest copy of the code, instead of
+the packaged release.  Use CVS to download the HEAD from SourceForge into your source directory, and the follow the instructions in the 
+Packaged Source section.
+<h2>One last thing...</h2>
+As part of the build process, an executable called <code>cxbe</code> will be creating in the <code>bin</code> directory of wherever you installed OpenXDK. 
+This directory needs to be in your path (or fully qualified in your application makefile).  See <a href="developing.html">developing applications</a> for more information.
+<br>
+<hr>
+<center>Back to <a href="index.html">Home Page</a></center>
+</html>

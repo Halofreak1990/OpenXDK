@@ -1,0 +1,268 @@
+<html>
+<link rel="STYLESHEET" href="style.css" Type="text/css"/>
+
+<h1>Developing your application using OpenXDK</h1>
+OK, so you have (hopefully) read the <a href="overview.html">overview</a>, the <a href="xbox.html">XBOX details</a> and are still keen to develop XBOX applications.  You need to have installed the OpenXDK headers and libraries as per the instructions in the <a href="installing.html">installation guide</a>.  Before you progress to actually developing application, there are a few more housekeeping items that probably need to be described.
+<p>
+For simplicities sake, I will assume that you have installed the libraries into <code>/usr/local/openxdk</code>.  It doesn't really matter where you put it... I just need somewhere so I can describe relative paths of various files.  In addition, although you don't actually need the source to the OpenXDK
+libraries to compile your own application, I will assume you extracted the OpenXDK source into <code>/home/craig/openxdk</code>.
+
+<p>
+
+<h2>Development process</h2>
+The general process for developing an OpenXDK application is as follows:
+<ol>
+<li>Write your application code using whatever editor/development environment you like. The entry point for your application will be a function with the following signature:  <br><code>void XBOXStartup()</code></li>
+<li>Compile your object files (making sure you use the compiler settings described below)</li>
+<li>Link your object files with the provided OpenXDK libraries (making sure you use the link settings described below)</li>
+<li>Post-process the executable with CXBE to produce the final executable</li>
+<li>Transfer the executable onto your XBOX and run!</li>
+</ol>
+
+<h2>CXBE</h2>
+As mentioned previously, there are quite a few similarities between PE files and XBE files.  However, I am not yet smart enough to figure out how to create a cross-compiled version of gcc to produce xbe files directly (maybe one day!).  So, how do you convert .EXE files to .XBE files?  Fortunately, Caustik has written a little utility (CXBE) that does this for us.  So, once we have compiled our XBOX application to a .EXE form using gcc, we have to post process it with CXBE.  CXBE does the following key things (among others):
+<ul>
+<li>Creates the XBE-specific header based on values in the PE file</li>
+<li>Sets the base address to 0x00010000 and performs the relocations for the internal relative offsets.  This relocation is a key piece in ensuring that the .XBE is setup properly to be run at location 0x00010000.</li>
+<li>Determines the entry point for the application based on the first thunk address of the PE file</li>
+</ul>
+The syntax for CXBE is:
+<pre>
+cxbe [options] [exefile]
+</pre> 
+The options that are available for CXBE are:
+<p>
+<table>
+<tr><td><b>Option</b></td><td><b>Description</b></td></th>
+<tr><td>-OUT:filename</td><td>The output filename for the XBE file</td></tr>
+<tr><td>-DUMPINFO:filename</td><td>The filename for some debug information about what was converted</td></tr>
+<tr><td>-TITLE:title</td><td>The title for the application.  This is what will appear by default in your dashboard application</td></tr>
+<tr><td>-MODE:{debug|retail}</td><td>Whether the XBE is in debug or retail mode.  You will nearly always want retail (debug isn't what you think it is).</td></tr>
+</table>
+<p>
+An example invocation might look like:
+<pre>
+cxbe -OUT:default.xbe -DUMPINFO:cxbe.txt -TITLE:CoolApp CoolApp.exe
+</pre> 
+
+<code>cxbe</code> is built as part of the installation process and can be found in the <code>/usr/local/openxdk/bin</code> directory.
+<h2>libc</h2>
+In a normal gcc development environment you get a system library called libc that gives you such features as malloc, fopen, etc.  Now, this library is very operating system specific (think about it - it allocates memory, access files, etc) and is normally provided by your Cygwin installation.  However, the Cygwin libc obviously doesn't know how to access the XBOX file system, or allocate memory, and so on, so we had to provide our own implementation.  The implementation that I chose to use was <a href="http://sources.redhat.com/newlib">newlib</a>.  It is designed to be portable with new implementations filling out a bunch of predefined stubs.  If you are curious to see how that works, have a look at:
+<pre>
+/home/craig/openxdk/newlib-1.12.0/newlib/libc/sys/xbox/syscalls.c
+</pre>
+
+<h2>Compiler Options</h2>
+In order to get gcc to compile code so that it will run successfully on the XBOX, we need to provide some non-typical gcc flags.  The XBOX is a bit finicky when  it comes to some of these things, so you may find that you can omit some of them and it will still work, but these are the combinations that I have found to be best.
+<p>
+<table>
+	<tr>
+		<td><b>Flag</b></td>
+		<td><b>Rationale</b></td>
+	</tr>
+	<tr>
+		<td>-std=gnu99</td>
+		<td>I am actually not sure whether we necessarily need this flag.  I think I probably put it in when I first started to try and ensure I wasn't writing any funky C code that might cause problems, but in retrospect, it may not actually be required.</td>
+	</tr>
+	<tr>
+		<td>-ffreestanding</td>
+		<td>Assumes that the standard libraries may not exist. I believe that this is a hint to the linker that we aren't necessarily linking using typical libraries.</td>
+	</tr>
+	<tr>
+		<td>-nostdlib</td>
+		<td>Only use library directories specified on the command line.  We need to have this so that we don't accidentally pick up the Cygwin libc library (or any other libraries that may happen to be in the path)</td>
+	</tr>
+	<tr>
+		<td>-fno-builtin</td>
+		<td>Don't recognise any internal built-in libraries.  Cygwin has a couple of internal functions that it uses to handle things like alloca that we need to disable because they don't have any meaning on the XBOX</td>
+	</tr>
+	<tr>
+		<td>-fno-exceptions</td>
+		<td>Disable exceptions.  This is mainly because my crt0 implementation (in newlib) doesn support exception handling.  If I ever get around to fixing that, we may be able to remove this flag.</td>
+	</tr>
+	<tr>
+		<td>-mno-cygwin</td>
+		<td>Disable Cygwin specific extensions.  There are a bunch of Cygwin specific #ifdefs in the newlib headers/code that get included if you are compiling using Cygwin.  However, they assume that you are compiling with a target of Windows in mind - which is not what we want.</td>
+	</tr>
+	<tr>
+		<td>-march=i386</td>
+		<td>This sets the architecture to i386, but I can't remember exactly why I had to set this, but I think that it had something to do with compiling newlib properly</td>
+	</tr>
+	<tr>
+		<td nowrap>-I/usr/local/openxdk/i386-pc-xbox/include<br>-I/usr/local/openxdk/include</td>
+		<td>This is where we are going to look for any include files.  Note that the installation steps will have copied all of the pre-requisite OpenXDK libraries and header files into these directories.</td>
+	</tr>
+</table>
+
+<h2>Linker Options</h2>
+Compiling is only half the battle.  The next challenge is linking correctly so that CXBE stands a fighting chance of being able to convert the resultant EXE file.  In particular, we need to make sure that there are no other DLLs that we inadvertantly link to.  The table below lists the options that I use to get ld to behave correctly.
+<p>
+<table>
+	<tr><td><b>Flag</b></td><td><b>Rationale</b></td></th>
+	<tr>
+		<td>-nostdlib</td>
+		<td>Only use library directories specified on the command line.  We need to have this so that we don't accidentally pick up the Cygwin libc library (or any other libraries that may happen to be in the path)</td>
+	</tr>
+	<tr>
+		<td>-Wl,--file-alignment,0x20<br>-Wl,--section-alignment,0x20</td>
+		<td>These flags are very important as they setup the file and section alignments.  These are the only combinations that I could find that worked</td>
+	</tr>
+	<tr>
+		<td>-shared</td>
+		<td>This flags actually forces the linker to create a DLL.  We need this to force the linker to add the relocation section (so CXBE can weave its magic when relocating to base address 0x00010000).  Interestingly, the only difference in a PE file between a DLL and an EXE is one single bit (and CXBE ignores that bit when converting to a XBE)</td>
+	</tr>
+	<tr>
+		<td>-Wl,--entry,_WinMainCRTStartup </td>
+		<td>Explicitly sets the entry point of the application so that OpenXDK has a consistent entry point.  OpenXDK does some initialization in this function, and then calls XBOXStartup() - which is your application's entry point.</td>
+	</tr>
+	<tr>
+		<td>-Wl,--strip-all</td>
+		<td>Strips the debugging symbols.  We don't necessarily need this flag, but it reduces the size of the resulting EXE</td>
+	</tr>
+	<tr>
+		<td nowrap>-L/usr/local/openxdk/i386-pc-xbox/lib<br>-L/usr/local/openxdk/lib</td>
+		<td>Because we set the <code>-nostdlib</code> flag, we need to tell the linker where to get its libraries from.  newlib is installed in the first directory, and the rest of the OpenXDK libraries go into the second.</td>
+	</tr>
+	<tr>
+		<td>
+-lSDL<br>
+-lopenxdk<br>
+-lhal<br>
+-lc<br>
+-lhal<br>
+-lc<br>
+-lusb<br>
+-lxboxkrnl<br>
+</td>
+		<td>In general, linking using the GNU toolset is a funny business.  The basic logic is that the linker goes through all of the object files looking for unresolved symbols, which it holds in a list.  It then traverses the list of names of libraries provided by the <code>-l</code> flag (in the order that they are listed on the command line.)  For each library, it finds which symbols are resolved by that library and fills in the gaps from the object files.  However, the libraries themselves may have unresolved symbols, which is where it becomes a bit tricky.  An example probably explains it the best.<p>Consider the case where you have code that calls a function called <code>a1</code>.  You also have two libraries: <code>A</code> and <code>B</code>.  <code>A</code> has a function <code>a1</code> that depends on a function <code>b</code> that is inside library <code>B</code>.  However, <code>b</code> depends on a function <code>a2</code> that is inside library <code>A</code>.  If you use <code>-lA -lB</code>, the linker knows it needs to resolve <code>a1</code> and it finds it in library <code>A</code>.  However, in doing that, it adds another unresolved symbol, <code>b</code>, to the list.  It can't find that in <code>A</code>, so it looks in <code>B</code>.  Yep, no dramas.  However, <code>b</code> depends on <code>a2</code>.  Because the linker didn't keep track of the fact that <code>A</code> contained <code>a2</code>, the link process fails because it couldn't find <code>a2</code>.  The way you get around it is to use <code>-lA -lB -lA</code>, so that after it it looks at library <code>B</code>, it then has one more look through library <code>A</code>.  Now, I hear you ask, why don't you just put <code>B</code> on the list first like <code>-lB -lA</code>?  This doesn't work, because when it looks through <code>B</code>, it is only looking for <code>a1</code>.  It won't find it in <code>B</code>, so it skips to library <code>A</code>.  It will find <code>a1</code> in <code>A</code>, but remember that <code>a1</code> references <code>b</code> (which won't be found unless there is another <code>-lB</code>) so it will bail out with an unresolved symbol.  Weird, huh?  Get used to it though!  That is just how it works.<p>Anyway, the point of all this ramble is to explain why I have such a convoluted collection of libraries being linked (with some of them being included several times).  For example, newlib (<code>-lc</code>) depends on the hal (<code>-lhal</code>), which depends on some common OpenXDK routines (<code>-lopenxdk</code>) that depend on both hal and newlib.  Yikes!</td>
+	</tr>
+</table>
+
+<h2>Example makefile</h2>
+An example of a <code>makefile</code> that I normally use is:
+<pre>
+#
+# update this variable to wherever you installed the OpenXDK libraries
+#
+PREFIX = /usr/local/openxdk
+
+CC = i386-pc-xbox-gcc
+CXBE = cxbe
+
+SDLFLAGS = -DENABLE_XBOX -DDISABLE_CDROM 
+CC_FLAGS = -c -g -std=gnu99 -ffreestanding -nostdlib -fno-builtin -fno-exceptions -mno-cygwin -march=i386 $(SDLFLAGS)
+INCLUDE  = -I$(PREFIX)/i386-pc-xbox/include -I$(PREFIX)/include -I$(PREFIX)/include/SDL
+
+CLINK = -nostdlib
+ALIGN = -Wl,--file-alignment,0x20 -Wl,--section-alignment,0x20 
+SHARED = -shared
+ENTRYPOINT = -Wl,--entry,_WinMainCRTStartup 
+STRIP = -Wl,--strip-all
+LD_FLAGS = $(CLINK) $(ALIGN) $(SHARED) $(ENTRYPOINT) $(STRIP)
+LD_DIRS = -L$(PREFIX)/i386-pc-xbox/lib -L$(PREFIX)/lib 
+LD_LIBS  = $(LD_DIRS) -lSDL -lopenxdk -lhal -lc -lhal -lc -lusb -lxboxkrnl
+
+all: blah.exe
+
+.c.o:
+	$(CC) -c $< $(CC_FLAGS) $(INCLUDE)
+
+blah.exe: blah.o 
+	$(CC) -o $@ $< $(LD_LIBS) $(LD_FLAGS)
+	$(CXBE) -TITLE:"$@" -DUMPINFO:"blah.cxbe" -OUT:"blah.xbe" $@ > /dev/null
+
+clean: 
+	rm -f *.o *.exe *.dll *.xbe *.cxbe
+
+</pre>
+
+<h2>Available APIs</h2>
+So, now that you have enough background to actually do some, what sort of APIs are available?  
+<p>
+<table>
+	<tr>
+		<td><b>API</b></td>
+		<td><b>Description</b></td>
+	</tr>
+	<tr>
+		<td>libc</td>
+		<td>The libc implementation is provided by newlib and includes the normal C library functions.  There are many more than is listed below, but it should give you a good idea of the sorts of functions:
+<ul>
+<li>malloc</li>
+<li>memcpy</li>
+<li>memset</li>
+<li>printf</li>
+<li>sprintf</li>
+<li>fopen</li>
+<li>fread</li>
+<li>fwrite</li>
+<li>fclose</li>
+<li>open</li>
+<li>stat</li>
+<li>close</li>
+<li>time</li>
+<li>strcpy</li>
+<li>strchr</li>
+<li>and so on</li>
+</ul>
+For more information on the functions that are available on newlib, check out the <a href="http://sources.redhat.com/newlib">newlib</a> web site.</td>
+	</tr>
+	<tr>
+		<td>hal</td>
+		<td>The Hardware Abstraction Layer (HAL) is pretty much where all the action happens!  If you want to manipulate files using an XBOX specific API (very similar to Win32), read data from the XBOX contollers, reboot the XBOX, etc, this is how you would do so.  For more details, <a href="apihal.html">click here</a>.</td>
+	</tr>
+	<tr>
+		<td>xboxkrnl</td>
+		<td>This library is the mechanism through which you would invoke the raw XBOX kernel APIs.  Not for the faint of heart, but available if there is no other API exposed through the <code>hal</code> or <code>libc</code>.</td>
+	</tr>
+	<tr>
+		<td>openxdk</td>
+		<td>The <code>openxdk</code> API is not really an API per se.  It is a collection of functions that are used internally within OpenXDK.  The main function that comes with the <code>openxdk</code> library is the implementation of the <code>WinMainCRTStartup()</code> function.  This is where the OpenXDK gains control and it is this function that will eventually call your <code>XBOXStartup()</code> function.</td>
+	</tr>
+	<tr>
+		<td>usb</td>
+		<td>This library was 100% written by <a href="http://www.xbdev.net">Ben Kenwright</a>.  I don't know too much about how it works yet... I just know that it does.  Once I gain a better understanding, I will try to document the available functions and how you call them. </td>
+	</tr>
+	<tr>
+		<td>SDL</td>
+		<td>The Simple DirectMedia Layer (SDL) is an awesome collection of cross platform multimedia libraries.  I have ported the video and joystick components to run under OpenXDK.  There are plenty of books, articles and tutorials on how to use SDL avaialable at the <a href="http://www.libsdl.org">libsdl</a> website. Hopefully as time progresses, more SDL functionality will be ported over to run in OpenXDK (audio are fairly high on my priority list)</td>
+	</tr>
+</table>
+<p>
+In general, you will find that there are several APIs available that do the same thing.  A good example of this is opening a file.  You can do this in one of three ways.  The table below shows the different ways you might choose to do it:
+<p>
+<table>
+<tr><td><b>API</b></td><td><b>Code</b></td></tr>
+<tr><td>libc</td><td><code>FILE *fp = fopen("c:/tmp/blah.txt", "r");</code></td></tr>
+<tr><td>hal</td><td><code>
+int handle;<br>
+XCreateFile(&handle, "c:/tmp/blah.txt", GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL);</code></td></tr>
+<tr><td>xboxkrnl</td><td><code>
+int handle;<br>
+String file = "\\Device\\Harddisk0\\Partition2\\blah.txt"<br>
+ANSI_STRING tmp;<br>
+OBJECT_ATTRIBUTES objectAttributes;<br>
+IO_STATUS_BLOCK ioStatusBlock;<br>
+NTSTATUS status;<br>
+RtlInitAnsiString(&file, tmp);<br>
+objectAttributes.RootDirectory = NULL;<br>
+objectAttributes.Attributes = OBJ_CASE_INSENSITIVE;<br>
+objectAttributes.ObjectName = tmp;<br>
+status = NTCreateFile(<br>
+&nbsp;&nbsp;(PHANDLE)handle,<br>
+&nbsp;&nbsp;GENERIC_READ,<br>
+&nbsp;&nbsp;&objectAttributes,<br>
+&nbsp;&nbsp;&ioStatusBlock,<br>
+&nbsp;&nbsp;NULL,<br>
+&nbsp;&nbsp;0,<br>
+&nbsp;&nbsp;0,<br>
+&nbsp;&nbsp;FILE_OPEN,<br>
+&nbsp;&nbsp;FILE_RANDOM_ACCESS);<br>
+</code></td></tr>
+</table>
+<p>As you can see, using the <code>xboxkrnl</code> APIs make for much more complicated code.  The <code>hal</code> and <code>libc</code> libraries hide much of the complexity for you.
+Typically, you would be using either <code>hal</code> or <code>libc</code> for day-to-day coding, and using the SDL capabilities for your multimedia.
+<br>
+<hr>
+<center>Back to <a href="index.html">Home Page</a></center>
+</html>

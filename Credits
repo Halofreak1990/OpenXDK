@@ -1,0 +1,25 @@
+Credits
+-------
+
+- Obviously Caustik, et al for the original OpenXDK.
+- Myria for explaining the vagaries of the xboxkrnl
+- Andy Green for writing the Cromwell audio that I based
+  the OpenXDK audio on, and answering my ridiculously naive 
+  questions about how audio works
+- The SDL gurus at com.lib.sdl - thanks so much for listening to
+  and answering my endless questions on SDL
+- The good folks at alt.os.development for teaching me how to hook
+  hardware interrupts from protected mode
+- Ender and Tom for their feedback on getting cross-compilation on
+  Linux working.
+- xphile for migrating the whole build process to automake and doing 
+  the final work on getting Linux compilation to work.
+- Robin Mulloy for providing some neat scrolling code to debugPrint()
+- Carcharius for his tireless efforts creating the USB stack (which 
+  now support controllers, keyboards, mice, remotes).  He also solved
+  the long-standing issue with xecuter bios/dashboards and added some
+  much-needed video support code.  Invaluable!
+- d0wnlab for porting SDL_image, SDL_ttf, libpng, libjpeg, libxml, and
+  zlib.
+- tBBle for providing a bunch of autoconf/automake improvements to
+  better support Linux out-of-tree builds.

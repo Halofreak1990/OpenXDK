@@ -1,0 +1,184 @@
+Only in orig/freetype-2.1.9: Makefile
+Only in xbox/freetype-2.1.9/builds/unix: config.log
+diff -r -u orig/freetype-2.1.9/include/freetype/config/ftmodule.h xbox/freetype-2.1.9/include/freetype/config/ftmodule.h
+--- orig/freetype-2.1.9/include/freetype/config/ftmodule.h	2004-06-24 01:44:02.000000000 +1000
++++ xbox/freetype-2.1.9/include/freetype/config/ftmodule.h	2005-01-27 09:31:54.000000000 +1100
+@@ -1,19 +1,13 @@
+ FT_USE_MODULE(autohint_module_class)
+ FT_USE_MODULE(tt_driver_class)
+-FT_USE_MODULE(t1_driver_class)
+ FT_USE_MODULE(cff_driver_class)
+-FT_USE_MODULE(t1cid_driver_class)
+-FT_USE_MODULE(pcf_driver_class)
+ FT_USE_MODULE(bdf_driver_class)
+ FT_USE_MODULE(psaux_module_class)
+ FT_USE_MODULE(psnames_module_class)
+-FT_USE_MODULE(pshinter_module_class)
+ FT_USE_MODULE(ft_raster1_renderer_class)
+ FT_USE_MODULE(sfnt_module_class)
+ FT_USE_MODULE(ft_smooth_renderer_class)
+ FT_USE_MODULE(ft_smooth_lcd_renderer_class)
+ FT_USE_MODULE(ft_smooth_lcdv_renderer_class)
+-FT_USE_MODULE(t42_driver_class)
+ FT_USE_MODULE(pfr_driver_class)
+ FT_USE_MODULE(winfnt_driver_class)
+-
+diff -r -u orig/freetype-2.1.9/include/freetype/config/ftstdlib.h xbox/freetype-2.1.9/include/freetype/config/ftstdlib.h
+--- orig/freetype-2.1.9/include/freetype/config/ftstdlib.h	2004-02-25 23:58:53.000000000 +1100
++++ xbox/freetype-2.1.9/include/freetype/config/ftstdlib.h	2005-01-27 09:31:54.000000000 +1100
+@@ -132,6 +132,7 @@
+ #define ft_longjmp  longjmp   /* "               */
+ 
+ 
++
+   /* the following is only used for debugging purposes, i.e. when */
+   /* FT_DEBUG_LEVEL_ERROR or FT_DEBUG_LEVEL_TRACE are defined     */
+   /*                                                              */
+Only in xbox/freetype-2.1.9/src: Makefile.xbox
+Only in xbox/freetype-2.1.9/src/cid: type1cid.o
+diff -r -u orig/freetype-2.1.9/src/gzip/infutil.h xbox/freetype-2.1.9/src/gzip/infutil.h
+--- orig/freetype-2.1.9/src/gzip/infutil.h	2003-06-10 06:55:04.000000000 +1000
++++ xbox/freetype-2.1.9/src/gzip/infutil.h	2005-01-18 02:38:21.000000000 +1100
+@@ -86,7 +86,7 @@
+ 
+ /* masks for lower bits (size given to avoid silly warnings with Visual C++) */
+ #ifndef NO_INFLATE_MASK
+-local uInt inflate_mask[17];
++local const uInt inflate_mask[17];
+ #endif
+ 
+ /* copy as much as possible from the sliding window to the output area */
+Only in xbox/freetype-2.1.9/src: i386mach.h
+diff -r -u orig/freetype-2.1.9/src/lzw/zopen.c xbox/freetype-2.1.9/src/lzw/zopen.c
+--- orig/freetype-2.1.9/src/lzw/zopen.c	2004-06-15 23:57:00.000000000 +1000
++++ xbox/freetype-2.1.9/src/lzw/zopen.c	2005-01-18 02:42:14.000000000 +1100
+@@ -75,6 +75,8 @@
+ #include <unistd.h>
+ #endif
+ 
++#include "zopen.h"
++
+ #if 0
+ static char_type magic_header[] =
+ 	{ 0x1f, 0x9d };		/* 1F 9D */
+@@ -177,7 +179,7 @@
+  * code in turn.  When the buffer fills up empty it and start over.
+  */
+ 
+-static const char_type rmask[9] =
++static const char rmask[9] =
+ 	{0x00, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f, 0xff};
+ 
+ /*
+diff -r -u orig/freetype-2.1.9/src/otlayout/otlayout.h xbox/freetype-2.1.9/src/otlayout/otlayout.h
+--- orig/freetype-2.1.9/src/otlayout/otlayout.h	2002-11-07 12:36:29.000000000 +1100
++++ xbox/freetype-2.1.9/src/otlayout/otlayout.h	2005-01-18 02:51:51.000000000 +1100
+@@ -17,7 +17,7 @@
+   typedef unsigned char     OTL_Byte;
+   typedef const OTL_Byte*   OTL_Bytes;
+ 
+-  typedef int               OTL_Error;
++  //typedef int               OTL_Error;
+ 
+   typedef void*             OTL_Pointer;
+ 
+@@ -181,8 +181,7 @@
+ 
+   } OTL_ValidatorRec;
+ 
+-  typedef void  (*OTL_ValidateFunc)( OTL_Bytes  table,
+-                                     OTL_Valid  valid );
++//  void OTL_ValidateFunc ( OTL_Bytes table, OTL_Valid  valid );
+ 
+   OTL_API( void )
+   otl_validator_error( OTL_Validator  validator,
+diff -r -u orig/freetype-2.1.9/src/otlayout/otltags.h xbox/freetype-2.1.9/src/otlayout/otltags.h
+--- orig/freetype-2.1.9/src/otlayout/otltags.h	2002-12-03 11:37:10.000000000 +1100
++++ xbox/freetype-2.1.9/src/otlayout/otltags.h	2005-01-18 02:48:14.000000000 +1100
+@@ -14,46 +14,46 @@
+ #define OTL_SCRIPT_TAG(c1,c2,c3,c4,s,n)  /* void */
+ #endif
+ 
+-OTL_SCRIPT_TAG( 'a','r','a','b', "Arabic", ARABIC )
+-OTL_SCRIPT_TAG( 'a','r','m','n', "Armenian", ARMENIAN )
+-OTL_SCRIPT_TAG( 'b','e','n','g', "Bengali", BENGALI )
+-OTL_SCRIPT_TAG( 'b','o','p','o', "Bopomofo", BOPOMOFO )
+-OTL_SCRIPT_TAG( 'b','r','a','i', "Braille", BRAILLE )
+-OTL_SCRIPT_TAG( 'b','y','z','m', "Byzantine Music", BYZANTINE_MUSIC )
+-OTL_SCRIPT_TAG( 'c','a','n','s', "Canadian Syllabic", CANADIAN )
+-OTL_SCRIPT_TAG( 'c','h','e','r', "Cherokee", CHEROKEE )
+-OTL_SCRIPT_TAG( 'h','a','n','i', "CJK Ideographic", CJK )
+-OTL_SCRIPT_TAG( 'c','y','r','l', "Cyrillic", CYRILLIC )
+-OTL_SCRIPT_TAG( 'd','f','l','t', "Default", DEFAULT )
+-OTL_SCRIPT_TAG( 'd','e','v','a', "Devanagari", DEVANAGARI )
+-OTL_SCRIPT_TAG( 'e','t','h','i', "Ethiopic", ETHIOPIC )
+-OTL_SCRIPT_TAG( 'g','e','o','r', "Georgian", GEORGIAN )
+-OTL_SCRIPT_TAG( 'g','r','e','k', "Greek", GREEK )
+-OTL_SCRIPT_TAG( 'g','u','j','r', "Gujarati", GUJARATI )
+-OTL_SCRIPT_TAG( 'g','u','r','u', "Gurmukhi", GURMUKHI )
+-OTL_SCRIPT_TAG( 'j','a','m','o', "Hangul Jamo", JAMO )
+-OTL_SCRIPT_TAG( 'h','a','n','g', "Hangul", HANGUL )
+-OTL_SCRIPT_TAG( 'h','e','b','r', "Hebrew", HEBREW )
+-OTL_SCRIPT_TAG( 'h','i','r','a', "Hiragana", HIRAGANA ) /* not in TAGS.txt */
+-OTL_SCRIPT_TAG( 'k','n','d','a', "Kannada", KANNADA )
+-OTL_SCRIPT_TAG( 'k','a','n','a', "Katakana", KATAKANA ) /* in TAGS.txt, means Hiragana _and_ Katakana */
+-OTL_SCRIPT_TAG( 'k','h','m','r', "Khmer", KHMER )
+-OTL_SCRIPT_TAG( 'l','a','o',' ', "Lao", LAO )
+-OTL_SCRIPT_TAG( 'l','a','t','n', "Latin", LATIN )
+-OTL_SCRIPT_TAG( 'm','l','y','m', "Malayalam", MALAYALAM )
+-OTL_SCRIPT_TAG( 'm','o','n','g', "Mongolian", MONGOLIAN )
+-OTL_SCRIPT_TAG( 'm','y','m','r', "Myanmar", MYANMAR )
+-OTL_SCRIPT_TAG( 'o','g','a','m', "Ogham", OGHAM )
+-OTL_SCRIPT_TAG( 'o','r','y','a', "Oriya", ORIYA )
+-OTL_SCRIPT_TAG( 'r','u','n','r', "Runic", RUNIC )
+-OTL_SCRIPT_TAG( 's','i','n','h', "Sinhala", SINHALA )
+-OTL_SCRIPT_TAG( 's','y','r','c', "Syriac", SYRIAC )
+-OTL_SCRIPT_TAG( 't','a','m','l', "Tamil", TAMIL )
+-OTL_SCRIPT_TAG( 't','e','l','u', "Telugu", TELUGU )
+-OTL_SCRIPT_TAG( 't','h','a','a', "Thaana", THAANA )
+-OTL_SCRIPT_TAG( 't','h','a','i', "Thai", THAI )
+-OTL_SCRIPT_TAG( 't','i','b','t', "Tibetan", TIBETAN )
+-OTL_SCRIPT_TAG( 'y','i',' ',' ', "Yi", YI )
++// OTL_SCRIPT_TAG( 'a','r','a','b', "Arabic", ARABIC )
++// OTL_SCRIPT_TAG( 'a','r','m','n', "Armenian", ARMENIAN )
++// OTL_SCRIPT_TAG( 'b','e','n','g', "Bengali", BENGALI )
++// OTL_SCRIPT_TAG( 'b','o','p','o', "Bopomofo", BOPOMOFO )
++// OTL_SCRIPT_TAG( 'b','r','a','i', "Braille", BRAILLE )
++// OTL_SCRIPT_TAG( 'b','y','z','m', "Byzantine Music", BYZANTINE_MUSIC )
++// OTL_SCRIPT_TAG( 'c','a','n','s', "Canadian Syllabic", CANADIAN )
++// OTL_SCRIPT_TAG( 'c','h','e','r', "Cherokee", CHEROKEE )
++// OTL_SCRIPT_TAG( 'h','a','n','i', "CJK Ideographic", CJK )
++// OTL_SCRIPT_TAG( 'c','y','r','l', "Cyrillic", CYRILLIC )
++// OTL_SCRIPT_TAG( 'd','f','l','t', "Default", DEFAULT )
++// OTL_SCRIPT_TAG( 'd','e','v','a', "Devanagari", DEVANAGARI )
++// OTL_SCRIPT_TAG( 'e','t','h','i', "Ethiopic", ETHIOPIC )
++// OTL_SCRIPT_TAG( 'g','e','o','r', "Georgian", GEORGIAN )
++// OTL_SCRIPT_TAG( 'g','r','e','k', "Greek", GREEK )
++// OTL_SCRIPT_TAG( 'g','u','j','r', "Gujarati", GUJARATI )
++// OTL_SCRIPT_TAG( 'g','u','r','u', "Gurmukhi", GURMUKHI )
++// OTL_SCRIPT_TAG( 'j','a','m','o', "Hangul Jamo", JAMO )
++// OTL_SCRIPT_TAG( 'h','a','n','g', "Hangul", HANGUL )
++// OTL_SCRIPT_TAG( 'h','e','b','r', "Hebrew", HEBREW )
++// OTL_SCRIPT_TAG( 'h','i','r','a', "Hiragana", HIRAGANA ) /* not in TAGS.txt */
++// OTL_SCRIPT_TAG( 'k','n','d','a', "Kannada", KANNADA )
++// OTL_SCRIPT_TAG( 'k','a','n','a', "Katakana", KATAKANA ) /* in TAGS.txt, means Hiragana _and_ Katakana */
++// OTL_SCRIPT_TAG( 'k','h','m','r', "Khmer", KHMER )
++// OTL_SCRIPT_TAG( 'l','a','o',' ', "Lao", LAO )
++// OTL_SCRIPT_TAG( 'l','a','t','n', "Latin", LATIN )
++// OTL_SCRIPT_TAG( 'm','l','y','m', "Malayalam", MALAYALAM )
++// OTL_SCRIPT_TAG( 'm','o','n','g', "Mongolian", MONGOLIAN )
++// OTL_SCRIPT_TAG( 'm','y','m','r', "Myanmar", MYANMAR )
++// OTL_SCRIPT_TAG( 'o','g','a','m', "Ogham", OGHAM )
++// OTL_SCRIPT_TAG( 'o','r','y','a', "Oriya", ORIYA )
++// OTL_SCRIPT_TAG( 'r','u','n','r', "Runic", RUNIC )
++// OTL_SCRIPT_TAG( 's','i','n','h', "Sinhala", SINHALA )
++// OTL_SCRIPT_TAG( 's','y','r','c', "Syriac", SYRIAC )
++// OTL_SCRIPT_TAG( 't','a','m','l', "Tamil", TAMIL )
++// OTL_SCRIPT_TAG( 't','e','l','u', "Telugu", TELUGU )
++// OTL_SCRIPT_TAG( 't','h','a','a', "Thaana", THAANA )
++// OTL_SCRIPT_TAG( 't','h','a','i', "Thai", THAI )
++// OTL_SCRIPT_TAG( 't','i','b','t', "Tibetan", TIBETAN )
++// OTL_SCRIPT_TAG( 'y','i',' ',' ', "Yi", YI )
+ 
+ #undef OTL_SCRIPT_TAG
+ 

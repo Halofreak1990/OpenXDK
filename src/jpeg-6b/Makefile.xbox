@@ -1,0 +1,38 @@
+#
+ALL = \
+	jcapimin.c jcapistd.c jccoefct.c jccolor.c jcdctmgr.c jchuff.c \
+        jcinit.c jcmainct.c jcmarker.c jcmaster.c jcomapi.c jcparam.c \
+        jcphuff.c jcprepct.c jcsample.c jctrans.c jdapimin.c jdapistd.c \
+        jdatadst.c jdatasrc.c jdcoefct.c jdcolor.c jddctmgr.c jdhuff.c \
+        jdinput.c jdmainct.c jdmarker.c jdmaster.c jdmerge.c jdphuff.c \
+        jdpostct.c jdsample.c jdtrans.c jerror.c jfdctflt.c jfdctfst.c \
+        jfdctint.c jidctflt.c jidctfst.c jidctint.c jidctred.c jquant1.c \
+        jquant2.c jutils.c jmemmgr.c jmemnobs.c
+
+CC = i386-pc-xbox-gcc
+AR = i386-pc-xbox-ar
+DEFS =-DENABLE_XBOX
+
+TARGET = libjpeg.a
+
+OPTFLAGS=-O2 -fomit-frame-pointer -std=gnu99 -ffreestanding -nostdlib -fno-builtin -fno-exceptions -mno-cygwin -march=i386
+CFLAGS=$(DEFS) -I. -I$(PREFIX)/i386-pc-xbox/include -I$(PREFIX)/include $(OPTFLAGS)
+
+SRCS = $(ALL)
+
+OBJS = $(SRCS:.c=.o)
+
+all: $(TARGET) 
+
+clean:
+	rm -f $(OBJS) $(TARGET)
+
+$(TARGET) : $(OBJS)
+	$(AR) rcs $(TARGET) $(OBJS)
+
+install: $(TARGET)
+	cp $(TARGET) $(PREFIX)/lib
+	cp jconfig.h $(PREFIX)/include
+	cp jmorecfg.h $(PREFIX)/include
+	cp jpeglib.h $(PREFIX)/include
+

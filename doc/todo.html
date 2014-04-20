@@ -1,0 +1,22 @@
+<html>
+<link rel="STYLESHEET" href="style.css" Type="text/css"/>
+
+<h1>Things to do</h1>
+This is the list of known outstanding tasks.
+<ul>
+<li>Audio drivers.  The audio chip is a NVIDIA nForce, which apparently supports AC97.  The catch is that I need some basic routines to access the chip at a low level.</li>
+<li>Network drivers.  The chip that provides the networking capabilities is the NVIDIA nForce and, like the audio, I need low level routines to manipulate the chip.  I have been considering using the <a href="http://www.sics.se/~adam/lwip/">LWIP</a> TCP/IP network stack, but am open to suggestions</li>
+<li>External USB device support (other than XBOX controllers)</li>
+<li><code>fork()</code> support.  There is a kernel API to create a new thread, however, it expects to launch a new function, rather than continuing from the current location (as per <code>fork</code>). Not sure what to do about this...</li>
+<li>Test <code>XRenameFile()</code>, <code>XCreateDirectory()</code>, <code>XDeleteFile()</code>, <code>XDeleteDirectory()</code>.  I wrote these but haven't got around to testing them yet.</li>
+<li>Support multiple video modes in the graphics APIs.</li>
+<li>Fix <code>freopen(stdout)</code> so that it overwrites the file if already there</li>
+<li>Wrap <code>debugPrint()</code> from bottom of page to top</li>
+<li>Currently <code>alloca()</code> is not implemented.  I have tried several incantations, but none of them work very well.</li>
+<li>The <code>times()</code> function currently returns the time since the XBOX was turned on (which is fine if you are just checking to see how long things take. ie. comparing the result from subsequent <code>times()</code> incantations), but is no good if you need to know the current time.</li>
+<li>Create <code>&lt;dirent.h&gt;</code> functions such as <code>opendir(), readdir()</code>, et al</li>
+</ul>
+<br>
+<hr>
+<center>Back to <a href="index.html">Home Page</a></center>
+</html>

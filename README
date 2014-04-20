@@ -1,0 +1,11 @@
+OpenXDK
+
+This is an open development environment to create applications on the XBOX.  
+In summary, it has the following features:
+
+- Working libc layer (fopen, malloc, times, etc).  alloca is not supported.
+- Multimedia support via SDL
+- Gamepad controller support
+- Audio support
+  
+For more documentation, see the doc directory.

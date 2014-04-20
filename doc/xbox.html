@@ -1,0 +1,77 @@
+<html>
+<link rel="STYLESHEET" href="style.css" Type="text/css"/>
+
+<h1>So what is inside your XBOX?</h1>
+<h2>Introduction</h2>
+I think that the number one resource for XBOX info is definitely <a href="http://www.xbox-scene.com/">XBOX Scene</a>.  I can't begin to describe the amount of information that is contained on this site and it would be time well spent just reading through many of the tutorials contained therein.
+<p>
+In addition, there are interactive <a href="http://forums.xbox-scene.com/">forums</a> that you can ask and answer questions about a myriad of topics.  Be sure to read the FAQ first though!
+<h2>Hardware</h2>
+One particular article that gave me excellent insight into the XBOX's hardware was from <a href="http://www.anandtech.com/showdoc.aspx?i=1561&p=1">AnandTech</a>.  So, lets summarise, shall we?
+<p>
+<table>
+<tr>
+	<td>CPU</td>
+	<td>The CPU is a modified variant of a Coppermine based Pentium III with 128KB L2 cache.  For all intents and purposes, think of it as an Intel Celeron 733MHz (with an 8-way associative cache - instead of the usual 4-way).  It supports the typical Intel assembler instruction set (including MMX and SSE, but not SSE2).</td>
+</tr>
+<tr>
+	<td>Memory</td>
+	<td>A retail XBOX comes with 64MB DDR SDRAM with 5ns parts running at 200MHz (thanks to DDR, it will scale up to 400MHz).  Apparently, you can upgrade to 128MB (it isn't for the faint hearted), but it is of little use because nearly all games are expecting only 64MB.</td>
+</tr>
+<tr>
+	<td>Hard drive</td>
+	<td>The hard drive is a normal IDE harddrive that is formatted using <a href="http://www.xbox-linux.org/docs/fatxfat.html">FATX</a> (a slightly modified version of the normal FAT format).  Typically the hard drive is 8-10GB when installed.</td>
+</tr>
+<tr>
+	<td>Video GPU</td>
+	<td>The Graphics Processing Unit is a modified nVIDIA nFORCE 420-D.  The typical nFORCE IGP chip on the PC features a GeForce2 MX (NV11) core, the XBOX IGP has a custom designed core known as the NV2A.  The general concensus seems to be that the feature set is somewhat akin to the NV20 (GeForce3).</td>
+</tr>
+<tr>
+	<td>Audio</td>
+	<td>The XBOX Media and Communication Processor (MCP) is identical to the nFORCE MCP-D with Dolby Digital encoding support.  This provides full 5.1 channel capabilities.</td>
+</tr>
+<tr>
+	<td>DVD</td>
+	<td>The DVD player is a normal IDE DVD player (with a slightly customised power supply cable).  The key difference is that the media is burnt from the outside-in (a normal DVD is burnt from the inside tracks outward).  A downside of this is that a normal DVD reader is unable to read XBOX DVDs.  However, the XBOX DVD has the capability for reading both XBOX DVDs, normal DVDs, and normal CDs.</td>
+</tr>
+<tr>
+	<td>Ethernet</td>
+	<td>The XBOX comes with a built-in 10/100 Ethernet controller.</td>
+</tr>
+<tr>
+	<td>USB</td>
+	<td>The XBOX controllers are basically USB devices (with one extra power wire - presumably to power the rumble effect).  There have been reports of people wiring USB hubs onto the motherboard, thus giving access to a wide range of USB devices.</td>
+</tr>
+</table>
+
+<h2>Software</h2>
+A pretty good overview of the way the XBOX works from a software perspective can be found at <a href="http://www.xbox365.com/stories/xdkcomplete.shtml">XBOX365</a>.
+
+<h3>Operating System</h3>
+When you turn your XBOX on, after loading the BIOS (whether it be the original Microsoft BIOS, or a BIOS such as cromwell in a modchip), the operating system is decompressed, verified and started.  For a more thorough description, look at the <a href="http://www.xbox-linux.org/docs/msbios.html">XBOX boot process</a> description provided by the good folk at the xbox-linux project.  The actual kernel is a slightly modified version of the Windows NT/2000 kernel, and as you will see later on, has many of the same function calls (eg. NtCreateFile).  Once the kernel has successfully loaded, it looks for a dashboard to launch.  The default location for the dashboard is c:\default.xbe.
+<p>
+The XBOX kernel is only capable of running one process (or application - they are the same thing to the kernel) at a time. Note that processes can, however, spawn multiple threads.  Your dashboard is really just a sophisticated application that has the ability to launch other applications (technically, when you launch an application from your dashboard, it actually replaces your dashboard as the currently executing process).
+<p>
+The kernel is often referred to as <b>xboxkrnl.exe</b>.  The kernel provides a number of functions that you can call (such as NtCreateFile, ExAllocatePool, etc) and from an execution perspective, you can essentially pretend that there is a system DLL called xboxkrnl.exe that exports these functions.  Then when you run your application, it imports those function symbols just as though they were accessed from a normal Windows DLL.  However, and this is a key point, there is no notion of DLLs on an XBOX.  The <b>only</b> dynamically linked file is the xboxkrnl.exe.  Everything else is statically compiled into the XBOX application.  A trick that is often used by the commercial game developers so that they don't have applications that are 10GB in size is to create smaller applications that represent different parts of the game, and then launch them individually.  For example, they may have an application that lets you configure all of the settings, and then another application for each campaign, etc.  When you start the game it launches the introduction application.  It then replaces itself with the application for campaign 1, and so on.  
+<p>
+Remember though, you can only have one application running at any one time.
+
+<h3>XBOX Applications - XBE files</h3>
+So, what exactly is an XBOX application?  In a similar fashion to NT/2000, there is a naming convention used to identify an executable program.   On NT/2000 the file extension is .EXE, on the XBOX, it is <b>.XBE</b>.  So, what exactly is inside an XBE file?  Well, it is pretty much just like a NT/2000 executable (which is in Portable Executable (PE) format).  The header of an XBE is slightly different, but the rest of the file is very, very similar.  For a detailed description of the actual contents of an XBE file, have a look at <a href="http://www.caustik.com/xbox/download/xbe.htm">Caustik's XBE file format documentation</a>.
+<p>
+If you are just going to be developing XBOX applications, you probably don't really care about the layout of an XBE, however, it is useful background information nonetheless.  If you intend to extend OpenXDK, then there are a number of important considerations that you will need to be aware of.
+<p>
+It is probably a good idea to review some details regarding PE files.  For more details about PE files than you can poke a stick at, check out <a href="http://www.msdn.microsoft.com/msdnmag/issues/02/02/PE/default.aspx">Article 1</a> and <a href="http://www.msdn.microsoft.com/msdnmag/issues/02/03/PE2/default.aspx">Article 2</a> by <a href="http://www.wheaty.net.">Matt Peitrek</a>.  These provide an enormous amount of detail about how PE files work under the covers.  A very useful tool that I used to gather information about the internals of a PE file is <a href="http://www.wheaty.net/pedump.zip">PEDump</a>.
+<p>
+Some important things that you should know about XBE files (as opposed to PE files) are:
+<ul>
+<li>Only one XBE can be running at any one time</li>
+<li>The only "DLL" that an XBE can import functionality from is xboxkrnl.exe.  All other functionality <b>must</b> be statically compiled into the XBE.</li>
+<li>When importing functions from xboxkrnl.exe, it has to be done by ordinal, not by name.  Normally this will not affect OpenXDK developers because this linkage has been setup by the OpenXDK (through the <code>xboxkrnl.exe.def</code> file).  See <a href="extending.html">Extending OpenXDK</a> for further details.</li>
+<li>XBE files are always loaded at address 0x00010000.</li>
+</ul>
+<br>
+<hr>
+<center>Back to <a href="index.html">Home Page</a></center>
+</html>
+</ul>

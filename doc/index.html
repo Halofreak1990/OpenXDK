@@ -1,0 +1,118 @@
+<html>
+<link rel="STYLESHEET" href="style.css" Type="text/css"/>
+
+<h1>OpenXDK - Open XBOX Development Kit</h1>
+Welcome to the OpenXDK!!  OpenXDK is a kit for developing applications that will
+run on the Microsoft XBOX.  It has the following features:
+<ul>
+<li>Compilable using a GCC-based toolchain. It now compiles using the Cygwin GCC compiler. Unfortunately, as much 
+as it would have been desirable to support both MS and GNU toolchains, the practicalities are such that the MS 
+compilers are no longer supported. Sorry! (Although, theoretically, you should be able to compile your 
+application using the MS compilers and link in the GCC-compiled OpenXDK libraries.)</li>
+<li>It now contains a complete libc replacement (thanks to newlib.) This means that 99% of the normal stdio, 
+memory, sprintf, et al routines are available.</li>
+<li>Multimedia support is provided using the Simple DirectMedia Layer (SDL) and supports video, audio, joysticks and 
+event handling. Video is currently limited to 640x480 or smaller. Only one joystick/pad is supported (but that 
+is expected to be fixed soon.)</li>
+<li>To demonstrate the capabilities of the current OpenXDK framework, the SDL port of Doom (without sound or 
+networking) is able to be compiled and executed. You will need to find a DOOM1.WAD (shareware) and put it in 
+the root of your XBOX's C drive.</li>
+<li>Networking is currently not supported. If you have experience in interfacing with the NVidia 
+nForce MCP-D chip at the hardware/driver level, please get involved!</li>
+<li>Now with both Windows and <b>Linux</b> support!</li>
+</ul>
+<p>
+To download OpenXDK, pay a visit to the <a href="http://openxdk.sourceforge.net">OpenXDK SourceForge</a> page.
+<p>
+For more information, click on one of the following topics:
+<ul>
+<li><a href="xbox.html">Stuff you should know about the XBOX</a></li>
+<li><a href="overview.html">Overview of OpenXDK</a></li>
+<li><a href="installing.html">Installing OpenXDK</a></li>
+<li><a href="developing.html">How to develop an OpenXDK application</a></li>
+<li><a href="faq.html">Frequently Asked Questions</a></li>
+<li><a href="apihal.html">Supplied API documentation</a></li>
+<li><a href="extending.html">So, you want to add more functionality to OpenXDK?</a></li>
+<li><a href="samples.html">Sample Programs</a></li>
+<li><a href="todo.html">Things still to do</a></li>
+<li><a href="links.html">Useful Links</a></li>
+</ul>
+<p>
+<h2>Latest News</h2>
+<table>
+<tr><td>
+<b>16th December 2004 - Release 0.06</b>
+<p>A new version (0.06) of the OpenXDK has just been released. 
+<p>The key features in this release are as follows:
+<ul>
+<li>Support for compiling on both Linux and Windows though migration to automake/autoconf based builds</li>
+<li>Enhanced directory handling.  For example, the notion of current directory is now supported, as well as being able to list and navigate through files and directories</li>
+<li>Increased audio support.  SDLAudio will now auto-convert the various sample rates and frequencies</li>
+<li>Lastly, hopefully a start at supporting the Xecuter (and other debug-based) BIOSes.  Please let me know if you still have troubles with OpenXDK applications on these BIOSes</li>
+</ul>
+<p>A special thanks to Tom and Ender for their initial feedback and testing of the Linux builds.  Likewise, to xphile for his tireless work converting the build process to automake.
+<p>This will be the last update for a few months as I leave very shortly to embark on a 3 month holiday.  However, when I return, I will be concentrating on:
+<ul>
+<li>SDL support for JPG, GIF, and PNG</li>
+<li>MP3 support</li>
+<li>Networking</li>
+<li>Building a simple demo dashboard - if it hasn't already been done by the time I get back :-)</li>
+</ul>
+</td></tr>
+</table>
+<br>
+<table>
+<tr><td>
+<b>7th November 2004 - Release 0.05</b>
+<p>A new version (0.05) of the OpenXDK has just been released. 
+<p>The feature that is of most interest is <b>audio support</b>.  Currently, only 
+16-bit stereo 44kHz samples are supported, but auto-conversion for other types 
+will be supported soon.  The SDL_Audio layer will attempt to convert to something 
+playable, but the conversion is still experimental.
+<p>In addition to this, OpenXDK also supports SDL_File, SDL_Timer, SDL_Thread, 
+SDL_Mutex and SDL_Semaphore.
+<p>This release also contains a couple of minor bugfixes to the newlib/libc layer.
+<p>A huge thank you to Andy Green (for writing the original Cromwell sound 
+layer and answering my ridiculously naive audio questions) and also to the 
+guys on the comp.lib.sdl newsgroup for their patience and advice.
+</td></tr>
+</table>
+<br>
+<table>
+<tr><td>
+<b>13th October 2004 - Xecuter BIOS problems</b>
+<p>There are some known problems executing OpenXDK applications on chips that 
+have the Xecuter BIOS.  The problem has been around for quite a while (since 2002), but I cannot
+find anyone from xecuter that is able to give me any information as to what is 
+actually causing the problem.
+<p>If you have any information about this, please let me know.
+</td></tr>
+</table>
+<br>
+<table>
+<tr><td>
+<b>7th October 2004 - Release 0.04.1</b>
+<p>Well, I inadvertantly checked in some of the automake/autoconf files that contained some
+hardcoded paths to my local workspace.  Sorry!  Please update to the latest build.
+<p>I also have added a binary package that contains just the cygwin-precompiled OpenXDK
+libraries and header files.  Unzip it into <code>/usr/local</code> and you should be 
+able to compile your own programs.
+<p>Lastly, I added the ability to launch XBE files using either <code>XLaunchXBE()</code> or 
+<code>execve()</code>) APIs.  This gets us much closer to being able to write a dashboard
+of some sort.  What is still outstanding is how to get a list of files.  I am investigating
+using the POSIX opendir/readdir/etc API to do so (I might also provide an API that 
+looks more like the Microsoft <code>FindFirstFile</code>... we'll see!).
+</td></tr>
+</table>
+<br>
+<table>
+<tr><td>
+<b>4th October 2004 - Release 0.04</b>
+<p>The Cygwin compilable OpenXDK gets released to the public.
+</td></tr>
+</table>
+<p>All feedback, suggestions, corrections and offers of assistance welcome. 
+<p>
+<code>craig (at) openxdk (dot) org</code>.
+<br>
+</html>
