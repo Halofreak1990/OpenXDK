@@ -1,348 +1,450 @@
 <html>
-<link rel="STYLESHEET" href="style.css" Type="text/css"/>
+<head>
+	<title>API - HAL</title>
+	<link rel="STYLESHEET" href="style.css" type="text/css"/>
+</head>
+<body>
+	<h1>API - HAL</h1>
+	The hal API is made up of several subsystems that each operate independantly of one another.  This document describes the available APIs and gives some advice and examples on the usage of each.
 
-<h1>API - HAL</h1>
-The hal API is made up of several subsystems that each operate independantly of one another.  This document describes the available APIs and gives some advice and examples on the usage of each.
+	<h2>General XBOX Functionality</h2>
+	<table>
+		<tr><td style="width: 280px; white-space: nowrap"><b>Function</b></td><td><b>Description</b></td></tr>
+		<tr><td><code>void XReboot()</code></td><td>Reboots the XBOX.  Note that this reboot takes the XBOX right back to the very start of its boot cycle. You have some level of control over this. Check out the <code>xboxkrnl</code> library's call to <code>HalReturnToFirmware</code> function.</td></tr>
+		<tr>
+			<td>
+				<code>
+					void XLaunchXBE(<br />
+					&nbsp;&nbsp;char *xbePath<br />
+					);
+				</code>
+			</td>
+			<td>
+				Launches an XBE (replacing the currently running XBE). If the launch is successful, this method will <b>not</b> return. If there is an error, it returns and you will have to decide what to do.<br />
+				<br />
+				<table>
+					<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+					<tr><td>xbePath</td><td>Fully qualified dos path of the XBE.  Example:  <code>c:/foo/bar.xbe</code></td></tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<code>
+					void XSleep(<br />
+					&nbsp;&nbsp;int milliseconds<br />
+					);
+				</code>
+			</td>
+			<td>
+				Sleeps for the specific number of milliseconds. At the moment, it is in a tight loop, so it is not very thread friendly. One of these days, I will get around to calling a proper <code>xboxkrnl</code> API (once I figure out which one it is)<br />
+				<br />
+				<table>
+					<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+					<tr><td>milliseconds</td><td>The length of time to sleep</td></tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<code>int XGetTickCount()</code></td><td>Returns the current kernel tick count (which is the number of milliseconds since the XBOX was turned on).
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<code>
+					int XCreateThread(<br />
+					&nbsp;&nbsp;XThreadCallback callback, <br />
+					&nbsp;&nbsp;void *args1, <br />
+					&nbsp;&nbsp;void *args2<br />
+					);
+				</code>
+			</td>
+			<td>
+				Creates and runs a new thread.<br />
+				<br />
+				<table>
+					<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+					<tr><td>callback</td><td>The entry point of the thread function. It must be a <code>static</code> function that takes two <code>void *</code> paramaters</td></tr>
+					<tr><td>args1</td><td>This will be passed to the <code>callback</code> function as the first parameter</td></tr>
+					<tr><td>args2</td><td>This will be passed to the <code>callback</code> function as the second parameter</td></tr>
+				</table>
+			</td>
+		</tr>
+	</table>
 
-<h2>General XBOX Functionality</h2>
-<table>
-<tr><td nowrap width="280"><b>Function</b></td><td><b>Description</b></td></th>
+	<h2>File Access</h2>
+	All of the file access APIs return a status code that you should compare against <code>STATUS_SUCCESS</code>.<br />
+	<br />
+	<table>
+		<tr><td style="width: 280px; white-space: nowrap"><b>Function</b></td><td><b>Description</b></td></tr>
+		<tr>
+			<td>
+				<code>
+					int XConvertDOSFilenameToXBOX(<br />
+					&nbsp;&nbsp;char *dosFilename,<br />
+					&nbsp;&nbsp;char *xboxFilename<br />
+					);
+				</code>
+			</td>
+			<td>
+				Converts a dos-style filename (<code>c:/foo/bar.txt</code>) into an XBOX-style path (<code>\Device\Harddisk0\Partition2\foo\bar.txt</code>).<br />
+				<br />
+				<table>
+					<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+					<tr><td>dosFilename</td><td>The dos filename.  Examples are <code>c:\foo\bar.txt, .\foo\bar.txt, \foo\bar.txt</code></td></tr>
+					<tr><td>xboxFilename</td><td>The converted XBOX filename</td></tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<code>
+					int XCreateFile(<br />
+					&nbsp;&nbsp;int *handle, <br />
+					&nbsp;&nbsp;char *filename, <br />
+					&nbsp;&nbsp;unsigned int desiredAccess, <br />
+					&nbsp;&nbsp;unsigned int sharedMode, <br />
+					&nbsp;&nbsp;unsigned int creationDisposition, <br />
+					&nbsp;&nbsp;unsigned int flagsAndAttributes<br />
+					);
+				</code>
+			</td>
+			<td>
+				Opens a file. Note that the title of the function is slightly misleading in that this function may not actually <b>create</b> a file... it may just open an existing one (depending on the combination of the various parameters.  For more information on the combinations of the various parameters, see the Microsoft <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/fileio/base/createfile.asp">CreateFile</a> documentation.<br />
+				<br />
+				<table>
+					<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+					<tr><td>handle</td><td>The handle to the opened file</td></tr>
+					<tr><td>filename</td><td>The file to open.  Examples of supported filenames are: <code>c:/blah.txt, blah.txt, d:\default.txt</code></td></tr>
+					<tr>
+						<td>desiredAccess</td>
+						<td>Bitwise OR of one or more of the following options:
+							<ul>
+								<li>DELETE</li>
+								<li>SYNCHRONIZE</li>
+								<li>GENERIC_ALL</li>
+								<li>GENERIC_EXECUTE</li>
+								<li>GENERIC_WRITE</li>
+								<li>GENERIC_READ</li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td>sharedMode</td>
+						<td>
+							Bitwise OR of one or more of the following options:
+							<ul>
+								<li>FILE_SHARE_READ</li>
+								<li>FILE_SHARE_WRITE</li>
+								<li>FILE_SHARE_DELETE</li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td>creationDisposition</td>
+						<td>Bitwise OR of one or more of the following options:
+							<ul>
+								<li>CREATE_NEW</li>
+								<li>CREATE_ALWAYS</li>
+								<li>OPEN_EXISTING</li>
+								<li>OPEN_ALWAYS</li>
+								<li>TRUNCATE_EXISTING</li>
+							</ul>
+						</td>
+					</tr>
+				<tr>
+					<td>flagsAndAttributes</td>
+					<td>
+						Bitwise OR of one or more of the following options (normally, you would just use <code>FILE_ATTRIBUTE_NORMAL</code>):
+						<ul>
+							<li>FILE_FLAG_OPEN_NO_RECALL</li>
+							<li>FILE_FLAG_OPEN_REPARSE_POINT</li>
+							<li>FILE_FLAG_POSIX_SEMANTICS</li>
+							<li>FILE_FLAG_BACKUP_SEMANTICS</li>
+							<li>FILE_FLAG_DELETE_ON_CLOSE</li>
+							<li>FILE_FLAG_SEQUENTIAL_SCAN</li>
+							<li>FILE_FLAG_RANDOM_ACCESS</li>
+							<li>FILE_FLAG_NO_BUFFERING</li>
+							<li>FILE_FLAG_OVERLAPPED</li>
+							<li>FILE_FLAG_WRITE_THROUGH</li>
+							<li>FILE_ATTRIBUTE_READONLY</li>
+							<li>FILE_ATTRIBUTE_HIDDEN</li>
+							<li>FILE_ATTRIBUTE_SYSTEM</li>
+							<li>FILE_ATTRIBUTE_DIRECTORY</li>
+							<li>FILE_ATTRIBUTE_ARCHIVE</li>
+							<li>FILE_ATTRIBUTE_DEVICE</li>
+							<li>FILE_ATTRIBUTE_NORMAL</li>
+							<li>FILE_ATTRIBUTE_TEMPORARY</li>
+							<li>FILE_ATTRIBUTE_SPARSE_FILE</li>
+							<li>FILE_ATTRIBUTE_REPARSE_POINT</li>
+							<li>FILE_ATTRIBUTE_COMPRESSED</li>
+							<li>FILE_ATTRIBUTE_OFFLINE</li>
+							<li>FILE_ATTRIBUTE_NOT_CONTENT_INDEXED</li>
+							<li>FILE_ATTRIBUTE_ENCRYPTED</li>
+							<li>FILE_ATTRIBUTE_VALID_FLAGS</li>
+							<li>FILE_ATTRIBUTE_VALID_SET_FLAGS</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
 
-<tr><td><code>void XReboot()</code></td><td>Reboots the XBOX.  Note that this reboot takes the XBOX right back to the very start of its boot cycle.  You have some level of control over this.  Check out the <code>xboxkrnl</code> library's call to <code>HalReturnToFirmware</code> function.</td></tr>
+	<tr>
+		<td>
+			<code>
+				int XReadFile( <br />
+				&nbsp;&nbsp;int handle, <br />
+				&nbsp;&nbsp;void *buffer, <br />
+				&nbsp;&nbsp;unsigned int numberOfBytesToRead, <br />
+				&nbsp;&nbsp;unsigned int *numberOfBytesRead<br />
+				);
+			</code>
+		</td>
+		<td>
+			Reads data from an already opened file.<br />
+			<br />
+				<table>
+				<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+				<tr><td>handle</td><td>The handle to the opened file</td></tr>
+				<tr><td>buffer</td><td>The char buffer to put the data into</td></tr>
+				<tr><td>numberOfBytesToRead</td><td>How many bytes to read</td></tr>
+				<tr><td>numberOfBytesRead</td><td>How many bytes were actually read from the file</td></tr>
+			</table>
+		</td>
+	</tr>
 
-<tr><td><code>void XLaunchXBE(<br>
-&nbsp;&nbsp;char *xbePath<br>
-)</code></td>
-<td>Launches an XBE (replacing the currently running XBE).  If the launch is successful, this method will <b>not</b> return.  If there is an error, it returns and you will have to decide what to do.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>xbePath</td><td>Fully qualified dos path of the XBE.  Example:  <code>c:/foo/bar.xbe</code></td></tr>
-</table>
-</td></tr>
+	<tr>
+		<td>
+			<code>
+				int XWriteFile( <br />
+				&nbsp;&nbsp;int handle, <br />
+				&nbsp;&nbsp;void *buffer, <br />
+				&nbsp;&nbsp;unsigned int numberOfBytesToWrite, <br />
+				&nbsp;&nbsp;unsigned int *numberOfBytesWritten<br />
+				);
+			</code>
+		</td>
+		<td>
+			Writes data to an already opened file.<br />
+			<br />
+			<table>
+				<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+				<tr><td>handle</td><td>The handle to the opened file</td></tr>
+				<tr><td>buffer</td><td>The char buffer to get the data from</td></tr>
+				<tr><td>numberOfBytesToWrite</td><td>How many bytes to write</td></tr>
+				<tr><td>numberOfBytesWritten</td><td>How many bytes were actually written to the file</td></tr>
+			</table>
+		</td>
+	</tr>
 
-<tr><td><code>void XSleep(<br>
-&nbsp;&nbsp;int milliseconds<br>
-)</code></td>
-<td>Sleeps for the specific number of milliseconds.  At the moment, it is in a tight loop, so it is not very thread friendly.  One of these days, I will get around to calling a proper <code>xboxkrnl</code> API (once I figure out which one it is)
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>milliseconds</td><td>The length of time to sleep</td></tr>
-</table>
-</td></tr>
+	<tr>
+		<td>
+			<code>
+				int XCloseHandle( <br />
+				&nbsp;&nbsp;int handle<br />
+				);
+			</code>
+		</td>
+		<td>
+			Seems fairly obvious doesn't it? Closes the file.<br />
+			<br />
+			<table>
+				<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+				<tr><td>handle</td><td>The handle to the opened file</td></tr>
+			</table>
+		</td>
+	</tr>
 
-<tr><td><code>int XGetTickCount()</code></td><td>Returns the current kernel tick count (which is the number of milliseconds since the XBOX was turned on).</td></tr>
+	<tr>
+		<td>
+			<code>
+				int XGetFileSize( <br />
+				&nbsp;&nbsp;int handle, <br />
+				&nbsp;&nbsp;unsigned int *filesize<br />
+				);
+			</code>
+		</td>
+		<td>
+			Queries the file size of a given file.<br />
+			<br />
+			<table>
+				<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+				<tr><td>handle</td><td>The handle to the opened file</td></tr>
+				<tr><td>filesize</td><td>This variable is updated with the file's size</td></tr>
+			</table>
+		</td>
+	</tr>
 
-<tr><td><code>int XCreateThread(<br>
-&nbsp;&nbsp;XThreadCallback callback, <br>
-&nbsp;&nbsp;void *args1, <br>
-&nbsp;&nbsp;void *args2<br>
-);</code></td>
-<td>Creates and runs a new thread.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>callback</td><td>The entry point of the thread function.  It must be a <code>static</code> function that takes two <code>void *</code> paramaters</td></tr>
-<tr><td>args1</td><td>This will be passed to the <code>callback</code> function as the first parameter</td></tr>
-<tr><td>args2</td><td>This will be passed to the <code>callback</code> function as the second parameter</td></tr>
-</table>
-</td></tr>
-</table>
+	<tr>
+		<td>
+			<code>
+				int XSetFilePointer( <br />
+				&nbsp;&nbsp;int handle, <br />
+				&nbsp;&nbsp;int distanceToMove, <br />
+				&nbsp;&nbsp;int *newFilePointer, <br />
+				&nbsp;&nbsp;int moveMethod<br />
+				);
+			</code>
+		</td>
+		<td>
+			Seeks to a location within an open file.<br />
+			<br />
+			<table>
+				<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+				<tr><td>handle</td><td>The handle to the opened file</td></tr>
+				<tr><td>distanceToMove</td><td>The distance to seek (can be negative).</td></tr>
+				<tr><td>newFilePointer</td><td>Updated with the new absolute offset within the file</td></tr>
+				<tr>
+					<td>moveMethod</td>
+					<td>
+						One of the following options:
+						<ul>
+							<li>FILE_BEGIN</li>
+							<li>FILE_CURRENT</li>
+							<li>FILE_END</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
 
-<h2>File Access</h2>
-All of the file access APIs return a status code that you should compare against <code>STATUS_SUCCESS</code>.
-<p>
-<table>
-<tr><td nowrap width="280"><b>Function</b></td><td><b>Description</b></td></th>
+	<tr>
+		<td>
+			<code>
+				int XRenameFile( <br />
+				&nbsp;&nbsp;char *oldFilename, <br />
+				&nbsp;&nbsp;char *newFilename<br />
+				);
+			</code>
+		</td>
+		<td>
+			Renames a file.<br />
+			<br />
+			<table>
+				<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+				<tr><td>oldFilename</td><td>The file to rename</td></tr>
+				<tr><td>newFilename</td><td>The new file name</td></tr>
+			</table>
+		</td>
+	</tr>
 
-<tr><td><code>int XConvertDOSFilenameToXBOX(<br>
-&nbsp;&nbsp;char *dosFilename,<br>
-&nbsp;&nbsp;char *xboxFilename<br>
-)</code></td>
-<td>Converts a dos-style filename (<code>c:/foo/bar.txt</code>) into an XBOX-style path (<code>\Device\Harddisk0\Partition2\foo\bar.txt</code>).
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>dosFilename</td><td>The dos filename.  Examples are <code>c:\foo\bar.txt, .\foo\bar.txt, \foo\bar.txt</code></td></tr>
-<tr><td>xboxFilename</td><td>The converted XBOX filename</td></tr>
-</table>
-</td></tr>
+	<tr>
+		<td>
+			<code>
+				int XCreateDirectory( <br />
+				&nbsp;&nbsp;char *directoryName<br />
+				);
+			</code>
+		</td>
+		<td>
+			Create a new directory.<br />
+			<br />
+			<table>
+				<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+				<tr><td>directoryName</td><td>The directory name</td></tr>
+			</table>
+		</td>
+	</tr>
 
-<tr><td><code>int XCreateFile(<br>
-&nbsp;&nbsp;int *handle, <br>
-&nbsp;&nbsp;char *filename, <br>
-&nbsp;&nbsp;unsigned int desiredAccess, <br>
-&nbsp;&nbsp;unsigned int sharedMode, <br>
-&nbsp;&nbsp;unsigned int creationDisposition, <br>
-&nbsp;&nbsp;unsigned int flagsAndAttributes<br>
-)</code></td>
-<td>Opens a file. Note that the title of the function is slightly misleading in that this function may not actually <b>create</b> a file... it may just open an existing one (depending on the combination of the various parameters.  For more information on the combinations of the various parameters, see the Microsoft <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/fileio/base/createfile.asp">CreateFile</a> documentation.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>handle</td><td>The handle to the opened file</td></tr>
-<tr><td>filename</td><td>The file to open.  Examples of supported filenames are: <code>c:/blah.txt, blah.txt, d:\default.txt</code></td></tr>
-<tr><td>desiredAccess</td><td>Bitwise OR of one or more of the following options:
-<ul>
-<li>DELETE</li>
-<li>SYNCHRONIZE</li>
-<li>GENERIC_ALL</li>
-<li>GENERIC_EXECUTE</li>
-<li>GENERIC_WRITE</li>
-<li>GENERIC_READ</li>
-</ul>
-</td></tr>
-<tr><td>sharedMode</td><td>Bitwise OR of one or more of the following options:
-<ul>
-<li>FILE_SHARE_READ</li>
-<li>FILE_SHARE_WRITE</li>
-<li>FILE_SHARE_DELETE</li>
-</ul>
-</td></tr>
-<tr><td>creationDisposition</td><td>Bitwise OR of one or more of the following options:
-<ul>
-<li>CREATE_NEW</li>
-<li>CREATE_ALWAYS</li>
-<li>OPEN_EXISTING</li>
-<li>OPEN_ALWAYS</li>
-<li>TRUNCATE_EXISTING</li>
-</ul>
-</td></tr>
-<tr><td>flagsAndAttributes</td><td>Bitwise OR of one or more of the following options (normally, you would just use <code>FILE_ATTRIBUTE_NORMAL</code>):
-<ul>
-<li>FILE_FLAG_OPEN_NO_RECALL</li>
-<li>FILE_FLAG_OPEN_REPARSE_POINT</li>
-<li>FILE_FLAG_POSIX_SEMANTICS</li>
-<li>FILE_FLAG_BACKUP_SEMANTICS</li>
-<li>FILE_FLAG_DELETE_ON_CLOSE</li>
-<li>FILE_FLAG_SEQUENTIAL_SCAN</li>
-<li>FILE_FLAG_RANDOM_ACCESS</li>
-<li>FILE_FLAG_NO_BUFFERING</li>
-<li>FILE_FLAG_OVERLAPPED</li>
-<li>FILE_FLAG_WRITE_THROUGH</li>
-<li>FILE_ATTRIBUTE_READONLY</li>
-<li>FILE_ATTRIBUTE_HIDDEN</li>
-<li>FILE_ATTRIBUTE_SYSTEM</li>
-<li>FILE_ATTRIBUTE_DIRECTORY</li>
-<li>FILE_ATTRIBUTE_ARCHIVE</li>
-<li>FILE_ATTRIBUTE_DEVICE</li>
-<li>FILE_ATTRIBUTE_NORMAL</li>
-<li>FILE_ATTRIBUTE_TEMPORARY</li>
-<li>FILE_ATTRIBUTE_SPARSE_FILE</li>
-<li>FILE_ATTRIBUTE_REPARSE_POINT</li>
-<li>FILE_ATTRIBUTE_COMPRESSED</li>
-<li>FILE_ATTRIBUTE_OFFLINE</li>
-<li>FILE_ATTRIBUTE_NOT_CONTENT_INDEXED</li>
-<li>FILE_ATTRIBUTE_ENCRYPTED</li>
-<li>FILE_ATTRIBUTE_VALID_FLAGS</li>
-<li>FILE_ATTRIBUTE_VALID_SET_FLAGS</li>
-<ul>
-</td></tr>
-</table>
-</td></tr>
+	<tr><td><code>int XDeleteFile( <br />
+	&nbsp;&nbsp;char *filename<br />
+	)</code></td>
+	<td>Deletes a file.<br />
+	<br />
+	<table>
+		<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+		<tr><td>filename</td><td>The name of the file to delete</td></tr>
+	</table>
+	</td></tr>
 
-<tr><td><code>int XReadFile( <br>
-&nbsp;&nbsp;int handle, <br>
-&nbsp;&nbsp;void *buffer, <br>
-&nbsp;&nbsp;unsigned int numberOfBytesToRead, <br>
-&nbsp;&nbsp;unsigned int *numberOfBytesRead<br>
-)</code></td>
-<td>Reads data from an already opened file.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>handle</td><td>The handle to the opened file</td></tr>
-<tr><td>buffer</td><td>The char buffer to put the data into</td></tr>
-<tr><td>numberOfBytesToRead</td><td>How many bytes to read</td></tr>
-<tr><td>numberOfBytesRead</td><td>How many bytes were actually read from the file</td></tr>
-</table>
-</td></tr>
+	<tr><td><code>int XDeleteDirectory( <br>
+	&nbsp;&nbsp;char *directoryName<br>
+	)</code></td>
+	<td>Deletes a directory.<br />
+	<br />
+	<table>
+	<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+	<tr><td>directoryName</td><td>The name of the directory to delete</td></tr>
+	</table>
+	</td></tr> 
 
-<tr><td><code>int XWriteFile( <br>
-&nbsp;&nbsp;int handle, <br>
-&nbsp;&nbsp;void *buffer, <br>
-&nbsp;&nbsp;unsigned int numberOfBytesToWrite, <br>
-&nbsp;&nbsp;unsigned int *numberOfBytesWritten<br>
-)</code></td>
-<td>Writes data to an already opened file.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>handle</td><td>The handle to the opened file</td></tr>
-<tr><td>buffer</td><td>The char buffer to get the data from</td></tr>
-<tr><td>numberOfBytesToWrite</td><td>How many bytes to write</td></tr>
-<tr><td>numberOfBytesWritten</td><td>How many bytes were actually written to the file</td></tr>
-</table>
-</td></tr> 
+	<tr><td><code>int XMountDrive( <br />
+	&nbsp;&nbsp;char driveLetter, <br />
+	&nbsp;&nbsp;char *directoryName<br />
+	)</code></td>
+	<td>Assigns the given drive letter to the directoryName.<br />
+	<br />
+	<table>
+	<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+	<tr><td>driveLetter</td><td>The drive letter to assign.  For example, <code>'d'</code></td></tr>
+	<tr><td>directoryName</td><td>The directory that will be referred to as <code>driveLetter</code> from now on (until next reboot).  It should contain a trailing slash, but if you forget, one will be added for you.</td></tr>
+	</table>
+	</td></tr> 
 
-<tr><td><code>int XCloseHandle( <br>
-&nbsp;&nbsp;int handle<br>
-)</code></td>
-<td>Seems fairly obvious doesn't it?  Closes the file.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>handle</td><td>The handle to the opened file</td></tr>
-</table>
-</td></tr> 
+	<tr><td><code>unsigned int XFindFirstFile( <br />
+	&nbsp;&nbsp;char *directoryName, <br />
+	&nbsp;&nbsp;char *mask, <br />
+	&nbsp;&nbsp;PXBOX_FIND_DATA findFileData <br />
+	)</code></td>
+	<td>Performs a very similar function to the Win32 FindFirstFile, in that it populates (for the first file within
+	the <code>directoryName</code> directory) the <code>findFileData</code> data structure.  Returns <code>ERROR_INVALID_HANDLE</code>
+	if the directory is unable to be opened or is invalid, otherwise a valid file handle for the directory (which you
+	should pass to <code>XFindNextFile</code> to get the next file in the list).
+	<p>The elements of the data structure are:</p>
 
-<tr><td><code>int XGetFileSize( <br>
-&nbsp;&nbsp;int handle, <br>
-&nbsp;&nbsp;unsigned int *filesize<br>
-)</code></td>
-<td>Queries the file size of a given file.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>handle</td><td>The handle to the opened file</td></tr>
-<tr><td>filesize</td><td>This variable is updated with the file's size</td></tr>
-</table>
-</td></tr> 
+	<code>
+	typedef struct _XBOX_FIND_DATA <br />
+	{<br />
+	&nbsp;&nbsp;unsigned int dwFileAttributes;<br />
+	&nbsp;&nbsp;long long  ftCreationTime;<br />
+	&nbsp;&nbsp;long long  ftLastAccessTime;<br />
+	&nbsp;&nbsp;long long  ftLastWriteTime;<br />
+	&nbsp;&nbsp;unsigned int nFileSize;<br />
+	&nbsp;&nbsp;char cFileName[0x100];<br />
+	} XBOX_FIND_DATA, *PXBOX_FIND_DATA;<br />
+	</code>
+	<p>
+	<table>
+	<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+	<tr><td>directoryName</td><td>The directory that contains the file you care about</td></tr>
+	<tr><td>mask</td><td>A mask for the files you want.  For example, <code>"*.xbe"</code> for all XBE files or <code>"*"</code> for all files</td></tr>
+	<tr><td>fileFileData</td><td>The data structure that will be populated with the file details (name, size, etc)</td></tr>
+	</table>
+	</td></tr> 
 
-<tr><td><code>int XSetFilePointer( <br>
-&nbsp;&nbsp;int handle, <br>
-&nbsp;&nbsp;int distanceToMove, <br>
-&nbsp;&nbsp;int *newFilePointer, <br>
-&nbsp;&nbsp;int moveMethod<br>
-)</code></td>
-<td>Seeks to a location within an open file.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>handle</td><td>The handle to the opened file</td></tr>
-<tr><td>distanceToMove</td><td>The distance to seek (can be negative).</td></tr>
-<tr><td>newFilePointer</td><td>Updated with the new absolute offset within the file</td></tr>
-<tr><td>moveMethod</td><td>One of the following options:
-<ul>
-<li>FILE_BEGIN</li>
-<li>FILE_CURRENT</li>
-<li>FILE_END</li>
-</ul>
-</td></tr>
-</table>
-</td></tr> 
+	<tr><td><code>int XFindNextFile( <br>
+	&nbsp;&nbsp;unsigned int handle, <br>
+	&nbsp;&nbsp;PXBOX_FIND_DATA findFileData<br>
+	)</code></td>
+	<td>Gets the next file from the directory that was opened using <code>XFindFirstFile</code>.  Returns 
+	<code>ERROR_NO_MORE_FILES</code> if there are no more files, <code>0</code> otherwise.
+	<p>
+	<table>
+	<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+	<tr><td>handle</td><td>The handle that was returned from <code>XFindFirstFile</code></td></tr>
+	<tr><td>fileFileData</td><td>The data structure that will be populated with the file details (name, size, etc)</td></tr>
+	</table>
+	</td></tr> 
 
-<tr><td><code>int XRenameFile( <br>
-&nbsp;&nbsp;char *oldFilename, <br>
-&nbsp;&nbsp;char *newFilename<br>
-)</code></td>
-<td>Renames a file
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>oldFilename</td><td>The file to rename</td></tr>
-<tr><td>newFilename</td><td>The new file name</td></tr>
-</table>
-</td></tr> 
-
-<tr><td><code>int XCreateDirectory( <br>
-&nbsp;&nbsp;char *directoryName<br>
-)</code></td>
-<td>Create a new directory
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>directoryName</td><td>The directory name</td></tr>
-</table>
-</td></tr> 
-
-<tr><td><code>int XDeleteFile( <br>
-&nbsp;&nbsp;char *filename<br>
-)</code></td>
-<td>Deletes a file.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>filename</td><td>The name of the file to delete</td></tr>
-</table>
-</td></tr> 
-
-<tr><td><code>int XDeleteDirectory( <br>
-&nbsp;&nbsp;char *directoryName<br>
-)</code></td>
-<td>Deletes a directory
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>directoryName</td><td>The name of the directory to delete</td></tr>
-</table>
-</td></tr> 
-
-<tr><td><code>int XMountDrive( <br>
-&nbsp;&nbsp;char driveLetter, <br>
-&nbsp;&nbsp;char *directoryName<br>
-)</code></td>
-<td>Assigns the given drive letter to the directoryName.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>driveLetter</td><td>The drive letter to assign.  For example, <code>'d'</code></td></tr>
-<tr><td>directoryName</td><td>The directory that will be referred to as <code>driveLetter</code> from now on (until next reboot).  It should contain a trailing slash, but if you forget, one will be added for you.</td></tr>
-</table>
-</td></tr> 
-
-<tr><td><code>unsigned int XFindFirstFile( <br>
-&nbsp;&nbsp;char *directoryName, <br>
-&nbsp;&nbsp;char *mask, <br>
-&nbsp;&nbsp;PXBOX_FIND_DATA findFileData <br>
-)</code></td>
-<td>Performs a very similar function to the Win32 FindFirstFile, in that it populates (for the first file within
-the <code>directoryName</code> directory) the <code>findFileData</code> data structure.  Returns <code>ERROR_INVALID_HANDLE</code>
-if the directory is unable to be opened or is invalid, otherwise a valid file handle for the directory (which you
-should pass to <code>XFindNextFile</code> to get the next file in the list).
-<p>The elements of the data structure are:
-<p>
-<code>
-typedef struct _XBOX_FIND_DATA <br>
-{<br>
-&nbsp;&nbsp;unsigned int dwFileAttributes;<br>
-&nbsp;&nbsp;long long  ftCreationTime;<br>
-&nbsp;&nbsp;long long  ftLastAccessTime;<br>
-&nbsp;&nbsp;long long  ftLastWriteTime;<br>
-&nbsp;&nbsp;unsigned int nFileSize;<br>
-&nbsp;&nbsp;char cFileName[0x100];<br>
-} XBOX_FIND_DATA, *PXBOX_FIND_DATA;<br>
-</code>
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>directoryName</td><td>The directory that contains the file you care about</td></tr>
-<tr><td>mask</td><td>A mask for the files you want.  For example, <code>"*.xbe"</code> for all XBE files or <code>"*"</code> for all files</td></tr>
-<tr><td>fileFileData</td><td>The data structure that will be populated with the file details (name, size, etc)</td></tr>
-</table>
-</td></tr> 
-
-<tr><td><code>int XFindNextFile( <br>
-&nbsp;&nbsp;unsigned int handle, <br>
-&nbsp;&nbsp;PXBOX_FIND_DATA findFileData<br>
-)</code></td>
-<td>Gets the next file from the directory that was opened using <code>XFindFirstFile</code>.  Returns 
-<code>ERROR_NO_MORE_FILES</code> if there are no more files, <code>0</code> otherwise.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>handle</td><td>The handle that was returned from <code>XFindFirstFile</code></td></tr>
-<tr><td>fileFileData</td><td>The data structure that will be populated with the file details (name, size, etc)</td></tr>
-</table>
-</td></tr> 
-
-<tr><td><code>int XFindClose( <br>
-&nbsp;&nbsp;unsigned int handle <br>
-)</code></td>
-<td>Closes the handle that was opened when calling <code>XFindFirstFile</code>
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>handle</td><td>The handle that was returned from <code>XFindFirstFile</code></td></tr>
-</table>
-</td></tr> 
-</table>
+	<tr><td><code>int XFindClose( <br>
+	&nbsp;&nbsp;unsigned int handle <br>
+	)</code></td>
+	<td>Closes the handle that was opened when calling <code>XFindFirstFile</code>
+	<p>
+	<table>
+	<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+	<tr><td>handle</td><td>The handle that was returned from <code>XFindFirstFile</code></td></tr>
+	</table>
+	</td></tr> 
+	</table>
 
 
-<h2>Controllers</h2>
-<b>Currently only one pad is supported.</b>  Details of <code>XPadState</code> are as follows:
-<pre>
+	<h2>Controllers</h2>
+	<b>Currently only one pad is supported.</b>  Details of <code>XPadState</code> are as follows:
+	<pre>
 typedef struct
 {
 &nbsp;&nbsp;char reserved1;
@@ -361,210 +463,252 @@ typedef struct
 
 &nbsp;&nbsp;char padding[0x40];
 } XPadState;
-</pre>
-<p>
-<table>
-<tr><td nowrap width="280"><b>Function</b></td><td><b>Description</b></td></th>
-<tr><td><code>void XInitInput(<br>
-&nbsp;&nbsp;XUSBControl *xcontrol<br>
-)</code></td>
-<td>Initialises the XBOX controller USB subsystem.  This function <b>must</b> be called before calling any of the other controller functions.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>xcontrol</td><td>A pointer to a control structure that will be initialised.  This control structure will be used in subsequent calls.</td></tr>
-</table>
-</td></tr>
+	</pre>
 
-<tr><td><code>void XGetPadInput(<br>
-&nbsp;&nbsp;XPadState *padState,<br>
-&nbsp;&nbsp;XUSBControl *xcontrol,<br>
-&nbsp;&nbsp;int padNumber<br>
-)</code></td>
-<td>Reads the current state of the XBOX controllers
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>padState</td><td>A pointer to a <code>XPadState</code> structure that will contain the current state</td></tr>
-<tr><td>xcontrol</td><td>The pointer to the control structure</td></tr>
-<tr><td>padNumber</td><td>Which pad number are you querying?</td></tr>
-</table>
-</td></tr>
+	<table>
+		<tr><td style="width: 280px; white-space: nowrap"><b>Function</b></td><td><b>Description</b></td></tr>
+		<tr>
+			<td>
+				<code>
+					void XInitInput(<br />
+					&nbsp;&nbsp;XUSBControl *xcontrol<br />
+					)
+				</code>
+			</td>
+			<td>
+				Initialises the XBOX controller USB subsystem. This function <b>must</b> be called before calling any of the other controller functions.<br />
+				<br />
+				<table>
+					<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+					<tr><td>xcontrol</td><td>A pointer to a control structure that will be initialised.  This control structure will be used in subsequent calls.</td></tr>
+				</table>
+			</td>
+		</tr>
 
-<tr><td><code>void XSetPadInput(<br>
-&nbsp;&nbsp;XPadState *padState,<br>
-&nbsp;&nbsp;XUSBControl *xcontrol,<br>
-&nbsp;&nbsp;int padNumber<br>
-)</code></td>
-<td>Updates the current state of the XBOX controllers (sends a message). This function is a bit dodgy at the moment... use at your own risk!
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>padState</td><td>A pointer to a <code>XPadState</code> structure</td></tr>
-<tr><td>xcontrol</td><td>The pointer to the control structure</td></tr>
-<tr><td>padNumber</td><td>Which pad number are you updating?</td></tr>
-</table>
-</td></tr>
+	<tr><td><code>void XGetPadInput(<br />
+	&nbsp;&nbsp;XPadState *padState,<br />
+	&nbsp;&nbsp;XUSBControl *xcontrol,<br />
+	&nbsp;&nbsp;int padNumber<br />
+	)</code></td>
+	<td>Reads the current state of the XBOX controllers.<br />
+	<br />
+	<table>
+	<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+	<tr><td>padState</td><td>A pointer to a <code>XPadState</code> structure that will contain the current state</td></tr>
+	<tr><td>xcontrol</td><td>The pointer to the control structure</td></tr>
+	<tr><td>padNumber</td><td>Which pad number are you querying?</td></tr>
+	</table>
+	</td></tr>
 
-<tr><td><code>void XReleaseInput(<br>
-&nbsp;&nbsp;XUSBControl *xcontrol<br>
-)</code></td>
-<td>Shuts down the XBOX controller subsystem.  If you call this, you will need to call <code>XInitInput</code> again before you can interact with the controllers.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>xcontrol</td><td>The pointer to the control structure</td></tr>
-</table>
-</td></tr>
-</table>
+	<tr><td><code>void XSetPadInput(<br />
+	&nbsp;&nbsp;XPadState *padState,<br />
+	&nbsp;&nbsp;XUSBControl *xcontrol,<br />
+	&nbsp;&nbsp;int padNumber<br />
+	)</code></td>
+	<td>Updates the current state of the XBOX controllers (sends a message). This function is a bit dodgy at the moment... use at your own risk!<br />
+	<br />
+	<table>
+	<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+	<tr><td>padState</td><td>A pointer to a <code>XPadState</code> structure</td></tr>
+	<tr><td>xcontrol</td><td>The pointer to the control structure</td></tr>
+	<tr><td>padNumber</td><td>Which pad number are you updating?</td></tr>
+	</table>
+	</td></tr>
 
-<h2>Video</h2>
-<table>
-<tr><td nowrap width="280"><b>Function</b></td><td><b>Description</b></td></th>
+	<tr><td><code>void XReleaseInput(<br />
+	&nbsp;&nbsp;XUSBControl *xcontrol<br />
+	)</code></td>
+	<td>Shuts down the XBOX controller subsystem.  If you call this, you will need to call <code>XInitInput</code> again before you can interact with the controllers.<br />
+	<br />
+	<table>
+	<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+	<tr><td>xcontrol</td><td>The pointer to the control structure</td></tr>
+	</table>
+	</td></tr>
+	</table>
 
-<tr><td><code>DWORD XVideoGetEncoderSettings();</code></td><td>Returns the current video encoder settings.</td></tr>
+	<h2>Video</h2>
+	<table>
+	<tr><td style="width: 280px; white-space: nowrap"><b>Function</b></td><td><b>Description</b></td></tr>
 
-<tr><td><code>unsigned char* XVideoGetFB()</code></td><td>Returns a pointer to the XBOX's raw video buffer.</td></tr>
+	<tr><td><code>DWORD XVideoGetEncoderSettings();</code></td><td>Returns the current video encoder settings.</td></tr>
 
-<tr><td><code>VIDEO_MODE XVideoGetMode()</code></td>
-<td>Returns a structure that represents the current video mode.  
-The elements of the structure are described below:
-<p>
-<code>
-typedef struct _VIDEO_MODE<br>
-{<br>
-&nbsp;&nbsp;int		width;<br>
-&nbsp;&nbsp;int		height;<br>
-&nbsp;&nbsp;int		bpp;<br>
-&nbsp;&nbsp;int		refresh;<br>
-} VIDEO_MODE;<br>
-</code>
-</td></tr>
+	<tr><td><code>unsigned char* XVideoGetFB()</code></td><td>Returns a pointer to the XBOX's raw video buffer.</td></tr>
 
-<tr><td><code>void XVideoSetFlickerFilter(<br>
-&nbsp;&nbsp;int level<br>
-);</code></td>
-<td>Sets the level of flicker filter to an appropriate level.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>level</td><td>The level of flicker filter to apply (should be between X and X)</td></tr>
-</table>
-</td></tr>
+	<tr><td><code>VIDEO_MODE XVideoGetMode()</code></td>
+	<td>Returns a structure that represents the current video mode.  
+	The elements of the structure are described below:
+	<p>
+	<code>
+	typedef struct _VIDEO_MODE<br />
+	{<br />
+	&nbsp;&nbsp;int		width;<br />
+	&nbsp;&nbsp;int		height;<br />
+	&nbsp;&nbsp;int		bpp;<br />
+	&nbsp;&nbsp;int		refresh;<br />
+	} VIDEO_MODE;<br />
+	</code>
+	</td></tr>
 
-<tr><td><code>BOOL XVideoSetMode(<br>
-&nbsp;&nbsp;int width, <br>
-&nbsp;&nbsp;int height, <br>
-&nbsp;&nbsp;int bpp, <br>
-&nbsp;&nbsp;int refresh<br>
-);</code></td>
-<td>Requests that the video mode be set to the requested mode.  This function
-does some validation to ensure that the requested parameters are valid.  Typical
-invocations might be:
-<p>
-<code>
-XVideoSetMode(640, 480, 24, 50);    /* for PAL  */<br>
-XVideoSetMode(640, 480, 24, 60);    /* for NTSC */<br>
-XVideoSetMode(720, 480, 24, 50);    /* for PAL  */<br>
-XVideoSetMode(720, 480, 24, 60);    /* for NTSC */<br>
-</code>
-<p>
-Returns a boolean indicating whether the mode was able to be changed.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>width</td><td>The desired screen width</td></tr>
-<tr><td>height</td><td>The desired screen height</td></tr>
-<tr><td>bpp</td><td>The desired screen bits per pixel</td></tr>
-<tr><td>refresh</td><td>The desired refresh rate in Hz</td></tr>
-</table>
-</td></tr>
+	<tr>
+		<td>
+			<code>
+				void XVideoSetFlickerFilter(<br />
+				&nbsp;&nbsp;int level<br />
+				);
+			</code>
+		</td>
+		<td>
+			Sets the level of flicker filter to an appropriate level.<br />
+			<br />
+			<table>
+				<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+				<tr><td>level</td><td>The level of flicker filter to apply (should be between X and X)</td></tr>
+			</table>
+		</td>
+	</tr>
 
-<tr><td><code>void XVideoSetSoftenFilter(<br>
-&nbsp;&nbsp;BOOL enable<br>
-);</code></td>
-<td>Sets the soften filter
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>enable</td><td>Whether the soften filter should be enabled or not</td></tr>
-</table>
-</td></tr>
+	<tr>
+		<td>
+			<code>
+				BOOL XVideoSetMode(<br />
+				&nbsp;&nbsp;int width, <br />
+				&nbsp;&nbsp;int height, <br />
+				&nbsp;&nbsp;int bpp, <br />
+				&nbsp;&nbsp;int refresh<br />
+				);
+			</code>
+		</td>
+		<td>
+			Requests that the video mode be set to the requested mode. This function
+			does some validation to ensure that the requested parameters are valid. Typical
+			invocations might be:<br />
+			<br />
+			<code>
+			XVideoSetMode(640, 480, 24, 50);    /* for PAL  */<br />
+			XVideoSetMode(640, 480, 24, 60);    /* for NTSC */<br />
+			XVideoSetMode(720, 480, 24, 50);    /* for PAL  */<br />
+			XVideoSetMode(720, 480, 24, 60);    /* for NTSC */<br />
+			</code>
+			<p>Returns a boolean indicating whether the mode was able to be changed.</p>
+			<table>
+				<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+				<tr><td>width</td><td>The desired screen width</td></tr>
+				<tr><td>height</td><td>The desired screen height</td></tr>
+				<tr><td>bpp</td><td>The desired screen bits per pixel</td></tr>
+				<tr><td>refresh</td><td>The desired refresh rate in Hz</td></tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<code>
+				void XVideoSetSoftenFilter(<br />
+				&nbsp;&nbsp;BOOL enable<br />
+				);
+			</code>
+		</td>
+		<td>
+			Sets the soften filter<br />
+			<br />
+			<table>
+				<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+				<tr><td>enable</td><td>Whether the soften filter should be enabled or not</td></tr>
+			</table>
+		</td>
+	</tr>
 
-<tr><td><code>void XVideoSetVideoEnable(<br>
-&nbsp;&nbsp;BOOL enable<br>
-);</code></td>
-<td>Enables the video subsystem
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>enable</td><td>Whether the video should be enabled</td></tr>
-</table>
-</td></tr>
-</table>
+		<tr>
+			<td>
+				<code>
+					void XVideoSetVideoEnable(<br />
+					&nbsp;&nbsp;BOOL enable<br />
+					);
+				</code>
+			</td>
+			<td>
+				Enables the video subsystem.<br />
+				<br />
+				<table>
+					<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+					<tr><td>enable</td><td>Whether the video should be enabled</td></tr>
+				</table>
+			</td>
+		</tr>
+	</table>
 
-<h2>Audio</h2>
-The audio support is functional, but experimental.  When using the audio subsystem
-the first thing you need to do is initialise by calling <code>XAudioInit()</code>.  This
-does not actually start playing anything, though.  To get that to work, you will need to
-call <code>XAudioPlay()</code> (and likewise, to temporarily pause, you call 
-<code>XAudioPause()</code>).  
-<p>However, it is not much good playing unless you have given it some data to play.  To 
-give data to the audio subsystem, you need to call <code>XAudioProvideSamples()</code>.
-There are two supported ways of calling this method:
-<ol>
-<li>Your application code can call <code>XAudioProvideSamples()</code> based on its
-own timing.  It is your code's responsibility to make sure you are calling this
-function often enough.</li>
-<li>You can register a callback when you initialise and the audio subsystem will
-invoke your callback function when it needs more data.  This callback function provides 
-the data using a call to <code>XAudioProvideSamples()</code>.</li>
-</ol>
-<table>
-<tr><td nowrap width="280"><b>Function</b></td><td><b>Description</b></td></th>
+	<h2>Audio</h2>
+	The audio support is functional, but experimental.  When using the audio subsystem
+	the first thing you need to do is initialise by calling <code>XAudioInit()</code>.  This
+	does not actually start playing anything, though.  To get that to work, you will need to
+	call <code>XAudioPlay()</code> (and likewise, to temporarily pause, you call 
+	<code>XAudioPause()</code>).
+	<p>However, it is not much good playing unless you have given it some data to play.  To 
+	give data to the audio subsystem, you need to call <code>XAudioProvideSamples()</code>.
+	There are two supported ways of calling this method:</p>
+	<ol>
+		<li>Your application code can call <code>XAudioProvideSamples()</code> based on its
+		own timing.  It is your code's responsibility to make sure you are calling this
+		function often enough.</li>
+		<li>You can register a callback when you initialise and the audio subsystem will
+		invoke your callback function when it needs more data.  This callback function provides 
+		the data using a call to <code>XAudioProvideSamples()</code>.</li>
+	</ol>
+	<table>
+		<tr><td style="width: 280px; white-space: nowrap"><b>Function</b></td><td><b>Description</b></td></tr>
 
-<tr><td><code>void XAudioInit(<br>
-&nbsp;&nbsp;int sampleSizeInBits, <br>
-&nbsp;&nbsp;int numChannels, <br>
-&nbsp;&nbsp;XAudioCallback callback, <br>
-&nbsp;&nbsp;void *data<br>
-);</code></td>
-<td>Initialises the audio subsystem. It does not start playing though.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>sampleSizeInBits</td><td>Currently ignored (only 16 bit samples are supported at the moment).  Provided for future expandability</td></tr>
-<tr><td>numChannels</td><td>Currently ignored (only 2 channels (stereo) are supported at the moment).  Provided for future expandability</td></tr>
-<tr><td>callback</td><td>If non-NULL, this is the function that will be called by the audio subsystem when it needs more data.  </td></tr>
-<tr><td>data</td><td>This will be passed to the callback function (if the callback is set) when it is invoked</td></tr>
-</table>
-</td></tr>
-
-<tr><td><code>int XAudioPlay()</code></td><td>Tells the audio chip to start playing.</td></tr>
-
-<tr><td><code>int XAudioPause()</code></td><td>Tells the audio chip to pause</td></tr>
-
-<tr><td><code>void XAudioProvideSamples(<br>
-&nbsp;&nbsp;unsigned char *buffer, <br>
-&nbsp;&nbsp;unsigned short bufferLength, <br>
-&nbsp;&nbsp;int isFinal<br>
-);</code></td>
-<td>Gives some more data to the audio subsystem to play.  You should call this often enough 
-so that the chip doesn't run out of data, but not faster than the audio chip can 
-process it (48kHz).  Using the <code>callback</code> parameter in <code>XAudioInit()</code>
-may help.
-<p>
-<table>
-<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
-<tr><td>buffer</td><td>A pointer to the samples which need to match the <code>sampleSizeInBits</code> and <code>numChannels</code>.  For example, a 16 bit stereo sample would be 4 bytes in the following order: <code>[ Left LSB, Left MSB, Right LSB, Right MSB ]</code></td></tr>
-<tr><td>bufferLength</td><td>The length of the data contained in buffer.</td></tr>
-<tr><td>isFinal</td><td>If this the last lot of data to be played?</code></td></tr>
-</table>
-</td></tr>
-</table>
-
-
-<br>
-<hr>
-<center>Back to <a href="index.html">Home Page</a></center>
+		<tr>
+			<td>
+				<code>
+					void XAudioInit(<br />
+					&nbsp;&nbsp;int sampleSizeInBits, <br />
+					&nbsp;&nbsp;int numChannels, <br />
+					&nbsp;&nbsp;XAudioCallback callback, <br />
+					&nbsp;&nbsp;void *data<br />
+					);
+				</code>
+			</td>
+			<td>
+				Initialises the audio subsystem. It does not start playing, though.<br />
+				<br />
+				<table>
+					<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+					<tr><td>sampleSizeInBits</td><td>Currently ignored (only 16 bit samples are supported at the moment).  Provided for future expandability</td></tr>
+					<tr><td>numChannels</td><td>Currently ignored (only 2 channels (stereo) are supported at the moment).  Provided for future expandability</td></tr>
+					<tr><td>callback</td><td>If non-NULL, this is the function that will be called by the audio subsystem when it needs more data.  </td></tr>
+					<tr><td>data</td><td>This will be passed to the callback function (if the callback is set) when it is invoked</td></tr>
+				</table>
+			</td>
+		</tr>
+		<tr><td><code>int XAudioPlay()</code></td><td>Tells the audio chip to start playing.</td></tr>
+		<tr><td><code>int XAudioPause()</code></td><td>Tells the audio chip to pause</td></tr>
+		<tr>
+			<td>
+				<code>
+					void XAudioProvideSamples(<br />
+					&nbsp;&nbsp;unsigned char *buffer, <br />
+					&nbsp;&nbsp;unsigned short bufferLength, <br />
+					&nbsp;&nbsp;int isFinal<br />
+					);
+				</code>
+			</td>
+			<td>
+				Gives some more data to the audio subsystem to play.  You should call this often enough 
+				so that the chip doesn't run out of data, but not faster than the audio chip can 
+				process it (48kHz).  Using the <code>callback</code> parameter in <code>XAudioInit()</code>
+				may help.
+				<p></p>
+				<table>
+					<tr><td><b>Parameter</b></td><td><b>Description</b></td></tr>
+					<tr><td>buffer</td><td>A pointer to the samples which need to match the <code>sampleSizeInBits</code> and <code>numChannels</code>. For example, a 16 bit stereo sample would be 4 bytes in the following order: <code>[ Left LSB, Left MSB, Right LSB, Right MSB ]</code></td></tr>
+					<tr><td>bufferLength</td><td>The length of the data contained in buffer.</td></tr>
+					<tr><td>isFinal</td><td>If this the last lot of data to be played?</td></tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<br />
+	<hr />
+	<center>Back to <a href="index.html">Home Page</a></center>
+</body>
 </html>
