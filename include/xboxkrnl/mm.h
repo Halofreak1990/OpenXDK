@@ -14,7 +14,7 @@
 
 #include "xboxkrnl.h"
 
-XBSYSAPI VOID *MmGlobalData;
+XBSYSAPI EXPORTNUM(102) VOID *MmGlobalData;
 
 // ******************************************************************
 // * MmAllocateContiguousMemory
@@ -87,7 +87,13 @@ XBSYSAPI EXPORTNUM(173) PHYSICAL_ADDRESS NTAPI MmGetPhysicalAddress
     IN PVOID   BaseAddress
 );
 
-XBSYSAPI VOID *MmIsAddressValid;
+// ******************************************************************
+// * MmIsAddressValid
+// *
+// * The MmIsAddressValid routine checks whether a page fault will
+// * occur for a read or write operation at a given virtual address.
+// ******************************************************************
+XBSYSAPI EXPORTNUM(174) BOOLEAN NTAPI MmIsAddressValid(IN PVOID VirtualAddress);
 
 //XBSYSAPI VOID *MmLockUnlockBufferPages;
 XBSYSAPI EXPORTNUM(175) PHYSICAL_ADDRESS NTAPI MmLockUnlockBufferPages
@@ -96,7 +102,6 @@ XBSYSAPI EXPORTNUM(175) PHYSICAL_ADDRESS NTAPI MmLockUnlockBufferPages
 	IN ULONG            NumberOfBytes,
     IN ULONG            Protect
 );
-
 
 XBSYSAPI VOID *MmLockUnlockPhysicalPage;
 
@@ -120,7 +125,13 @@ XBSYSAPI EXPORTNUM(178) VOID NTAPI MmPersistContiguousMemory
     IN BOOLEAN Persist
 );
 
-XBSYSAPI VOID *MmQueryAddressProtect;
+// ******************************************************************
+// * MmQueryAddressProtect
+// ******************************************************************
+XBSYSAPI EXPORTNUM(179) LONG NTAPI MmQueryAddressProtect
+(
+	IN	PVOID	Address
+);
 
 // ******************************************************************
 // * MmQueryAllocationSize
@@ -143,14 +154,18 @@ XBSYSAPI EXPORTNUM(181) NTSTATUS NTAPI MmQueryStatistics
 // ******************************************************************
 XBSYSAPI EXPORTNUM(182) VOID NTAPI MmSetAddressProtect
 (
-    IN PVOID BaseAddress,
-    IN ULONG NumberOfBytes,
-    IN ULONG NewProtect
+	IN	PVOID	Address,
+	IN	LONG	NumberOfBytes,
+	IN	LONG	Type
 );
 
-XBSYSAPI VOID *MmUnmapIoSpace;
+// ******************************************************************
+// * MmUnmapIoSpace
+// ******************************************************************
+XBSYSAPI EXPORTNUM(183) PVOID NTAPI MmUnmapIoSpace
+(
+	IN PVOID BaseAddress,
+	IN ULONG NumberOfBytes
+);
 
 #endif
-
-
-

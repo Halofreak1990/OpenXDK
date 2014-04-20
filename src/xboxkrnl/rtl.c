@@ -17,12 +17,12 @@
 // ******************************************************************
 XBSYSAPI EXPORTNUM(260) NTSTATUS NTAPI RtlAnsiStringToUnicodeString
 (
-    PUNICODE_STRING DestinationString,
-    PSTRING         SourceString,
-    UCHAR           AllocateDestinationString
+	PUNICODE_STRING DestinationString,
+	PSTRING         SourceString,
+	UCHAR           AllocateDestinationString
 )
 {
-    return STATUS_SUCCESS;
+	return STATUS_SUCCESS;
 }
 
 // ******************************************************************
@@ -30,8 +30,8 @@ XBSYSAPI EXPORTNUM(260) NTSTATUS NTAPI RtlAnsiStringToUnicodeString
 // ******************************************************************
 XBSYSAPI EXPORTNUM(261) NTSTATUS NTAPI RtlAppendStringToString
 (
-  IN PSTRING    Destination,
-  IN PSTRING    Source
+	IN PSTRING    Destination,
+	IN PSTRING    Source
 )
 {
 	return STATUS_SUCCESS;
@@ -49,9 +49,9 @@ XBSYSAPI VOID *RtlCharToInteger = 0;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(268) SIZE_T NTAPI RtlCompareMemory
 (
-  IN CONST VOID *Source1,
-  IN CONST VOID *Source2,
-  IN SIZE_T      Length
+	IN CONST VOID *Source1,
+	IN CONST VOID *Source2,
+	IN SIZE_T      Length
 )
 {
 	return 0;
@@ -66,8 +66,8 @@ XBSYSAPI VOID *RtlCompareUnicodeString = 0;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(272) VOID NTAPI RtlCopyString
 (
-  IN OUT PVOID	Destination,        // TODO: should be STRING
-  IN     PVOID	Source OPTIONAL     // TODO: should be STRING
+	IN OUT PSTRING	Destination,
+	IN     CONST STRING  *Source OPTIONAL
 )
 {
 	return;
@@ -83,10 +83,10 @@ XBSYSAPI VOID *RtlDowncaseUnicodeString = 0;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(277) VOID NTAPI RtlEnterCriticalSection
 (
-  IN PRTL_CRITICAL_SECTION CriticalSection
+	IN PRTL_CRITICAL_SECTION CriticalSection
 )
 {
-    return;
+	return;
 }
 
 XBSYSAPI VOID *RtlEnterCriticalSectionAndRegion = 0;
@@ -106,8 +106,8 @@ XBSYSAPI VOID *RtlGetCallersAddress = 0;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(289) VOID NTAPI RtlInitAnsiString 
 (
-  IN OUT PANSI_STRING DestinationString,
-  IN     PCSZ         SourceString
+	IN OUT PANSI_STRING DestinationString,
+	IN     PCSZ         SourceString
 )
 {
 	return;
@@ -120,10 +120,10 @@ XBSYSAPI VOID *RtlInitUnicodeString = 0;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(291) VOID NTAPI RtlInitializeCriticalSection
 (
-  IN PRTL_CRITICAL_SECTION CriticalSection
+	IN PRTL_CRITICAL_SECTION CriticalSection
 )
 {
-    return;
+	return;
 }
 
 
@@ -135,10 +135,10 @@ XBSYSAPI VOID *RtlIntegerToUnicodeString = 0;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(294) VOID NTAPI RtlLeaveCriticalSection
 (
-  IN PRTL_CRITICAL_SECTION CriticalSection
+	IN PRTL_CRITICAL_SECTION CriticalSection
 )
 {
-    return;
+	return;
 }
 
 XBSYSAPI VOID *RtlLeaveCriticalSectionAndRegion = 0;
@@ -148,7 +148,7 @@ XBSYSAPI VOID *RtlLeaveCriticalSectionAndRegion = 0;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(296) CHAR NTAPI RtlLowerChar(CHAR Character)
 {
-    return '\0';
+	return '\0';
 }
 
 XBSYSAPI VOID *RtlMapGenericMask = 0;
@@ -158,9 +158,9 @@ XBSYSAPI VOID *RtlMapGenericMask = 0;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(298) VOID NTAPI RtlMoveMemory
 (
-  IN VOID UNALIGNED       *Destination,
-  IN CONST VOID UNALIGNED *Source,
-  IN SIZE_T                Length
+	IN VOID UNALIGNED       *Destination,
+	IN CONST VOID UNALIGNED *Source,
+	IN SIZE_T                Length
 )
 {
 	return;
@@ -177,7 +177,7 @@ XBSYSAPI EXPORTNUM(301) ULONG NTAPI RtlNtStatusToDosError
 	IN NTSTATUS	Status
 )
 {
-    return 0;
+	return 0;
 }
 
 XBSYSAPI VOID *RtlRaiseException = 0;
@@ -188,11 +188,11 @@ XBSYSAPI VOID *RtlRaiseStatus = 0;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(304) BOOLEAN NTAPI RtlTimeFieldsToTime
 (
-    IN  PTIME_FIELDS    TimeFields,
-    OUT PLARGE_INTEGER  Time
+	IN  PTIME_FIELDS    TimeFields,
+	OUT PLARGE_INTEGER  Time
 )
 {
-    return TRUE;
+	return TRUE;
 }
 
 // ******************************************************************
@@ -200,11 +200,11 @@ XBSYSAPI EXPORTNUM(304) BOOLEAN NTAPI RtlTimeFieldsToTime
 // ******************************************************************
 XBSYSAPI EXPORTNUM(305) VOID NTAPI RtlTimeToTimeFields
 (
-    IN  PLARGE_INTEGER  Time,
-    OUT PTIME_FIELDS    TimeFields 
+	IN  PLARGE_INTEGER  Time,
+	OUT PTIME_FIELDS    TimeFields 
 )
 {
-    return;
+	return;
 }
 
 // ******************************************************************
@@ -212,10 +212,10 @@ XBSYSAPI EXPORTNUM(305) VOID NTAPI RtlTimeToTimeFields
 // ******************************************************************
 XBSYSAPI EXPORTNUM(306) BOOLEAN NTAPI RtlTryEnterCriticalSection
 (
-    IN PRTL_CRITICAL_SECTION CriticalSection
+	IN PRTL_CRITICAL_SECTION CriticalSection
 )
 {
-    return TRUE;
+	return TRUE;
 }
 
 XBSYSAPI VOID *RtlUlongByteSwap = 0;
@@ -225,12 +225,12 @@ XBSYSAPI VOID *RtlUlongByteSwap = 0;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(308) NTSTATUS NTAPI RtlUnicodeStringToAnsiString
 (
-    IN OUT PSTRING         DestinationString,
-    IN     PUNICODE_STRING SourceString,
-    IN     BOOLEAN         AllocateDestinationString
+	IN OUT PSTRING         DestinationString,
+	IN     PUNICODE_STRING SourceString,
+	IN     BOOLEAN         AllocateDestinationString
 )
 {
-    return STATUS_SUCCESS;
+	return STATUS_SUCCESS;
 }
 
 XBSYSAPI VOID *RtlUnicodeStringToInteger = 0;
@@ -250,11 +250,22 @@ XBSYSAPI VOID *RtlWalkFrameChain = 0;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(320) VOID NTAPI RtlZeroMemory
 (
-  IN VOID UNALIGNED  *Destination,
-  IN SIZE_T           Length
+	IN VOID UNALIGNED  *Destination,
+	IN SIZE_T           Length
 )
 {
-    return;
+	return;
 }
 
-XBSYSAPI VOID *RtlRip = 0;
+// ******************************************************************
+// * RtlRip
+// ******************************************************************
+XBSYSAPI EXPORTNUM(352) VOID NTAPI RtlRip
+(
+	IN PCSZ Part1,
+	IN PCSZ Part2,
+	IN PCSZ Part3
+)
+{
+	return;
+}

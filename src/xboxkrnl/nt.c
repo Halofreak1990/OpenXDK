@@ -101,6 +101,9 @@ XBSYSAPI EXPORTNUM(192) NTSTATUS NTAPI NtCreateMutant
     return STATUS_SUCCESS;
 }
 
+// ******************************************************************
+// * NtCreateSemaphore
+// ******************************************************************
 XBSYSAPI EXPORTNUM(193) NTSTATUS NTAPI NtCreateSemaphore
 (
     OUT PHANDLE           SemaphoreHandle,
@@ -113,8 +116,37 @@ XBSYSAPI EXPORTNUM(193) NTSTATUS NTAPI NtCreateSemaphore
 }
 
 XBSYSAPI VOID *NtCreateTimer = 0;
-XBSYSAPI VOID *NtDeleteFile = 0;
-XBSYSAPI VOID *NtDeviceIoControlFile = 0;
+
+// ******************************************************************
+// * NtDeleteFile
+// ******************************************************************
+XBSYSAPI EXPORTNUM(195) BOOLEAN NTAPI NtDeleteFile
+(
+	IN	LPCSTR	lpFileName
+)
+{
+	return TRUE;
+}
+
+// ******************************************************************
+// * NtDeviceIoControlFile
+// ******************************************************************
+XBSYSAPI EXPORTNUM(196) NTSTATUS NTAPI NtDeviceIoControlFile
+(
+	IN	HANDLE			FileHandle,
+	IN	HANDLE			Event OPTIONAL,
+	IN	PIO_APC_ROUTINE		ApcRoutine OPTIONAL,
+	IN	PVOID			ApcContext OPTIONAL,
+	OUT	PIO_STATUS_BLOCK	IoStatusBlock,
+	IN	ULONG			IoControlCode,
+	IN	PVOID			InputBuffer OPTIONAL,
+	IN	ULONG			InputBufferLength,
+	OUT	PVOID			OutputBuffer OPTIONAL,
+	IN	ULONG			OutputBufferLength
+)
+{
+	return STATUS_SUCCESS;
+}
 
 // ******************************************************************
 // * NtDuplicateObject
@@ -154,7 +186,26 @@ XBSYSAPI EXPORTNUM(199) NTSTATUS NTAPI NtFreeVirtualMemory
     return STATUS_SUCCESS;
 }
 
-XBSYSAPI VOID *NtFsControlFile = 0;
+// ******************************************************************
+// * NtFsControlFile
+// ******************************************************************
+XBSYSAPI EXPORTNUM(200) NTSTATUS NTAPI NtFsControlFile
+(
+	IN	HANDLE			FileHandle,
+	IN	HANDLE			Event OPTIONAL,
+	IN	PIO_APC_ROUTINE		ApcRoutine OPTIONAL,
+	IN	PVOID			ApcContext OPTIONAL,
+	OUT	PIO_STATUS_BLOCK	IoStatusBlock,
+	IN	ULONG			FsControlCode,
+	IN	PVOID			InputBuffer OPTIONAL,
+	IN	ULONG			InputBufferLength,
+	OUT	PVOID			OutputBuffer OPTIONAL,
+	IN	ULONG			OutputBufferLength
+)
+{
+	return STATUS_SUCCESS;
+}
+
 XBSYSAPI VOID *NtOpenDirectoryObject = 0;
 
 // ******************************************************************
@@ -243,7 +294,20 @@ XBSYSAPI EXPORTNUM(211) NTSTATUS NTAPI NtQueryInformationFile
 XBSYSAPI VOID *NtQueryIoCompletion = 0;
 XBSYSAPI VOID *NtQueryMutant = 0;
 XBSYSAPI VOID *NtQuerySemaphore = 0;
-XBSYSAPI VOID *NtQuerySymbolicLinkObject = 0;
+
+// ******************************************************************
+// * NtQuerySymbolicLinkObject
+// ******************************************************************
+XBSYSAPI EXPORTNUM(215) NTSTATUS NTAPI NtQuerySymbolicLinkObject
+(
+	IN HANDLE			SymbolicLinkHandle,
+	OUT PANSI_STRING		pLinkName,
+	OUT PULONG			pDataWritten OPTIONAL
+)
+{
+	return STATUS_SUCCESS;
+}
+
 XBSYSAPI VOID *NtQueryTimer = 0;
 
 // ******************************************************************
@@ -255,6 +319,7 @@ XBSYSAPI EXPORTNUM(217) NTSTATUS NTAPI NtQueryVirtualMemory
     OUT PMEMORY_BASIC_INFORMATION   MemoryInformation
 )
 {
+	return STATUS_SUCCESS;
 }
 
 // ******************************************************************
@@ -446,7 +511,20 @@ XBSYSAPI EXPORTNUM(236) NTSTATUS NTAPI NtWriteFile
     return STATUS_SUCCESS;
 }
 
-XBSYSAPI VOID *NtWriteFileGather = 0;
+// ******************************************************************
+// * NtWriteFileGather
+// ******************************************************************
+XBSYSAPI EXPORTNUM(237) BOOLEAN NTAPI NtWriteFileGather
+(
+	IN	HANDLE			hFile,
+	OUT	FILE_SEGMENT_ELEMENT	aSegmentArray[],
+	IN	DWORD			nNumberOfBytesToWrite,
+	OUT	LPDWORD			lpNumberOfBytesWritten,
+	IN	LPOVERLAPPED		lpOverLapped
+)
+{
+	return TRUE;
+}
 
 // ******************************************************************
 // * NtYieldExecution

@@ -20,19 +20,41 @@ XBSYSAPI VOID *ObOpenObjectByName = 0;
 XBSYSAPI VOID *ObOpenObjectByPointer = 0;
 XBSYSAPI VOID *ObpObjectHandleTable = 0;
 
-//XBSYSAPI VOID *ObReferenceObjectByHandle = 0;
+// ******************************************************************
+// * ObReferenceObjectByHandle
+// ******************************************************************
 XBSYSAPI EXPORTNUM(246) BOOLEAN NTAPI ObReferenceObjectByHandle
-( unsigned int a,
-  unsigned int b,
-  unsigned int c 
+(
+	IN	HANDLE       Handle,
+	IN	POBJECT_TYPE ObjectType OPTIONAL,
+	OUT	PVOID        *Object
 )
 {
-    return TRUE;
-};
-
+	return TRUE;
+}
 
 XBSYSAPI VOID *ObReferenceObjectByName = 0;
 XBSYSAPI VOID *ObReferenceObjectByPointer = 0;
 XBSYSAPI VOID *ObSymbolicLinkObjectType = 0;
-XBSYSAPI VOID *ObfDereferenceObject = 0;
-XBSYSAPI VOID *ObfReferenceObject = 0;
+
+// ******************************************************************
+// * ObfDereferenceObject
+// ******************************************************************
+XBSYSAPI EXPORTNUM(250) VOID NTAPI ObfDereferenceObject
+(
+	IN PVOID Object
+)
+{
+	return;
+}
+
+// ******************************************************************
+// * ObfReferenceObject
+// ******************************************************************
+XBSYSAPI EXPORTNUM(251) VOID NTAPI ObfReferenceObject
+(
+	IN PVOID Object
+)
+{
+	return;
+}

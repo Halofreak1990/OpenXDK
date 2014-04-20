@@ -67,8 +67,8 @@ XBSYSAPI VOID *RtlCompareUnicodeString;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(272) VOID NTAPI RtlCopyString
 (
-  IN OUT PVOID	Destination,        // TODO: should be STRING
-  IN     PVOID	Source OPTIONAL     // TODO: should be STRING
+  IN OUT PSTRING	Destination,		// A pointer to the destination string buffer.
+  IN     const STRING	*Source OPTIONAL	// A pointer to the source string buffer.
 );
 
 XBSYSAPI VOID *RtlCopyUnicodeString;
@@ -231,8 +231,18 @@ XBSYSAPI EXPORTNUM(320) VOID NTAPI RtlZeroMemory
   IN SIZE_T           Length
 );
 
-XBSYSAPI VOID *RtlRip;
+// ******************************************************************
+// * RtlRip
+// ******************************************************************
+// *
+// * Traps to the debugger with a certain message, then crashes.
+// *
+// ******************************************************************
+XBSYSAPI EXPORTNUM(352) VOID NTAPI RtlRip
+(
+	IN PCSZ Part1,
+	IN PCSZ Part2,
+	IN PCSZ Part3
+);
 
 #endif
-
-

@@ -69,13 +69,43 @@ XBSYSAPI VOID *FscInvalidateIdleBlocks = 0;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(37) LONG NTAPI FscSetCacheSize(ULONG uCachePages)
 {
-    return 0;
+	return 0;
 }
 
 XBSYSAPI VOID *KdDebuggerEnabled = 0;
 XBSYSAPI VOID *KdDebuggerNotPresent = 0;
-XBSYSAPI VOID *KfRaiseIrql = 0;
-XBSYSAPI VOID *KfLowerIrql = 0;
+
+// ******************************************************************
+// * KfRaiseIrql
+// ******************************************************************
+// *
+// * Raises IRQL to the specified value.
+// *
+// ******************************************************************
+XBSYSAPI EXPORTNUM(160) VOID NTAPI KfRaiseIrql
+(
+	IN KIRQL NewIrql,
+	OUT PKIRQL OldIrql
+)
+{
+	return;
+}
+
+// ******************************************************************
+// * KfRaiseIrql
+// ******************************************************************
+// *
+// * Lowers IRQL.
+// *
+// ******************************************************************
+XBSYSAPI EXPORTNUM(161) VOID NTAPI KfLowerIrql
+(
+	IN KIRQL NewIrql
+)
+{
+	return;
+}
+
 XBSYSAPI VOID *KiBugCheckData = 0;
 XBSYSAPI VOID *KiUnlockDispatcherDatabase = 0;
 
@@ -122,7 +152,10 @@ XBSYSAPI EXPORTNUM(322) XBOX_HARDWARE_INFO XboxHardwareInfo;
 // ******************************************************************
 XBSYSAPI EXPORTNUM(323) UCHAR XboxHDKey[16] = {0};
 
-XBSYSAPI VOID *XboxKrnlVersion = 0;
+// ******************************************************************
+// * XboxKrnlVersion
+// ******************************************************************
+XBSYSAPI EXPORTNUM(324) XBOX_KRNL_VERSION XboxKrnlVersion[1] = {0};
 
 // ******************************************************************
 // * XboxSignatureKey
@@ -135,7 +168,17 @@ XBSYSAPI EXPORTNUM(325) BYTE XboxSignatureKey[16];
 
 XBSYSAPI EXPORTNUM(326) ANSI_STRING XeImageFileName[1] = {0};
 
-XBSYSAPI VOID *XeLoadSection = 0;
+// ******************************************************************
+// * XeLoadSection
+// ******************************************************************
+XBSYSAPI EXPORTNUM(327) PVOID NTAPI XeLoadSection
+(
+	IN OUT	PXBE_SECTION section
+)
+{
+	return NULL;
+}
+
 XBSYSAPI VOID *XeUnloadSection = 0;
 
 // ******************************************************************
