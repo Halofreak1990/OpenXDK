@@ -33,6 +33,25 @@ case $build in
 		AC_SUBST(XDKEXEEXT,".exe")
     ;;
 
+  *-*-mingw32*)
+    #
+    # As we are not cross compiling we keep the AC_PROG_PATH that is currently defined for all utils
+    # 
+		AC_PATH_PROG(AR,ar)
+		AC_PATH_PROG(AS,as)
+		AC_PATH_PROG(LD,ld)
+		AC_PATH_PROG(NM,nm)
+		AC_PATH_PROG(GCC,gcc)
+		AC_PATH_PROG(CXX,g++)
+		AC_PATH_PROG(RANLIB,ranlib)
+		AC_PATH_PROG(DLLTOOL,dlltool)
+		AC_PATH_PROG(WINDRES,windres)
+		AC_PATH_PROG(STRIP,strip)
+		
+		AC_SUBST(host_alias,$host)
+		AC_SUBST(XDKEXEEXT,".exe")
+    ;;
+
   *-*-linux*)
     #
     # We are cross compiling
